@@ -1,8 +1,10 @@
 <!-- <router-outlet></router-outlet> -->
 
 <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
-  <section #document fxFlex="50%" style="border: 2px solid black; display: inline-block;">document</section>
-  <section #form fxFlex="50%" style="border: 2px solid red; display: inline-block;">
+  <section id="document" fxFlex="50%" style="border: 2px solid black; display: inline-block;">
+    {{ document }}
+  </section>
+  <section id="form" fxFlex="50%" style="border: 2px solid red; display: inline-block;">
   <form>
     <label for="field1">Field1</label>
     <input type="text" #field1>
