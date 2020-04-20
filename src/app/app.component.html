@@ -1,22 +1,23 @@
 <!-- <router-outlet></router-outlet> -->
 
+<p>Demo instrctions: Select some part of the text.</p>
 <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
-  <section id="documentContainer" (mouseup)="saveSpan($event)"
-  fxFlex="50%" style="border: 2px solid black; display: inline-block; white-space: pre-wrap; font-family: monospace; font-size: large; padding: 1em;">{{ document }}
+  <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
+    <div (mouseup)="showSelection()"
+      style="border: 2px solid black; display: inline-block; white-space: pre-wrap; font-family: monospace; font-size: large; padding: 1em;">{{ text }}
+    </div>
+    <div style="border: 2px solid blue; display: inline-block; white-space: pre-wrap; font-family: monospace; font-size: large; padding: 1em;">{{ annTsv }}
+    </div>
+    <button (click)="parseAnn()" style="color: blue;">Parse ann file</button>
+    <pre *ngIf="annotations.length">{{ annotations | json }}</pre>
   </section>
-  <section id="form" fxFlex="50%" style="border: 2px solid blue; display: inline-block;">
-    <form>
-      <label for="field1">Field1</label>
-      <input type="text" id='field1' [value]="selection?.toString()" readonly>
-      <span *ngIf="selection?.toString()">
-        {{ selection?.getRangeAt(0).startOffset }} {{ selection?.getRangeAt(0).endOffset }}
-      </span>
-
-      <!-- <label for="field2">Field2</label>
-      <input type="text" id="field2" readonly>
-
-      <label for="field3">Field3</label>
-      <input type="text" id="field3" readonly> -->
+  <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
+    <form style="border: 2px solid red; display: inline-block; padding: 1em;">
+      <label for="field1">Field 1</label>
+      <input *ngIf="selectedText" type="text" [value]="selectedText" readonly>
+      <pre>{{ annPreview }}</pre>
     </form>
+    <button *ngIf="selectedText" (click)="saveAnn()" style="color: red;">Save this single annotation</button>
+    <pre>{{ savedSingleAnnotation }}</pre>
   </section>
 </div>
