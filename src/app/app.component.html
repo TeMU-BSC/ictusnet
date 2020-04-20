@@ -1,19 +1,22 @@
 <!-- <router-outlet></router-outlet> -->
 
 <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
-  <section id="document" fxFlex="50%" style="border: 2px solid black; display: inline-block;">
-    {{ document }}
+  <section id="documentContainer" (mouseup)="saveSpan($event)"
+  fxFlex="50%" style="border: 2px solid black; display: inline-block; white-space: pre-wrap; font-family: monospace; font-size: large; padding: 1em;">{{ document }}
   </section>
-  <section id="form" fxFlex="50%" style="border: 2px solid red; display: inline-block;">
-  <form>
-    <label for="field1">Field1</label>
-    <input type="text" #field1>
+  <section id="form" fxFlex="50%" style="border: 2px solid blue; display: inline-block;">
+    <form>
+      <label for="field1">Field1</label>
+      <input type="text" id='field1' [value]="selection?.toString()" readonly>
+      <span *ngIf="selection?.toString()">
+        {{ selection?.getRangeAt(0).startOffset }} {{ selection?.getRangeAt(0).endOffset }}
+      </span>
 
-    <label for="field2">Field2</label>
-    <input type="text" #field2>
+      <!-- <label for="field2">Field2</label>
+      <input type="text" id="field2" readonly>
 
-    <label for="field3">Field3</label>
-    <input type="text" #field3>
-  </form>
+      <label for="field3">Field3</label>
+      <input type="text" id="field3" readonly> -->
+    </form>
   </section>
 </div>
