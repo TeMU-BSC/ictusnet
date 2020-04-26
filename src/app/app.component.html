@@ -1,17 +1,13 @@
 <!-- <router-outlet></router-outlet> -->
 
-<p>Demo instrctions: Select some part of the text.</p>
+<p>Demo instructions: Select some part of the text.</p>
 <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
-  <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
+  <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
     <div (mouseup)="showSelection()"
-      style="border: 2px solid black; display: inline-block; white-space: pre-wrap; font-family: monospace; font-size: large; padding: 1em;">{{ text }}
+      style="border: 2px solid black; display: inline-block; white-space: pre-wrap; font-family: monospace; font-size: large; padding: 1em;">
+      {{ text }}
     </div>
-    <div style="border: 2px solid blue; display: inline-block; white-space: pre-wrap; font-family: monospace; font-size: large; padding: 1em;">{{ annTsv }}
-    </div>
-    <button (click)="parseAnn()" style="color: blue;">Parse ann file</button>
-    <pre *ngIf="annotations.length">{{ annotations | json }}</pre>
-  </section>
-  <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
+
     <form style="border: 2px solid red; display: inline-block; padding: 1em;">
       <label for="field1">Field 1</label>
       <input *ngIf="selectedText" type="text" [value]="selectedText" readonly>
@@ -19,5 +15,35 @@
     </form>
     <button *ngIf="selectedText" (click)="saveAnn()" style="color: red;">Save this single annotation</button>
     <pre>{{ savedSingleAnnotation }}</pre>
+
+    <div
+      style="border: 2px solid blue; display: inline-block; white-space: pre-wrap; font-family: monospace; font-size: large; padding: 1em;">
+      {{ annTsv }}
+    </div>
+    <button (click)="parseAnn()" style="color: blue;">Parse ann file</button>
+    <pre *ngIf="annotations.length">{{ annotations | json }}</pre>
+  </section>
+
+  <!-- <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
+    <form style="border: 2px solid red; display: inline-block; padding: 1em;">
+      <label for="field1">Field 1</label>
+      <input *ngIf="selectedText" type="text" [value]="selectedText" readonly>
+      <pre>{{ annPreview }}</pre>
+    </form>
+    <button *ngIf="selectedText" (click)="saveAnn()" style="color: red;">Save this single annotation</button>
+    <pre>{{ savedSingleAnnotation }}</pre>
+  </section> -->
+
+  <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
+    <form style="border: 2px solid green; display: inline-block; padding: 1em;">
+      <div *ngFor="let variable of variables">
+        <label for="{{ variable.variable }}">
+          {{ variable.variable }}
+          <span *ngIf="variable.comments" style="color: red;">({{ variable?.comments }})</span>
+        </label>
+        <input *ngIf="selectedText" type="text" [value]="selectedText" readonly>
+        <hr>
+      </div>
+    </form>
   </section>
 </div>

@@ -1,0 +1,63 @@
+variable	admissibleValue
+diagnóstico	ictus isquémico
+diagnóstico	ataque isquémico transitorio
+diagnóstico	hemorragia cerebral
+
+arteria afectada	Arteria carótida común (o ACC) o primitiva
+arteria afectada	Arteria carótida interna (o ACI)
+arteria afectada	Arteria carótida interna segmento cervical o C1
+arteria afectada	Arteria carótida interna segmento petroso o C2
+arteria afectada	Arteria carótida interna segmento lacerum o C3
+arteria afectada	Arteria carótida interna segmento cavernoso o C4
+arteria afectada	Arteria carótida interna segmento clinoideo o C5
+arteria afectada	Arteria carótida interna segmento oftálmico o C6
+arteria afectada	Arteria carótida interna segmento comunicante o C7
+arteria afectada	Arteria carótida interna terminal (o ACI-T/ TICA)
+arteria afectada	Arteria cerebral media (o ACM)
+arteria afectada	Arteria cerebral media segmento M1
+arteria afectada	Arteria cerebral media segmento M2
+arteria afectada	Arteria cerebral media segmento M3
+arteria afectada	Arteria cerebral media segmento M4
+arteria afectada	Arteria cerebral media segmento M5
+arteria afectada	Arteria cerebral media segmento M6
+arteria afectada	Arteria cerebral anterior (o ACA).
+arteria afectada	Arteria cerebral anterior segmento A1
+arteria afectada	Arteria cerebral anterior segmento A2
+arteria afectada	Arteria cerebral anterior segmento A3
+arteria afectada	Arteria cerebral posterior (o ACP)
+arteria afectada	Arteria cerebral posterior segmento P1
+arteria afectada	Arteria cerebral posterior segmento P2
+arteria afectada	Arteria cerebral posterior segmento P3
+arteria afectada	Arteria cerebral posterior segmento P4
+arteria afectada	Arteria lenticuloestriada
+arteria afectada	Arteria coroidea anterior
+arteria afectada	Arteria coroidea posterior
+arteria afectada	Arteria cerebelosa superior (o ACS)
+arteria afectada	Arteria cerebelosa anteroinferior (o AICA)
+arteria afectada	Arteria cerebelosa posteroinferior (o PICA)
+arteria afectada	Arteria vertebral (o AV)
+arteria afectada	Arteria vertebral segmento V1
+arteria afectada	Arteria vertebral segmento V2
+arteria afectada	Arteria vertebral segmento V3
+arteria afectada	Arteria vertebral segmento V4
+arteria afectada	Arteria basilar (o AB)
+arteria afectada	Indeterminado
+
+localización	Infarto total de circulación anterior o TACI
+localización	Infarto parcial de circulación anterior o PACI
+localización	Infarto lacunar o LACI (en ocasiones, como síndrome lacunar)
+localización	Infarto de circulación posterior o POCI
+
+etiología	Aterotrombótico/aterosclerótico
+etiología	Cardioembólico (CE)
+etiología	Lacunar
+etiología	Indeterminado/criptogénico/ESUS
+etiología	Indeterminado de causa doble
+etiología	Indeterminado por estudio incompleto
+etiología	Inhabitual o infrecuente
+
+etiología	Hipertensiva
+etiología	Angiopatía amiloide
+etiología	Secundaria a malformación vascular/aneurisma
+etiología	Secundaria a tumor
+etiología	Indeterminada
