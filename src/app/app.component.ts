@@ -1,25 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Papa } from 'ngx-papaparse';
-
-export interface Annotation {
-  id: string;
-  category: string;
-  offset: {
-    start: number;
-    end: number;
-  };
-  span: string;
-}
-
-export interface Variable {
-  group: string;
-  variable: string;
-  cardinality: string;
-  getValueFrom: string;
-  admissibleValues: string[];
-  comments: string;
-}
+import { camelCase } from './camelCase';
+import { Annotation } from './annotation';
+import { Variable } from './variable';
 
 @Component({
   selector: 'app-root',
@@ -56,6 +40,13 @@ export class AppComponent implements OnInit {
     this.http.get('assets/document.txt', { responseType: 'text' }).subscribe(data => this.text = data);
     this.http.get('assets/document.ann', { responseType: 'text' }).subscribe(data => this.annTsv = data);
 
+    // const camelCase = (str: string) => str
+    //   .replace(/\s(.)/g, ($1) => $1.toUpperCase())
+    //   .replace(/\s/g, '')
+    //   .replace(/^(.)/, ($1) => $1.toLowerCase());
+
+
+
     // parse the form tsv on google drive (2 sheets):
 
     let variablesData: any;
@@ -82,32 +73,38 @@ export class AppComponent implements OnInit {
         admissibleValuesData = results.data;
 
         // build the variables list
+        const variablesObj = {};
         variablesData.forEach((v: Variable) => {
           const admissibleValues = [];
           admissibleValuesData.forEach(a => {
             if (v.variable === a.variable) {
-
-              console.log(v.variable, a.variable);
-
               admissibleValues.push(a.admissibleValue);
             }
           });
           this.variables.push({
             group: v.group,
-            variable: v.variable,
+            originalName: v.variable,
+            variable: camelCase(v.variable),
             cardinality: v.cardinality,
             getValueFrom: v.getValueFrom,
             admissibleValues,
             comments: v.comments,
           });
+
+          // variablesObj[camelCase(v.variable)] = {
+          //   group: v.group,
+          //   originalName: v.variable,
+          //   cardinality: v.cardinality,
+          //   getValueFrom: v.getValueFrom,
+          //   admissibleValues,
+          //   comments: v.comments,
+          // };
         });
 
         console.log(this.variables);
+        // console.log(variablesObj);
       }
     });
-
-
-
 
   }
 

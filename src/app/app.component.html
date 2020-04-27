@@ -38,7 +38,7 @@
     <form style="border: 2px solid green; display: inline-block; padding: 1em;">
       <div *ngFor="let variable of variables">
         <label for="{{ variable.variable }}">
-          {{ variable.variable }}
+          {{ variable.originalName }}
           <span *ngIf="variable.comments" style="color: red;">({{ variable?.comments }})</span>
         </label>
         <input *ngIf="selectedText" type="text" [value]="selectedText" readonly>

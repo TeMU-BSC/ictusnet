@@ -9,10 +9,10 @@ fechas y horas	Hora llegada al hospital receptor	1	notes
 
 diagnóstico	diagnóstico principal	1	tag
 diagnóstico	vaso cerebral afectado	n	tag		sólo para dianóstico = ictus isquémico
-diagnóstico	localización asociado	n	tag
+diagnóstico	localización	n	tag
 diagnóstico	lateralización asociado	1	tag
-diagnóstico	etiología	1	tag		sólo para diagnóstico = ictus isquémico o ataque isquemico
-diagnóstico	etiología	1	tag		sólo para diagnóstico = hemorragia
+diagnóstico	etiología_ictus	1	tag		sólo para diagnóstico = ictus isquémico o ataque isquemico
+diagnóstico	etiología_hemorragia	1	tag		sólo para diagnóstico = hemorragia
 
 procedimientos y pruebas	Fecha trombólisis intravenosa	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 procedimientos y pruebas	Hora inicio primer bolus de la trombólisis rtPA	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
