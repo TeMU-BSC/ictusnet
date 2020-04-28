@@ -4,7 +4,7 @@ services:
 
   angular:
     build: ./
-    container_name: angular-ictusnet
+    # container_name: angular_ictusnet
     command: ng serve --host 0.0.0.0
     ports:
       - 4200:4200
