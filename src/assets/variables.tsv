@@ -1,43 +1,43 @@
-group	variable	cardinality	getValueFrom	admissibleValues	comments
-fechas y horas	Fecha de ingreso	1	notes
-fechas y horas	Fecha de alta	1	notes
-fechas y horas	Hora de alta	1	notes
-fechas y horas	Fecha inicio síntomas o última vez visto asintomático/a	1	notes
-fechas y horas	Hora inicio síntomas o última vez visto asintomático/a	1	notes
-fechas y horas	Fecha llegada al hospital receptor	1	notes
-fechas y horas	Hora llegada al hospital receptor	1	notes
+group	variable	entity	cardinality	getValueFrom	admissibleValues	comments
+entrada y salida del paciente	Fecha de ingreso	Fecha_de_ingreso	1	notes
+entrada y salida del paciente	Fecha de alta	Fecha_de_alta	1	notes
+entrada y salida del paciente	Hora de alta	Hora_de_alta	1	notes
+entrada y salida del paciente	Fecha inicio síntomas o última vez visto asintomático/a	Fecha_inicio_sintomas	1	notes
+entrada y salida del paciente	Hora inicio síntomas o última vez visto asintomático/a	Hora_inicio_sintomas	1	notes
+entrada y salida del paciente	Fecha llegada al hospital receptor	Fecha_llegada_hospital	1	notes
+entrada y salida del paciente	Hora llegada al hospital receptor	Hora_llegada_hospital	1	notes
 
-diagnóstico	diagnóstico principal	1	tag
-diagnóstico	vaso cerebral afectado	n	tag		sólo para dianóstico = ictus isquémico
-diagnóstico	localización	n	tag
-diagnóstico	lateralización asociado	1	tag
-diagnóstico	etiología_ictus	1	tag		sólo para diagnóstico = ictus isquémico o ataque isquemico
-diagnóstico	etiología_hemorragia	1	tag		sólo para diagnóstico = hemorragia
+diagnóstico	diagnóstico principal	Ictus_isquemico|Ataque_isquemico_transitorio|Hemorragia_cerebral	1	tag
+diagnóstico	vaso cerebral afectado	Arteria_afectada	n	tag		sólo para dianóstico = ictus isquémico
+diagnóstico	localización	Localizacion	n	tag
+diagnóstico	lateralización asociado	Lateralizacion	1	tag
+diagnóstico	etiología_ictus	Etiologia	1	tag		sólo para diagnóstico = ictus isquémico o ataque isquemico
+diagnóstico	etiología_hemorragia	?	1	tag		sólo para diagnóstico = hemorragia
 
-procedimientos y pruebas	Fecha trombólisis intravenosa	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-procedimientos y pruebas	Hora inicio primer bolus de la trombólisis rtPA	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-procedimientos y pruebas	Etiquetar el procedimiento Trombólisis intraarterial	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-procedimientos y pruebas	Fecha trombólisis intraarterial	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-procedimientos y pruebas	Hora trombólisis intraarterial	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Fecha trombólisis intravenosa	Fecha_trombolisis_rtPA	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Hora inicio primer bolus de la trombólisis rtPA	Hora_primer_bolus_trombolisis_rtPA	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Etiquetar el procedimiento Trombólisis intraarterial	?	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Fecha trombólisis intraarterial	Fecha_inicio_trombolisis_intraarterial	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Hora trombólisis intraarterial	Hora_inicio_trombolisis_intraarterial	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 
-procedimientos y pruebas	Fecha inicio trombectomía mecánica	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-procedimientos y pruebas	Hora punción arterial para la trombectomía mecánica (groin puncture)	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-procedimientos y pruebas	Regla tiempo puerta punción	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-procedimientos y pruebas	Fecha primera serie para la trombectomía mecánica	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-procedimientos y pruebas	Hora primera serie para la trombectomía mecánica	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-procedimientos y pruebas	Fecha y Hora recanalización para la trombectomía mecánica	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-procedimientos y pruebas	Fecha / hora fin de la trombectomía mecánica	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Fecha inicio trombectomía mecánica	Fecha_inicio_trombectomia	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Hora punción arterial para la trombectomía mecánica (groin puncture)	Hora_inicio_trombectomia	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Regla tiempo puerta punción	Tiempo_puerta_puncion	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Fecha primera serie para la trombectomía mecánica	Fecha_primera_serie_trombectomia	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Hora primera serie para la trombectomía mecánica	Hora_primera_serie_trombectomia	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Fecha y Hora recanalización para la trombectomía mecánica	Fecha_recanalizacion + Hora_recanalizacion	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Fecha / hora fin de la trombectomía mecánica	Fecha_fin_trombectomia + Hora_fin_trombectomia	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 
-procedimientos y pruebas	Fecha tac craneal	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-procedimientos y pruebas	Hora tac craneal	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Fecha tac craneal	Fecha_TAC	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+procedimientos y pruebas	Hora tac craneal	Hora_TAC	1	notes		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 
-tratamientos y escalas de valoración	Tratamiento_antiagregante_alta	n	tag	ya pondré la lista
-tratamientos y escalas de valoración	Tratamiento_anticoagulante_alta	n	tag	ya pondré la lista
-tratamientos y escalas de valoración	Tratamiento_antiagregante_hab	n	tag	ya pondré la lista
-tratamientos y escalas de valoración	Tratamiento_anticoagulante_hab	n	tag	ya pondré la lista
+tratamientos y escalas de valoración	Tratamiento_antiagregante_alta	Tratamiento_antiagregante_alta	n	tag	ya pondré la lista
+tratamientos y escalas de valoración	Tratamiento_anticoagulante_alta	Tratamiento_anticoagulante_alta	n	tag	ya pondré la lista
+tratamientos y escalas de valoración	Tratamiento_antiagregante_hab	Tratamiento_antiagregante_hab	n	tag	ya pondré la lista
+tratamientos y escalas de valoración	Tratamiento_anticoagulante_hab	Tratamiento_anticoagulante_hab	n	tag	ya pondré la lista
 
-tratamientos y escalas de valoración	ASPECTS	1	notes		posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
-tratamientos y escalas de valoración	mRankin_alta	1	notes		posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
-tratamientos y escalas de valoración	mRankin_previa	1	notes		posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
-tratamientos y escalas de valoración	NIHSS_previa	1	notes		posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
-tratamientos y escalas de valoración	NIHSS_alta	1	notes		posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
+tratamientos y escalas de valoración	ASPECTS	ASPECTS	1	notes		posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
+tratamientos y escalas de valoración	mRankin_alta	mRankin_alta	1	notes		posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
+tratamientos y escalas de valoración	mRankin_previa	mRankin_previa	1	notes		posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
+tratamientos y escalas de valoración	NIHSS_previa	NIHSS_previa	1	notes		posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
+tratamientos y escalas de valoración	NIHSS_alta	NIHSS_alta	1	notes		posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena

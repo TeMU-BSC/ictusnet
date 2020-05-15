@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { FormBuilder } from '@angular/forms';
 import { Papa } from 'ngx-papaparse';
-import { camelCase } from './camelCase';
+import { CartService } from './dynamic-form/cart.service';
+import { camelCase, parseBratAnnotations } from './helpers';
 import { Annotation } from './annotation';
 import { Variable } from './variable';
 
@@ -34,18 +36,29 @@ export class AppComponent implements OnInit {
   variables: Variable[] = [];
   admissibleValues: any;
 
-  constructor(private http: HttpClient, private papa: Papa) { }
+
+  // items;
+  // checkoutForm;
+
+  constructor(
+    private http: HttpClient,
+    private papa: Papa,
+    // private cartService: CartService,
+    // private formBuilder: FormBuilder,
+  ) {
+    // this.checkoutForm = this.formBuilder.group({
+    //   name: '',
+    //   address: ''
+    // });
+  }
 
   ngOnInit() {
-    this.http.get('assets/document.txt', { responseType: 'text' }).subscribe(data => this.text = data);
-    this.http.get('assets/document.ann', { responseType: 'text' }).subscribe(data => this.annTsv = data);
-
-    // const camelCase = (str: string) => str
-    //   .replace(/\s(.)/g, ($1) => $1.toUpperCase())
-    //   .replace(/\s/g, '')
-    //   .replace(/^(.)/, ($1) => $1.toLowerCase());
+    // this.items = this.cartService.getItems();
 
 
+    this.http.get('assets/pipeline/input/377259358.utf8.txt', { responseType: 'text' }).subscribe(data => this.text = data);
+    // this.http.get('assets/document.ann', { responseType: 'text' }).subscribe(data => this.annTsv = data);
+    this.http.get('assets/pipeline/output/377259358.utf8.ann', { responseType: 'text' }).subscribe(data => this.annTsv = data);
 
     // parse the form tsv on google drive (2 sheets):
 
@@ -85,6 +98,7 @@ export class AppComponent implements OnInit {
             group: v.group,
             originalName: v.variable,
             variable: camelCase(v.variable),
+            entity: v.entity,
             cardinality: v.cardinality,
             getValueFrom: v.getValueFrom,
             admissibleValues,
@@ -126,23 +140,18 @@ export class AppComponent implements OnInit {
     this.savedSingleAnnotation = this.annPreview;
   }
 
-  /**
-   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Groups_and_Ranges
-   */
-  parseAnn() {
-    const regex = /^(T\d)\t(\w+)\t((\d+) (\d+))\t(.*)$/gm;
-    let match: RegExpExecArray;
-    while ((match = regex.exec(this.annTsv)) !== null) {
-      this.annotations.push({
-        id: match[1],
-        category: match[2],
-        offset: {
-          start: Number(match[4]),
-          end: Number(match[5]),
-        },
-        span: match[6]
-      });
-    }
+  showAnnotations() {
+    this.annotations = parseBratAnnotations(this.annTsv);
+    console.log(this.annotations);
+
   }
+
+  // onSubmit(customerData) {
+  //   // Process checkout data here
+  //   this.items = this.cartService.clearCart();
+  //   this.checkoutForm.reset();
+
+  //   console.warn('Your order has been submitted', customerData);
+  // }
 
 }
