@@ -9,7 +9,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { UploadModule } from './upload/upload.module'
+import { UploadModule } from './upload/upload.module';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyMaterialModule } from '@ngx-formly/material'
 
 @NgModule({
   declarations: [
@@ -23,6 +25,9 @@ import { UploadModule } from './upload/upload.module'
     HttpClientModule,
     BrowserAnimationsModule,
     UploadModule,
+    ReactiveFormsModule,
+    FormlyModule.forRoot(),
+    FormlyMaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
