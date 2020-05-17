@@ -9,13 +9,16 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MaterialModule } from './styling/material.module'
 import { UploadModule } from './upload/upload.module';
 import { FormlyModule } from '@ngx-formly/core';
-import { FormlyMaterialModule } from '@ngx-formly/material'
+import { FormlyMaterialModule } from '@ngx-formly/material';
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DynamicFormComponent
   ],
   imports: [
     BrowserModule,
@@ -24,6 +27,7 @@ import { FormlyMaterialModule } from '@ngx-formly/material'
     FlexLayoutModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    MaterialModule,
     UploadModule,
     ReactiveFormsModule,
     FormlyModule.forRoot(),

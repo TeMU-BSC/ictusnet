@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { Papa } from 'ngx-papaparse';
-import { CartService } from './dynamic-form/cart.service';
+import { CartService } from './dynamic-form-questions/cart.service';
 import { camelCase, parseBratAnnotations } from './helpers';
 import { Annotation } from './annotation';
 import { Variable } from './variable';
@@ -115,7 +115,7 @@ export class AppComponent implements OnInit {
           // };
         });
 
-        console.log(this.variables);
+        // console.log(this.variables);
         // console.log(variablesObj);
       }
     });
