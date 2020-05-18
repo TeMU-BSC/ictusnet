@@ -14,11 +14,13 @@ import { UploadModule } from './upload/upload.module';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { TextComponent } from './text/text.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DynamicFormComponent
+    DynamicFormComponent,
+    TextComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
-T0	FIRST_CATEGORY 221 226	Lorem
+T0	FIRST_ENTITY 221 226	Lorem
 #0	AnnotatorNotes T0	First note
-T1	SECOND_CATEGORY 475 482	laboris
+T1	SECOND_ENTITY 475 482	laboris
 #1	AnnotatorNotes T1	Second note
 T21	FECHA 3930 3938	22.05.17
 #21	AnnotatorNotes T21	2017-05-22

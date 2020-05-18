@@ -5,16 +5,12 @@
 <!-- <p>Demo instructions: Select some part of the text.</p> -->
 
 <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
-  <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem" style="height: 100vh; overflow-y: scroll;">
-    <div (mouseup)="showSelection()"
-      style="display: inline-block; white-space: pre-wrap; font-family: 'Roboto Mono', monospace; padding: 1em;">
-      {{ text }}
-    </div>
-    <!-- <button *ngIf="selectedText" (click)="saveAnn()" style="color: red;">Save this single annotation</button>
-    <pre>{{ savedSingleAnnotation }}</pre> -->
+  <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem" style="height: 100vh;">
+    <app-text style="height: 100%; width: 100%;"></app-text>
   </section>
 
   <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem" style="overflow-y: scroll;">
+
     <!-- <form style="border: 2px solid green; display: inline-block; padding: 1em;">
       <div *ngFor="let variable of variables">
         <label for="{{ variable.variable }}">

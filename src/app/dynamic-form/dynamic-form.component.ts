@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { MatButtonModule } from '@angular/material/button';
 import { AnnotationService } from '../annotation.service';
-import { parseBratAnnotations } from '../helpers';
+import { camelCase, parseBratAnnotations } from '../helpers';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -63,13 +63,16 @@ export class DynamicFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+
+
     let annTsv: string;
     this.ann.getAnnotationsTsv().subscribe(
       data => annTsv = data,
       err => console.error(err),
       () => {
         const parsed = parseBratAnnotations(annTsv);
-        console.log(parsed);
+        // console.log('parsed annotations', parsed);
 
         this.model = {
           fechaDeIngreso: parsed[1]['span'],  // 1

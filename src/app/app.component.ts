@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
 import { Papa } from 'ngx-papaparse';
-import { CartService } from './dynamic-form-questions/cart.service';
-import { camelCase, parseBratAnnotations } from './helpers';
+import { camelCase } from './helpers';
 import { Annotation } from './annotation';
 import { Variable } from './variable';
 
@@ -16,18 +13,12 @@ export class AppComponent implements OnInit {
 
   title = 'ictusnet';
 
-  text: string;
   annTsv: string;
   annotations: Annotation[] = [];
 
-  selection: Selection;
-  selectedText: string;
-  start: number;
-  end: number;
-
   // annotations testing
   id = 0;
-  category = 'CATEGORY_PLACEHOLDER';
+  entity = 'ENTITY_PLACEHOLDER';
   notes = 'AnnotatorNotes';
   note = 'This is some note';
   annPreview: string;
@@ -36,30 +27,11 @@ export class AppComponent implements OnInit {
   variables: Variable[] = [];
   admissibleValues: any;
 
-
-  // items;
-  // checkoutForm;
-
   constructor(
-    private http: HttpClient,
     private papa: Papa,
-    // private cartService: CartService,
-    // private formBuilder: FormBuilder,
-  ) {
-    // this.checkoutForm = this.formBuilder.group({
-    //   name: '',
-    //   address: ''
-    // });
-  }
+  ) { }
 
   ngOnInit() {
-    // this.items = this.cartService.getItems();
-
-
-    this.http.get('assets/pipeline/input/377259358.utf8.txt', { responseType: 'text' }).subscribe(data => this.text = data);
-    // this.http.get('assets/document.ann', { responseType: 'text' }).subscribe(data => this.annTsv = data);
-    this.http.get('assets/pipeline/output/377259358.utf8.ann', { responseType: 'text' }).subscribe(data => this.annTsv = data);
-
     // parse the form tsv on google drive (2 sheets):
 
     let variablesData: any;
@@ -121,37 +93,5 @@ export class AppComponent implements OnInit {
     });
 
   }
-
-  showSelection() {
-    if (window.getSelection().toString()) {
-      this.selection = window.getSelection();
-      this.selectedText = this.selection.toString();
-      this.start = this.selection.getRangeAt(0).startOffset;
-      this.end = this.selection.getRangeAt(0).endOffset;
-      this.annPreview = `T${this.id}\t${this.category}\t${this.start} ${this.end}\t${this.selectedText}\n` +
-        `#${this.id}\t${this.notes} T${this.id}\t${this.note}`;
-    }
-
-    console.log(this.variables);
-    console.log(this.admissibleValues);
-  }
-
-  saveAnn() {
-    this.savedSingleAnnotation = this.annPreview;
-  }
-
-  showAnnotations() {
-    this.annotations = parseBratAnnotations(this.annTsv);
-    console.log(this.annotations);
-
-  }
-
-  // onSubmit(customerData) {
-  //   // Process checkout data here
-  //   this.items = this.cartService.clearCart();
-  //   this.checkoutForm.reset();
-
-  //   console.warn('Your order has been submitted', customerData);
-  // }
 
 }

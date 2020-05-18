@@ -1,6 +1,6 @@
 export interface Annotation {
   id: string;
-  category: string;
+  entity: string;
   offset: {
     start: number;
     end: number;
