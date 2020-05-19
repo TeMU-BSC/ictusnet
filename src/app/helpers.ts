@@ -15,7 +15,7 @@ export const camelCase = (str) => str
  */
 export function parseBratAnnotations(multilineBratAnnotations: string): Annotation[] {
   const annotations: Annotation[] = []
-  const regex: RegExp = /^(T\d+)\t(\w+) ((\d+) (\d+))\t(.*)$/gm;
+  const regex: RegExp = /(\w\d+)\t(\w+) ((\d+) (\d+))\t(.*)(\n#\d+\t\w+ \w\d+\t(.*))?/gm;
   let match: RegExpExecArray;
   while ((match = regex.exec(multilineBratAnnotations)) !== null) {
     annotations.push({
@@ -25,7 +25,8 @@ export function parseBratAnnotations(multilineBratAnnotations: string): Annotati
         start: Number(match[4]),
         end: Number(match[5]),
       },
-      span: match[6]
+      span: match[6],
+      notes: match[8]
     });
   }
   return annotations;

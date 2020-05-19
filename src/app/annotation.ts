@@ -6,4 +6,5 @@ export interface Annotation {
     end: number;
   };
   span: string;
+  notes: string;
 }

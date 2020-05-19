@@ -21,6 +21,7 @@ export class DynamicFormComponent implements OnInit {
       type: 'input',
       templateOptions: {
         label: 'Date',
+        // disabled: true,
       },
     },
     {
@@ -28,6 +29,7 @@ export class DynamicFormComponent implements OnInit {
       type: 'input',
       templateOptions: {
         label: 'Time',
+        // disabled: true,
       },
     },
     {
@@ -35,6 +37,15 @@ export class DynamicFormComponent implements OnInit {
       type: 'input',
       templateOptions: {
         label: 'First section',
+        disabled: true,
+      },
+    },
+    {
+      key: 'firstEntity',
+      type: 'input',
+      templateOptions: {
+        label: 'First entity',
+        disabled: true,
       },
     },
     {
@@ -42,20 +53,15 @@ export class DynamicFormComponent implements OnInit {
       type: 'input',
       templateOptions: {
         label: 'Second section',
+        disabled: true,
       }
-    },
-    {
-      key: 'firstEntity',
-      type: 'input',
-      templateOptions: {
-        label: 'First entity',
-      },
     },
     {
       key: 'secondEntity',
       type: 'input',
       templateOptions: {
         label: 'Second entity',
+        disabled: true,
       }
     },
     // {
@@ -90,16 +96,16 @@ export class DynamicFormComponent implements OnInit {
       err => console.error(err),
       () => {
         const parsed = parseBratAnnotations(annTsv);
-        console.log('parsed annotations', parsed);
+        // console.log('parsed annotations', parsed);
 
         // TODO replace hardcode
         this.model = {
-          time: parsed[0]['span'],  // 1
-          date: parsed[1]['span'],  // 1
-          firstSection: parsed[2]['span'],  // 1
-          secondSection: parsed[3]['span'],  // 1
-          firstEntity: parsed[4]['span'],  // 1
-          secondEntity: parsed[5]['span'],  // 1
+          time: parsed[0]['notes'],  // 1
+          date: parsed[1]['notes'],  // 1
+          firstSection: `${parsed[2]['span']} (offset: ${parsed[2]['offset']['start']} ${parsed[2]['offset']['end']})`,  // 1
+          secondSection: `${parsed[3]['span']} (offset: ${parsed[3]['offset']['start']} ${parsed[3]['offset']['end']})`,  // 1
+          firstEntity: `${parsed[4]['span']} (offset: ${parsed[4]['offset']['start']} ${parsed[4]['offset']['end']})`,  // 1
+          secondEntity: `${parsed[5]['span']} (offset: ${parsed[5]['offset']['start']} ${parsed[5]['offset']['end']})`,  // 1
 
           // diagnosticoPrincipal: parsed[54]['span'],  // 1
           // vasoCerebralAfectado: parsed[55]['span'],  // n
