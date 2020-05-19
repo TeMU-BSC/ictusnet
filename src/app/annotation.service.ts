@@ -11,12 +11,15 @@ import { Observable } from 'rxjs';
 })
 export class AnnotationService {
 
+  annPath: string = 'assets/lorem.ann';
+  // annPath: string = 'assets/pipeline/output/377259358.utf8.ann';
+
   constructor(
     private http: HttpClient,
     private papa: Papa,
   ) { }
 
   getAnnotationsTsv(): Observable<any> {
-    return this.http.get('assets/pipeline/output/377259358.utf8.ann', { responseType: 'text' });
+    return this.http.get(this.annPath, { responseType: 'text' });
   }
 }

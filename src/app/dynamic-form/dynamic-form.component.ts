@@ -17,41 +17,62 @@ export class DynamicFormComponent implements OnInit {
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[] = [
     {
-      key: 'fechaDeIngreso',
+      key: 'date',
       type: 'input',
       templateOptions: {
-        label: 'Fecha de ingreso',
+        label: 'Date',
       },
     },
     {
-      key: 'horaDeIngreso',
+      key: 'time',
       type: 'input',
       templateOptions: {
-        label: 'Hora de ingreso',
+        label: 'Time',
       },
     },
     {
-      key: 'diagnosticoPrincipal',
+      key: 'firstSection',
       type: 'input',
       templateOptions: {
-        label: 'Diagnóstico principal',
+        label: 'First section',
       },
     },
     {
-      key: 'vasoCerebralAfectado',
+      key: 'secondSection',
       type: 'input',
       templateOptions: {
-        label: 'Vaso cerebral afectado',
-      },
-      hideExpression: 'model.diagnosticoPrincipal != "ICTUS"',
+        label: 'Second section',
+      }
     },
     {
-      key: 'lateralizacion',
+      key: 'firstEntity',
       type: 'input',
       templateOptions: {
-        label: 'Lateralización',
+        label: 'First entity',
       },
     },
+    {
+      key: 'secondEntity',
+      type: 'input',
+      templateOptions: {
+        label: 'Second entity',
+      }
+    },
+    // {
+    //   key: 'diagnosticoPrincipal',
+    //   type: 'input',
+    //   templateOptions: {
+    //     label: 'Diagnóstico principal',
+    //   },
+    //   hideExpression: 'model.diagnosticoPrincipal != "ICTUS"',
+    // },
+    // {
+    //   key: 'lateralizacion',
+    //   type: 'input',
+    //   templateOptions: {
+    //     label: 'Lateralización',
+    //   },
+    // },
   ];
 
   submit() {
@@ -63,32 +84,30 @@ export class DynamicFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-
-
     let annTsv: string;
     this.ann.getAnnotationsTsv().subscribe(
       data => annTsv = data,
       err => console.error(err),
       () => {
         const parsed = parseBratAnnotations(annTsv);
-        // console.log('parsed annotations', parsed);
+        console.log('parsed annotations', parsed);
 
+        // TODO replace hardcode
         this.model = {
-          fechaDeIngreso: parsed[1]['span'],  // 1
-          horaDeIngreso: parsed[0]['span'],  // 1
+          time: parsed[0]['span'],  // 1
+          date: parsed[1]['span'],  // 1
+          firstSection: parsed[2]['span'],  // 1
+          secondSection: parsed[3]['span'],  // 1
+          firstEntity: parsed[4]['span'],  // 1
+          secondEntity: parsed[5]['span'],  // 1
 
-          diagnosticoPrincipal: parsed[54]['span'],  // 1
-          vasoCerebralAfectado: parsed[55]['span'],  // n
-          lateralizacion: parsed[56]['span'],  // 1
-
+          // diagnosticoPrincipal: parsed[54]['span'],  // 1
+          // vasoCerebralAfectado: parsed[55]['span'],  // n
+          // lateralizacion: parsed[56]['span'],  // 1
           // etiologiaIctus: parsed[?][?]
         }
       }
-
     );
-
-
   }
 
 }
