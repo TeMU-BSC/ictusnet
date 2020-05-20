@@ -18,12 +18,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 // app
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DialogComponent } from './dialog/dialog.component';
+import { FieldPickerComponent } from './field-picker/field-picker.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DialogComponent,
+    FieldPickerComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { FormGroup } from '@angular/forms';
+
 import { Papa } from 'ngx-papaparse';
+import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
+import { MatDialog } from '@angular/material/dialog';
+
+import { FieldPickerComponent } from 'src/app/field-picker/field-picker.component';
 import { camelCase, parseBratAnnotations } from './helpers';
 import { Annotation } from './annotation';
 import { Variable } from './variable';
-import { HttpClient } from '@angular/common/http';
-import { FormGroup } from '@angular/forms';
-import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
-import { DialogComponent } from 'src/app/dialog/dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',
@@ -96,6 +98,10 @@ export class AppComponent implements OnInit {
     public dialog: MatDialog,
   ) { }
 
+  loadDemo() {
+    this.http.get('assets/lorem.txt', { responseType: 'text' }).subscribe(data => this.text = data);
+  }
+
   loadFile(event) {
     this.file = event.target.files[0];
     var reader = new FileReader();
@@ -122,7 +128,7 @@ export class AppComponent implements OnInit {
    * Open a confirmation dialog before performing an action to a given array and optionally apply changes to backend.
    */
   pickField(selection: string): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
+    const dialogRef = this.dialog.open(FieldPickerComponent, {
       width: '500px',
       data: {
         title: selection,
@@ -172,7 +178,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.get('assets/lorem.txt', { responseType: 'text' }).subscribe(data => this.text = data);
     this.getSuggestions();
 
     // parse the form tsv on google drive (2 sheets):

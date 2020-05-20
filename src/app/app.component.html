@@ -15,8 +15,11 @@
     <mat-hint>Accepted extensions: .txt</mat-hint>
   </mat-form-field> -->
 
-  <input hidden type="file" #uploader (change)="loadFile($event)" [accept]="'.txt'">
-  <button mat-raised-button color="primary" (click)="uploader.click()">Load a document</button>
+  <input hidden type="file" #uploader (change)="loadFile($event)" [accept]="'.txt'" multiple>
+  <button mat-button color="primary" (click)="uploader.click()">Load a document (work in progress)</button>
+
+  or
+  <button mat-raised-button color="accent" (click)="loadDemo()">Play with demo</button>
 </div>
 
 <div *ngIf="text" style="height: 100%;">
