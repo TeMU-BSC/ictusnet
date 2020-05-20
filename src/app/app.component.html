@@ -1,28 +1,36 @@
 <!-- <router-outlet></router-outlet> -->
 
-<!-- <app-file-upload></app-file-upload> -->
 
-<!-- <p>Demo instructions: Select some part of the text.</p> -->
+<div *ngIf="!text" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="3rem">
+  <h1>ICTUSnet web app</h1>
 
-<div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem" style="height: 100%;">
-  <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem" style="height: 100%;">
-    <app-text style="height: 100%; width: 100%;"></app-text>
-  </section>
+  <!-- <mat-form-field appearance="fill">
+    <mat-label>Load a document</mat-label>
+    <ngx-mat-file-input #fileInput placeholder="TXT file only" [accept]="'.txt'" multiple autofilled
+      (change)="loadFile($event)">
+    </ngx-mat-file-input>
+    <button mat-icon-button matSuffix *ngIf="!fileInput.empty" (click)="fileInput.clear($event)">
+      <mat-icon>clear</mat-icon>
+    </button>
+    <mat-hint>Accepted extensions: .txt</mat-hint>
+  </mat-form-field> -->
 
-  <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem" style="overflow-y: scroll;">
+  <input hidden type="file" #uploader (change)="loadFile($event)" [accept]="'.txt'">
+  <button mat-raised-button color="primary" (click)="uploader.click()">Load a document</button>
+</div>
 
-    <!-- <form style="border: 2px solid green; display: inline-block; padding: 1em;">
-      <div *ngFor="let variable of variables">
-        <label for="{{ variable.variable }}">
-          {{ variable.originalName }}
-          <span *ngIf="variable.comments" style="color: lightslategrey;">{{ variable?.comments }}</span>
-        </label>
-        <input *ngIf="selectedText" type="text" [value]="selectedText" readonly>
-        <hr>
-      </div>
-    </form> -->
+<div *ngIf="text" style="height: 100%;">
+  <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem" style="height: 100%; padding: 3em;">
+    <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem" style="height: 100%;">
+      <!-- <label>{{ file.name }}</label> -->
+      <textarea (select)=" selectSpan($event)" readonly>{{ text }}</textarea>
+    </section>
 
-    <app-dynamic-form></app-dynamic-form>
-
-  </section>
+    <section id="dynamicForm" fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
+      <form [formGroup]="form" (submit)="submit()">
+        <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
+        <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">Submit</button>
+      </form>
+    </section>
+  </div>
 </div>

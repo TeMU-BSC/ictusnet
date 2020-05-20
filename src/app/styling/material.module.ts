@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatMenuModule } from '@angular/material/menu'
+import { MatRadioModule } from '@angular/material/radio'
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar'
 import { MatTableModule } from '@angular/material/table'
 import { MatTabsModule } from '@angular/material/tabs'
@@ -27,6 +28,7 @@ const material = [
   MatTableModule,
   MatChipsModule,
   MatTabsModule,
+  MatRadioModule,
   MatSnackBarModule,
   MatTooltipModule,
   MatAutocompleteModule,
