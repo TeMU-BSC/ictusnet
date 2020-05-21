@@ -1,53 +1,54 @@
-variable	admissibleValue
-diagnóstico principal	ictus isquémico
-diagnóstico principal	ataque isquémico transitorio
-diagnóstico principal	hemorragia cerebral
-
-vaso cerebral afectado	Arteria carótida común (o ACC) o primitiva
-vaso cerebral afectado	Arteria carótida interna (o ACI)
-vaso cerebral afectado	Arteria carótida interna segmento cervical o C1
-vaso cerebral afectado	Arteria carótida interna segmento petroso o C2
-vaso cerebral afectado	Arteria carótida interna segmento lacerum o C3
-vaso cerebral afectado	Arteria carótida interna segmento cavernoso o C4
-vaso cerebral afectado	Arteria carótida interna segmento clinoideo o C5
-vaso cerebral afectado	Arteria carótida interna segmento oftálmico o C6
-vaso cerebral afectado	Arteria carótida interna segmento comunicante o C7
-vaso cerebral afectado	Arteria carótida interna terminal (o ACI-T/ TICA)
-vaso cerebral afectado	Arteria cerebral media (o ACM)
-vaso cerebral afectado	Arteria cerebral media segmento M1
-vaso cerebral afectado	Arteria cerebral media segmento M2
-vaso cerebral afectado	Arteria cerebral media segmento M3
-vaso cerebral afectado	Arteria cerebral media segmento M4
-vaso cerebral afectado	Arteria cerebral media segmento M5
-vaso cerebral afectado	Arteria cerebral media segmento M6
-vaso cerebral afectado	Arteria cerebral anterior (o ACA).
-vaso cerebral afectado	Arteria cerebral anterior segmento A1
-vaso cerebral afectado	Arteria cerebral anterior segmento A2
-vaso cerebral afectado	Arteria cerebral anterior segmento A3
-vaso cerebral afectado	Arteria cerebral posterior (o ACP)
-vaso cerebral afectado	Arteria cerebral posterior segmento P1
-vaso cerebral afectado	Arteria cerebral posterior segmento P2
-vaso cerebral afectado	Arteria cerebral posterior segmento P3
-vaso cerebral afectado	Arteria cerebral posterior segmento P4
-vaso cerebral afectado	Arteria lenticuloestriada
-vaso cerebral afectado	Arteria coroidea anterior
-vaso cerebral afectado	Arteria coroidea posterior
-vaso cerebral afectado	Arteria cerebelosa superior (o ACS)
-vaso cerebral afectado	Arteria cerebelosa anteroinferior (o AICA)
-vaso cerebral afectado	Arteria cerebelosa posteroinferior (o PICA)
-vaso cerebral afectado	Arteria vertebral (o AV)
-vaso cerebral afectado	Arteria vertebral segmento V1
-vaso cerebral afectado	Arteria vertebral segmento V2
-vaso cerebral afectado	Arteria vertebral segmento V3
-vaso cerebral afectado	Arteria vertebral segmento V4
-vaso cerebral afectado	Arteria basilar (o AB)
-vaso cerebral afectado	Indeterminado
-
-localización	Infarto total de circulación anterior o TACI
-localización	Infarto parcial de circulación anterior o PACI
-localización	Infarto lacunar o LACI (en ocasiones, como síndrome lacunar)
-localización	Infarto de circulación posterior o POCI
-
+entity	value	commercialName
+Diagnostico_principal	ictus isquémico
+Diagnostico_principal	ataque isquémico transitorio
+Diagnostico_principal	hemorragia cerebral
+Arteria_afectada	Arteria carótida común (o ACC) o primitiva
+Arteria_afectada	Arteria carótida interna (o ACI)
+Arteria_afectada	Arteria carótida interna segmento cervical o C1
+Arteria_afectada	Arteria carótida interna segmento petroso o C2
+Arteria_afectada	Arteria carótida interna segmento lacerum o C3
+Arteria_afectada	Arteria carótida interna segmento cavernoso o C4
+Arteria_afectada	Arteria carótida interna segmento clinoideo o C5
+Arteria_afectada	Arteria carótida interna segmento oftálmico o C6
+Arteria_afectada	Arteria carótida interna segmento comunicante o C7
+Arteria_afectada	Arteria carótida interna terminal (o ACI-T/ TICA)
+Arteria_afectada	Arteria cerebral media (o ACM)
+Arteria_afectada	Arteria cerebral media segmento M1
+Arteria_afectada	Arteria cerebral media segmento M2
+Arteria_afectada	Arteria cerebral media segmento M3
+Arteria_afectada	Arteria cerebral media segmento M4
+Arteria_afectada	Arteria cerebral media segmento M5
+Arteria_afectada	Arteria cerebral media segmento M6
+Arteria_afectada	Arteria cerebral anterior (o ACA).
+Arteria_afectada	Arteria cerebral anterior segmento A1
+Arteria_afectada	Arteria cerebral anterior segmento A2
+Arteria_afectada	Arteria cerebral anterior segmento A3
+Arteria_afectada	Arteria cerebral posterior (o ACP)
+Arteria_afectada	Arteria cerebral posterior segmento P1
+Arteria_afectada	Arteria cerebral posterior segmento P2
+Arteria_afectada	Arteria cerebral posterior segmento P3
+Arteria_afectada	Arteria cerebral posterior segmento P4
+Arteria_afectada	Arteria lenticuloestriada
+Arteria_afectada	Arteria coroidea anterior
+Arteria_afectada	Arteria coroidea posterior
+Arteria_afectada	Arteria cerebelosa superior (o ACS)
+Arteria_afectada	Arteria cerebelosa anteroinferior (o AICA)
+Arteria_afectada	Arteria cerebelosa posteroinferior (o PICA)
+Arteria_afectada	Arteria vertebral (o AV)
+Arteria_afectada	Arteria vertebral segmento V1
+Arteria_afectada	Arteria vertebral segmento V2
+Arteria_afectada	Arteria vertebral segmento V3
+Arteria_afectada	Arteria vertebral segmento V4
+Arteria_afectada	Arteria basilar (o AB)
+Arteria_afectada	Indeterminado
+Localizacion	Infarto total de circulación anterior o TACI
+Localizacion	Infarto parcial de circulación anterior o PACI
+Localizacion	Infarto lacunar o LACI (en ocasiones, como síndrome lacunar)
+Localizacion	Infarto de circulación posterior o POCI
+Lateralizacion	izquierda
+Lateralizacion	derecha
+Lateralizacion	ambas
+Lateralizacion	indeterminada
 etiología_ictus	Aterotrombótico/aterosclerótico
 etiología_ictus	Cardioembólico (CE)
 etiología_ictus	Lacunar
@@ -55,9 +56,34 @@ etiología_ictus	Indeterminado/criptogénico/ESUS
 etiología_ictus	Indeterminado de causa doble
 etiología_ictus	Indeterminado por estudio incompleto
 etiología_ictus	Inhabitual o infrecuente
-
 etiología_hemorragia	Hipertensiva
 etiología_hemorragia	Angiopatía amiloide
 etiología_hemorragia	Secundaria a malformación vascular/aneurisma
 etiología_hemorragia	Secundaria a tumor
 etiología_hemorragia	Indeterminada
+Tratamiento_anticoagulante	acenocumarol	sintrom
+Tratamiento_anticoagulante	warfarin	aldocumar
+Tratamiento_anticoagulante	heparin	Heparina
+Tratamiento_anticoagulante	dalteparin	fragmin
+Tratamiento_anticoagulante	enoxaparin	clexane
+Tratamiento_anticoagulante	nadroparin	fraxiparina
+Tratamiento_anticoagulante	parnaparin
+Tratamiento_anticoagulante	reviparin
+Tratamiento_anticoagulante	bemiparin	hibor
+Tratamiento_anticoagulante	dabigatran etexilate	pradaxa
+Tratamiento_anticoagulante	rivaroxaban	xarelto
+Tratamiento_anticoagulante	apixaban	eliquis
+Tratamiento_anticoagulante	edoxaban	lixiana
+Tratamiento_antiagregante	clopidogrel	plavix
+Tratamiento_antiagregante	ticlopidine	tiklid
+Tratamiento_antiagregante	acetylsalicylic acid	AAS, Adiro
+Tratamiento_antiagregante	dipyridamole	persantin
+Tratamiento_antiagregante	abciximab	reopro
+Tratamiento_antiagregante	tirofiban	agrastat
+Tratamiento_antiagregante	triflusal	disgren
+Tratamiento_antiagregante	cilostazol	ekistol, pletal
+Tratamiento_antiagregante	ticagrelor	brilique
+Tratamiento_antiagregante	cangrelor
+Tratamiento_antiagregante	prasugler
+Tratamiento_antiagregante	combinations
+Tratamiento_antiagregante	acetylsalicylic acid, combinations with proton pump inhibitors

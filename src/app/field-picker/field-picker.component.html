@@ -1,6 +1,5 @@
-<h1 mat-dialog-title>The selected "{{ data.title }}" is a:</h1>
+<!-- <h1 mat-dialog-title>The selected "{{ data.title }}" is a:</h1>
 <div mat-dialog-content>
-  <!-- <label>Pick your favorite season</label> -->
   <mat-radio-group [(ngModel)]="pickedField" style="display: flex; flex-direction: column; margin: 15px 0;">
     <mat-radio-button *ngFor="let field of data.fields" [value]="field" style="margin: 5px;">
       {{ field }}
@@ -14,4 +13,4 @@
   <button mat-raised-button [color]="data.color" (click)="dialogRef.close(this.pickedField)" cdkFocusInitial>
     {{ data.buttonName | titlecase }}
   </button>
-</div>
+</div> -->

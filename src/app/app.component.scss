@@ -3,6 +3,10 @@ h1 {
   padding: 1em;
 }
 
+section {
+  height: 100%;
+}
+
 textarea {
   height: 100%;
   width: 100%;
@@ -17,9 +21,9 @@ textarea {
   background-color: yellow;
 }
 
-// #dynamicForm {
-//   overflow-y: scroll;
-// }
+#dynamicForm {
+  overflow-y: scroll;
+}
 
 form {
   padding: 1rem;

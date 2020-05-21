@@ -17,18 +17,13 @@
   <input hidden type="file" #uploader (change)="loadFile($event)" accept=".txt,.ann" multiple>
   <!-- <button mat-raised-button color="primary" (click)="uploader.click()">Load a real example document (work in progress)</button> -->
   <button mat-raised-button color="primary" (click)="loadRealExample()">Load a real example</button>
-
-  or
-  <button mat-raised-button color="accent" (click)="loadDemo()">Play with demo</button>
 </div>
 
 <div *ngIf="text" style="height: 100%;">
   <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem" style="height: 100%; padding: 2em;">
-    <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem" style="height: 100%;">
-      <!-- <label>{{ file.name }}</label> -->
+    <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
       <textarea (select)=" selectSpan($event)" readonly>{{ text }}</textarea>
     </section>
-
     <section id="dynamicForm" fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
       <form [formGroup]="form" (submit)="submit()">
         <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>

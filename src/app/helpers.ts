@@ -1,4 +1,12 @@
-import { Annotation } from './annotation';
+import { Annotation } from './interfaces';
+
+/**
+ * Remove the spelling accents may contain the given text.
+ * https://stackoverflow.com/a/37511463
+ */
+export function removeAccents(text: string): string {
+  return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
 
 /**
  * Convert a string to camelCase format.

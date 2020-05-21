@@ -9,11 +9,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 })
 export class FieldPickerComponent {
 
-  pickedField: any;
+  // pickedField: any;
 
-  constructor(
-    public dialogRef: MatDialogRef<FieldPickerComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  // constructor(
+  //   public dialogRef: MatDialogRef<FieldPickerComponent>,
+  //   @Inject(MAT_DIALOG_DATA) public data: any
+  // ) { }
 
 }
