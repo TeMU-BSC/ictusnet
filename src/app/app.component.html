@@ -1,6 +1,5 @@
 <!-- <router-outlet></router-outlet> -->
 
-
 <div *ngIf="!text" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="3rem">
   <h1>ICTUSnet web app</h1>
 
@@ -15,15 +14,16 @@
     <mat-hint>Accepted extensions: .txt</mat-hint>
   </mat-form-field> -->
 
-  <input hidden type="file" #uploader (change)="loadFile($event)" [accept]="'.txt'" multiple>
-  <button mat-button color="primary" (click)="uploader.click()">Load a document (work in progress)</button>
+  <input hidden type="file" #uploader (change)="loadFile($event)" accept=".txt,.ann" multiple>
+  <!-- <button mat-raised-button color="primary" (click)="uploader.click()">Load a real example document (work in progress)</button> -->
+  <button mat-raised-button color="primary" (click)="loadRealExample()">Load a real example</button>
 
   or
   <button mat-raised-button color="accent" (click)="loadDemo()">Play with demo</button>
 </div>
 
 <div *ngIf="text" style="height: 100%;">
-  <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem" style="height: 100%; padding: 3em;">
+  <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem" style="height: 100%; padding: 2em;">
     <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem" style="height: 100%;">
       <!-- <label>{{ file.name }}</label> -->
       <textarea (select)=" selectSpan($event)" readonly>{{ text }}</textarea>
