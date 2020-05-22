@@ -18,14 +18,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 // app
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FieldPickerComponent } from './field-picker/field-picker.component';
-import { BottomSheetComponent } from './bottom-sheet/bottom-sheet.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FieldPickerComponent,
-    BottomSheetComponent,
   ],
   imports: [
     BrowserModule,

@@ -5,16 +5,11 @@ import { FormGroup } from '@angular/forms';
 import { Papa } from 'ngx-papaparse';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { BottomSheetComponent } from './bottom-sheet/bottom-sheet.component';
-import { FieldPickerComponent } from './field-picker/field-picker.component';
-
-import { parseBratAnnotations } from './helpers';
 import { Annotation, Variable } from './interfaces';
 
 
+// TODO validate fields fecha y hora with regexps or paterns like YYYY-MM-DD and hh:mm
 // TODO highlight all spans offsets
-// TODO click field and then change its evidence span
 // TODO UX multi field in each line (fecha, hora), (previo, alta)
 
 @Component({
@@ -24,31 +19,64 @@ import { Annotation, Variable } from './interfaces';
 })
 export class AppComponent implements OnInit {
 
-  hide: boolean = true;
-  currentOffset: string;
-
+  // core atrtibutes
   file: File;
   text: string;
   annotations: Annotation[] = [];
   variables: Variable[] = []
   admissibleValues: any[];
+
+  // formly
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
   fields: FormlyFieldConfig[] = [];
+
+  // update evidence on
   pickedField: any;
+
+  // TESTING
+  hide: boolean = true;
+  currentOffset: string;
 
   constructor(
     private http: HttpClient,
     private papa: Papa,
-    private bottomSheet: MatBottomSheet,
   ) { }
 
   ngOnInit() {
     this.parseVariables();
-    this.loadRealExample();
+    // this.loadRealExample();
   }
 
+  /**
+   * Parse variables from the following google spreadsheets:
+   *
+   * assets/variables.tsv: https://docs.google.com/spreadsheets/d/1BX0m27sVzzd-wtTtDdse__nuTUva6xj_XUW6gK9hsj0/edit#gid=0
+   * assets/admissible-values.tsv: https://docs.google.com/spreadsheets/d/1BX0m27sVzzd-wtTtDdse__nuTUva6xj_XUW6gK9hsj0/edit#gid=1512976087
+   */
+  parseVariables() {
+    this.papa.parse('assets/variables.tsv', {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      quoteChar: '',
+      complete: variables => this.variables = variables.data
+    });
+    this.papa.parse('assets/admissible-values.tsv', {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      quoteChar: '',
+      complete: values => this.admissibleValues = values.data
+    });
+  }
+
+  /**
+   * Load a real example of clinical text for developing purposes only.
+   *
+   * TODO replace this method with another one that will accept uploaded files from user.
+   */
   loadRealExample() {
     this.http.get('assets/321108781.utf8.txt', { responseType: 'text' }).subscribe(data => this.text = data);
     this.papa.parse('assets/321108781.utf8.ann', {
@@ -72,14 +100,10 @@ export class AppComponent implements OnInit {
           });
         });
         this.variables.forEach((variable: Variable) => {
-
-          // model
+          // populate model
           const foundAnn = this.annotations.find(ann => ann['entity'] === variable.entity);
 
-          // match regex strategy (low performance)
-          const value = foundAnn?.entity.match('^(Fecha|Hora|Trombolisis|Tiempo|ASPECTS|mRankin|NIHSS).*') ? foundAnn?.notes : foundAnn?.evidence;
-
-          // startsWith string strategy (high performance)
+          // option 1: startsWith string strategy
           // const isNormalizable = foundAnn?.entity.startsWith('Fecha')
           //   || foundAnn?.entity.startsWith('Fecha')
           //   || foundAnn?.entity.startsWith('Hora')
@@ -90,13 +114,16 @@ export class AppComponent implements OnInit {
           //   || foundAnn?.entity.startsWith('NIHSS')
           // const value = isNormalizable ? foundAnn?.notes : foundAnn?.evidence;
 
+          // option 2: match regex strategy
+          const value = foundAnn?.entity.match('^(Fecha|Hora|Trombolisis|Tiempo|ASPECTS|mRankin|NIHSS).*') ? foundAnn?.notes : foundAnn?.evidence;
+
           this.model[variable.key] = value ? value : null;
 
-          // admissible values
+          // find its admissible values
           const foundValues = this.admissibleValues.filter(a => a.entity === variable.entity).map(a => a.value);
           variable.admissibleValues = foundValues ? foundValues : [];
 
-          // fields
+          // use the javascript spread oprator (...) to build the form fields, because pushing a new field object to the fields arary does not work
           this.fields = [
             ...this.fields,
             {
@@ -119,6 +146,23 @@ export class AppComponent implements OnInit {
     });
   }
 
+
+  /**
+   * Update the value of a specific field (the picked field) with an evidence in text.
+   */
+  updateEvidence(event) {
+    const start = event.target.selectionStart;
+    const end = event.target.selectionEnd;
+    const selection = event.target.value.substr(start, end - start);
+    console.log(selection, start, end);
+
+    this.model = { ...this.model, [this.pickedField]: selection };
+    this.pickedField = null;
+  }
+
+  /**
+   * Load a single text file from user.
+   */
   loadFile(event) {
     // ONLY txt file
     this.file = event.target.files[0];
@@ -133,74 +177,13 @@ export class AppComponent implements OnInit {
     }
   }
 
-  selectSpan(event) {
-    const start = event.target.selectionStart;
-    const end = event.target.selectionEnd;
-    const selection = event.target.value.substr(start, end - start);
-    console.log(selection, start, end);
-
-    // console.log(this.model);
-    // this.model[this.pickedField] = selection
-    // console.log(this.model);
-
-    this.model = { ...this.model, [this.pickedField]: selection };
-
-
-    // this.field = [
-    //   ...this.field,
-    //   {
-    //     key: this.pickedField,
-    //     type: 'input',
-    //     templateOptions: {
-    //       appearance: 'outline',
-    //       // label: variable.label,
-    //       click: ($event) => this.pickedField = $event.key
-    //     }
-    //   }
-    // ];
-
-    // (document.getElementById(this.pickedField) as HTMLInputElement).value = selection;
-    // this.currentOffset = `(${start}, ${end})`;
-
-    this.pickedField = null;
-  }
-
-  openBottomSheet(selection: string): void {
-    const bottomSheetRef = this.bottomSheet.open(BottomSheetComponent, {
-      data: { fields: this.fields }
-    });
-    bottomSheetRef.afterDismissed().subscribe(pickedField => this.model = { ...this.model, [pickedField['key']]: selection })
-  }
-
+  /**
+   * Submit the form completed so far.
+   *
+   * TODO download the form as a JSON file.
+   */
   submit() {
     alert(JSON.stringify(this.model));
-  }
-
-  /**
-   * Parse variables from the google spreadsheet:
-   *
-   * assets/variables.tsv: https://docs.google.com/spreadsheets/d/1BX0m27sVzzd-wtTtDdse__nuTUva6xj_XUW6gK9hsj0/edit#gid=0
-   * assets/admissible-values.tsv: https://docs.google.com/spreadsheets/d/1BX0m27sVzzd-wtTtDdse__nuTUva6xj_XUW6gK9hsj0/edit#gid=1512976087
-   */
-  parseVariables() {
-    this.papa.parse('assets/variables.tsv', {
-      download: true,
-      header: true,
-      skipEmptyLines: true,
-      quoteChar: '',
-      complete: variables => this.variables = variables.data
-    });
-    this.papa.parse('assets/admissible-values.tsv', {
-      download: true,
-      header: true,
-      skipEmptyLines: true,
-      quoteChar: '',
-      complete: values => this.admissibleValues = values.data
-    });
-  }
-
-  pickField(event) {
-    ;
   }
 
 }
