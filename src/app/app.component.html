@@ -19,16 +19,29 @@
   <button mat-raised-button color="primary" (click)="loadRealExample()">Load a real example</button>
 </div>
 
-<div *ngIf="text" style="height: 100%;">
-  <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem" style="height: 100%; padding: 2em;">
-    <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
-      <textarea (select)=" selectSpan($event)" readonly>{{ text }}</textarea>
-    </section>
-    <section id="dynamicForm" fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
-      <form [formGroup]="form" (submit)="submit()">
-        <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
-        <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">Submit</button>
-      </form>
-    </section>
-  </div>
+<div *ngIf="text" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem"
+  style="height: 100%; padding: 1rem;">
+  <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
+    <textarea (select)=" selectSpan($event)" readonly>{{ text }}</textarea>
+  </section>
+  <section fxFlex="50%" style="overflow-y: scroll;">
+    <form [formGroup]="form" (submit)="submit()" style="padding-left: 2rem;">
+      <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
+      <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">Submit</button>
+    </form>
+
+    <!-- <form fxLayout="column">
+        <mat-form-field appearance="outline">
+          <mat-label>Primer campo</mat-label>
+          <input matInput id="first" (click)="pickField($event)" style="background-color: white;">
+          <span matSuffix [hidden]="pickedField !== 'first'" style="color: slategray">{{  currentOffset }}</span>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="background-color: white;">
+          <mat-label>Segundo dinero</mat-label>
+          <input matInput id="second" (click)="pickField($event)">
+          <span matSuffix [hidden]="pickedField !== 'second'" style="color: slategray">{{  currentOffset }}</span>
+        </mat-form-field>
+      </form> -->
+  </section>
 </div>

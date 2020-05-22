@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button'
 // import { MatChipsModule } from '@angular/material/chips'
 // import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatFormFieldModule } from '@angular/material/form-field'
-// import { MatIconModule } from '@angular/material/icon'
+import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatListModule } from '@angular/material/list'
 // import { MatMenuModule } from '@angular/material/menu'
@@ -26,7 +26,7 @@ const material = [
   MatButtonModule,
   // MatCardModule,
   MatToolbarModule,
-  // MatIconModule,
+  MatIconModule,
   MatFormFieldModule,
   MatInputModule,
   MatListModule,

@@ -33,7 +33,7 @@ export function parseBratAnnotations(multilineBratAnnotations: string): Annotati
         start: Number(match[4]),
         end: Number(match[5]),
       },
-      span: match[6],
+      evidence: match[6],
       notes: match[8]
     });
   }

@@ -1,6 +1,6 @@
 h1 {
   font-size: 3rem;
-  padding: 1em;
+  padding: 1rem;
 }
 
 section {
@@ -21,10 +21,11 @@ textarea {
   background-color: yellow;
 }
 
-#dynamicForm {
-  overflow-y: scroll;
-}
-
 form {
   padding: 1rem;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: white;
+  border-radius: 0.3rem;
 }
