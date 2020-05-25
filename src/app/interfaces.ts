@@ -16,6 +16,8 @@ export interface Variable {
   entity: string;
   cardinality: string;
   getValueFrom: string;
-  admissibleValues: string[];
+  fieldType: string;
+  inputType?: string;
+  admissibleValues?: string[];
   comments: string;
 }

@@ -6,6 +6,7 @@ import { Papa } from 'ngx-papaparse';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 
 import { Annotation, Variable } from './interfaces';
+import { isValidDate, isValidTime } from './helpers';
 
 
 // TODO validate fields fecha y hora with regexps or paterns like YYYY-MM-DD and hh:mm
@@ -46,7 +47,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.parseVariables();
-    // this.loadRealExample();
+    // this.loadRealExample(321108781);
   }
 
   /**
@@ -77,9 +78,9 @@ export class AppComponent implements OnInit {
    *
    * TODO replace this method with another one that will accept uploaded files from user.
    */
-  loadRealExample() {
-    this.http.get('assets/321108781.utf8.txt', { responseType: 'text' }).subscribe(data => this.text = data);
-    this.papa.parse('assets/321108781.utf8.ann', {
+  loadRealExample(exampleNumber: number) {
+    this.http.get(`assets/${exampleNumber}.utf8.txt`, { responseType: 'text' }).subscribe(data => this.text = data);
+    this.papa.parse(`assets/${exampleNumber}.utf8.ann`, {
       download: true,
       skipEmptyLines: true,
       quoteChar: '',
@@ -99,41 +100,56 @@ export class AppComponent implements OnInit {
             notes: foundNotes ? foundNotes[2] : null
           });
         });
+
+        // populate formly model and fields
         this.variables.forEach((variable: Variable) => {
-          // populate model
+
+          // find possible annotator notes (normalizable variables), choose evidence otherwise
           const foundAnn = this.annotations.find(ann => ann['entity'] === variable.entity);
-
-          // option 1: startsWith string strategy
-          // const isNormalizable = foundAnn?.entity.startsWith('Fecha')
-          //   || foundAnn?.entity.startsWith('Fecha')
-          //   || foundAnn?.entity.startsWith('Hora')
-          //   || foundAnn?.entity.startsWith('Trombolisis')
-          //   || foundAnn?.entity.startsWith('Tiempo')
-          //   || foundAnn?.entity.startsWith('ASPECTS')
-          //   || foundAnn?.entity.startsWith('mRankin')
-          //   || foundAnn?.entity.startsWith('NIHSS')
-          // const value = isNormalizable ? foundAnn?.notes : foundAnn?.evidence;
-
-          // option 2: match regex strategy
           const value = foundAnn?.entity.match('^(Fecha|Hora|Trombolisis|Tiempo|ASPECTS|mRankin|NIHSS).*') ? foundAnn?.notes : foundAnn?.evidence;
-
           this.model[variable.key] = value ? value : null;
 
           // find its admissible values
-          const foundValues = this.admissibleValues.filter(a => a.entity === variable.entity).map(a => a.value);
-          variable.admissibleValues = foundValues ? foundValues : [];
+          const options = [];
+          if (variable.fieldType === 'select') {
+            const foundValues = this.admissibleValues.filter(a => a.entity === variable.entity).map(a => a.value);
+            variable.admissibleValues = foundValues ? foundValues : [];
+            variable.admissibleValues.forEach(value => {
+              options.push({ label: value, value: value });
+            });
+          }
 
-          // use the javascript spread oprator (...) to build the form fields, because pushing a new field object to the fields arary does not work
+          // validators
+          let validators = {};
+          if (variable.inputType === 'date') {
+            validators = {
+              date: {
+                expression: (c) => !c.value || isValidDate(c.value),
+                message: (error, field: FormlyFieldConfig) => `"${field.formControl.value}" no es una fecha válida y/o no tiene el formato YYYY-MM-DD.`,
+              },
+            }
+          } else if (variable.inputType === 'time') {
+            validators = {
+              time: {
+                expression: (c) => !c.value || isValidTime(c.value),
+                message: (error, field: FormlyFieldConfig) => `"${field.formControl.value}" no es una hora válida y/o no tiene el formato hh:mm.`,
+              },
+            }
+          }
+
+          // use the javascript spread oprator (...obj) to build the form fields, because pushing a new field object to the fields arary does not work
           this.fields = [
             ...this.fields,
             {
               key: variable.key,
-              type: 'input',
+              type: variable.fieldType,
               templateOptions: {
                 appearance: 'outline',
                 label: variable.label,
-                click: ($event) => this.pickedField = $event.key
-              }
+                click: ($event) => this.pickedField = $event.key,
+                options: options,
+              },
+              validators: validators,
             }
           ];
 

@@ -39,3 +39,24 @@ export function parseBratAnnotations(multilineBratAnnotations: string): Annotati
   }
   return annotations;
 }
+
+
+/**
+ * Check if an input is a valid date in `YYYY-MM-DD` format.
+ *
+ * https://stackoverflow.com/a/1353711
+ */
+export function isValidDate(input: string): boolean {
+  const d = new Date(input);
+  return d instanceof Date && !isNaN(d as any);
+}
+
+
+/**
+ * Check if an input is a valid time in `hh:mm` format.
+ *
+ * https://stackoverflow.com/a/14472703
+ */
+export function isValidTime(input: string): boolean {
+  return /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(input);
+}
