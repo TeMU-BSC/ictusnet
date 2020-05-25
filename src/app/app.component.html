@@ -4,8 +4,14 @@
   <h1>ICTUSnet web app</h1>
   <input hidden type="file" #uploader (change)="loadFile($event)" accept=".txt,.ann" multiple>
   <!-- <button mat-raised-button color="primary" (click)="uploader.click()">Load a real example document (work in progress)</button> -->
-  <button mat-raised-button color="accent" (click)="loadRealExample(321108781)">Load real example (321108781.utf.txt)</button>
-  <button mat-raised-button color="accent" (click)="loadRealExample(321687159)">Load real example (321687159.utf.txt)</button>
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
+    <button mat-raised-button color="accent" (click)="loadRealExample(321108781)">
+      Load real example (321108781.utf.txt)
+    </button>
+    <button mat-raised-button color="accent" (click)="loadRealExample(321687159)">
+      Load real example (321687159.utf.txt)
+    </button>
+  </div>
 </div>
 
 <div *ngIf="text" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem"

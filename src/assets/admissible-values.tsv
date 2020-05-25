@@ -2,65 +2,65 @@ entity	value	commercialName
 Diagnostico_principal	ictus isquémico
 Diagnostico_principal	ataque isquémico transitorio
 Diagnostico_principal	hemorragia cerebral
-Arteria_afectada	Arteria carótida común (o ACC) o primitiva
-Arteria_afectada	Arteria carótida interna (o ACI)
-Arteria_afectada	Arteria carótida interna segmento cervical o C1
-Arteria_afectada	Arteria carótida interna segmento petroso o C2
-Arteria_afectada	Arteria carótida interna segmento lacerum o C3
-Arteria_afectada	Arteria carótida interna segmento cavernoso o C4
-Arteria_afectada	Arteria carótida interna segmento clinoideo o C5
-Arteria_afectada	Arteria carótida interna segmento oftálmico o C6
-Arteria_afectada	Arteria carótida interna segmento comunicante o C7
-Arteria_afectada	Arteria carótida interna terminal (o ACI-T/ TICA)
-Arteria_afectada	Arteria cerebral media (o ACM)
-Arteria_afectada	Arteria cerebral media segmento M1
-Arteria_afectada	Arteria cerebral media segmento M2
-Arteria_afectada	Arteria cerebral media segmento M3
-Arteria_afectada	Arteria cerebral media segmento M4
-Arteria_afectada	Arteria cerebral media segmento M5
-Arteria_afectada	Arteria cerebral media segmento M6
-Arteria_afectada	Arteria cerebral anterior (o ACA).
-Arteria_afectada	Arteria cerebral anterior segmento A1
-Arteria_afectada	Arteria cerebral anterior segmento A2
-Arteria_afectada	Arteria cerebral anterior segmento A3
-Arteria_afectada	Arteria cerebral posterior (o ACP)
-Arteria_afectada	Arteria cerebral posterior segmento P1
-Arteria_afectada	Arteria cerebral posterior segmento P2
-Arteria_afectada	Arteria cerebral posterior segmento P3
-Arteria_afectada	Arteria cerebral posterior segmento P4
-Arteria_afectada	Arteria lenticuloestriada
-Arteria_afectada	Arteria coroidea anterior
-Arteria_afectada	Arteria coroidea posterior
-Arteria_afectada	Arteria cerebelosa superior (o ACS)
-Arteria_afectada	Arteria cerebelosa anteroinferior (o AICA)
-Arteria_afectada	Arteria cerebelosa posteroinferior (o PICA)
-Arteria_afectada	Arteria vertebral (o AV)
-Arteria_afectada	Arteria vertebral segmento V1
-Arteria_afectada	Arteria vertebral segmento V2
-Arteria_afectada	Arteria vertebral segmento V3
-Arteria_afectada	Arteria vertebral segmento V4
-Arteria_afectada	Arteria basilar (o AB)
-Arteria_afectada	Indeterminado
-Localizacion	Infarto total de circulación anterior o TACI
-Localizacion	Infarto parcial de circulación anterior o PACI
-Localizacion	Infarto lacunar o LACI (en ocasiones, como síndrome lacunar)
-Localizacion	Infarto de circulación posterior o POCI
+Arteria_afectada	arteria carótida común (o ACC) o primitiva
+Arteria_afectada	arteria carótida interna (o ACI)
+Arteria_afectada	arteria carótida interna segmento cervical o C1
+Arteria_afectada	arteria carótida interna segmento petroso o C2
+Arteria_afectada	arteria carótida interna segmento lacerum o C3
+Arteria_afectada	arteria carótida interna segmento cavernoso o C4
+Arteria_afectada	arteria carótida interna segmento clinoideo o C5
+Arteria_afectada	arteria carótida interna segmento oftálmico o C6
+Arteria_afectada	arteria carótida interna segmento comunicante o C7
+Arteria_afectada	arteria carótida interna terminal (o ACI-T / TICA)
+Arteria_afectada	arteria cerebral media (o ACM)
+Arteria_afectada	arteria cerebral media segmento M1
+Arteria_afectada	arteria cerebral media segmento M2
+Arteria_afectada	arteria cerebral media segmento M3
+Arteria_afectada	arteria cerebral media segmento M4
+Arteria_afectada	arteria cerebral media segmento M5
+Arteria_afectada	arteria cerebral media segmento M6
+Arteria_afectada	arteria cerebral anterior (o ACA)
+Arteria_afectada	arteria cerebral anterior segmento A1
+Arteria_afectada	arteria cerebral anterior segmento A2
+Arteria_afectada	arteria cerebral anterior segmento A3
+Arteria_afectada	arteria cerebral posterior (o ACP)
+Arteria_afectada	arteria cerebral posterior segmento P1
+Arteria_afectada	arteria cerebral posterior segmento P2
+Arteria_afectada	arteria cerebral posterior segmento P3
+Arteria_afectada	arteria cerebral posterior segmento P4
+Arteria_afectada	arteria lenticuloestriada
+Arteria_afectada	arteria coroidea anterior
+Arteria_afectada	arteria coroidea posterior
+Arteria_afectada	arteria cerebelosa superior (o ACS)
+Arteria_afectada	arteria cerebelosa anteroinferior (o AICA)
+Arteria_afectada	arteria cerebelosa posteroinferior (o PICA)
+Arteria_afectada	arteria vertebral (o AV)
+Arteria_afectada	arteria vertebral segmento V1
+Arteria_afectada	arteria vertebral segmento V2
+Arteria_afectada	arteria vertebral segmento V3
+Arteria_afectada	arteria vertebral segmento V4
+Arteria_afectada	arteria basilar (o AB)
+Arteria_afectada	indeterminado
+Localizacion	infarto total de circulación anterior o TACI
+Localizacion	infarto parcial de circulación anterior o PACI
+Localizacion	infarto lacunar o LACI (en ocasiones, como síndrome lacunar)
+Localizacion	infarto de circulación posterior o POCI
 Lateralizacion	izquierda
 Lateralizacion	derecha
 Lateralizacion	ambas
 Lateralizacion	indeterminada
-etiología_ictus	Aterotrombótico/aterosclerótico
-etiología_ictus	Cardioembólico (CE)
-etiología_ictus	Lacunar
-etiología_ictus	Indeterminado/criptogénico/ESUS
-etiología_ictus	Indeterminado de causa doble
-etiología_ictus	Indeterminado por estudio incompleto
-etiología_ictus	Inhabitual o infrecuente
-etiología_hemorragia	Hipertensiva
-etiología_hemorragia	Angiopatía amiloide
-etiología_hemorragia	Secundaria a malformación vascular/aneurisma
-etiología_hemorragia	Secundaria a tumor
-etiología_hemorragia	Indeterminada
+etiologiaIctus	aterotrombótico / aterosclerótico
+etiologiaIctus	cardioembólico (CE)
+etiologiaIctus	lacunar
+etiologiaIctus	indeterminado / criptogénico / ESUS
+etiologiaIctus	indeterminado de causa doble
+etiologiaIctus	indeterminado por estudio incompleto
+etiologiaIctus	inhabitual o infrecuente
+etiologiaHemorragia	hipertensiva
+etiologiaHemorragia	angiopatía amiloide
+etiologiaHemorragia	secundaria a malformación vascular/aneurisma
+etiologiaHemorragia	secundaria a tumor
+etiologiaHemorragia	indeterminada
 Tratamiento_anticoagulante	acenocumarol	sintrom
 Tratamiento_anticoagulante	warfarin	aldocumar
 Tratamiento_anticoagulante	heparin	Heparina

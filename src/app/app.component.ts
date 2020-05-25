@@ -9,9 +9,8 @@ import { Annotation, Variable } from './interfaces';
 import { isValidDate, isValidTime } from './helpers';
 
 
-// TODO validate fields fecha y hora with regexps or paterns like YYYY-MM-DD and hh:mm
 // TODO highlight all spans offsets
-// TODO UX multi field in each line (fecha, hora), (previo, alta)
+// TODO UX layout multi field in each line (fecha, hora), (previo, alta)
 
 @Component({
   selector: 'app-root',
@@ -105,19 +104,42 @@ export class AppComponent implements OnInit {
         this.variables.forEach((variable: Variable) => {
 
           // find possible annotator notes (normalizable variables), choose evidence otherwise
-          const foundAnn = this.annotations.find(ann => ann['entity'] === variable.entity);
+          let foundAnn = this.annotations.find(ann => ann['entity'] === variable.entity);
+
+          // SPECIAL CASES
+
+          // diagnostico principal
+          if (variable.entity === 'Diagnostico_principal') {
+            foundAnn = this.annotations.find(ann => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(ann['entity']));
+          }
+
+          // etiologia
+          if (['etiologiaIctus', 'etiologiaHemorragia'].includes(variable.key)) {
+            foundAnn = this.annotations.find(ann => ['Etiologia'].includes(ann['entity']));
+          }
+
+          // get value from notes or from evidence in text
           const value = foundAnn?.entity.match('^(Fecha|Hora|Trombolisis|Tiempo|ASPECTS|mRankin|NIHSS).*') ? foundAnn?.notes : foundAnn?.evidence;
-          this.model[variable.key] = value ? value : null;
 
           // find its admissible values
           const options = [];
           if (variable.fieldType === 'select') {
             const foundValues = this.admissibleValues.filter(a => a.entity === variable.entity).map(a => a.value);
+
+            // etiologia admissible values depending on diagnostico value
+            if (variable.key === 'etiologiaIctus') {
+
+            } else if (variable.key === 'etiologiaHemorragia') {
+
+            }
             variable.admissibleValues = foundValues ? foundValues : [];
             variable.admissibleValues.forEach(value => {
               options.push({ label: value, value: value });
             });
           }
+
+          // initialize the model key (autocompleted form, help for final user)
+          this.model[variable.key] = value ? value : null;
 
           // validators
           let validators = {};
@@ -142,16 +164,46 @@ export class AppComponent implements OnInit {
             ...this.fields,
             {
               key: variable.key,
-              type: variable.fieldType,
+              type: 'input',
+              // type: variable.fieldType,
               templateOptions: {
-                appearance: 'outline',
+                appearance: 'fill',
                 label: variable.label,
-                click: ($event) => this.pickedField = $event.key,
-                options: options,
+                // placeholder: variable.inputType === 'date' ? 'YYYY-MM-DD' : variable.inputType === 'time' ? 'hh:mm' : null,
+                // addonLeft: {
+                //   icon: 'face',
+                // },
+                addonRight: {
+                  // text: '$',
+                  icon: 'edit',
+                  onClick: (to, addon, $event) => this.pickedField = addon.key,
+                },
+                // click: (event) => this.pickedField = event.key,
+                // options: options,
               },
+              // expressionProperties: {
+              //   'templateOptions.disabled': 'true',
+              // },
               validators: validators,
             }
           ];
+
+          // select fields for normalizable variables
+          if (variable.fieldType === 'select') {
+            this.model[`${variable.key}Normalizado`] = value ? value : null;
+            this.fields = [
+              ...this.fields,
+              {
+                key: `${variable.key}Normalizado`,
+                type: 'select',
+                templateOptions: {
+                  appearance: 'outline',
+                  label: `${variable.label} (normalizable)`,
+                  options: options,
+                }
+              }
+            ];
+          }
 
         });
         // console.log('annotations', this.annotations);
