@@ -10,7 +10,8 @@ import { isValidDate, isValidTime } from './helpers';
 
 
 // TODO highlight all spans offsets
-// TODO UX layout multi field in each line (fecha, hora), (previo, alta)
+// TODO evidence and normalized value for every variable (in the same row)
+// TODO (optional) UX layout multi field in each line (fecha, hora), (previo, alta)
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,88 @@ export class AppComponent implements OnInit {
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
-  fields: FormlyFieldConfig[] = [];
+  // fields: FormlyFieldConfig[] = [];
+  fields: FormlyFieldConfig[] = [
+    {
+      template: '<div><strong>Entrada y salida del paciente</strong></div><hr/>',
+    },
+    {
+      type: 'flex-layout',
+      templateOptions: {
+        fxLayout: 'row',
+      },
+      fieldGroup: [
+        {
+          type: 'input',
+          key: 'fechaEntradaEvidencia',
+          templateOptions: {
+            appearance: 'fill',
+            label: 'Fecha de entrada (evidencia)',
+            addonRight: {
+              icon: 'edit',
+              onClick: (to, addon, $event) => this.pickedField = addon.key,
+            },
+          },
+          expressionProperties: {
+            'templateOptions.disabled': 'true',
+          },
+        },
+        {
+          type: 'input',
+          key: 'fechaEntradaNormalizada',
+          templateOptions: {
+            appearance: 'outline',
+            label: 'Fecha de entrada (normalizada)',
+          },
+          expressionProperties: {
+            'templateOptions.disabled': '!model.fechaEntradaEvidencia',
+          },
+          validators: {
+            date: {
+              expression: (c) => !c.value || isValidDate(c.value),
+              message: (error, field: FormlyFieldConfig) => `"${field.formControl.value}" no es una fecha válida y/o no tiene el formato YYYY-MM-DD.`,
+            },
+          }
+        },
+        {
+          type: 'input',
+          key: 'horaEntradaEvidencia',
+          templateOptions: {
+            appearance: 'fill',
+            label: 'Hora de entrada (evidencia)',
+            addonRight: {
+              icon: 'edit',
+              onClick: (to, addon, $event) => this.pickedField = addon.key,
+            },
+          },
+          expressionProperties: {
+            'templateOptions.disabled': 'true',
+          },
+        },
+        {
+          type: 'input',
+          key: 'horaEntradaNormalizada',
+          templateOptions: {
+            appearance: 'outline',
+            label: 'Hora de entrada (normalizada)',
+          },
+          expressionProperties: {
+            'templateOptions.disabled': '!model.horaEntradaEvidencia',
+          },
+          validators: {
+            date: {
+              expression: (c) => !c.value || isValidTime(c.value),
+              message: (error, field: FormlyFieldConfig) => `"${field.formControl.value}" no es una hora válida y/o no tiene el formato hh:mm.`,
+            },
+          }
+        },
+      ],
+    },
+    {
+      template: '<div><strong>Diagnóstico</strong></div><hr/>',
+    },
+    // ...
+  ];
 
   // update evidence on
   pickedField: any;

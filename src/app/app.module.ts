@@ -7,12 +7,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 // forms
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { FormlyWrapperAddons } from './addons.wrapper';
 import { addonsExtension } from './addons.extension';
+import { FlexLayoutType } from './flex-layout.type';
 
 // styling
 import { MaterialModule } from './styling/material.module'
@@ -26,6 +26,7 @@ import { AppComponent } from './app.component';
   declarations: [
     AppComponent,
     FormlyWrapperAddons,
+    FlexLayoutType,
   ],
   imports: [
     CommonModule,
@@ -43,6 +44,9 @@ import { AppComponent } from './app.component';
       ],
       extensions: [
         { name: 'addons', extension: { onPopulate: addonsExtension } },
+      ],
+      types: [
+        { name: 'flex-layout', component: FlexLayoutType }
       ],
     }),
     FormlyMaterialModule,
