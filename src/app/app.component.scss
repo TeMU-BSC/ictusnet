@@ -13,7 +13,7 @@ textarea {
   width: 100%;
   resize: none;
   border: none;
-  padding: 1rem;
+  padding: 1rem 0 1rem 1rem;  // bug: adding padding-right causes not clickable scrollbar in textarea
   font-family: 'Roboto Mono', monospace;
   font-size: inherit;
 }
