@@ -3,11 +3,9 @@ h1 {
   padding: 1rem;
   margin-top: 3rem;
 }
-
 section {
   height: 100%;
 }
-
 textarea {
   height: 100%;
   width: 100%;
@@ -17,16 +15,23 @@ textarea {
   font-family: 'Roboto Mono', monospace;
   font-size: inherit;
 }
-
 .suggestion {
   background-color: yellow;
 }
-
 form {
   padding: 1rem;
 }
 
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  background-color: white;
-  border-radius: 0.3rem;
+// highlight
+.bg-blue {
+  background-color: lightblue;
+}
+.bg-pink {
+  background-color: lightcoral;
+}
+.bg-blue-dark {
+  background-color: #86c5da;
+}
+.bg-pink-dark {
+  background-color: #eb5252;
 }

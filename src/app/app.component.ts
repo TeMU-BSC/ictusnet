@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 
@@ -7,6 +7,7 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 
 import { Annotation, Variable } from './interfaces';
 import { isValidDate, isValidTime } from './helpers';
+import { HighlightTag } from 'angular-text-input-highlight';
 
 // TODO search among options to match the evidence as substring (to pre-fill the fields)
 
@@ -19,7 +20,8 @@ import { isValidDate, isValidTime } from './helpers';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
 
@@ -38,6 +40,82 @@ export class AppComponent implements OnInit {
 
   // update evidence on
   pickedField: any;
+
+  // TESTING highlight
+  tags: HighlightTag[] = [];
+  tagClicked: HighlightTag;
+
+  addTags() {
+    // this.tags = [];
+    // const matchMentions = /(@\w+) ?/g;
+    // let mention;
+    // // tslint:disable-next-line
+    // while ((mention = matchMentions.exec(this.text))) {
+    //   this.tags.push({
+    //     indices: {
+    //       start: mention.index,
+    //       end: mention.index + mention[1].length
+    //     },
+    //     data: mention[1]
+    //   });
+    // }
+
+    // const matchHashtags = /(#\w+) ?/g;
+    // let hashtag;
+    // // tslint:disable-next-line
+    // while ((hashtag = matchHashtags.exec(this.text))) {
+    //   this.tags.push({
+    //     indices: {
+    //       start: hashtag.index,
+    //       end: hashtag.index + hashtag[1].length
+    //     },
+    //     cssClass: 'bg-pink',
+    //     data: hashtag[1]
+    //   });
+    // }
+
+    this.tags = [];
+    const matchMentions = /(@\w+) ?/g;
+    let mention;
+    // tslint:disable-next-line
+    while ((mention = matchMentions.exec(this.text))) {
+      this.tags.push({
+        indices: {
+          start: mention.index,
+          end: mention.index + mention[1].length
+        },
+        data: mention[1]
+      });
+    }
+
+    const matchHashtags = /(#\w+) ?/g;
+    let hashtag;
+    // tslint:disable-next-line
+    while ((hashtag = matchHashtags.exec(this.text))) {
+      this.tags.push({
+        indices: {
+          start: hashtag.index,
+          end: hashtag.index + hashtag[1].length
+        },
+        cssClass: 'bg-pink',
+        data: hashtag[1]
+      });
+    }
+  }
+
+  addDarkClass(elm: HTMLElement) {
+    if (elm.classList.contains('bg-blue')) {
+      elm.classList.add('bg-blue-dark');
+    } else if (elm.classList.contains('bg-pink')) {
+      elm.classList.add('bg-pink-dark');
+    }
+  }
+
+  removeDarkClass(elm: HTMLElement) {
+    elm.classList.remove('bg-blue-dark');
+    elm.classList.remove('bg-pink-dark');
+  }
+
 
   constructor(
     private http: HttpClient,
@@ -100,9 +178,16 @@ export class AppComponent implements OnInit {
           });
         });
 
-
-
-
+        // highlight the annotated offsets
+        this.annotations.forEach((ann: Annotation) => {
+          this.tags.push({
+            indices: {
+              start: ann.offset.start,
+              end: ann.offset.end
+            },
+            data: ann.evidence
+          });
+        });
 
         // populate formly model and fields
         this.variables.forEach((variable: Variable, index: number) => {

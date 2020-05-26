@@ -1,7 +1,7 @@
 <!-- <router-outlet></router-outlet> -->
 
 <!-- <app-mark></app-mark> -->
-<mwl-demo-app></mwl-demo-app>
+<!-- <mwl-demo-app></mwl-demo-app> -->
 
 <div *ngIf="!text" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="7rem">
   <h1>ICTUSnet web app</h1>
@@ -19,9 +19,25 @@
 
 <div *ngIf="text" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem"
   style="height: 100%; padding: 1rem;">
-  <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
+  <!-- <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
     <textarea (select)="updateEvidence($event)" readonly>{{ text }}</textarea>
+  </section> -->
+
+  <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem" mwlTextInputHighlightContainer>
+    <div class="alert alert-info" *ngIf="tagClicked">
+      Tag clicked! {{ tagClicked.data }}
+    </div>
+    <textarea (select)="updateEvidence($event)" readonly mwlTextInputElement #textarea>{{ text }}</textarea>
+    <mwl-text-input-highlight
+      [tags]="tags"
+      [tagCssClass]="'bg-blue'"
+      [textInputElement]="textarea"
+      (tagMouseEnter)="addDarkClass($event.target)"
+      (tagMouseLeave)="removeDarkClass($event.target)"
+      (tagClick)="tagClicked = $event.tag">
+    </mwl-text-input-highlight>
   </section>
+
   <section fxFlex="50%" style="overflow-y: scroll;">
     <form [formGroup]="form" (submit)="submit()" style="padding-left: 1rem;">
       <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>

@@ -22,8 +22,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 // dependency: npm install mark.js --save-dev
 // import { NgxMarkjsModule } from 'ngx-markjs';
 
-// import { HighlightPipe } from './pipes/highlight.pipe';
-
 import { TextInputHighlightModule } from 'angular-text-input-highlight';
 
 // app
@@ -39,7 +37,6 @@ import { DemoComponent } from './demo/demo.component';
     FlexLayoutType,
     DemoComponent,
     // MarkComponent,
-    // HighlightPipe,
   ],
   imports: [
     CommonModule,
