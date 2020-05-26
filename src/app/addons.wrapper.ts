@@ -24,6 +24,7 @@ import { FieldWrapper } from '@ngx-formly/core';
       (click)="addonRightClick($event)"
     >
       <mat-icon *ngIf="to.addonRight.icon">{{ to.addonRight.icon }}</mat-icon>
+      <mat-icon *ngIf="to.addonRight.icon2">{{ to.addonRight.icon2 }}</mat-icon>
       <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
     </span>
   </ng-template>

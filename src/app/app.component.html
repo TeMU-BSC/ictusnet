@@ -1,5 +1,8 @@
 <!-- <router-outlet></router-outlet> -->
 
+<!-- <app-mark></app-mark> -->
+<mwl-demo-app></mwl-demo-app>
+
 <div *ngIf="!text" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="7rem">
   <h1>ICTUSnet web app</h1>
   <input hidden type="file" #uploader (change)="loadFile($event)" accept=".txt,.ann" multiple>
@@ -20,9 +23,9 @@
     <textarea (select)="updateEvidence($event)" readonly>{{ text }}</textarea>
   </section>
   <section fxFlex="50%" style="overflow-y: scroll;">
-    <form [formGroup]="form" (submit)="submit()" style="padding-left: 2rem;">
+    <form [formGroup]="form" (submit)="submit()" style="padding-left: 1rem;">
       <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
-      <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">Submit</button>
+      <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">Exportar</button>
     </form>
   </section>
 </div>

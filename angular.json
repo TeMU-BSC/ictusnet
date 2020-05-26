@@ -51,6 +51,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/angular-text-input-highlight/text-input-highlight.css",
               "src/styles.scss"
             ],
             "scripts": []

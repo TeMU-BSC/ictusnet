@@ -8,10 +8,13 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { Annotation, Variable } from './interfaces';
 import { isValidDate, isValidTime } from './helpers';
 
+// TODO search among options to match the evidence as substring (to pre-fill the fields)
 
 // TODO highlight all spans offsets
-// TODO evidence and normalized value for every variable (in the same row)
-// TODO (optional) UX layout multi field in each line (fecha, hora), (previo, alta)
+// https://markjs.io/ + https://www.npmjs.com/package/ngx-markjs
+// https://www.npmjs.com/package/angular-text-input-highlight
+
+// TODO https://stackoverflow.com/questions/48643994/get-text-selecthighlight-position-and-string
 
 @Component({
   selector: 'app-root',
@@ -31,95 +34,10 @@ export class AppComponent implements OnInit {
   form = new FormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
-  // fields: FormlyFieldConfig[] = [];
-  fields: FormlyFieldConfig[] = [
-    {
-      template: '<div><strong>Entrada y salida del paciente</strong></div><hr/>',
-    },
-    {
-      type: 'flex-layout',
-      templateOptions: {
-        fxLayout: 'row',
-      },
-      fieldGroup: [
-        {
-          type: 'input',
-          key: 'fechaEntradaEvidencia',
-          templateOptions: {
-            appearance: 'fill',
-            label: 'Fecha de entrada (evidencia)',
-            addonRight: {
-              icon: 'edit',
-              onClick: (to, addon, $event) => this.pickedField = addon.key,
-            },
-          },
-          expressionProperties: {
-            'templateOptions.disabled': 'true',
-          },
-        },
-        {
-          type: 'input',
-          key: 'fechaEntradaNormalizada',
-          templateOptions: {
-            appearance: 'outline',
-            label: 'Fecha de entrada (normalizada)',
-          },
-          expressionProperties: {
-            'templateOptions.disabled': '!model.fechaEntradaEvidencia',
-          },
-          validators: {
-            date: {
-              expression: (c) => !c.value || isValidDate(c.value),
-              message: (error, field: FormlyFieldConfig) => `"${field.formControl.value}" no es una fecha válida y/o no tiene el formato YYYY-MM-DD.`,
-            },
-          }
-        },
-        {
-          type: 'input',
-          key: 'horaEntradaEvidencia',
-          templateOptions: {
-            appearance: 'fill',
-            label: 'Hora de entrada (evidencia)',
-            addonRight: {
-              icon: 'edit',
-              onClick: (to, addon, $event) => this.pickedField = addon.key,
-            },
-          },
-          expressionProperties: {
-            'templateOptions.disabled': 'true',
-          },
-        },
-        {
-          type: 'input',
-          key: 'horaEntradaNormalizada',
-          templateOptions: {
-            appearance: 'outline',
-            label: 'Hora de entrada (normalizada)',
-          },
-          expressionProperties: {
-            'templateOptions.disabled': '!model.horaEntradaEvidencia',
-          },
-          validators: {
-            date: {
-              expression: (c) => !c.value || isValidTime(c.value),
-              message: (error, field: FormlyFieldConfig) => `"${field.formControl.value}" no es una hora válida y/o no tiene el formato hh:mm.`,
-            },
-          }
-        },
-      ],
-    },
-    {
-      template: '<div><strong>Diagnóstico</strong></div><hr/>',
-    },
-    // ...
-  ];
+  fields: FormlyFieldConfig[] = [];
 
   // update evidence on
   pickedField: any;
-
-  // TESTING
-  hide: boolean = true;
-  currentOffset: string;
 
   constructor(
     private http: HttpClient,
@@ -142,14 +60,14 @@ export class AppComponent implements OnInit {
       download: true,
       header: true,
       skipEmptyLines: true,
-      quoteChar: '',
+      // quoteChar: '',
       complete: variables => this.variables = variables.data
     });
     this.papa.parse('assets/admissible-values.tsv', {
       download: true,
       header: true,
       skipEmptyLines: true,
-      quoteChar: '',
+      // quoteChar: '',
       complete: values => this.admissibleValues = values.data
     });
   }
@@ -182,8 +100,21 @@ export class AppComponent implements OnInit {
           });
         });
 
+
+
+
+
         // populate formly model and fields
-        this.variables.forEach((variable: Variable) => {
+        this.variables.forEach((variable: Variable, index: number) => {
+
+          if ([0, 7, 13, 29].includes(index)) {
+            this.fields = [
+              ...this.fields,
+              {
+                template: `<div><strong>${variable.group}</div></strong><hr>`
+              }
+            ];
+          }
 
           // find possible annotator notes (normalizable variables), choose evidence otherwise
           let foundAnn = this.annotations.find(ann => ann['entity'] === variable.entity);
@@ -201,7 +132,7 @@ export class AppComponent implements OnInit {
           }
 
           // get value from notes or from evidence in text
-          const value = foundAnn?.entity.match('^(Fecha|Hora|Trombolisis|Tiempo|ASPECTS|mRankin|NIHSS).*') ? foundAnn?.notes : foundAnn?.evidence;
+          // const value = foundAnn?.entity.match('^(Fecha|Hora|Trombolisis|Tiempo|ASPECTS|mRankin|NIHSS).*') ? foundAnn?.notes : foundAnn?.evidence;
 
           // find its admissible values
           const options = [];
@@ -220,8 +151,17 @@ export class AppComponent implements OnInit {
             });
           }
 
-          // initialize the model key (autocompleted form, help for final user)
-          this.model[variable.key] = value ? value : null;
+          // autofill some select fields
+          if (foundAnn && variable.entity === 'Diagnostico_principal') {
+            foundAnn.notes = options.find(option => option.value.startsWith(foundAnn.entity.toLowerCase().split('_')[0])).value;
+          } else if (foundAnn && variable.entity === 'Arteria_afectada') {
+
+          }
+
+          // initialize the model key (autocompleted form, help for final user), and
+          // this.model[variable.key] = value ? value : null;
+          this.model[variable.key] = foundAnn ? foundAnn.evidence : null;
+          this.model[`${variable.key}Normalizado`] = foundAnn ? foundAnn.notes : null;
 
           // validators
           let validators = {};
@@ -245,47 +185,51 @@ export class AppComponent implements OnInit {
           this.fields = [
             ...this.fields,
             {
-              key: variable.key,
-              type: 'input',
-              // type: variable.fieldType,
+              template: `${variable.label}`
+            },
+            {
+              type: 'flex-layout',
               templateOptions: {
-                appearance: 'fill',
-                label: variable.label,
-                // placeholder: variable.inputType === 'date' ? 'YYYY-MM-DD' : variable.inputType === 'time' ? 'hh:mm' : null,
-                // addonLeft: {
-                //   icon: 'face',
-                // },
-                addonRight: {
-                  // text: '$',
-                  icon: 'edit',
-                  onClick: (to, addon, $event) => this.pickedField = addon.key,
-                },
-                // click: (event) => this.pickedField = event.key,
-                // options: options,
+                fxLayout: 'row',
+                fxLayoutGap: '1rem'
               },
-              // expressionProperties: {
-              //   'templateOptions.disabled': 'true',
-              // },
-              validators: validators,
+              fieldGroup: [
+                {
+                  key: variable.key,
+                  type: 'input',
+                  templateOptions: {
+                    appearance: 'fill',
+                    label: 'Evidencia en el texto',
+                    addonRight: {
+                      // text: '$',
+                      icon: 'edit',
+                      onClick: (to, addon, $event) => this.pickedField = addon.key,
+                    },
+                    // click: (event) => this.pickedField = event.key,
+                  },
+                  expressionProperties: {
+                    'templateOptions.disabled': 'true',
+                  },
+                },
+
+                // extra field for normalized values
+                {
+                  key: `${variable.key}Normalizado`,
+                  type: variable.fieldType,
+                  templateOptions: {
+                    appearance: 'outline',
+                    label: 'Valor normalizado',
+                    placeholder: variable.inputType === 'date' ? 'YYYY-MM-DD' : variable.inputType === 'time' ? 'hh:mm' : null,
+                    options: variable.fieldType === 'select' ? options : null,
+                  },
+                  validators: validators,
+                  expressionProperties: {
+                    'templateOptions.disabled': `!model.${variable.key}`,
+                  },
+                }
+              ],
             }
           ];
-
-          // select fields for normalizable variables
-          if (variable.fieldType === 'select') {
-            this.model[`${variable.key}Normalizado`] = value ? value : null;
-            this.fields = [
-              ...this.fields,
-              {
-                key: `${variable.key}Normalizado`,
-                type: 'select',
-                templateOptions: {
-                  appearance: 'outline',
-                  label: `${variable.label} (normalizable)`,
-                  options: options,
-                }
-              }
-            ];
-          }
 
         });
         // console.log('annotations', this.annotations);

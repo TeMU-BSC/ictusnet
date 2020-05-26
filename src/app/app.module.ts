@@ -18,15 +18,28 @@ import { FlexLayoutType } from './flex-layout.type';
 import { MaterialModule } from './styling/material.module'
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+// https://www.npmjs.com/package/ngx-markjs
+// dependency: npm install mark.js --save-dev
+// import { NgxMarkjsModule } from 'ngx-markjs';
+
+// import { HighlightPipe } from './pipes/highlight.pipe';
+
+import { TextInputHighlightModule } from 'angular-text-input-highlight';
+
 // app
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DemoComponent } from './demo/demo.component';
+// import { MarkComponent } from './mark/mark.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormlyWrapperAddons,
     FlexLayoutType,
+    DemoComponent,
+    // MarkComponent,
+    // HighlightPipe,
   ],
   imports: [
     CommonModule,
@@ -50,6 +63,8 @@ import { AppComponent } from './app.component';
       ],
     }),
     FormlyMaterialModule,
+    // NgxMarkjsModule,
+    TextInputHighlightModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
