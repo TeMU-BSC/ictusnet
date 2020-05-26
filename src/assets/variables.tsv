@@ -9,7 +9,7 @@ Entrada y salida del paciente	Hora inicio síntomas o última vez visto asintom�
 Diagnóstico	Diagnóstico principal	Diagnostico_principal	diagnosticoPrincipal	1	admissibleValues	select	text
 Diagnóstico	Vaso cerebral afectado	Arteria_afectada	arteriaAfectada	n	admissibleValues	select	text		sólo para dianóstico = ictus isquémico
 Diagnóstico	Localización	Localizacion	localizacion	n	admissibleValues	select	text
-Diagnóstico	Lateralización asociado	Lateralizacion	lateralizacion	1	admissibleValues	select	text
+Diagnóstico	Lateralización asociada	Lateralizacion	lateralizacion	1	admissibleValues	select	text
 Diagnóstico	Etiología (ictus)	Etiologia	etiologiaIctus	1	admissibleValues	select	text		sólo para diagnóstico = ictus isquémico o ataque isquemico
 Diagnóstico	Etiología (hemorragia)	Etiologia	etiologiaHemorragia	1	admissibleValues	select	text		sólo para diagnóstico = hemorragia
 Procedimientos y pruebas	Fecha trombólisis intravenosa	Fecha_trombolisis_rtPA	fechaTrombolisisIntravenosa	1	notes	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta

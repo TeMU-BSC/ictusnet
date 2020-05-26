@@ -9,13 +9,11 @@ import { Annotation, Variable } from './interfaces';
 import { isValidDate, isValidTime } from './helpers';
 import { HighlightTag } from 'angular-text-input-highlight';
 
-// TODO search among options to match the evidence as substring (to pre-fill the fields)
-
-// TODO highlight all spans offsets
+// highlight all spans offsets
 // https://markjs.io/ + https://www.npmjs.com/package/ngx-markjs
 // https://www.npmjs.com/package/angular-text-input-highlight
 
-// TODO https://stackoverflow.com/questions/48643994/get-text-selecthighlight-position-and-string
+// TODO mini-popup https://stackoverflow.com/questions/48643994/get-text-selecthighlight-position-and-string
 
 @Component({
   selector: 'app-root',
@@ -41,67 +39,39 @@ export class AppComponent implements OnInit {
   // update evidence on
   pickedField: any;
 
-  // TESTING highlight
+  // highlight
   tags: HighlightTag[] = [];
   tagClicked: HighlightTag;
 
-  addTags() {
-    // this.tags = [];
-    // const matchMentions = /(@\w+) ?/g;
-    // let mention;
-    // // tslint:disable-next-line
-    // while ((mention = matchMentions.exec(this.text))) {
-    //   this.tags.push({
-    //     indices: {
-    //       start: mention.index,
-    //       end: mention.index + mention[1].length
-    //     },
-    //     data: mention[1]
-    //   });
-    // }
+  // addTags() {
+  //   this.tags = [];
+  //   const matchMentions = /(@\w+) ?/g;
+  //   let mention;
+  //   // tslint:disable-next-line
+  //   while ((mention = matchMentions.exec(this.text))) {
+  //     this.tags.push({
+  //       indices: {
+  //         start: mention.index,
+  //         end: mention.index + mention[1].length
+  //       },
+  //       data: mention[1]
+  //     });
+  //   }
 
-    // const matchHashtags = /(#\w+) ?/g;
-    // let hashtag;
-    // // tslint:disable-next-line
-    // while ((hashtag = matchHashtags.exec(this.text))) {
-    //   this.tags.push({
-    //     indices: {
-    //       start: hashtag.index,
-    //       end: hashtag.index + hashtag[1].length
-    //     },
-    //     cssClass: 'bg-pink',
-    //     data: hashtag[1]
-    //   });
-    // }
-
-    this.tags = [];
-    const matchMentions = /(@\w+) ?/g;
-    let mention;
-    // tslint:disable-next-line
-    while ((mention = matchMentions.exec(this.text))) {
-      this.tags.push({
-        indices: {
-          start: mention.index,
-          end: mention.index + mention[1].length
-        },
-        data: mention[1]
-      });
-    }
-
-    const matchHashtags = /(#\w+) ?/g;
-    let hashtag;
-    // tslint:disable-next-line
-    while ((hashtag = matchHashtags.exec(this.text))) {
-      this.tags.push({
-        indices: {
-          start: hashtag.index,
-          end: hashtag.index + hashtag[1].length
-        },
-        cssClass: 'bg-pink',
-        data: hashtag[1]
-      });
-    }
-  }
+  //   const matchHashtags = /(#\w+) ?/g;
+  //   let hashtag;
+  //   // tslint:disable-next-line
+  //   while ((hashtag = matchHashtags.exec(this.text))) {
+  //     this.tags.push({
+  //       indices: {
+  //         start: hashtag.index,
+  //         end: hashtag.index + hashtag[1].length
+  //       },
+  //       cssClass: 'bg-pink',
+  //       data: hashtag[1]
+  //     });
+  //   }
+  // }
 
   addDarkClass(elm: HTMLElement) {
     if (elm.classList.contains('bg-blue')) {
@@ -178,7 +148,7 @@ export class AppComponent implements OnInit {
           });
         });
 
-        // highlight the annotated offsets
+        // highlight the annotated offsets (add tags)
         this.annotations.forEach((ann: Annotation) => {
           this.tags.push({
             indices: {
@@ -239,14 +209,20 @@ export class AppComponent implements OnInit {
           // autofill some select fields
           if (foundAnn && variable.entity === 'Diagnostico_principal') {
             foundAnn.notes = options.find(option => option.value.startsWith(foundAnn.entity.toLowerCase().split('_')[0])).value;
-          } else if (foundAnn && variable.entity === 'Arteria_afectada') {
-
+            this.model[variable.key] = foundAnn ? foundAnn.evidence : null;
+            this.model[`${variable.key}Normalizado`] = foundAnn ? foundAnn.notes : null;
+          } else if (foundAnn && ['Arteria_afectada', 'Localizacion'].includes(variable.entity)) {
+            const autofillValues = options.filter(option => option.value.match(foundAnn.evidence)).map(option => option.value);
+            this.model[variable.key] = foundAnn ? foundAnn.evidence : null;
+            this.model[`${variable.key}Normalizado`] = autofillValues;
+          } else if (foundAnn && variable.entity === 'Lateralizacion') {
+            foundAnn.notes = options.find(option => option.value.match(foundAnn.evidence)).value;
+            this.model[variable.key] = foundAnn ? foundAnn.evidence : null;
+            this.model[`${variable.key}Normalizado`] = foundAnn ? foundAnn.notes : null;
+          } else {
+            this.model[variable.key] = foundAnn ? foundAnn.evidence : null;
+            this.model[`${variable.key}Normalizado`] = foundAnn ? foundAnn.notes : null;
           }
-
-          // initialize the model key (autocompleted form, help for final user), and
-          // this.model[variable.key] = value ? value : null;
-          this.model[variable.key] = foundAnn ? foundAnn.evidence : null;
-          this.model[`${variable.key}Normalizado`] = foundAnn ? foundAnn.notes : null;
 
           // validators
           let validators = {};
@@ -276,7 +252,8 @@ export class AppComponent implements OnInit {
               type: 'flex-layout',
               templateOptions: {
                 fxLayout: 'row',
-                fxLayoutGap: '1rem'
+                fxLayoutGap: '1rem',
+                fxLayoutAlign: 'space-between center',
               },
               fieldGroup: [
                 {
@@ -304,6 +281,7 @@ export class AppComponent implements OnInit {
                   templateOptions: {
                     appearance: 'outline',
                     label: 'Valor normalizado',
+                    multiple: variable.cardinality === 'n',
                     placeholder: variable.inputType === 'date' ? 'YYYY-MM-DD' : variable.inputType === 'time' ? 'hh:mm' : null,
                     options: variable.fieldType === 'select' ? options : null,
                   },
@@ -362,7 +340,15 @@ export class AppComponent implements OnInit {
    * TODO download the form as a JSON file.
    */
   submit() {
-    alert(JSON.stringify(this.model));
+    const pick = (o: any, keys: string[]) => {
+      return keys.reduce((a, x) => {
+        if (o.hasOwnProperty(x)) a[x] = o[x];
+        return a;
+      }, {});
+    }
+    const normalizableKeys = Object.keys(this.model).filter(key => /Normalizado$/.test(key));
+    const exportable = pick(this.model, normalizableKeys);
+    alert(JSON.stringify(exportable));
   }
 
 }
