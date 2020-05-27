@@ -10,33 +10,31 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { FormlyWrapperAddons } from './addons.wrapper';
-import { addonsExtension } from './addons.extension';
-import { FlexLayoutType } from './flex-layout.type';
+import { FormlyWrapperAddons } from './components/dynamic/addons.wrapper';
+import { addonsExtension } from './components/dynamic/addons.extension';
+import { FlexLayoutType } from './components/dynamic/flex-layout.type';
 
 // styling
-import { MaterialModule } from './styling/material.module'
+import { MaterialModule } from './material/material.module'
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-// https://www.npmjs.com/package/ngx-markjs
-// dependency: npm install mark.js --save-dev
-// import { NgxMarkjsModule } from 'ngx-markjs';
-
-import { TextInputHighlightModule } from 'angular-text-input-highlight';
+// highlighting
+import { HighlightPipe } from './pipes/highlight.pipe';
 
 // app
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DemoComponent } from './demo/demo.component';
-// import { MarkComponent } from './mark/mark.component';
+import { DynamicComponent } from './components/dynamic/dynamic.component';
+import { StaticComponent } from './components/static/static.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormlyWrapperAddons,
     FlexLayoutType,
-    DemoComponent,
-    // MarkComponent,
+    HighlightPipe,
+    DynamicComponent,
+    StaticComponent,
   ],
   imports: [
     CommonModule,
@@ -60,8 +58,6 @@ import { DemoComponent } from './demo/demo.component';
       ],
     }),
     FormlyMaterialModule,
-    // NgxMarkjsModule,
-    TextInputHighlightModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

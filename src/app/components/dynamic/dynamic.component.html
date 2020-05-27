@@ -1,0 +1,59 @@
+<!-- <app-mark></app-mark> -->
+<!-- <mwl-demo-app></mwl-demo-app> -->
+
+<div *ngIf="!text" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="7rem">
+  <h1>ICTUSnet web app</h1>
+  <input hidden type="file" #uploader (change)="loadFile($event)" accept=".txt,.ann" multiple>
+  <!-- <button mat-raised-button color="primary" (click)="uploader.click()">Load a real example document (work in progress)</button> -->
+  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
+    <button mat-raised-button color="accent" (click)="loadRealExample(321108781)">
+      Load real example (321108781.utf.txt)
+    </button>
+    <button mat-raised-button color="primary" (click)="loadRealExample(321687159)">
+      Load real example (321687159.utf.txt)
+    </button>
+  </div>
+</div>
+
+<div *ngIf="text" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem"
+  style="height: 100%; padding: 1rem;">
+  <section fxFlex="50%" (mouseup)="updateEvidence()" class="text" innerHTML="{{ text | highlight: '_LOCATION_' }}">
+
+  </section>
+
+  <!-- <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
+    <textarea (select)="updateEvidence($event)" readonly>{{ text }}</textarea>
+  </section> -->
+
+  <!-- <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem"
+    mwlTextInputHighlightContainer>
+    <div class="alert alert-info" *ngIf="tagClicked">
+      Tag clicked! {{ tagClicked.data }}
+    </div>
+    <textarea (select)="updateEvidence($event)" readonly mwlTextInputElement #textarea>{{ text }}</textarea>
+    <mwl-text-input-highlight [tags]="tags" [tagCssClass]="'bg-blue'" [textInputElement]="textarea"
+      (tagMouseEnter)="addDarkClass($event.target)" (tagMouseLeave)="removeDarkClass($event.target)"
+      (tagClick)="tagClicked = $event.tag">
+    </mwl-text-input-highlight>
+  </section> -->
+
+  <section fxFlex="50%" style="overflow-y: scroll;">
+    <form [formGroup]="form" (submit)="submit()" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
+
+      <div fxFlexAlign="end" fxLayout fxLayoutGap="1rem">
+        <button type="button" mat-button color="primary" fxFlexAlign="end" (click)="options.resetModel()">Restablecer
+          formulario a los valores iniciales</button>
+        <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">Descargar</button>
+      </div>
+
+      <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form"></formly-form>
+
+      <div fxFlexAlign="end" fxLayout="row" fxLayoutGap="1rem">
+        <button type="button" mat-button color="primary" fxFlexAlign="end" (click)="options.resetModel()">Restablecer
+          formulario a los valores iniciales</button>
+        <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">Descargar</button>
+      </div>
+
+    </form>
+  </section>
+</div>

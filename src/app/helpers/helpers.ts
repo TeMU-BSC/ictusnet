@@ -1,4 +1,4 @@
-import { Annotation } from './interfaces';
+import { Annotation } from '../interfaces/interfaces';
 
 /**
  * Remove the spelling accents may contain the given text.
@@ -59,4 +59,20 @@ export function isValidDate(input: string): boolean {
  */
 export function isValidTime(input: string): boolean {
   return /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(input);
+}
+
+/**
+ * Create a temporary anchor <a> HTML element to simulate a click on it to
+ * download a given object as a JSON file. When the file is downloaded, the
+ * temporary HTML is removed.
+ */
+export function downloadObjectAsJson(object: any, fileName: string): void {
+  const element = document.createElement('a');
+  const href = `data:text/json;charset=UTF-8,${encodeURIComponent(JSON.stringify(object))}`;
+  element.setAttribute('href', href);
+  element.setAttribute('download', fileName);
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  element.click();  // simulate click
+  document.body.removeChild(element);
 }

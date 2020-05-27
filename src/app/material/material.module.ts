@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input'
 // import { MatToolbarModule } from '@angular/material/toolbar'
 // import { MatTooltipModule } from '@angular/material/tooltip'
 // import { MaterialFileInputModule } from 'ngx-material-file-input'
+import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core';
 
 const material = [
   // MatAutocompleteModule,
@@ -48,8 +49,11 @@ const material = [
   exports: material,
   providers: [
     // { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 5000 } },
+
     // { provide: MatDialogRef, useValue: {} },
     // { provide: MAT_DIALOG_DATA, useValue: {} },
+
+    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } }
   ],
   bootstrap: []
 })

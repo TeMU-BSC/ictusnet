@@ -6,20 +6,39 @@ h1 {
 section {
   height: 100%;
 }
-textarea {
+pre {
   height: 100%;
-  width: 100%;
-  resize: none;
-  border: none;
-  padding: 1rem 0 1rem 1rem;  // bug: adding padding-right causes not clickable scrollbar in textarea
+  background-color: white;
   font-family: 'Roboto Mono', monospace;
-  font-size: inherit;
+
+  // wrap text
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.text {
+  height: 100%;
+  background-color: white;
+  font-family: 'Roboto Mono', monospace;
+
+  // wrap text
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
 }
 .suggestion {
   background-color: yellow;
 }
-form {
-  padding: 1rem;
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: white;
+  border-radius: 0.3rem;
 }
 
 // highlight

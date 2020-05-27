@@ -35,7 +35,7 @@ T28	Fecha_inicio_sintomas 3355 3365	02/01/2016
 #5	AnnotatorNotes T28	2016-01-02
 T29	Hora_inicio_sintomas 3372 3377	23:00
 #6	AnnotatorNotes T29	23:00
-T30	Fecha_llegada_hospital 3615 3620	01:58
+T30	Hora_llegada_hospital 3615 3620	01:58
 #7	AnnotatorNotes T30	01:58
 T31	Ataque_isquemico_transitorio 15368 15379	Ictus minor
 T32	Arteria_afectada 15383 15386	ACM

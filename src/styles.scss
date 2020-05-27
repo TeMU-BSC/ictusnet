@@ -4,11 +4,5 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 body {
-  // background-color: #f2f2f2;
   background-color: rgb(240, 250, 255);
-}
-
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  background-color: white;
-  border-radius: 0.3rem;
 }
