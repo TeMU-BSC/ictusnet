@@ -7,7 +7,7 @@ Entrada y salida del paciente	Hora de alta	Hora_de_alta	horaAlta	1	notes	input	t
 Entrada y salida del paciente	Fecha inicio síntomas o última vez visto asintomático/a	Fecha_inicio_sintomas	fechaInicioSintomas	1	notes	input	date
 Entrada y salida del paciente	Hora inicio síntomas o última vez visto asintomático/a	Hora_inicio_sintomas	horaInicioSintomas	1	notes	input	time
 Diagnóstico	Diagnóstico principal	Diagnostico_principal	diagnosticoPrincipal	1	admissibleValues	select	text
-Diagnóstico	Vaso cerebral afectado	Arteria_afectada	arteriaAfectada	n	admissibleValues	select	text		sólo para dianóstico = ictus isquémico
+Diagnóstico	Arteria afectada	Arteria_afectada	arteriaAfectada	n	admissibleValues	select	text		sólo para dianóstico = ictus isquémico
 Diagnóstico	Localización	Localizacion	localizacion	n	admissibleValues	select	text
 Diagnóstico	Lateralización asociada	Lateralizacion	lateralizacion	1	admissibleValues	select	text
 Diagnóstico	Etiología (ictus)	Etiologia	etiologiaIctus	1	admissibleValues	select	text		sólo para diagnóstico = ictus isquémico o ataque isquemico

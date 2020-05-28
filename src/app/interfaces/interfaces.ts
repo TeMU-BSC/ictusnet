@@ -19,5 +19,5 @@ export interface Variable {
   fieldType: string;
   inputType?: string;
   admissibleValues?: string[];
-  comments: string;
+  comments?: string;
 }

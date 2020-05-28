@@ -2,7 +2,6 @@
 <!-- <mwl-demo-app></mwl-demo-app> -->
 
 <div *ngIf="!text" fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="7rem">
-  <h1>ICTUSnet web app</h1>
   <input hidden type="file" #uploader (change)="loadFile($event)" accept=".txt,.ann" multiple>
   <!-- <button mat-raised-button color="primary" (click)="uploader.click()">Load a real example document (work in progress)</button> -->
   <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
@@ -17,9 +16,17 @@
 
 <div *ngIf="text" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="1rem"
   style="height: 100%; padding: 1rem;">
-  <section fxFlex="50%" (mouseup)="updateEvidence()" class="text" innerHTML="{{ text | highlight: '_LOCATION_' }}">
+  <section fxFlex="50%" (mouseup)="updateEvidence()" class="text">{{ text }}</section>
 
-  </section>
+  <!-- <section fxFlex="50%" (mouseup)="updateEvidence()" class="text" [innerHTML]="text | highlight: '_LOCATION_'"></section> -->
+
+  <!-- <section fxFlex="50%" (mouseup)="updateEvidence()" class="text context content_wrapper"
+    [markjsHighlight]="searchText$ | async"
+    [markjsConfig]="searchConfig"
+    [scrollToFirstMarked]="false"
+  >
+     {{ text }}
+  </section> -->
 
   <!-- <section fxFlex="50%" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1rem">
     <textarea (select)="updateEvidence($event)" readonly>{{ text }}</textarea>

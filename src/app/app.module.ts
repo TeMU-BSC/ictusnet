@@ -13,12 +13,14 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
 import { FormlyWrapperAddons } from './components/dynamic/addons.wrapper';
 import { addonsExtension } from './components/dynamic/addons.extension';
 import { FlexLayoutType } from './components/dynamic/flex-layout.type';
+import { ExpansionPanelWrapper } from './components/dynamic/expansion-panel.wrapper';
 
 // styling
-import { MaterialModule } from './material/material.module'
+import { MaterialModule } from './material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 // highlighting
+import { NgxMarkjsModule } from 'ngx-markjs';
 import { HighlightPipe } from './pipes/highlight.pipe';
 
 // app
@@ -31,6 +33,7 @@ import { StaticComponent } from './components/static/static.component';
   declarations: [
     AppComponent,
     FormlyWrapperAddons,
+    ExpansionPanelWrapper,
     FlexLayoutType,
     HighlightPipe,
     DynamicComponent,
@@ -49,6 +52,7 @@ import { StaticComponent } from './components/static/static.component';
     FormlyModule.forRoot({
       wrappers: [
         { name: 'addons', component: FormlyWrapperAddons },
+        { name: 'expansion-panel', component: ExpansionPanelWrapper },
       ],
       extensions: [
         { name: 'addons', extension: { onPopulate: addonsExtension } },
@@ -58,6 +62,7 @@ import { StaticComponent } from './components/static/static.component';
       ],
     }),
     FormlyMaterialModule,
+    NgxMarkjsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

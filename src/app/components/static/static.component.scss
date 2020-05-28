@@ -1,0 +1,36 @@
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: rgb(255, 255, 240);
+  border-radius: 0.3rem;
+}
+
+// no expansion panel
+hr {
+  border: 1px solid black;
+  margin-top: -0.5rem;
+  margin-bottom: 2rem;
+}
+mat-icon {
+  padding: 0.3rem;
+}
+p {
+  font-weight: bolder;
+  margin-top: 0.5rem;
+}
+
+// expansion panel
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+  align-items: center;
+}
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: flex-end;
+  align-items: center;
+}
+// .example-headers-align .mat-form-field + .mat-form-field {
+//   margin-left: 8px;
+// }
+
+.example-headers-align .mat-form-field {
+  margin-left: 0.5rem;
+}

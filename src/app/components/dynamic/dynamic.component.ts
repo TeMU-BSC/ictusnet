@@ -7,11 +7,21 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 
 import { Annotation, Variable } from 'src/app/interfaces/interfaces';
 import { downloadObjectAsJson } from 'src/app/helpers/helpers';
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 // highlight all spans offsets
 // https://markjs.io/ + https://www.npmjs.com/package/ngx-markjs
+// import { NgxMarkjsModule } from 'ngx-markjs/src/public-api';
+import { Mark } from 'node_modules/mark.js/dist/mark.min.js';
+// https://cdn.jsdelivr.net/npm/ngx-markjs@0.1.2/bundles/ngx-markjs.umd.min.js
+
+import { AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { fromEvent, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
+
 // https://www.npmjs.com/package/angular-text-input-highlight
+
+// https://stackoverflow.com/a/7853263
+// if ( regexpSubstr.exec(string.substr(index,10)) ) ;
 
 // TODO mini-popup https://stackoverflow.com/questions/48643994/get-text-selecthighlight-position-and-string
 
@@ -20,7 +30,7 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
   templateUrl: './dynamic.component.html',
   styleUrls: ['./dynamic.component.scss']
 })
-export class DynamicComponent implements OnInit {
+export class DynamicComponent implements OnInit, AfterViewInit {
 
   // core atrtibutes
   file: File;
@@ -29,55 +39,86 @@ export class DynamicComponent implements OnInit {
   variables: Variable[] = []
   admissibleValues: any[];
 
+  // highlight
+  tags = [];
+
   // formly
   form = new FormGroup({});
+  fields: FormlyFieldConfig[] = [];
   model: any = {};
   options: FormlyFormOptions = {};
-  fields: FormlyFieldConfig[] = [];
 
   // update evidence on
   pickedField: any;
 
   // download
   downloadFilename: string;
-  downloadLink: SafeUrl;
 
-  // addHighlight(annotation: Annotation): void {
-  //   const regexp = RegExp(annotation.evidence, 'g');
-  //   let match: RegExpExecArray;
-  //   while ((match = regexp.exec(this.text))) {
-  //     if (match.index === annotation.offset.start && regexp.lastIndex === annotation.offset.end) {
-  //       this.tags.push({
-  //         indices: {
-  //           start: annotation.offset.start,
-  //           end: annotation.offset.end
-  //         },
-  //         data: annotation.evidence
-  //       });
-  //     }
-  //   }
-  // }
+  title = 'ngx-markjs-demo';
+  @ViewChild('search', { static: false }) searchElemRef: ElementRef;
+  searchText$: Observable<string>;
+  searchConfig = { separateWordSearch: false };
 
-  // addDarkClass(elm: HTMLElement) {
-  //   if (elm.classList.contains('bg-blue')) {
-  //     elm.classList.add('bg-blue-dark');
-  //   } else if (elm.classList.contains('bg-pink')) {
-  //     elm.classList.add('bg-pink-dark');
-  //   }
-  // }
+  ngAfterViewInit() {
+    this.searchText$ = fromEvent(this.searchElemRef.nativeElement, 'keyup').pipe(
+      map((e: Event) => (e.target as HTMLInputElement).value),
+      debounceTime(300),
+      distinctUntilChanged()
+    );
+  }
 
-  // removeDarkClass(elm: HTMLElement) {
-  //   elm.classList.remove('bg-blue-dark');
-  //   elm.classList.remove('bg-pink-dark');
-  // }
+  markRanges() {
+    // const Mark = require('mark.js');
+    // var context = document.querySelector(".context");
+    // var instance = new Mark(context);
+    // instance.markRanges([{
+    //   start: 20,
+    //   length: 10
+    // }, {
+    //   start: 100,
+    //   length: 69
+    // }]);
+
+    // console.log(instance);
+
+  }
+
+  addHighlight(annotation: Annotation): void {
+    const regexp = RegExp(annotation.evidence, 'g');
+    let match: RegExpExecArray;
+    while ((match = regexp.exec(this.text))) {
+      if (match.index === annotation.offset.start && regexp.lastIndex === annotation.offset.end) {
+        this.tags.push({
+          indices: {
+            start: annotation.offset.start,
+            end: annotation.offset.end
+          },
+          data: annotation.evidence
+        });
+      }
+    }
+  }
+
+  addDarkClass(elm: HTMLElement) {
+    if (elm.classList.contains('bg-blue')) {
+      elm.classList.add('bg-blue-dark');
+    } else if (elm.classList.contains('bg-pink')) {
+      elm.classList.add('bg-pink-dark');
+    }
+  }
+
+  removeDarkClass(elm: HTMLElement) {
+    elm.classList.remove('bg-blue-dark');
+    elm.classList.remove('bg-pink-dark');
+  }
 
   constructor(
     private http: HttpClient,
     private papa: Papa,
-    private sanitizer: DomSanitizer,
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.markRanges();
     this.parseVariables();
     this.loadRealExample(321108781);
   }
@@ -132,7 +173,20 @@ export class DynamicComponent implements OnInit {
         });
 
         // highlight the annotated offsets (add tags)
-        // this.annotations.forEach((ann: Annotation) => this.addHighlight(ann));
+        this.annotations.forEach((ann: Annotation) => this.addHighlight(ann));
+
+        // prepare accordion expansion panels
+        const groups = new Set(this.variables.map(variable => variable.group));
+        groups.forEach(group => {
+          this.fields = [
+            ...this.fields,
+            {
+              // label: group,
+              fieldGroup: []
+            }
+          ];
+        });
+
 
         // populate formly model and fields
         this.variables.forEach((variable: Variable, index: number) => {
@@ -262,7 +316,6 @@ export class DynamicComponent implements OnInit {
       }
     });
   }
-
 
   /**
    * Update the value of a specific field (the picked field) with an evidence in text.
