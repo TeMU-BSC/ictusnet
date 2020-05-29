@@ -1,17 +1,20 @@
+<div fxLayout fxLayoutAlign="space-between" class="collapse-expand-buttons">
+  <button mat-button color="secondary" (click)="accordion.closeAll()">
+    <mat-icon style="padding: 0;">unfold_less</mat-icon>Colapsar todo
+  </button>
+  <button mat-button color="secondary" (click)="accordion.openAll()">
+    <mat-icon style="padding: 0;">unfold_more</mat-icon>Expandir todo
+  </button>
+</div>
+
 <mat-accordion class="example-headers-align" multi>
-  <div fxLayout fxLayoutAlign="end" style="padding-bottom: 0.5rem;">
-    <button mat-button (click)="accordion.openAll()" color="primary">Expandir todo</button>
-    <button mat-button (click)="accordion.closeAll()">Colapsar todo</button>
-  </div>
+
   <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Entrada y salida del paciente
-      </mat-panel-title>
-      <mat-panel-description>
-        <!-- <mat-icon>emoji_transportation</mat-icon> -->
         <mat-icon>airport_shuttle</mat-icon>
-      </mat-panel-description>
+        <span class="title">Entrada y salida del paciente</span>
+      </mat-panel-title>
     </mat-expansion-panel-header>
 
     <p>Inicio de los síntomas</p>
@@ -19,11 +22,11 @@
       <mat-label>Fecha</mat-label>
       <input matInput #fecha type="date">
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="short-field">
       <mat-label>Hora</mat-label>
       <input matInput #hora type="time">
     </mat-form-field>
-    <mat-icon color="primary" matTooltip="También es válida la última vez que el paciente estuvo asintomático."
+    <mat-icon color="info" matTooltip="También es válida la última vez que el paciente estuvo asintomático."
       matTooltipPosition="right">info</mat-icon>
 
     <p>Llegada al hospital</p>
@@ -31,7 +34,7 @@
       <mat-label>Fecha</mat-label>
       <input matInput #fecha type="date">
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="short-field">
       <mat-label>Hora</mat-label>
       <input matInput #hora type="time">
     </mat-form-field>
@@ -47,7 +50,7 @@
       <mat-label>Fecha</mat-label>
       <input matInput #fecha type="date">
     </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="short-field">
       <mat-label>Hora</mat-label>
       <input matInput #hora type="time">
     </mat-form-field>
@@ -60,11 +63,9 @@
   <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Diagnóstico
-      </mat-panel-title>
-      <mat-panel-description>
         <mat-icon>local_hospital</mat-icon>
-      </mat-panel-description>
+        <span class="title">Diagnóstico</span>
+      </mat-panel-title>
     </mat-expansion-panel-header>
 
     <div fxLayout="column">
@@ -77,14 +78,17 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" *ngIf="diagnosticoPrincipal.value === 'ictus'">
+      <mat-form-field appearance="outline">
         <mat-label>Arteria afectada</mat-label>
-        <mat-select multiple>
+        <mat-select #arteriaAfectada multiple
+          [value]="diagnosticoPrincipal.value !== 'ictus' ? null : arteriaAfectada.value"
+          [disabled]="diagnosticoPrincipal.value !== 'ictus'">
           <mat-option value="acc">arteria carótida común (o ACC) o primitiva</mat-option>
           <mat-option value="acm">arteria cerebral media (o ACM)</mat-option>
           <mat-option value="pica">arteria cerebelosa posteroinferior (o PICA)</mat-option>
         </mat-select>
-        <mat-icon matSuffix color="primary" matTooltip="Visible cuando el diagnóstico principal es ictus isquémico."
+        <mat-icon matSuffix color="primary"
+          matTooltip="Habilitado cuando el diagnóstico principal es ictus isquémico. Acepta múltiples valores."
           matTooltipPosition="right">info
         </mat-icon>
       </mat-form-field>
@@ -126,13 +130,13 @@
           <mat-option value="indeterminada">indeterminada</mat-option>
         </mat-select>
         <mat-icon matSuffix color="primary" matTooltip='Las opciones a elegir varían según el diagnóstico principal.'
-          matTooltipPosition="right">
-          info</mat-icon>
+          matTooltipPosition="right">info
+        </mat-icon>
       </mat-form-field>
     </div>
 
     <mat-action-row>
-      <button mat-button (click)="prevStep()">Anterior</button>
+      <button mat-button color="secondary" (click)="prevStep()">Anterior</button>
       <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
     </mat-action-row>
   </mat-expansion-panel>
@@ -140,110 +144,97 @@
   <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Procedimientos y pruebas
-      </mat-panel-title>
-      <mat-panel-description>
         <mat-icon>healing</mat-icon>
-      </mat-panel-description>
+        <span class="title">Procedimientos y pruebas</span>
+      </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <div fxLayout="column">
-      <p>Trombólisis intravenosa</p>
-      <div fxLayout="row" fxLayoutGap="1rem">
-        <mat-form-field appearance="outline" style="width: 12rem;">
-          <mat-label>Fecha</mat-label>
-          <input matInput #fecha type="date">
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 20rem;">
-          <mat-label>Hora primer bolus de la trombólisis rtPA</mat-label>
-          <input matInput #horaPrimerBolusTrombolisisRtpa type="time">
-        </mat-form-field>
-      </div>
+    <p>Trombólisis intravenosa</p>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput #fecha type="date">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="short-field">
+      <mat-label>Hora</mat-label>
+      <input matInput #horaPrimerBolusTrombolisisRtpa type="time">
+      <mat-icon matSuffix color="primary" matTooltip='Hora del primer bolus de la trombólisis rtPA'
+        matTooltipPosition="right">info
+      </mat-icon>
+    </mat-form-field>
 
-      <p>Trombólisis intraaerterial</p>
-      <div fxLayout="row" fxLayoutGap="1rem">
-        <mat-form-field appearance="outline" style="width: 12rem;">
-          <mat-label>Fecha</mat-label>
-          <input matInput #fecha type="date">
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 7rem;">
-          <mat-label>Hora</mat-label>
-          <input matInput #hora type="time">
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 20rem;">
-          <mat-label>Procedimiento</mat-label>
-          <input matInput #prodecimientoTrombolisisIntraarterial>
-        </mat-form-field>
-      </div>
+    <p>Trombólisis intraaerterial</p>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput #fecha type="date">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="short-field">
+      <mat-label>Hora</mat-label>
+      <input matInput #hora type="time">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Procedimiento</mat-label>
+      <input matInput #prodecimientoTrombolisisIntraarterial>
+    </mat-form-field>
 
-      <p>Inicio de la trombectomía mecánica</p>
-      <div fxLayout="row" fxLayoutGap="1rem">
-        <mat-form-field appearance="outline" style="width: 12rem;">
-          <mat-label>Fecha</mat-label>
-          <input matInput #fecha type="date">
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 20rem;">
-          <mat-label>Hora punción arterial (groin puncture)</mat-label>
-          <input matInput #hora type="time">
-        </mat-form-field>
-      </div>
+    <p>Inicio de la trombectomía mecánica</p>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput #fecha type="date">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="short-field">
+      <mat-label>Hora</mat-label>
+      <input matInput #hora type="time">
+      <mat-icon matSuffix color="primary" matTooltip='Hora de la punción arterial (groin puncture)'
+        matTooltipPosition="right">info
+      </mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Regla tiempo punción (¿núm. entero?)</mat-label>
+      <input matInput #tiempoPuertaPuncion type="number">
+    </mat-form-field>
 
-      <mat-form-field appearance="outline" style="width: 20rem;">
-        <mat-label>Regla tiempo punción (¿número entero?)</mat-label>
-        <input matInput #tiempoPuertaPuncion type="number">
-      </mat-form-field>
+    <p>Primera serie de la trombectomía mecánica</p>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput #fecha type="date">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="short-field">
+      <mat-label>Hora</mat-label>
+      <input matInput #hora type="time">
+    </mat-form-field>
 
-      <p>Primera serie de la trombectomía mecánica</p>
-      <div fxLayout="row" fxLayoutGap="1rem">
-        <mat-form-field appearance="outline" style="width: 12rem;">
-          <mat-label>Fecha</mat-label>
-          <input matInput #fecha type="date">
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 7rem;">
-          <mat-label>Hora</mat-label>
-          <input matInput #hora type="time">
-        </mat-form-field>
-      </div>
+    <p>Recanalización para la trombectomía mecánica</p>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput #fecha type="date">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="short-field">
+      <mat-label>Hora</mat-label>
+      <input matInput #hora type="time">
+    </mat-form-field>
 
-      <p>Recanalización para la trombectomía mecánica</p>
-      <div fxLayout="row" fxLayoutGap="1rem">
-        <mat-form-field appearance="outline" style="width: 12rem;">
-          <mat-label>Fecha</mat-label>
-          <input matInput #fecha type="date">
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 7rem;">
-          <mat-label>Hora</mat-label>
-          <input matInput #hora type="time">
-        </mat-form-field>
-      </div>
+    <p>Fin de la trombectomía mecánica</p>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput #fecha type="date">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="short-field">
+      <mat-label>Hora</mat-label>
+      <input matInput #hora type="time">
+    </mat-form-field>
 
-      <p>Fin de la trombectomía mecánica</p>
-      <div fxLayout="row" fxLayoutGap="1rem">
-        <mat-form-field appearance="outline" style="width: 12rem;">
-          <mat-label>Fecha</mat-label>
-          <input matInput #fecha type="date">
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 7rem;">
-          <mat-label>Hora</mat-label>
-          <input matInput #hora type="time">
-        </mat-form-field>
-      </div>
-
-      <p>TAC craneal</p>
-      <div fxLayout="row" fxLayoutGap="1rem">
-        <mat-form-field appearance="outline" style="width: 12rem;">
-          <mat-label>Fecha</mat-label>
-          <input matInput #fecha type="date">
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 7rem;">
-          <mat-label>Hora</mat-label>
-          <input matInput #hora type="time">
-        </mat-form-field>
-      </div>
-    </div>
+    <p>TAC craneal</p>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput #fecha type="date">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="short-field">
+      <mat-label>Hora</mat-label>
+      <input matInput #hora type="time">
+    </mat-form-field>
 
     <mat-action-row>
-      <button mat-button (click)="prevStep()">Anterior</button>
+      <button mat-button color="secondary" (click)="prevStep()">Anterior</button>
       <button mat-button color="primary" (click)="nextStep()">Siguiente</button>
     </mat-action-row>
   </mat-expansion-panel>
@@ -251,104 +242,104 @@
   <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Tratamientos y escalas de valoración
-      </mat-panel-title>
-      <mat-panel-description>
         <mat-icon>analytics</mat-icon>
-      </mat-panel-description>
+        <span class="title">Tratamientos y escalas de valoración</span>
+      </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <div fxLayout="column">
-      <mat-form-field appearance="outline">
-        <mat-label>ASPECTS</mat-label>
-        <input matInput #aspects type="number">
-      </mat-form-field>
+    <p>ASPECTS</p>
+    <mat-form-field appearance="outline" class="short-field">
+      <mat-label>ASPECTS</mat-label>
+      <input matInput #aspects type="number">
+    </mat-form-field>
+    <mat-icon matSuffix color="primary" matTooltip="Depende del TAC craneal." matTooltipPosition="right">info
+    </mat-icon>
 
-      <p>Tratamiento antiagregante</p>
-      <div fxLayout="row" fxLayoutGap="1rem">
-        <mat-form-field appearance="outline" style="width: 20rem;">
-          <mat-label>Habitual</mat-label>
-          <mat-select multiple>
-            <mat-option value="clopidogrel">clopidogrel (plavix)</mat-option>
-            <mat-option value="ticlopidine">ticlopidine (tiklid)</mat-option>
-            <mat-option value="acetylsalicylic acid, combinations with proton pump inhibitors">acetylsalicylic acid,
-              combinations with proton pump inhibitors</mat-option>
-          </mat-select>
-          <mat-icon matSuffix color="primary" matTooltip="Acepta múltiples valores." matTooltipPosition="right">info
-          </mat-icon>
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 20rem;">
-          <mat-label>Al alta</mat-label>
-          <mat-select multiple>
-            <mat-option value="clopidogrel">clopidogrel (plavix)</mat-option>
-            <mat-option value="ticlopidine">ticlopidine (tiklid)</mat-option>
-            <mat-option value="acetylsalicylic acid, combinations with proton pump inhibitors">acetylsalicylic acid,
-              combinations with proton pump inhibitors</mat-option>
-          </mat-select>
-          <mat-icon matSuffix color="primary" matTooltip="Acepta múltiples valores." matTooltipPosition="right">info
-          </mat-icon>
-        </mat-form-field>
-      </div>
+    <p>Tratamiento antiagregante</p>
+    <mat-form-field appearance="outline">
+      <mat-label>Habitual</mat-label>
+      <mat-select multiple>
+        <mat-option value="clopidogrel">clopidogrel (plavix)</mat-option>
+        <mat-option value="ticlopidine">ticlopidine (tiklid)</mat-option>
+        <mat-option value="acetylsalicylic acid, combinations with proton pump inhibitors">
+          acetylsalicylic acid, combinations with proton pump inhibitors
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Al alta</mat-label>
+      <mat-select multiple>
+        <mat-option value="clopidogrel">clopidogrel (plavix)</mat-option>
+        <mat-option value="ticlopidine">ticlopidine (tiklid)</mat-option>
+        <mat-option value="acetylsalicylic acid, combinations with proton pump inhibitors">
+          acetylsalicylic acid, combinations with proton pump inhibitors
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-icon matSuffix color="primary" matTooltip="Acepta múltiples valores." matTooltipPosition="right">info
+    </mat-icon>
 
-      <p>Tratamiento anticoagulante</p>
-      <div fxLayout="row" fxLayoutGap="1rem">
-        <mat-form-field appearance="outline" style="width: 20rem;">
-          <mat-label>Habitual</mat-label>
-          <mat-select multiple>
-            <mat-option value="acenocumarol">acenocumarol (sintrom)</mat-option>
-            <mat-option value="warfarin">warfarin (aldocumar)</mat-option>
-            <mat-option value="parnaparin">parnaparin</mat-option>
-          </mat-select>
-          <mat-icon matSuffix color="primary" matTooltip="Acepta múltiples valores." matTooltipPosition="right">info
-          </mat-icon>
-        </mat-form-field>
-        <mat-form-field appearance="outline" style="width: 20rem;">
-          <mat-label>Al alta</mat-label>
-          <mat-select multiple>
-            <mat-option value="acenocumarol">acenocumarol (sintrom)</mat-option>
-            <mat-option value="warfarin">warfarin (aldocumar)</mat-option>
-            <mat-option value="parnaparin">parnaparin</mat-option>
-          </mat-select>
-          <mat-icon matSuffix color="primary" matTooltip="Acepta múltiples valores." matTooltipPosition="right">info
-          </mat-icon>
-        </mat-form-field>
-      </div>
+    <p>Tratamiento anticoagulante</p>
+    <mat-form-field appearance="outline">
+      <mat-label>Habitual</mat-label>
+      <mat-select multiple>
+        <mat-option value="acenocumarol">acenocumarol (sintrom)</mat-option>
+        <mat-option value="warfarin">warfarin (aldocumar)</mat-option>
+        <mat-option value="parnaparin">parnaparin</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Al alta</mat-label>
+      <mat-select multiple>
+        <mat-option value="acenocumarol">acenocumarol (sintrom)</mat-option>
+        <mat-option value="warfarin">warfarin (aldocumar)</mat-option>
+        <mat-option value="parnaparin">parnaparin</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-icon matSuffix color="primary" matTooltip="Acepta múltiples valores." matTooltipPosition="right">info
+    </mat-icon>
 
-      <p>mRankin</p>
-      <div fxLayout="row" fxLayoutGap="1rem">
-        <mat-form-field appearance="outline" fxFlex="10%">
-          <mat-label>Previa</mat-label>
-          <input matInput #fecha type="number">
-        </mat-form-field>
-        <mat-form-field appearance="outline" fxFlex="10%">
-          <mat-label>Al alta</mat-label>
-          <input matInput #hora type="number">
-        </mat-form-field>
-      </div>
+    <p>mRankin</p>
+    <mat-form-field appearance="outline" class="short-field">
+      <mat-label>Previa</mat-label>
+      <input matInput #fecha type="number">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="short-field">
+      <mat-label>Al alta</mat-label>
+      <input matInput #hora type="number">
+    </mat-form-field>
 
-      <p>NIHSS</p>
-      <div fxLayout="row" fxLayoutGap="1rem">
-        <mat-form-field appearance="outline" fxFlex="10%">
-          <mat-label>Previa</mat-label>
-          <input matInput #fecha type="number">
-        </mat-form-field>
-        <mat-form-field appearance="outline" fxFlex="10%">
-          <mat-label>Al alta</mat-label>
-          <input matInput #hora type="number">
-        </mat-form-field>
-      </div>
-    </div>
+    <p>NIHSS</p>
+    <mat-form-field appearance="outline" class="short-field">
+      <mat-label>Previa</mat-label>
+      <input matInput #fecha type="number">
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="short-field">
+      <mat-label>Al alta</mat-label>
+      <input matInput #hora type="number">
+    </mat-form-field>
 
     <mat-action-row>
-      <button mat-button (click)="prevStep()">Anterior</button>
-      <button mat-button color="primary" (click)="nextStep()">Finalizar</button>
+      <button mat-button color="secondary" (click)="prevStep()">Anterior</button>
+      <button mat-button color="primary" (click)="finish()">Finalizar</button>
     </mat-action-row>
   </mat-expansion-panel>
-
-  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem" style="padding-top: 0.5rem;">
-    <button type="button" mat-button color="primary" fxFlexAlign="end">
-      Restablecer formulario a los valores iniciales
-    </button>
-    <button type="submit" mat-raised-button color="primary">Descargar</button>
-  </div>
 </mat-accordion>
+
+<div fxLayout fxLayoutAlign="space-between" class="collapse-expand-buttons">
+  <button mat-button color="secondary" (click)="accordion.closeAll()">
+    <mat-icon style="padding: 0;">unfold_less</mat-icon>Colapsar todo
+  </button>
+  <button mat-button color="secondary" (click)="accordion.openAll()">
+    <mat-icon style="padding: 0;">unfold_more</mat-icon>Expandir todo
+  </button>
+</div>
+
+<div fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="1rem" style="margin-top: 3rem;">
+  <button type="submit" mat-raised-button color="primary" #downloadButton (click)="download()">
+    Descargar respuestas
+  </button>
+  <button type="button" mat-button color="secondary" (click)="confirm()">
+    Restablecer formulario a los valores iniciales
+  </button>
+</div>

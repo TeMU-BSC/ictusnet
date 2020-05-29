@@ -1,3 +1,5 @@
+@import "src/app/material/_variables.scss";
+
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
@@ -5,66 +7,87 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 body {
   background-color: rgb(240, 250, 255);
+  // background-color: mat-color($custom, info-contrast);
 }
 
-///////////////////
+// https://stackoverflow.com/a/58134022
 
-h1 {
-  font-size: 3rem;
-  padding: 1rem;
-  margin-top: 3rem;
-}
-section {
-  height: 100%;
-}
-pre {
-  height: 100%;
-  background-color: white;
-  font-family: 'Roboto Mono', monospace;
+// custom colors
 
-  // wrap text
-  overflow-x: auto;
-  white-space: pre-wrap;
-  white-space: -moz-pre-wrap;
-  white-space: -pre-wrap;
-  white-space: -o-pre-wrap;
-  word-wrap: break-word;
+// success
+.mat-button.mat-success,
+.mat-stroked-button.mat-success,
+.mat-icon-button.mat-success,
+.mat-icon.mat-success {
+    color: mat-color($custom, success);
 }
-.text {
-  height: 100%;
-  background-color: white;
-  font-family: 'Roboto Mono', monospace;
-
-  // wrap text
-  overflow-x: auto;
-  white-space: pre-wrap;
-  white-space: -moz-pre-wrap;
-  white-space: -pre-wrap;
-  white-space: -o-pre-wrap;
-  word-wrap: break-word;
+.mat-button.mat-success:hover,
+.mat-stroked-button.mat-success:hover {
+  background-color: mat-color($custom, success-contrast);
 }
-.suggestion {
-  background-color: yellow;
+.mat-raised-button.mat-success,
+.mat-flat-button.mat-success,
+.mat-fab.mat-success,
+.mat-mini-fab.mat-success {
+  color: mat-color($custom, success-contrast);
+  background-color: mat-color($custom, success);
 }
 
-// highlight
-.bg-blue {
-  background-color: lightblue;
+// info
+.mat-button.mat-info,
+.mat-stroked-button.mat-info,
+.mat-icon-button.mat-info,
+.mat-icon.mat-info {
+    color: mat-color($custom, info);
 }
-.bg-pink {
-  background-color: lightcoral;
+.mat-button.mat-info:hover,
+.mat-stroked-button.mat-info:hover {
+  background-color: mat-color($custom, info-contrast);
 }
-.bg-blue-dark {
-  background-color: #86c5da;
-}
-.bg-pink-dark {
-  background-color: #eb5252;
+.mat-raised-button.mat-info,
+.mat-flat-button.mat-info,
+.mat-fab.mat-info,
+.mat-mini-fab.mat-info {
+  color: mat-color($custom, info-contrast);
+  background-color: mat-color($custom, info);
 }
 
+// attention
+.mat-button.mat-attention,
+.mat-stroked-button.mat-attention {
+    color: mat-color($custom, attention);
+}
+.mat-button.mat-attention:hover,
+.mat-stroked-button.mat-attention:hover {
+  background-color: mat-color($custom, attention-contrast);
+}
+.mat-raised-button.mat-attention,
+.mat-flat-button.mat-attention,
+.mat-fab.mat-attention,
+.mat-mini-fab.mat-attention {
+  color: mat-color($custom, attention-contrast);
+  background-color: mat-color($custom, attention);
+}
+.mat-icon-button.mat-attention {
+  color:mat-color($custom, attention);
+}
 
-/////////////////
-
-mark{
-  background: orange;
-  color: black;
+// custom color: secondary
+.mat-button.mat-secondary,
+.mat-stroked-button.mat-secondary {
+    color: mat-color($custom, secondary);
+}
+.mat-button.mat-secondary:hover,
+.mat-stroked-button.mat-secondary:hover {
+  // background-color: mat-color($custom, secondary-contrast);
+}
+.mat-raised-button.mat-secondary,
+.mat-flat-button.mat-secondary,
+.mat-fab.mat-secondary,
+.mat-mini-fab.mat-secondary {
+  color: mat-color($custom, secondary-contrast);
+  // background-color: mat-color($custom, secondary);
+}
+.mat-icon-button.mat-secondary {
+  color:mat-color($custom, secondary);
 }

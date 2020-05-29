@@ -2,3 +2,63 @@
   background-color: white;
   border-radius: 0.3rem;
 }
+
+h1 {
+  font-size: 3rem;
+  padding: 1rem;
+  margin-top: 3rem;
+}
+section {
+  height: 100%;
+}
+pre {
+  height: 100%;
+  background-color: white;
+  font-family: 'Roboto Mono', monospace;
+
+  // wrap text
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.text {
+  height: 100%;
+  background-color: white;
+  font-family: 'Roboto Mono', monospace;
+
+  // wrap text
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suggestion {
+  background-color: yellow;
+}
+
+// highlight
+.bg-blue {
+  background-color: lightblue;
+}
+.bg-pink {
+  background-color: lightcoral;
+}
+.bg-blue-dark {
+  background-color: #86c5da;
+}
+.bg-pink-dark {
+  background-color: #eb5252;
+}
+
+
+/////////////////
+
+mark{
+  background: orange;
+  color: black;
+}
