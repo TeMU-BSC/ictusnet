@@ -21,7 +21,7 @@ import { MatSelectModule } from '@angular/material/select'
 import { MatStepperModule } from '@angular/material/stepper'
 // import { MatTableModule } from '@angular/material/table'
 // import { MatTabsModule } from '@angular/material/tabs'
-// import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatTooltipModule } from '@angular/material/tooltip'
 // import { MaterialFileInputModule } from 'ngx-material-file-input'
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material/core'
@@ -34,7 +34,6 @@ const material = [
   MatChipsModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  // MatToolbarModule,
   MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
@@ -46,6 +45,7 @@ const material = [
   // MatSnackBarModule,
   MatSelectModule,
   MatStepperModule,
+  MatToolbarModule,
   MatTooltipModule,
   // MatDialogModule,
   // MatMenuModule,

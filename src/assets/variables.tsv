@@ -1,39 +1,38 @@
-group	label	entity	key	cardinality	getValueFrom	fieldType	inputType	admissibleValues	comments
-Entrada y salida del paciente	Fecha de llegada al hospital receptor	Fecha_llegada_hospital	fechaLlegadaHospital	1	notes	input	date
-Entrada y salida del paciente	Hora de llegada al hospital receptor	Hora_llegada_hospital	horaLlegadaHospital	1	notes	input	time
-Entrada y salida del paciente	Fecha de ingreso	Fecha_de_ingreso	fechaIngreso	1	notes	input	date
-Entrada y salida del paciente	Fecha de alta	Fecha_de_alta	fechaAlta	1	notes	input	date
-Entrada y salida del paciente	Hora de alta	Hora_de_alta	horaAlta	1	notes	input	time
-Entrada y salida del paciente	Fecha inicio síntomas o última vez visto asintomático/a	Fecha_inicio_sintomas	fechaInicioSintomas	1	notes	input	date
-Entrada y salida del paciente	Hora inicio síntomas o última vez visto asintomático/a	Hora_inicio_sintomas	horaInicioSintomas	1	notes	input	time
-Diagnóstico	Diagnóstico principal	Diagnostico_principal	diagnosticoPrincipal	1	admissibleValues	select	text
-Diagnóstico	Arteria afectada	Arteria_afectada	arteriaAfectada	n	admissibleValues	select	text		sólo para dianóstico = ictus isquémico
-Diagnóstico	Localización	Localizacion	localizacion	n	admissibleValues	select	text
-Diagnóstico	Lateralización asociada	Lateralizacion	lateralizacion	1	admissibleValues	select	text
-Diagnóstico	Etiología (ictus)	Etiologia	etiologiaIctus	1	admissibleValues	select	text		sólo para diagnóstico = ictus isquémico o ataque isquemico
-Diagnóstico	Etiología (hemorragia)	Etiologia	etiologiaHemorragia	1	admissibleValues	select	text		sólo para diagnóstico = hemorragia
-Procedimientos y pruebas	Fecha trombólisis intravenosa	Fecha_trombolisis_rtPA	fechaTrombolisisIntravenosa	1	notes	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Hora inicio primer bolus de la trombólisis rtPA	Hora_primer_bolus_trombolisis_rtPA	horaInicioPrimerBolusTrombolisisRtpa	1	notes	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Etiquetar el procedimiento Trombólisis intraarterial	Trombolisis_intraarterial	procedimientoTrombolisisIntraarterial	1	notes	input	?	?	sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Fecha trombólisis intraarterial	Fecha_inicio_trombolisis_intraarterial	fechaTrombolisisIntraarterial	1	notes	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Hora trombólisis intraarterial	Hora_inicio_trombolisis_intraarterial	horaTrombolisisIntraarterial	1	notes	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Fecha inicio trombectomía mecánica	Fecha_inicio_trombectomia	fechaInicioTrombectomia	1	notes	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Hora punción arterial para la trombectomía mecánica (groin puncture)	Hora_inicio_trombectomia	horaInicioTrombectomia	1	notes	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Regla tiempo puerta punción	Tiempo_puerta_puncion	tiempoPuertaPuncion	1	notes	input	?	?	sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Fecha primera serie para la trombectomía mecánica	Fecha_primera_serie_trombectomia	fechaPrimeraSerieTrombectomia	1	notes	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Hora primera serie para la trombectomía mecánica	Hora_primera_serie_trombectomia	horaPrimeraSerieTrombectomia	1	notes	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Fecha recanalización para la trombectomía mecánica	Fecha_recanalizacion	fechaRecanalizacion	1	notes	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Hora recanalización para la trombectomía mecánica	Hora_recanalizacion	horaRecanalizacion	1	notes	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Fecha fin de la trombectomía mecánica	Fecha_fin_trombectomia	fechaFinTrombectomia	1	notes	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Hora fin de la trombectomía mecánica	Hora_fin_trombectomia	horaFinTrombectomia	1	notes	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Fecha TAC craneal	Fecha_TAC	fechaTac	1	notes	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos y pruebas	Hora TAC craneal	Hora_TAC	horaTac	1	notes	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Tratamientos y escalas de valoración	ASPECTS	ASPECTS	aspects	1	notes	input	?	?	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
-Tratamientos y escalas de valoración	Tratamiento antiagregante habitual	Tratamiento_antiagregante_hab	tratamientoAntiagreganteHabitual	n	admissibleValues	select	text
-Tratamientos y escalas de valoración	Tratamiento anticoagulante habitual	Tratamiento_anticoagulante_hab	tratamientoAnticoagulanteHabitual	n	admissibleValues	select	text
-Tratamientos y escalas de valoración	Tratamiento antiagregante al alta	Tratamiento_antiagregante_alta	tratamientoAntiagreganteAlta	n	admissibleValues	select	text
-Tratamientos y escalas de valoración	Tratamiento anticoagulante al alta	Tratamiento_anticoagulante_alta	tratamientoAnticoagulanteAlta	n	admissibleValues	select	text
-Tratamientos y escalas de valoración	mRankin previa	mRankin_previa	mRankinPrevia	1	notes	input	number	integer	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
-Tratamientos y escalas de valoración	mRankin al alta	mRankin_alta	mRankinAlta	1	notes	input	number	integer	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
-Tratamientos y escalas de valoración	NIHSS previa	NIHSS_previa	nihssPrevia	1	notes	input	number	integer	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
-Tratamientos y escalas de valoración	NIHSS al alta	NIHSS_alta	nihssAlta	1	notes	input	number	integer	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
+section	group	label	shortLabel	info	entity	key	cardinality	fieldType	inputType	admissibles	comments
+Entrada y salida del paciente	Inicio de los síntomas	Fecha inicio síntomas o última vez visto asintomático/a	Fecha	También es válida la última vez que el paciente estuvo asintomático.	Fecha_inicio_sintomas	fechaInicioSintomas	1	input	date
+Entrada y salida del paciente	Inicio de los síntomas	Hora inicio síntomas o última vez visto asintomático/a	Hora	También es válida la última vez que el paciente estuvo asintomático.	Hora_inicio_sintomas	horaInicioSintomas	1	input	time
+Entrada y salida del paciente	Llegada al hospital	Fecha de llegada al hospital receptor	Fecha		Fecha_llegada_hospital	fechaLlegadaHospital	1	input	date
+Entrada y salida del paciente	Llegada al hospital	Hora de llegada al hospital receptor	Hora		Hora_llegada_hospital	horaLlegadaHospital	1	input	time
+Entrada y salida del paciente	Ingreso	Fecha de ingreso	Fecha		Fecha_de_ingreso	fechaIngreso	1	input	date
+Entrada y salida del paciente	Alta	Fecha de alta	Fecha		Fecha_de_alta	fechaAlta	1	input	date
+Entrada y salida del paciente	Alta	Hora de alta	Hora		Hora_de_alta	horaAlta	1	input	time
+Diagnóstico	Diagnóstico principal	Diagnóstico principal	Diagnóstico principal		Diagnostico_principal	diagnosticoPrincipal	1	select
+Diagnóstico	Arterias afectadas	Arterias afectadas	Arterias afectadas	Aplicable sólo para diagnóstico principal "ictus isquémico".	Arteria_afectada	arteriasAfectadas	n	select			aplicable sólo para dianóstico = ictus isquémico
+Diagnóstico	Localizaciones	Localizaciones	Localizaciones		Localizacion	localizaciones	n	select
+Diagnóstico	Lateralización	Lateralización	Lateralización		Lateralizacion	lateralizacion	1	select
+Diagnóstico	Etiología	Etiología	Etiología	Las opciones varían según el diagnóstico principal.	Etiologia	etiologia	1	select			las opciones admitidas deben variar según si el diagnóstico contiene la palabra "isquémico" o "hemorragia"
+Procedimientos y pruebas	Trombólisis intravenosa	Fecha trombólisis intravenosa	Fecha		Fecha_trombolisis_rtPA	fechaTrombolisisIntravenosa	1	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	Trombólisis intravenosa	Hora inicio primer bolus de la trombólisis rtPA	Hora	Hora del primer bolus de la trombólisis rtPA	Hora_primer_bolus_trombolisis_rtPA	horaInicioPrimerBolusTrombolisisRtpa	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	Trombólisis intraaerterial	Etiquetar el procedimiento Trombólisis intraarterial	Procedimiento	Etiquetar el procedimiento Trombólisis intraarterial	Trombolisis_intraarterial	procedimientoTrombolisisIntraarterial	1	input	text		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	Trombólisis intraaerterial	Fecha trombólisis intraarterial	Fecha		Fecha_inicio_trombolisis_intraarterial	fechaTrombolisisIntraarterial	1	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	Trombólisis intraaerterial	Hora trombólisis intraarterial	Hora		Hora_inicio_trombolisis_intraarterial	horaTrombolisisIntraarterial	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	Trombectomía mecánica	Fecha inicio trombectomía mecánica	Fecha de inicio		Fecha_inicio_trombectomia	fechaInicioTrombectomia	1	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	Trombectomía mecánica	Hora punción arterial para la trombectomía mecánica (groin puncture)	Hora de la punción arterial	También llamada "groin puncture"	Hora_inicio_trombectomia	horaInicioTrombectomia	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	Trombectomía mecánica	Regla tiempo puerta punción	Regla tiempo puerta punción		Tiempo_puerta_puncion	tiempoPuertaPuncion	1	input	?	?	sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	Trombectomía mecánica	Fecha primera serie para la trombectomía mecánica	Fecha de la primera serie		Fecha_primera_serie_trombectomia	fechaPrimeraSerieTrombectomia	1	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	Trombectomía mecánica	Hora primera serie para la trombectomía mecánica	Hora de la primera serie		Hora_primera_serie_trombectomia	horaPrimeraSerieTrombectomia	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	Trombectomía mecánica	Fecha recanalización para la trombectomía mecánica	Fecha de recanalización		Fecha_recanalizacion	fechaRecanalizacion	1	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	Trombectomía mecánica	Hora recanalización para la trombectomía mecánica	Hora de recanalización		Hora_recanalizacion	horaRecanalizacion	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	Trombectomía mecánica	Fecha fin de la trombectomía mecánica	Fecha de finalización		Fecha_fin_trombectomia	fechaFinTrombectomia	1	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	Trombectomía mecánica	Hora fin de la trombectomía mecánica	Hora de finalización		Hora_fin_trombectomia	horaFinTrombectomia	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	TAC craneal	Fecha TAC craneal	Fecha		Fecha_TAC	fechaTac	1	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos y pruebas	TAC craneal	Hora TAC craneal	Hora		Hora_TAC	horaTac	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Tratamientos y escalas de valoración	ASPECTS	ASPECTS	ASPECTS		ASPECTS	aspects	1	input	?	?	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
+Tratamientos y escalas de valoración	Tratamientos antiagregantes	Tratamiento antiagregante habitual	Habitual		Tratamiento_antiagregante_hab	tratamientosAntiagregantesHabituales	n	select
+Tratamientos y escalas de valoración	Tratamientos antiagregantes	Tratamiento antiagregante al alta	Al alta		Tratamiento_antiagregante_alta	tratamientosAntiagregantesAlta	n	select
+Tratamientos y escalas de valoración	Tratamientos anticoagulantes	Tratamiento anticoagulante habitual	Habitual		Tratamiento_anticoagulante_hab	tratamientosAnticoagulantesHabituales	n	select
+Tratamientos y escalas de valoración	Tratamientos anticoagulantes	Tratamiento anticoagulante al alta	Al alta		Tratamiento_anticoagulante_alta	tratamientosAnticoagulantesAlta	n	select
+Tratamientos y escalas de valoración	mRankin	mRankin previa	Previa		mRankin_previa	mRankinPrevia	1	input	number	integer	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
+Tratamientos y escalas de valoración	mRankin	mRankin al alta	Al alta		mRankin_alta	mRankinAlta	1	input	number	integer	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
+Tratamientos y escalas de valoración	NIHSS	NIHSS previa	Previa		NIHSS_previa	nihssPrevia	1	input	number	integer	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
+Tratamientos y escalas de valoración	NIHSS	NIHSS al alta	Al alta		NIHSS_alta	nihssAlta	1	input	number	integer	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena

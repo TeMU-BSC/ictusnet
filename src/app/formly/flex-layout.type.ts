@@ -12,10 +12,16 @@ import { FieldType } from '@ngx-formly/core';
       [fxLayoutGap]="to.fxLayoutGap"
       fxFlexFill
     >
-      <formly-field fxFlex *ngFor="let f of field.fieldGroup" [field]="f">
+      <formly-field fxFlex *ngFor="let f of field.fieldGroup" [field]="f"
+        (mouseenter)="showIcon($event)">
       </formly-field>
     </div>
   `,
 })
 export class FlexLayoutType extends FieldType {
+
+  showIcon(event) {
+    console.log('icon will be shown', event)
+  }
+
 }

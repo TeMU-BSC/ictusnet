@@ -55,4 +55,5 @@ export class FormlyWrapperAddons extends FieldWrapper implements AfterViewInit {
       this.to.addonLeft.onClick(this.to, this, $event);
     }
   }
+
 }

@@ -10,10 +10,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { FormlyWrapperAddons } from './components/dynamic/addons.wrapper';
-import { addonsExtension } from './components/dynamic/addons.extension';
-import { FlexLayoutType } from './components/dynamic/flex-layout.type';
-import { ExpansionPanelWrapper } from './components/dynamic/expansion-panel.wrapper';
+import { FormlyWrapperAddons } from './formly/addons.wrapper';
+import { addonsExtension } from './formly/addons.extension';
+import { FlexLayoutType } from './formly/flex-layout.type';
 
 // styling
 import { MaterialModule } from './material/material.module';
@@ -28,16 +27,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DynamicComponent } from './components/dynamic/dynamic.component';
 import { StaticComponent } from './components/static/static.component';
+import { ExpansionComponent } from './components/expansion/expansion.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormlyWrapperAddons,
-    ExpansionPanelWrapper,
     FlexLayoutType,
     HighlightPipe,
     DynamicComponent,
     StaticComponent,
+    ExpansionComponent,
   ],
   imports: [
     CommonModule,
@@ -50,15 +50,17 @@ import { StaticComponent } from './components/static/static.component';
     FormsModule,
     ReactiveFormsModule,
     FormlyModule.forRoot({
+      validationMessages: [
+        { name: 'required', message: 'This field is required' },
+      ],
       wrappers: [
         { name: 'addons', component: FormlyWrapperAddons },
-        { name: 'expansion-panel', component: ExpansionPanelWrapper },
       ],
       extensions: [
         { name: 'addons', extension: { onPopulate: addonsExtension } },
       ],
       types: [
-        { name: 'flex-layout', component: FlexLayoutType }
+        { name: 'flex-layout', component: FlexLayoutType },
       ],
     }),
     FormlyMaterialModule,

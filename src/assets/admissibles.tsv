@@ -1,4 +1,4 @@
-entity	value	commercialName
+entity	value	comment
 Diagnostico_principal	ictus isquémico
 Diagnostico_principal	ataque isquémico transitorio
 Diagnostico_principal	hemorragia cerebral
@@ -49,18 +49,18 @@ Lateralizacion	izquierda
 Lateralizacion	derecha
 Lateralizacion	ambas
 Lateralizacion	indeterminada
-etiologiaIctus	aterotrombótico / aterosclerótico
-etiologiaIctus	cardioembólico (CE)
-etiologiaIctus	lacunar
-etiologiaIctus	indeterminado / criptogénico / ESUS
-etiologiaIctus	indeterminado de causa doble
-etiologiaIctus	indeterminado por estudio incompleto
-etiologiaIctus	inhabitual o infrecuente
-etiologiaHemorragia	hipertensiva
-etiologiaHemorragia	angiopatía amiloide
-etiologiaHemorragia	secundaria a malformación vascular / aneurisma
-etiologiaHemorragia	secundaria a tumor
-etiologiaHemorragia	indeterminada
+Etiologia	aterotrombótico / aterosclerótico	isquémico
+Etiologia	cardioembólico (CE)	isquémico
+Etiologia	lacunar	isquémico
+Etiologia	indeterminado / criptogénico / ESUS	isquémico
+Etiologia	indeterminado de causa doble	isquémico
+Etiologia	indeterminado por estudio incompleto	isquémico
+Etiologia	inhabitual o infrecuente	isquémico
+Etiologia	hipertensiva	hemorragia
+Etiologia	angiopatía amiloide	hemorragia
+Etiologia	secundaria a malformación vascular / aneurisma	hemorragia
+Etiologia	secundaria a tumor	hemorragia
+Etiologia	indeterminada	hemorragia
 Tratamiento_anticoagulante	acenocumarol	sintrom
 Tratamiento_anticoagulante	warfarin	aldocumar
 Tratamiento_anticoagulante	heparin	heparina
@@ -86,4 +86,4 @@ Tratamiento_antiagregante	ticagrelor	brilique
 Tratamiento_antiagregante	cangrelor
 Tratamiento_antiagregante	prasugler
 Tratamiento_antiagregante	combinations
-Tratamiento_antiagregante	acetylsalicylic acid, combinations with proton pump inhibitors
+Tratamiento_antiagregante	acetylsalicylic acid (combinations with proton pump inhibitors)

@@ -11,12 +11,8 @@ import { downloadObjectAsJson } from 'src/app/helpers/helpers';
 // highlight all spans offsets
 // https://markjs.io/ + https://www.npmjs.com/package/ngx-markjs
 // import { NgxMarkjsModule } from 'ngx-markjs/src/public-api';
-import { Mark } from 'node_modules/mark.js/dist/mark.min.js';
-// https://cdn.jsdelivr.net/npm/ngx-markjs@0.1.2/bundles/ngx-markjs.umd.min.js
 
-import { AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { fromEvent, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { ParsingService } from 'src/app/services/parsing.service';
 
 // https://www.npmjs.com/package/angular-text-input-highlight
 
@@ -30,14 +26,14 @@ import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
   templateUrl: './dynamic.component.html',
   styleUrls: ['./dynamic.component.scss']
 })
-export class DynamicComponent implements OnInit, AfterViewInit {
+export class DynamicComponent implements OnInit {
 
   // core atrtibutes
   file: File;
   text: string;
   annotations: Annotation[] = [];
   variables: Variable[] = []
-  admissibleValues: any[];
+  admissibles: any[];
 
   // highlight
   tags = [];
@@ -53,19 +49,6 @@ export class DynamicComponent implements OnInit, AfterViewInit {
 
   // download
   downloadFilename: string;
-
-  title = 'ngx-markjs-demo';
-  @ViewChild('search', { static: false }) searchElemRef: ElementRef;
-  searchText$: Observable<string>;
-  searchConfig = { separateWordSearch: false };
-
-  ngAfterViewInit() {
-    this.searchText$ = fromEvent(this.searchElemRef.nativeElement, 'keyup').pipe(
-      map((e: Event) => (e.target as HTMLInputElement).value),
-      debounceTime(300),
-      distinctUntilChanged()
-    );
-  }
 
   markRanges() {
     // const Mark = require('mark.js');
@@ -115,12 +98,14 @@ export class DynamicComponent implements OnInit, AfterViewInit {
   constructor(
     private http: HttpClient,
     private papa: Papa,
+    private parser: ParsingService,
   ) { }
 
   ngOnInit(): void {
-    this.markRanges();
+    // this.markRanges();
     this.parseVariables();
-    this.loadRealExample(321108781);
+    // this.loadRealExample(321108781);
+    this.loadRealExample(321687159);
   }
 
   /**
@@ -140,7 +125,7 @@ export class DynamicComponent implements OnInit, AfterViewInit {
       download: true,
       header: true,
       skipEmptyLines: true,
-      complete: values => this.admissibleValues = values.data
+      complete: values => this.admissibles = values.data
     });
   }
 
@@ -176,12 +161,12 @@ export class DynamicComponent implements OnInit, AfterViewInit {
         this.annotations.forEach((ann: Annotation) => this.addHighlight(ann));
 
         // prepare accordion expansion panels
-        const groups = new Set(this.variables.map(variable => variable.group));
-        groups.forEach(group => {
+        const sections = new Set(this.variables.map(variable => variable.section));
+        sections.forEach(section => {
           this.fields = [
             ...this.fields,
             {
-              // label: group,
+              // label: section,
               fieldGroup: []
             }
           ];
@@ -198,7 +183,7 @@ export class DynamicComponent implements OnInit, AfterViewInit {
             this.fields = [
               ...this.fields,
               {
-                template: `<div><strong>${variable.group}</div></strong><hr>`
+                template: `<div><strong>${variable.section}</div></strong><hr>`
               }
             ];
           }
@@ -224,7 +209,7 @@ export class DynamicComponent implements OnInit, AfterViewInit {
           // find its admissible values
           const options = [];
           if (variable.fieldType === 'select') {
-            const foundValues = this.admissibleValues.filter(a => a.entity === variable.entity).map(a => a.value);
+            const foundValues = this.admissibles.filter(a => a.entity === variable.entity).map(a => a.value);
 
             // etiologia admissible values depending on diagnostico value
             if (variable.key === 'etiologiaIctus') {
@@ -232,8 +217,8 @@ export class DynamicComponent implements OnInit, AfterViewInit {
             } else if (variable.key === 'etiologiaHemorragia') {
 
             }
-            variable.admissibleValues = foundValues ? foundValues : [];
-            variable.admissibleValues.forEach(value => {
+            variable.admissibles = foundValues ? foundValues : [];
+            variable.admissibles.forEach(value => {
               options.push({ label: value, value: value });
             });
           }

@@ -1,0 +1,23 @@
+// form field color
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: rgb(255, 255, 240);  // very light yellow
+  // background-color: rgb(240, 250, 255);  // very light blue
+  border-radius: 0.3rem;
+}
+section {
+  height: 100%;
+}
+.text {
+  height: 100%;
+  padding: 1rem;
+  background-color: white;
+  font-family: 'Roboto Mono', monospace;
+
+  // wrap text
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
