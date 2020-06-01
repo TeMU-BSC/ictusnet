@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
 import { Suggestion } from 'src/app/interfaces/interfaces';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class ParsingService {
     private papa: Papa,
   ) { }
 
-  getSuggestionsFromFile(filename: string): Suggestion[] {
+  getSuggestionsFromFile(filename: string): Observable<Suggestion[]> {
     const suggestions: Suggestion[] = [];
     this.papa.parse(`assets/${filename}`, {
       download: true,
@@ -34,7 +35,7 @@ export class ParsingService {
         });
       }
     });
-    return suggestions;
+    return of(suggestions);
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { ParsingService } from 'src/app/services/parsing.service';
@@ -17,7 +17,7 @@ export interface PanelType {
 @Component({
   selector: 'app-expansion',
   templateUrl: './expansion.component.html',
-  styleUrls: ['./expansion.component.scss']
+  styleUrls: ['./expansion.component.scss'],
 })
 export class ExpansionComponent implements OnInit {
 
@@ -25,13 +25,13 @@ export class ExpansionComponent implements OnInit {
   file: File;
   text: string;
   suggestions: Suggestion[];
-  pickedField: any;  // update evidence on this.model[pickedField]
+  focusedField: any;  // update evidence on this.model[focusedField]
   downloadFilename: string;
 
   // formly
-  model = {};
+  model: any = {};
   panels: PanelType[] = [];
-  form = new FormArray(this.panels.map(() => new FormGroup({})));
+  form: FormArray = new FormArray(this.panels.map(() => new FormGroup({})));
   options = this.panels.map(() => <FormlyFormOptions>{});
 
   // expansion panel
@@ -58,260 +58,166 @@ export class ExpansionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // reset the model and the fields
-    this.model = {};
-    this.panels = [];
+    // this.loadFile('321108781');
+    this.loadFile('321687159');
+  }
 
-    // const exampleNumber = 321108781;
-    const exampleNumber = 321687159;
-
-    this.downloadFilename = `${exampleNumber}.json`;
-    this.http.get(`assets/${exampleNumber}.utf8.txt`, { responseType: 'text' }).subscribe(data => this.text = data);
-    this.suggestions = this.parser.getSuggestionsFromFile(`${exampleNumber}.utf8.ann`);
-
-    // variables spreadsheet
-    this.papa.parse('assets/variables.tsv', {
-      download: true,
-      header: true,
-      skipEmptyLines: true,
-      complete: resultsFromVariables => {
-        const variables: Variable[] = resultsFromVariables.data;
-
-        // admissible values spreadsheet
-        this.papa.parse('assets/admissibles.tsv', {
-          download: true,
-          header: true,
-          skipEmptyLines: true,
-          complete: resultsFromAdmissibles => {
-            const admissibles: any[] = resultsFromAdmissibles.data
-            const sections = new Set(variables.map(v => v.section));
-            const groups = new Set(variables.map(v => v.group));
-
-            variables.forEach(v => {
-
-              // assign the admissible values to each variable
-              v.admissibles = admissibles.filter(a => v.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }));
-
-              // initialize all model keys to null
-              this.model = {...this.model, ...{ [v.key]: null }};
-
-              // populate expansion panels with icons, titles and fields
-              // ...
-
-
-            });
-
-            // populate expansion panels with icons, titles and fields
-            sections.forEach(section => {
-
-              /////// WIP ////////
-              // const fieldGroup: FormlyFieldConfig[] = [];
-              // const groups = new Set(variables.map(v => v.group));
-              // groups.forEach(group => {
-              //   variables.forEach((variable, index) => {
-              //     const options = variable.admissibles.map(a => ({ value: a.value, label: a.value }));
-              //     if (variable.section === section && variable.group === group) {
-              //       if (index === 0) {
-              //         fieldGroup.push(
-              //           { template: `${variable.group}` },
-              //           {
-              //             type: 'flex-layout',
-              //             templateOptions: {
-              //               fxLayout: 'row',
-              //               fxLayoutGap: '1rem',
-              //               fxLayoutAlign: 'space-between center',
-              //             },
-              //             fieldGroup: []
-              //           }
-              //         );
-              //       }
-              //       fieldGroup.push({
-              //         type: 'flex-layout',
-              //         templateOptions: {
-              //           fxLayout: 'row',
-              //           fxLayoutGap: '1rem',
-              //           fxLayoutAlign: 'space-between center',
-              //         },
-              //         fieldGroup: [
-              //           {
-              //             key: `${variable.key}`,
-              //             type: variable.fieldType,
-              //             templateOptions: {
-              //               type: variable.inputType,
-              //               appearance: 'outline',
-              //               label: variable.label,
-              //               multiple: variable.cardinality === 'n',
-              //               placeholder: variable.inputType === 'date' ? 'YYYY-MM-DD' : variable.inputType === 'time' ? 'hh:mm' : null,
-              //               options: options,
-              //               addonRight: {
-              //                 icon: 'edit',
-              //                 onClick: (to, addon, $event) => this.pickedField = addon.key,
-              //               },
-              //               mouseenter: (event) => console.log(event),
-              //               keypress: (event) => console.log(event),
-              //             },
-              //             // expressionProperties: {
-              //             //   'templateOptions.disabled': `!model.${variable.key}Evidencia`,
-              //             // },
-              //           }
-              //         ]
-              //       });
-
-              //     }
-              //   });
-              // });
-
-
-              // WORKS OK
-
-              const fields: FormlyFieldConfig[] = [];
-              variables.forEach(variable => {
-
-                if (variable.section === section) {
-                  const options = variable.admissibles.map(a => ({ value: a.value, label: a.value }));
-
-                  // add form field in its section
-                  fields.push(
-                    {
-                      type: 'flex-layout',
-                      templateOptions: {
-                        fxLayout: 'row',
-                        fxLayoutGap: '1rem',
-                        fxLayoutAlign: 'space-between center',
-                      },
-                      fieldGroup: [
-                        {
-                          key: `${variable.key}`,
-                          type: variable.fieldType,
-                          templateOptions: {
-                            type: variable.inputType,
-                            appearance: 'outline',
-                            label: variable.label,
-                            multiple: variable.cardinality === 'n',
-                            placeholder: variable.inputType === 'date' ? 'YYYY-MM-DD' : variable.inputType === 'time' ? 'hh:mm' : null,
-                            options: options,
-                            addonRight: {
-                              icon: 'edit',
-                              // icon2: 'search',
-                              // onClick: (to, addon, $event) => this.pickedField = addon.key,
-                            },
-                            click: (event) => this.pickedField = event.key,
-                          },
-                          // expressionProperties: {
-                          //   'templateOptions.disabled': `!model.${variable.key}Evidencia`,
-                          // },
-                        }
-                      ]
-                    }
-                  );
-
-                  // autofill each field with the first found suggestion
-                  let sugg: Suggestion;
-                  let autofillValue: string | string[];
-
-                  // normal cases like dates, times and integers
-                  sugg = this.suggestions.find(sugg => sugg.entity === variable.entity);
-                  autofillValue = sugg?.notes;
-
-                  // special cases
-                  // select fields that accept only one value
-                  if (variable.entity === 'Diagnostico_principal') {
-                    sugg = this.suggestions.find(sugg => [
-                      'Ictus_isquemico',
-                      'Ataque_isquemico_transitorio',
-                      'Hemorragia_cerebral'
-                    ].includes(sugg.entity));
-                    autofillValue = sugg ? options.find(option => option.value.startsWith(sugg.entity.toLowerCase().split('_')[0])).value : null;
-                  }
-                  // select fields that accept multiple values
-                  else if (['Arteria_afectada', 'Localizacion'].includes(variable.entity)) {
-                    autofillValue = options.filter(option => option.value.match(sugg.evidence)).map(option => option.value);
-                  }
-
-                  // update the model
-                  this.model[variable.key] = autofillValue;
-
-                  // option 2 with spread operator
-                  // const data = { [variable.key]: autofillValue }
-                  // this.model = { ...this.model, ...data };
-
-                }
+  /**
+   * Load a single text file from user.
+   */
+  loadFile(fileId: string) {
+    // TESTING
+    this.downloadFilename = `${fileId}.json`;
+    this.http.get(`assets/${fileId}.utf8.txt`, { responseType: 'text' }).subscribe(data => this.text = data);
+    this.parser.getSuggestionsFromFile(`${fileId}.utf8.ann`).subscribe(data => {
+      this.suggestions = data;
+      this.papa.parse('assets/variables.tsv', {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: parsedVariables => {
+          const variables: Variable[] = parsedVariables.data;
+          this.papa.parse('assets/admissibles.tsv', {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: parsedAdmissibles => {
+              const admissibles: any[] = parsedAdmissibles.data;
+              variables.forEach(v => {
+                v.admissibles = admissibles.filter(a => v.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }));
+                this.autofillSuggestions(v);
               });
+              const sections = new Set(variables.map(v => v.section));
+              sections.forEach(section => {
+                const panel = this.createPanel(section, this.generatePanelFields(section, variables));
+                this.panels = [...this.panels, panel]
+              });
+            }
+          });
+          console.log('variables', variables);
 
-              // use the javascript spread oprator (...obj) to build the form fields, because pushing a new field object to the fields arary does not work
-              this.panels = [
-                ...this.panels,
-                {
-                  icon: this.icons[section],
-                  title: section,
-                  fields: fields,
-                }
-              ];
+        }
+      });
+      console.log('suggestions', this.suggestions);
 
-
-
-            });
-          }
-
-
-        });
-        console.log('variables', variables);
-
-      }
     });
-    console.log('suggestions', this.suggestions);
 
+    // ONLY txt file !Remember to pass the event as parameter ;)
+    // this.file = event.target.files[0];
+    // var reader = new FileReader();
+    // reader.readAsText(this.file);
+    // reader.onload = () => {
+    //   this.text = reader.result.toString();
+
+    //   TODO localstorage with array of files
+    //   localStorage.setItem(this.file.name, reader.result.toString());
+    //   this.text = localStorage.getItem('377259358.utf8.txt');
+
+    // }
+  }
+
+  createPanel(section: string, panelFields: FormlyFieldConfig[]): PanelType {
+    return {
+      icon: this.icons[section],
+      title: section,
+      fields: panelFields,
+    }
+  }
+
+  generatePanelFields(section: string, allVariables: Variable[]): FormlyFieldConfig[] {
+    const panelVariables = allVariables.filter(v => v.section === section);
+    const fields = panelVariables.map(variable => ({
+      key: variable.key,
+      type: variable.fieldType,
+      templateOptions: {
+        type: variable.inputType,
+        appearance: 'outline',
+        label: variable.label,
+        multiple: variable.cardinality === 'n',
+        options: variable.admissibles.map(a => ({ value: a.value, label: a.value })),
+        focus: (field, event) => this.focusedField = field.key,
+        // custom properties
+        suggestions: this.suggestions.filter(sugg => variable.entity.startsWith(sugg.entity)),
+        addonRight: {
+          icon: 'search',
+          onClick: (to, addon, event) => this.mark(this.text, to.suggestions),
+        },
+      },
+    }));
+    return fields;
+  }
+
+  /**
+   * Autofill the form fields with suggestions.
+   */
+  autofillSuggestions(variable: Variable) {
+    let sugg: Suggestion;
+    let autofillValue: string | string[];
+
+    // normal cases like dates, times and integers
+    sugg = this.suggestions.find(sugg => sugg.entity === variable.entity);
+    autofillValue = sugg?.notes;
+
+    // special cases
+    // select fields that accept only one value
+    if (variable.entity === 'Diagnostico_principal') {
+      sugg = this.suggestions.find(sugg => [
+        'Ictus_isquemico',
+        'Ataque_isquemico_transitorio',
+        'Hemorragia_cerebral'
+      ].includes(sugg.entity));
+      autofillValue = sugg ? variable.admissibles.find(a => a.value.startsWith(sugg.entity.toLowerCase().split('_')[0])).value : null;
+    }
+    // select fields that accept multiple values
+    else if (['Arteria_afectada', 'Localizacion'].includes(variable.entity)) {
+      autofillValue = variable.admissibles.filter(a => a.value.match(sugg.evidence)).map(a => a.value);
+    }
+
+    // update the model
+    this.model[variable.key] = autofillValue;
+  }
+
+  mark(text: string, suggestions: Suggestion[]) {
+    suggestions.forEach(sugg => {
+      let element = document.getElementById('text');
+      let str = text;
+      let start = sugg.offset.start;
+      let end = sugg.offset.end;
+      str = str.substr(0, start) +
+      '<mark>' +
+      str.substr(start, end - start + 1) +
+      '</mark>' +
+      str.substr(end + 1);
+      element.innerHTML = str;
+    });
   }
 
   /**
    * Update the value of a specific field (the picked field) with an evidence in text.
    */
   updateEvidence() {
-
-    // div approach
     const selection = window.getSelection();
     const evidence = selection.toString();
     const range = selection.getRangeAt(0);
     const start = range.startOffset;
     const end = range.endOffset;
     if (evidence) {
-      this.model = { ...this.model, [this.pickedField]: evidence };
-      this.pickedField = null;
+      this.model = { ...this.model, [this.focusedField]: evidence };
+      this.focusedField = null;
       console.log(evidence, start, end);
 
-    }
-
-    // input/textarea approach
-    // const selection = event.target.value;
-    // const evidence = selection.substr(start, end - start);
-    // const start = event.target.selectionStart;
-    // const end = event.target.selectionEnd;
-    // this.model = { ...this.model, [this.pickedField]: evidence };
-    // this.pickedField = null;
-  }
-
-  /**
-   * Load a single text file from user.
-   */
-  loadFile(event) {
-    // ONLY txt file
-    this.file = event.target.files[0];
-    var reader = new FileReader();
-    reader.readAsText(this.file);
-    reader.onload = () => {
-      this.text = reader.result.toString();
-
-      // TODO localstorage with array of files
-      // localStorage.setItem(this.file.name, reader.result.toString());
-      // this.text = localStorage.getItem('377259358.utf8.txt');
     }
   }
 
   confirmReset() {
-    if (confirm('Estás a punto de restablecer el formulario a su estado inicial, perdiendo todo el progreso hasta ahora.')) {
-      // this.options.resetModel();  // does not work on multi-step forms
-      this.ngOnInit();  // it doesn not work neither :(
-    }
+    // if (confirm('Estás a punto de restablecer el formulario a su estado inicial, perdiendo todo el progreso hasta ahora.')) {
+    //   this.model = {};
+    //   this.panels = [];
+    //   this.ngOnInit();
+    // }
+
+    console.log(this.panels);
+
   }
 
   /**
@@ -327,5 +233,33 @@ export class ExpansionComponent implements OnInit {
     const exportable = pick(this.model, Object.keys(this.model));
     downloadObjectAsJson(exportable, this.downloadFilename);
   }
+
+  // list = ['potatoe', 'banana', 'grapes'];
+  // hoverIndex: number;
+  // enter(i) {
+  //   this.hoverIndex = i;
+  // }
+  // leave(i) {
+  //   this.hoverIndex = null;
+  // }
+
+  // iconVisible = false;
+  // showIcon(event) {
+  //   this.iconVisible = true;
+  //   console.log(event);
+  //   event.target.lastElementChild.style = "background-color: blue;";
+  // }
+  // hideIcon(event) {
+  //   this.iconVisible = false;
+  //   console.log(event);
+  // }
+
+  // @ViewChildren('expansionPanel') expansionPanels: QueryList<ElementRef>
+  // allExpanded(): boolean | null {
+  //   return this.expansionPanels ? this.expansionPanels['_results'].every(r => r._expanded) : null;
+  // }
+  // allCollapsed(): boolean| null {
+  //   return this.expansionPanels ? this.expansionPanels['_results'].every(r => !r._expanded) : null;
+  // }
 
 }

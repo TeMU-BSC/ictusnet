@@ -13,7 +13,7 @@ import { MatExpansionModule } from '@angular/material/expansion'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
-// import { MatListModule } from '@angular/material/list'
+import { MatListModule } from '@angular/material/list'
 // import { MatMenuModule } from '@angular/material/menu'
 // import { MatRadioModule } from '@angular/material/radio'
 // import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar'
@@ -38,7 +38,7 @@ const material = [
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
-  // MatListModule,
+  MatListModule,
   // MatTableModule,
   // MatTabsModule,
   // MatRadioModule,

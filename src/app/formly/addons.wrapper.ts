@@ -10,8 +10,8 @@ import { FieldWrapper } from '@ngx-formly/core';
       [ngStyle]="{cursor: to.addonLeft.onClick ? 'pointer' : 'inherit'}"
       (click)="addonLeftClick($event)"
     >
-      <mat-icon *ngIf="to.addonLeft.icon">{{ to.addonLeft.icon }}</mat-icon>
-      <span *ngIf="to.addonLeft.text">{{ to.addonLeft.text }}</span>
+      <mat-icon *ngIf="to.addonLeft.icon">{{ to.addonLeft.icon }}</mat-icon>&nbsp;
+      <span *ngIf="to.addonLeft.text">{{ to.addonLeft.text }}</span>&nbsp;
     </span>
   </ng-template>
 
@@ -22,9 +22,12 @@ import { FieldWrapper } from '@ngx-formly/core';
       *ngIf="to.addonRight"
       [ngStyle]="{cursor: to.addonRight.onClick ? 'pointer' : 'inherit'}"
       (click)="addonRightClick($event)"
+
     >
-      <mat-icon *ngIf="to.addonRight.icon">{{ to.addonRight.icon }}</mat-icon>
-      <mat-icon *ngIf="to.addonRight.icon2">{{ to.addonRight.icon2 }}</mat-icon>
+    <!-- [hidden]="!fieldComponent.iconVisible" -->
+      <button type="button" mat-icon-button>
+        <mat-icon *ngIf="to.addonRight.icon">{{ to.addonRight.icon }}</mat-icon>
+      </button>
       <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
     </span>
   </ng-template>
@@ -44,15 +47,15 @@ export class FormlyWrapperAddons extends FieldWrapper implements AfterViewInit {
     }
   }
 
-  addonRightClick($event: any) {
-    if (this.to.addonRight.onClick) {
-      this.to.addonRight.onClick(this.to, this, $event);
-    }
-  }
-
   addonLeftClick($event: any) {
     if (this.to.addonLeft.onClick) {
       this.to.addonLeft.onClick(this.to, this, $event);
+    }
+  }
+
+  addonRightClick($event: any) {
+    if (this.to.addonRight.onClick) {
+      this.to.addonRight.onClick(this.to, this, $event);
     }
   }
 

@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // http
 import { HttpClientModule } from '@angular/common/http';
 
-// forms
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+// formly
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { FormlyWrapperAddons } from './formly/addons.wrapper';

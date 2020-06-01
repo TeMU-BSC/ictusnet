@@ -1,37 +1,34 @@
-<!-- <form [formGroup]="form" (submit)="submit()">
-  <mat-vertical-stepper>
-    <mat-step *ngFor="let step of steps; let index = index; let last = last;">
-      <ng-template matStepLabel>{{ step.label }}</ng-template>
-      <formly-form
-        [form]="form.at(index)"
-        [model]="model"
-        [fields]="step.fields"
-        [options]="options[index]">
-      </formly-form>
-
-      <div>
-        <button *ngIf="index !== 0" matStepperPrevious class="btn btn-primary" type="button" (click)="prevStep(index)">Back</button>
-        <button *ngIf="!last" matStepperNext class="btn btn-primary" type="button" [disabled]="!form.at(index).valid" (click)="nextStep(index)">Next</button>
-        <button *ngIf="last" class="btn btn-primary" [disabled]="!form.valid" type="submit">Submit</button>
-      </div>
-    </mat-step>
-  </mat-vertical-stepper>
-</form> -->
-
 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between" fxLayoutGap="3rem" style="padding: 1rem;"
-  ngStyle.gt-sm="height: 100%; padding: 3rem;">
+  ngStyle.gt-sm="height: 100%; padding: 2rem;">
 
-  <section fxFlex="50%" ngStyle.gt-sm="overflow-y: scroll; padding: 0 3rem 0 3rem;">
-    <button mat-button color="secondary" (click)="accordion.closeAll()">
-      <mat-icon style="padding: 0;">unfold_less</mat-icon>Contraer todo
-    </button>
-    <button mat-button color="secondary" (click)="accordion.openAll()">
-      <mat-icon style="padding: 0;">unfold_more</mat-icon>Expandir todo
-    </button>
+  <section fxFlex="50%" style="height: 100%;" ngStyle.gt-sm="overflow-y: scroll; padding: 0 3rem 0 3rem;">
+
+    <!-- <mat-list dense>
+      TESTING
+      <mat-list-item *ngFor="let item of list; let i = index"
+        (mouseenter)="enter(i)"
+        (mouseleave)="leave(i)"
+      >
+        <span matLine>{{ item }}</span>
+        <span matLine>{{ item | uppercase }}</span>
+        <button mat-icon-button *ngIf="hoverIndex == i">
+          <mat-icon aria-label="">home</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-list> -->
+
+    <div fxLayout fxLayoutAlign="center">
+      <button mat-button color="secondary" (click)="accordion.closeAll()">
+        <mat-icon style="padding: 0;">unfold_less</mat-icon>Contraer todo
+      </button>
+      <button mat-button color="secondary" (click)="accordion.openAll()">
+        <mat-icon style="padding: 0;">unfold_more</mat-icon>Expandir todo
+      </button>
+    </div>
     <form [formGroup]="form" (submit)="download()">
       <mat-accordion multi>
         <mat-expansion-panel *ngFor="let panel of panels; let index = index; let last = last;"
-          [expanded]="expandedStep === index" (opened)="setStep(index)">
+          [expanded]="expandedStep === index" (opened)="setStep(index)" #expansionPanel>
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon style="margin-right: 1rem;">{{ panel.icon }}</mat-icon>
@@ -51,7 +48,7 @@
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>
-      <div fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="1rem" style="margin-top: 3rem;">
+      <div fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="0.5rem" style="margin-top: 3rem;">
         <button type="submit" mat-raised-button color="primary" #downloadButton>
           Descargar las respuestas
         </button>
@@ -62,6 +59,6 @@
     </form>
   </section>
 
-  <section fxFlex="50%" (mouseup)="updateEvidence()" class="text">{{ text }}</section>
+  <section id="text" fxFlex="50%" style="height: 100%;" (mouseup)="updateEvidence()">{{ text }}</section>
 
 </div>
