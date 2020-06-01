@@ -25,7 +25,7 @@ import { FieldWrapper } from '@ngx-formly/core';
 
     >
     <!-- [hidden]="!fieldComponent.iconVisible" -->
-      <button type="button" mat-icon-button>
+      <button type="button" mat-icon-button matTooltip="{{ to.addonRight.tooltip }}">
         <mat-icon *ngIf="to.addonRight.icon">{{ to.addonRight.icon }}</mat-icon>
       </button>
       <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>

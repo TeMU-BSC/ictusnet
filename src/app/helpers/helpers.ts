@@ -1,4 +1,4 @@
-import { Annotation } from '../interfaces/interfaces';
+import { Suggestion } from 'src/app/interfaces/interfaces';
 
 /**
  * Remove the spelling accents may contain the given text.
@@ -21,11 +21,11 @@ export const camelCase = (str) => str
  *
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Groups_and_Ranges
  */
-export function parseBratAnnotations(multilineBratAnnotations: string): Annotation[] {
-  const annotations: Annotation[] = []
+export function parseBratSuggestions(multilineBratSuggestions: string): Suggestion[] {
+  const annotations: Suggestion[] = []
   const regex: RegExp = /(\w\d+)\t(\w+) ((\d+) (\d+))\t(.*)(\n#\d+\t\w+ \w\d+\t(.*))?/gm;
   let match: RegExpExecArray;
-  while ((match = regex.exec(multilineBratAnnotations)) !== null) {
+  while ((match = regex.exec(multilineBratSuggestions)) !== null) {
     annotations.push({
       id: match[1],
       entity: match[2],

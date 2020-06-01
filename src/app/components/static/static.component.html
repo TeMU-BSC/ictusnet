@@ -1,13 +1,15 @@
-<div fxLayout fxLayoutAlign="space-between" class="collapse-expand-buttons">
-  <button mat-button color="secondary" (click)="accordion.closeAll()">
-    <mat-icon style="padding: 0;">unfold_less</mat-icon>Colapsar todo
-  </button>
-  <button mat-button color="secondary" (click)="accordion.openAll()">
-    <mat-icon style="padding: 0;">unfold_more</mat-icon>Expandir todo
-  </button>
-</div>
+<form [formGroup]="form" style="padding: 0 40rem 0 40rem;">
+  <p>PROTOTYPE</p>
 
-<form [formGroup]="form">
+  <div fxLayout fxLayoutAlign="space-between" class="collapse-expand-buttons">
+    <button mat-button type="button" color="secondary" (click)="accordion.closeAll()">
+      <mat-icon style="padding: 0;">unfold_less</mat-icon>Colapsar todo
+    </button>
+    <button mat-button type="button" color="secondary" (click)="accordion.openAll()">
+      <mat-icon style="padding: 0;">unfold_more</mat-icon>Expandir todo
+    </button>
+  </div>
+
   <mat-accordion class="example-headers-align" multi>
 
     <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
@@ -327,22 +329,13 @@
     </mat-expansion-panel>
 
   </mat-accordion>
+
+  <div fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="1rem" style="margin-top: 3rem;">
+    <button type="submit" mat-raised-button color="primary" #downloadButton (click)="download()">
+      Descargar respuestas
+    </button>
+    <button type="button" mat-button color="secondary" (click)="confirm()">
+      Restablecer formulario a los valores iniciales
+    </button>
+  </div>
 </form>
-
-<div fxLayout fxLayoutAlign="space-between" class="collapse-expand-buttons">
-  <button mat-button color="secondary" (click)="accordion.closeAll()">
-    <mat-icon style="padding: 0;">unfold_less</mat-icon>Colapsar todo
-  </button>
-  <button mat-button color="secondary" (click)="accordion.openAll()">
-    <mat-icon style="padding: 0;">unfold_more</mat-icon>Expandir todo
-  </button>
-</div>
-
-<div fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="1rem" style="margin-top: 3rem;">
-  <button type="submit" mat-raised-button color="primary" #downloadButton (click)="download()">
-    Descargar respuestas
-  </button>
-  <button type="button" mat-button color="secondary" (click)="confirm()">
-    Restablecer formulario a los valores iniciales
-  </button>
-</div>

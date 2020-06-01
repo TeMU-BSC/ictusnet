@@ -89,5 +89,22 @@ body {
   // background-color: mat-color($custom, secondary);
 }
 .mat-icon-button.mat-secondary {
-  color:mat-color($custom, secondary);
+  color: mat-color($custom, secondary);
+}
+
+// https://jsfiddle.net/julmot/hexomvbL/
+mark {
+  padding: 0;
+  background: transparent;
+  // background: linear-gradient(to right, #f0ad4e 50%, transparent 50%);
+  background: linear-gradient(to right, mat-color($custom, info) 50%, transparent 50%);
+  background-position: right bottom;
+  background-size: 200% 100%;
+  transition: all .5s ease;
+  // color: #fff;
+}
+mark.animate {
+  background-position: left bottom;
+  color: white;
+  // color: mat-color($custom, info-contrast);
 }

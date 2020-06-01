@@ -1,21 +1,22 @@
-<div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between" fxLayoutGap="3rem" style="padding: 1rem;"
-  ngStyle.gt-sm="height: 100%; padding: 2rem;">
+<div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between" fxLayoutGap="0rem"
+  ngStyle.gt-sm="height: calc(100% - 64px);">
 
-  <section fxFlex="50%" style="height: 100%;" ngStyle.gt-sm="overflow-y: scroll; padding: 0 3rem 0 3rem;">
+  <section fxFlex="0 1 60%" style="padding: 0 1rem 0 1rem;" ngStyle.gt-sm="overflow-y: scroll; padding: 0 5rem 0 5rem;"
+    ngStyle.gt-md="overflow-y: scroll; padding: 0 10rem 0 10rem;"
+    ngStyle.gt-lg="overflow-y: scroll; padding: 0 15rem 0 15rem;"
+  >
 
-    <!-- <mat-list dense>
-      TESTING
-      <mat-list-item *ngFor="let item of list; let i = index"
+    <!-- <div>
+      <p>TESTING SHOW ICON ON MOUSEENTER</p>
+      <div *ngFor="let item of list; let i = index"
+      style="height: 40px;"
         (mouseenter)="enter(i)"
         (mouseleave)="leave(i)"
       >
-        <span matLine>{{ item }}</span>
-        <span matLine>{{ item | uppercase }}</span>
-        <button mat-icon-button *ngIf="hoverIndex == i">
-          <mat-icon aria-label="">home</mat-icon>
-        </button>
-      </mat-list-item>
-    </mat-list> -->
+        <span matLine>{{ item | titlecase }}</span>
+        <span *ngIf="hoverIndex == i">   _ICON_</span>
+      </div>
+    </div> -->
 
     <div fxLayout fxLayoutAlign="center">
       <button mat-button color="secondary" (click)="accordion.closeAll()">
@@ -59,6 +60,12 @@
     </form>
   </section>
 
-  <section id="text" fxFlex="50%" style="height: 100%;" (mouseup)="updateEvidence()">{{ text }}</section>
+  <section fxFlex="0 1 40%" class="plaintext wrap context" (mouseup)="updateEvidence()">{{ text }}</section>
+
+  <!-- <div class="search_input">
+    <input placeholder="Search..." #search type="text">
+  </div>
+  <div class="content_wrapper text" [markjsHighlight]="searchText$ | async" [markjsConfig]="searchConfig"
+    [scrollToFirstMarked]="true">{{ text2 }}</div> -->
 
 </div>

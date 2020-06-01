@@ -20,12 +20,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 // highlighting
 import { NgxMarkjsModule } from 'ngx-markjs';
-import { HighlightPipe } from './pipes/highlight.pipe';
 
 // app
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DynamicComponent } from './components/dynamic/dynamic.component';
 import { StaticComponent } from './components/static/static.component';
 import { ExpansionComponent } from './components/expansion/expansion.component';
 
@@ -34,8 +32,6 @@ import { ExpansionComponent } from './components/expansion/expansion.component';
     AppComponent,
     FormlyWrapperAddons,
     FlexLayoutType,
-    HighlightPipe,
-    DynamicComponent,
     StaticComponent,
     ExpansionComponent,
   ],

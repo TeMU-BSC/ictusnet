@@ -1,12 +1,18 @@
-import { Component, OnInit, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { FormArray, FormGroup } from '@angular/forms';
-import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
-import { ParsingService } from 'src/app/services/parsing.service';
-import { Suggestion, Variable } from 'src/app/interfaces/interfaces';
 import { MatAccordion } from '@angular/material/expansion';
 import { Papa } from 'ngx-papaparse';
+import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
+
+import { ParsingService } from 'src/app/services/parsing.service';
+import { Suggestion, Variable } from 'src/app/interfaces/interfaces';
 import { downloadObjectAsJson } from 'src/app/helpers/helpers';
-import { HttpClient } from '@angular/common/http';
+import Mark from 'mark.js';
+
+// TODO autoscroll to first match
+// TODO mimic the layout from my prototype 'static' component (with info tooltips)
+// TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
 
 export interface PanelType {
   icon?: string;
@@ -66,9 +72,22 @@ export class ExpansionComponent implements OnInit {
    * Load a single text file from user.
    */
   loadFile(fileId: string) {
-    // TESTING
     this.downloadFilename = `${fileId}.json`;
+
     this.http.get(`assets/${fileId}.utf8.txt`, { responseType: 'text' }).subscribe(data => this.text = data);
+    // ONLY txt file !Remember to pass the event as parameter ;)
+    // this.file = event.target.files[0];
+    // var reader = new FileReader();
+    // reader.readAsText(this.file);
+    // reader.onload = () => {
+    //   this.text = reader.result.toString();
+
+    //   TODO localstorage with array of files
+    //   localStorage.setItem(this.file.name, reader.result.toString());
+    //   this.text = localStorage.getItem('377259358.utf8.txt');
+
+    // }
+
     this.parser.getSuggestionsFromFile(`${fileId}.utf8.ann`).subscribe(data => {
       this.suggestions = data;
       this.papa.parse('assets/variables.tsv', {
@@ -94,26 +113,9 @@ export class ExpansionComponent implements OnInit {
               });
             }
           });
-          console.log('variables', variables);
-
         }
       });
-      console.log('suggestions', this.suggestions);
-
     });
-
-    // ONLY txt file !Remember to pass the event as parameter ;)
-    // this.file = event.target.files[0];
-    // var reader = new FileReader();
-    // reader.readAsText(this.file);
-    // reader.onload = () => {
-    //   this.text = reader.result.toString();
-
-    //   TODO localstorage with array of files
-    //   localStorage.setItem(this.file.name, reader.result.toString());
-    //   this.text = localStorage.getItem('377259358.utf8.txt');
-
-    // }
   }
 
   createPanel(section: string, panelFields: FormlyFieldConfig[]): PanelType {
@@ -126,24 +128,37 @@ export class ExpansionComponent implements OnInit {
 
   generatePanelFields(section: string, allVariables: Variable[]): FormlyFieldConfig[] {
     const panelVariables = allVariables.filter(v => v.section === section);
-    const fields = panelVariables.map(variable => ({
-      key: variable.key,
-      type: variable.fieldType,
-      templateOptions: {
-        type: variable.inputType,
-        appearance: 'outline',
-        label: variable.label,
-        multiple: variable.cardinality === 'n',
-        options: variable.admissibles.map(a => ({ value: a.value, label: a.value })),
-        focus: (field, event) => this.focusedField = field.key,
-        // custom properties
-        suggestions: this.suggestions.filter(sugg => variable.entity.startsWith(sugg.entity)),
-        addonRight: {
-          icon: 'search',
-          onClick: (to, addon, event) => this.mark(this.text, to.suggestions),
-        },
-      },
-    }));
+    const fields = [];
+    panelVariables.forEach(variable => {
+      let suggestions = this.suggestions.filter(sugg => variable.entity.startsWith(sugg.entity));
+      if (variable.entity === 'Diagnostico_principal') {
+        suggestions = this.suggestions.filter(sugg => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(sugg.entity));
+      }
+      fields.push(
+        {
+          key: variable.key,
+          type: variable.fieldType,
+          templateOptions: {
+            type: variable.inputType,
+            appearance: 'outline',
+            label: variable.label,
+            multiple: variable.cardinality === 'n',
+            options: variable.admissibles.map(a => ({ value: a.value, label: a.value })),
+            focus: (field, event) => this.focusedField = field.key,
+
+            // custom properties
+            suggestions: suggestions,
+
+            // custom addons
+            addonRight: {
+              icon: 'search',
+              tooltip: `Primera evidencia en el texto: ${suggestions[0]?.evidence}`,
+              onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
+            },
+          }
+        }
+      );
+    });
     return fields;
   }
 
@@ -161,11 +176,7 @@ export class ExpansionComponent implements OnInit {
     // special cases
     // select fields that accept only one value
     if (variable.entity === 'Diagnostico_principal') {
-      sugg = this.suggestions.find(sugg => [
-        'Ictus_isquemico',
-        'Ataque_isquemico_transitorio',
-        'Hemorragia_cerebral'
-      ].includes(sugg.entity));
+      sugg = this.suggestions.find(sugg => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(sugg.entity));
       autofillValue = sugg ? variable.admissibles.find(a => a.value.startsWith(sugg.entity.toLowerCase().split('_')[0])).value : null;
     }
     // select fields that accept multiple values
@@ -177,18 +188,22 @@ export class ExpansionComponent implements OnInit {
     this.model[variable.key] = autofillValue;
   }
 
-  mark(text: string, suggestions: Suggestion[]) {
-    suggestions.forEach(sugg => {
-      let element = document.getElementById('text');
-      let str = text;
-      let start = sugg.offset.start;
-      let end = sugg.offset.end;
-      str = str.substr(0, start) +
-      '<mark>' +
-      str.substr(start, end - start + 1) +
-      '</mark>' +
-      str.substr(end + 1);
-      element.innerHTML = str;
+  /**
+   * Hishlight, in the text with class `className`, the offsets present in the given suggestions.
+   * Note: Requires an HTML element with the given `className` to exist.
+   *
+   * https://markjs.io/#markranges
+   * https://jsfiddle.net/julmot/hexomvbL/
+   *
+   */
+  highlight(suggestions: Suggestion[], className: string) {
+    const instance = new Mark(`.${className}`);
+    const ranges = suggestions.map(sugg => ({ start: sugg.offset.start, length: sugg.offset.end - sugg.offset.start }));
+    const options = {
+      "each": (element: HTMLElement, range) => setTimeout(() => element.classList.add("animate"), 250)
+    };
+    instance.unmark({
+      done: () => instance.markRanges(ranges, options)
     });
   }
 
@@ -204,20 +219,15 @@ export class ExpansionComponent implements OnInit {
     if (evidence) {
       this.model = { ...this.model, [this.focusedField]: evidence };
       this.focusedField = null;
-      console.log(evidence, start, end);
-
     }
   }
 
   confirmReset() {
-    // if (confirm('Estás a punto de restablecer el formulario a su estado inicial, perdiendo todo el progreso hasta ahora.')) {
-    //   this.model = {};
-    //   this.panels = [];
-    //   this.ngOnInit();
-    // }
-
-    console.log(this.panels);
-
+    if (confirm('Estás a punto de restablecer el formulario a su estado inicial, perdiendo todo el progreso hasta ahora.')) {
+      this.model = {};
+      this.panels = [];
+      this.ngOnInit();
+    }
   }
 
   /**
@@ -234,14 +244,14 @@ export class ExpansionComponent implements OnInit {
     downloadObjectAsJson(exportable, this.downloadFilename);
   }
 
-  // list = ['potatoe', 'banana', 'grapes'];
-  // hoverIndex: number;
-  // enter(i) {
-  //   this.hoverIndex = i;
-  // }
-  // leave(i) {
-  //   this.hoverIndex = null;
-  // }
+  list = ['potatoe', 'banana', 'grapes'];
+  hoverIndex: number;
+  enter(i) {
+    this.hoverIndex = i;
+  }
+  leave(i) {
+    this.hoverIndex = null;
+  }
 
   // iconVisible = false;
   // showIcon(event) {
@@ -260,6 +270,18 @@ export class ExpansionComponent implements OnInit {
   // }
   // allCollapsed(): boolean| null {
   //   return this.expansionPanels ? this.expansionPanels['_results'].every(r => !r._expanded) : null;
+  // }
+
+  // SEARCH INSIDE TEXT (MAYBE)
+  // @ViewChild('search', { static: false }) searchElemRef: ElementRef;
+  // searchText$: Observable<string>;
+  // searchConfig = { separateWordSearch: false };
+  // ngAfterViewInit() {
+  //   this.searchText$ = fromEvent(this.searchElemRef.nativeElement, 'keyup').pipe(
+  //     map((e: Event) => (e.target as HTMLInputElement).value),
+  //     debounceTime(300),
+  //     distinctUntilChanged()
+  //   );
   // }
 
 }

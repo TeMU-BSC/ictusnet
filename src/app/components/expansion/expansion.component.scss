@@ -4,13 +4,17 @@
   // background-color: rgb(240, 250, 255);  // very light blue
   border-radius: 0.3rem;
 }
-#text {
+section {
+  height: 100%;
+}
+.plaintext {
   height: 100%;
   padding: 1rem;
+  // max-width: 50ch;
   background-color: white;
   font-family: 'Roboto Mono', monospace;
-
-  // wrap text
+}
+.wrap {
   overflow-x: auto;
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;
