@@ -1,4 +1,4 @@
-section	group	label	shortLabel	info	entity	key	cardinality	fieldType	inputType	admissibles	comments
+section	group	label	shortLabel	help	entity	key	cardinality	fieldType	inputType	admissibles	comments
 Entrada y salida del paciente	Inicio de los síntomas	Fecha inicio síntomas o última vez visto asintomático/a	Fecha	También es válida la última vez que el paciente estuvo asintomático.	Fecha_inicio_sintomas	fechaInicioSintomas	1	input	date
 Entrada y salida del paciente	Inicio de los síntomas	Hora inicio síntomas o última vez visto asintomático/a	Hora	También es válida la última vez que el paciente estuvo asintomático.	Hora_inicio_sintomas	horaInicioSintomas	1	input	time
 Entrada y salida del paciente	Llegada al hospital	Fecha de llegada al hospital receptor	Fecha		Fecha_llegada_hospital	fechaLlegadaHospital	1	input	date

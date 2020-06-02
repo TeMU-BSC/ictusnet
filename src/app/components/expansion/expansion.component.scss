@@ -4,8 +4,12 @@
   // background-color: rgb(240, 250, 255);  // very light blue
   border-radius: 0.3rem;
 }
-section {
+mat-accordion {
+  max-width: 556px;
+}
+.fullheight {
   height: 100%;
+  overflow-y: scroll;
 }
 .plaintext {
   height: 100%;
@@ -21,4 +25,8 @@ section {
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
+}
+.clicked-field {
+  background:red;
+  color:#FFf;
 }

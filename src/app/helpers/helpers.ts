@@ -40,7 +40,6 @@ export function parseBratSuggestions(multilineBratSuggestions: string): Suggesti
   return annotations;
 }
 
-
 /**
  * Check if an input is a valid date in `YYYY-MM-DD` format.
  *
@@ -50,7 +49,6 @@ export function isValidDate(input: string): boolean {
   const d = new Date(input);
   return d instanceof Date && !isNaN(d as any);
 }
-
 
 /**
  * Check if an input is a valid time in `hh:mm` format.

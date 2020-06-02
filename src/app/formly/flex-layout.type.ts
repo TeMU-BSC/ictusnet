@@ -8,8 +8,8 @@ import { FieldType } from '@ngx-formly/core';
       class="content"
       [fxLayout]="to.fxLayout"
       fxLayout.xs="column"
-      [fxLayoutAlign]="to.fxLayoutAlign"
-      [fxLayoutGap]="to.fxLayoutGap"
+      [fxLayoutAlign]="to.fxLayoutAlign || 'start stretch'"
+      [fxLayoutGap]="to.fxLayoutGap || '0rem'"
       fxFlexFill
     >
       <formly-field fxFlex *ngFor="let f of field.fieldGroup" [field]="f">

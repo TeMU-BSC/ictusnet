@@ -11,13 +11,12 @@ import { downloadObjectAsJson } from 'src/app/helpers/helpers';
 import Mark from 'mark.js';
 
 // TODO autoscroll to first match
-// TODO mimic the layout from my prototype 'static' component (with info tooltips)
 // TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
 
 export interface PanelType {
   icon?: string;
   title?: string;
-  fields?: FormlyFieldConfig[];
+  groups?: FormlyFieldConfig[];
 }
 
 @Component({
@@ -31,7 +30,7 @@ export class ExpansionComponent implements OnInit {
   file: File;
   text: string;
   suggestions: Suggestion[];
-  focusedField: any;  // update evidence on this.model[focusedField]
+  focusedField: any;
   downloadFilename: string;
 
   // formly
@@ -46,9 +45,7 @@ export class ExpansionComponent implements OnInit {
   setStep(index: number) { this.expandedStep = index }
   nextStep() { this.expandedStep++ }
   prevStep() { this.expandedStep-- }
-
-  // visual icons next to panel section titles
-  icons = {
+  panelIcons = {
     'Entrada y salida del paciente': 'airport_shuttle',
     'Diagnóstico': 'local_hospital',
     'Procedimientos y pruebas': 'healing',
@@ -106,60 +103,12 @@ export class ExpansionComponent implements OnInit {
                 v.admissibles = admissibles.filter(a => v.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }));
                 this.autofillSuggestions(v);
               });
-              const sections = new Set(variables.map(v => v.section));
-              sections.forEach(section => {
-                const panel = this.createPanel(section, this.generatePanelFields(section, variables));
-                this.panels = [...this.panels, panel]
-              });
+              this.panels = [...this.panels, ...this.getPanels(variables, this.suggestions)];
             }
           });
         }
       });
     });
-  }
-
-  createPanel(section: string, panelFields: FormlyFieldConfig[]): PanelType {
-    return {
-      icon: this.icons[section],
-      title: section,
-      fields: panelFields,
-    }
-  }
-
-  generatePanelFields(section: string, allVariables: Variable[]): FormlyFieldConfig[] {
-    const panelVariables = allVariables.filter(v => v.section === section);
-    const fields = [];
-    panelVariables.forEach(variable => {
-      let suggestions = this.suggestions.filter(sugg => variable.entity.startsWith(sugg.entity));
-      if (variable.entity === 'Diagnostico_principal') {
-        suggestions = this.suggestions.filter(sugg => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(sugg.entity));
-      }
-      fields.push(
-        {
-          key: variable.key,
-          type: variable.fieldType,
-          templateOptions: {
-            type: variable.inputType,
-            appearance: 'outline',
-            label: variable.label,
-            multiple: variable.cardinality === 'n',
-            options: variable.admissibles.map(a => ({ value: a.value, label: a.value })),
-            focus: (field, event) => this.focusedField = field.key,
-
-            // custom properties
-            suggestions: suggestions,
-
-            // custom addons
-            addonRight: {
-              icon: 'search',
-              tooltip: `Primera evidencia en el texto: ${suggestions[0]?.evidence}`,
-              onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
-            },
-          }
-        }
-      );
-    });
-    return fields;
   }
 
   /**
@@ -245,15 +194,113 @@ export class ExpansionComponent implements OnInit {
   }
 
   list = ['potatoe', 'banana', 'grapes'];
-  hoverIndex: number;
+  hoveredIndex: number;
+  clickedIndex: number;
   enter(i) {
-    this.hoverIndex = i;
+    this.hoveredIndex = i;
   }
   leave(i) {
-    this.hoverIndex = null;
+    this.hoveredIndex = null;
+  }
+  click(i) {
+    this.clickedIndex = i;
   }
 
-  // iconVisible = false;
+  getPanels(allVariables: Variable[], allSuggestions: Suggestion[]): PanelType[] {
+    const panels: PanelType[] = [];
+    new Set(allVariables.map(v => v.section)).forEach(sectionName => {
+      const sectionVariables = allVariables.filter(v => v.section === sectionName);
+      const groups: FormlyFieldConfig[] = [];
+      new Set(sectionVariables.map(v => v.group)).forEach(groupName => {
+        const groupVariables = allVariables.filter(v => v.group === groupName);
+        const fields: FormlyFieldConfig[] = [];
+        groupVariables.filter(v => v.group === groupName).forEach(variable => {
+          const field = this.getField(variable, this.suggestions);
+          fields.push(field);
+        });
+        const group = this.getGroup(groupName, fields);
+        groups.push(group);
+      });
+      const panel = this.getPanel(sectionName, groups);
+      panels.push(panel);
+    });
+    return panels;
+  }
+
+  getPanel(sectionName: string, groups: FormlyFieldConfig[]): PanelType {
+    const panel: PanelType = {
+      icon: this.panelIcons[sectionName],
+      title: sectionName,
+      groups: groups,
+    };
+    return panel;
+  }
+
+  getGroup(groupName: string, fieldGroup: FormlyFieldConfig[]): FormlyFieldConfig {
+    const group: FormlyFieldConfig = {
+      type: 'flex-layout',
+      templateOptions: {
+        fxLayout: 'column',
+      },
+      fieldGroup: [
+        {
+          template: `<p>${groupName}</p>`
+        },
+        {
+          type: 'flex-layout',
+          templateOptions: {
+            fxLayout: 'row',
+            fxLayoutGap: '0.5rem',
+            // fxLayoutAlign: 'start start',
+          },
+          fieldGroup: []
+        }
+      ]
+    }
+    fieldGroup.forEach(field => group.fieldGroup[1]['fieldGroup']?.push(field));
+    return group;
+  }
+
+  getField(variable: Variable, allSuggestions: Suggestion[]): FormlyFieldConfig {
+    let variableSuggestions = allSuggestions.filter(sugg => variable.entity.startsWith(sugg.entity));
+    if (variable.entity === 'Diagnostico_principal') {
+      variableSuggestions = allSuggestions.filter(sugg => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(sugg.entity));
+    }
+    const variableHelp = variable.help ? {
+      icon: 'info',
+      tooltip: variable.help,
+      tooltipPosition: 'right',
+    } : null;
+
+    variable.help
+    const field: FormlyFieldConfig = {
+      key: variable.key,
+      type: variable.fieldType,
+      templateOptions: {
+        type: variable.inputType,
+        appearance: 'outline',
+        label: variable.shortLabel,
+        multiple: variable.cardinality === 'n',
+        options: variable.admissibles.map(a => ({ value: a.value, label: a.value })),
+        focus: (field, event) => this.focusedField = field.key,
+
+        // custom properties
+        suggestions: variableSuggestions,
+
+        // custom addons
+        addonRight: {
+          icon: 'search',
+          tooltip: `Primera evidencia en el texto: ${variableSuggestions[0]?.evidence}`,
+          tooltipPosition: 'right',
+          onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
+        },
+        help: variableHelp,
+      }
+    };
+    return field;
+  }
+
+    // iconVisible = false;
   // showIcon(event) {
   //   this.iconVisible = true;
   //   console.log(event);

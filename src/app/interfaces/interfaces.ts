@@ -13,7 +13,8 @@ export interface Variable {
   section: string;
   group?: string;
   label: string;
-  info?: string;
+  shortLabel: string;
+  help?: string;
   entity: string;
   key: string;
   cardinality: string;

@@ -1,10 +1,14 @@
 <!-- <router-outlet></router-outlet> -->
 
 <mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span style="font-family: 'Roboto Mono', monospace;">ICTUSnet</span>
+  <mat-toolbar-row fxLayout.lt-sm="column" ngStyle.lt-sm="height: 128px;">
+    <span fxLayout fxLayoutAlign="center center" fxLayoutGap="1rem" style="font-family: 'Roboto Mono', monospace; height: 100%;">
+      <img src="assets/logo_ictusnet.png" alt="" style="height: 70%; background-color: rgb(240, 250, 255); border-radius: 50%;">
+      <span>ICTUSnet web app</span>
+    </span>
     <span style="flex: 1 1 auto;"></span>
-    <!-- <mat-icon>favorite</mat-icon>
+    <a mat-button href="https://github.com/TeMU-BSC/ictusnet">GitHub repo <mat-icon>open_in_new</mat-icon> </a>
+    <!-- <mat-icon>github</mat-icon>
     <mat-icon>home</mat-icon> -->
   </mat-toolbar-row>
 </mat-toolbar>
@@ -12,6 +16,5 @@
 <!-- <h1 style="text-align: center; font-size: 2rem; font-family: 'Roboto Mono', monospace; padding: 2rem;">ICTUSnet</h1> -->
 <!-- <p>Herramienta web para tipificar informes de alta de pacientes relacionados con ictus.</p> -->
 
-<app-expansion></app-expansion>
-
 <!-- <app-static></app-static> -->
+<app-expansion></app-expansion>

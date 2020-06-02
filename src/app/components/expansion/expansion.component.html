@@ -1,32 +1,23 @@
-<div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between" fxLayoutGap="0rem"
+<div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between center" fxLayoutGap="0rem"
   ngStyle.gt-sm="height: calc(100% - 64px);">
 
-  <section fxFlex="0 1 60%" style="padding: 0 1rem 0 1rem;" ngStyle.gt-sm="overflow-y: scroll; padding: 0 5rem 0 5rem;"
-    ngStyle.gt-md="overflow-y: scroll; padding: 0 10rem 0 10rem;"
-    ngStyle.gt-lg="overflow-y: scroll; padding: 0 15rem 0 15rem;"
+  <section fxFlex="60%" class="fullheight"
+    style="padding: 0 1rem 0 1rem;"
+    ngStyle.gt-sm="padding: 0  5rem 0  5rem;"
+    ngStyle.gt-md="padding: 0 10rem 0 10rem;"
+    ngStyle.gt-lg="padding: 0 20rem 0 20rem;"
+    ngStyle.gt-xl="padding: 0 40rem 0 40rem;"
   >
-
-    <!-- <div>
-      <p>TESTING SHOW ICON ON MOUSEENTER</p>
-      <div *ngFor="let item of list; let i = index"
-      style="height: 40px;"
-        (mouseenter)="enter(i)"
-        (mouseleave)="leave(i)"
-      >
-        <span matLine>{{ item | titlecase }}</span>
-        <span *ngIf="hoverIndex == i">   _ICON_</span>
-      </div>
-    </div> -->
-
-    <div fxLayout fxLayoutAlign="center">
-      <button mat-button color="secondary" (click)="accordion.closeAll()">
-        <mat-icon style="padding: 0;">unfold_less</mat-icon>Contraer todo
-      </button>
-      <button mat-button color="secondary" (click)="accordion.openAll()">
-        <mat-icon style="padding: 0;">unfold_more</mat-icon>Expandir todo
-      </button>
-    </div>
     <form [formGroup]="form" (submit)="download()">
+      <div fxLayout fxLayoutAlign="end">
+        <button type="button" mat-button color="secondary" (click)="accordion.closeAll()">
+          <mat-icon>unfold_less</mat-icon>Contraer todo
+        </button>
+        <button type="button" mat-button color="secondary" (click)="accordion.openAll()">
+          <mat-icon>unfold_more</mat-icon>Expandir todo
+        </button>
+      </div>
+
       <mat-accordion multi>
         <mat-expansion-panel *ngFor="let panel of panels; let index = index; let last = last;"
           [expanded]="expandedStep === index" (opened)="setStep(index)" #expansionPanel>
@@ -37,7 +28,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <formly-form [form]="form.at(index)" [model]="model" [fields]="panel.fields" [options]="options[index]">
+          <formly-form [form]="form.at(index)" [model]="model" [fields]="panel.groups" [options]="options[index]">
           </formly-form>
 
           <mat-action-row>
@@ -49,9 +40,10 @@
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>
-      <div fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="0.5rem" style="margin-top: 3rem;">
-        <button type="submit" mat-raised-button color="primary" #downloadButton>
-          Descargar las respuestas
+      <div fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="0.5rem" style="margin-top: 2rem;">
+        <button type="submit" mat-button color="primary">
+          <mat-icon style="margin-right: 0.3rem;">save_alt</mat-icon>
+          Descargar las respuestas en formato JSON
         </button>
         <button type="button" mat-button color="secondary" (click)="confirmReset()">
           o empezar de nuevo
@@ -60,7 +52,8 @@
     </form>
   </section>
 
-  <section fxFlex="0 1 40%" class="plaintext wrap context" (mouseup)="updateEvidence()">{{ text }}</section>
+  <section fxFlex="40%" class="fullheight plaintext wrap context" (mouseup)="updateEvidence()">{{ text }}</section>
+
 
   <!-- <div class="search_input">
     <input placeholder="Search..." #search type="text">

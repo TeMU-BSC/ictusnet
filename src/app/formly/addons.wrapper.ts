@@ -4,33 +4,39 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'formly-wrapper-addons',
   template: `
-  <ng-template #matPrefix>
-    <span
-      *ngIf="to.addonLeft"
-      [ngStyle]="{cursor: to.addonLeft.onClick ? 'pointer' : 'inherit'}"
-      (click)="addonLeftClick($event)"
-    >
-      <mat-icon *ngIf="to.addonLeft.icon">{{ to.addonLeft.icon }}</mat-icon>&nbsp;
-      <span *ngIf="to.addonLeft.text">{{ to.addonLeft.text }}</span>&nbsp;
-    </span>
-  </ng-template>
+    <ng-template #matPrefix>
+      <span
+        *ngIf="to.addonLeft"
+        [ngStyle]="{cursor: to.addonLeft.onClick ? 'pointer' : 'inherit'}"
+        (click)="addonLeftClick($event)"
+      >
+        <mat-icon *ngIf="to.addonLeft.icon">{{ to.addonLeft.icon }}</mat-icon>&nbsp;
+        <span *ngIf="to.addonLeft.text">{{ to.addonLeft.text }}</span>&nbsp;
+      </span>
+    </ng-template>
 
-  <ng-container #fieldComponent></ng-container>
+    <ng-container #fieldComponent></ng-container>
 
-  <ng-template #matSuffix>
-    <span
-      *ngIf="to.addonRight"
-      [ngStyle]="{cursor: to.addonRight.onClick ? 'pointer' : 'inherit'}"
-      (click)="addonRightClick($event)"
-
-    >
-    <!-- [hidden]="!fieldComponent.iconVisible" -->
-      <button type="button" mat-icon-button matTooltip="{{ to.addonRight.tooltip }}">
-        <mat-icon *ngIf="to.addonRight.icon">{{ to.addonRight.icon }}</mat-icon>
-      </button>
-      <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
-    </span>
-  </ng-template>
+    <ng-template #matSuffix>
+      <span
+        *ngIf="to.addonRight"
+        [ngStyle]="{cursor: to.addonRight.onClick ? 'pointer' : 'inherit'}"
+        (click)="addonRightClick($event)"
+        fxLayout="row" fxLayoutAlign="center center"
+      >
+        <mat-icon *ngIf="to.help" color="primary" matTooltip="{{ to.help.tooltip }}"
+          matTooltipPosition="{{ to.help.tooltipPosition }}">
+          {{ to.help.icon }}
+        </mat-icon>
+        <button type="button" mat-icon-button>
+          <mat-icon *ngIf="to.addonRight.icon" matTooltip="{{ to.addonRight.tooltip }}"
+            matTooltipPosition="{{ to.addonRight.tooltipPosition }}">
+            {{ to.addonRight.icon }}
+          </mat-icon>
+        </button>
+        <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
+      </span>
+    </ng-template>
   `,
 })
 export class FormlyWrapperAddons extends FieldWrapper implements AfterViewInit {
