@@ -24,16 +24,18 @@ import { FieldWrapper } from '@ngx-formly/core';
         (click)="addonRightClick($event)"
         fxLayout="row" fxLayoutAlign="center center"
       >
-        <mat-icon *ngIf="to.help" color="primary" matTooltip="{{ to.help.tooltip }}"
-          matTooltipPosition="{{ to.help.tooltipPosition }}">
-          {{ to.help.icon }}
-        </mat-icon>
-        <button type="button" mat-icon-button>
-          <mat-icon *ngIf="to.addonRight.icon" matTooltip="{{ to.addonRight.tooltip }}"
+
+        <button *ngIf="to.addonRight.icon !== null" type="button" mat-icon-button>
+          <mat-icon matTooltip="{{ to.addonRight.tooltip }}"
             matTooltipPosition="{{ to.addonRight.tooltipPosition }}">
             {{ to.addonRight.icon }}
           </mat-icon>
         </button>
+        <mat-icon *ngIf="to.help" color="primary" matTooltip="{{ to.help.tooltip }}"
+          matTooltipPosition="{{ to.help.tooltipPosition }}">
+          {{ to.help.icon }}
+        </mat-icon>
+
         <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
       </span>
     </ng-template>

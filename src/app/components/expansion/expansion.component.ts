@@ -113,25 +113,58 @@ export class ExpansionComponent implements OnInit {
 
   /**
    * Autofill the form fields with suggestions.
+   *
+   * TODO treat special cases (1, n) and *_hab, *_alta, *_previa, *_alta
    */
   autofillSuggestions(variable: Variable) {
     let sugg: Suggestion;
     let autofillValue: string | string[];
 
-    // normal cases like dates, times and integers
+    // input fields like dates, times and integers
     sugg = this.suggestions.find(sugg => sugg.entity === variable.entity);
     autofillValue = sugg?.notes;
 
-    // special cases
-    // select fields that accept only one value
-    if (variable.entity === 'Diagnostico_principal') {
-      sugg = this.suggestions.find(sugg => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(sugg.entity));
-      autofillValue = sugg ? variable.admissibles.find(a => a.value.startsWith(sugg.entity.toLowerCase().split('_')[0])).value : null;
+    // select fields
+    if (variable.fieldType === 'select') {
+
+      // select fields that accept only one value
+      if (variable.cardinality === '1') {
+
+        // special case: 'Diagnostico_principal' is not an entity per se
+        if (variable.entity === 'Diagnostico_principal') {
+          sugg = this.suggestions.find(sugg => [
+            'Ictus_isquemico',
+            'Ataque_isquemico_transitorio',
+            'Hemorragia_cerebral',
+          ].includes(sugg.entity));
+        }
+        autofillValue = variable.admissibles.find(a => a.value.startsWith(sugg?.entity.toLowerCase().split('_')[0]))?.value;
+      }
+
+      // select fields that accept multiple values
+      if (variable.cardinality === 'n') {
+
+        // special case: 'Tratamiento_*' entities can be unspecific
+        if (variable.entity.startsWith('Tratamiento')) {
+          sugg = this.suggestions.find(sugg => [
+            'Tratamiento_antiagregante',
+            'Tratamiento_antiagregante_hab',
+            'Tratamiento_antiagregante_alta',
+            'Tratamiento_anticoagulate',
+            'Tratamiento_anticoagulate_hab',
+            'Tratamiento_anticoagulate_alta',
+          ].includes(sugg.entity));
+        }
+        autofillValue = variable.admissibles.filter(a => a.value.match(sugg?.evidence)).map(a => a.value);
+      }
     }
     // select fields that accept multiple values
-    else if (['Arteria_afectada', 'Localizacion'].includes(variable.entity)) {
-      autofillValue = variable.admissibles.filter(a => a.value.match(sugg.evidence)).map(a => a.value);
-    }
+    // else if ([
+    //   'Arteria_afectada',
+    //   'Localizacion',
+    // ].includes(variable.entity)) {
+    //   autofillValue = variable.admissibles.filter(a => a.value.match(sugg?.evidence)).map(a => a.value);
+    // }
 
     // update the model
     this.model[variable.key] = autofillValue;
@@ -149,7 +182,8 @@ export class ExpansionComponent implements OnInit {
     const instance = new Mark(`.${className}`);
     const ranges = suggestions.map(sugg => ({ start: sugg.offset.start, length: sugg.offset.end - sugg.offset.start }));
     const options = {
-      "each": (element: HTMLElement, range) => setTimeout(() => element.classList.add("animate"), 250)
+      each: (element: HTMLElement) => setTimeout(() => element.classList.add("animate"), 250),
+      done: (numberOfMatches: number) => numberOfMatches ? document.getElementsByTagName('mark')[0].scrollIntoView() : null
     };
     instance.unmark({
       done: () => instance.markRanges(ranges, options)
@@ -244,14 +278,13 @@ export class ExpansionComponent implements OnInit {
       },
       fieldGroup: [
         {
-          template: `<p>${groupName}</p>`
+          template: `<p><b>${groupName}</b></p>`
         },
         {
           type: 'flex-layout',
           templateOptions: {
-            fxLayout: 'row',
+            fxLayout: 'row wrap',
             fxLayoutGap: '0.5rem',
-            // fxLayoutAlign: 'start start',
           },
           fieldGroup: []
         }
@@ -259,6 +292,21 @@ export class ExpansionComponent implements OnInit {
     }
     fieldGroup.forEach(field => group.fieldGroup[1]['fieldGroup']?.push(field));
     return group;
+
+    // const group: FormlyFieldConfig = {
+    //   type: 'flex-layout',
+    //   templateOptions: {
+    //     fxLayout: 'row wrap',
+    //     fxLayoutGap: '0.5rem',
+    //   },
+    //   fieldGroup: [
+    //     {
+    //       template: `<p fxLayout="row">${groupName}</p><br/>`
+    //     }
+    //   ]
+    // }
+    // fieldGroup.forEach(field => group.fieldGroup.push(field));
+    // return group;
   }
 
   getField(variable: Variable, allSuggestions: Suggestion[]): FormlyFieldConfig {
@@ -266,13 +314,7 @@ export class ExpansionComponent implements OnInit {
     if (variable.entity === 'Diagnostico_principal') {
       variableSuggestions = allSuggestions.filter(sugg => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(sugg.entity));
     }
-    const variableHelp = variable.help ? {
-      icon: 'info',
-      tooltip: variable.help,
-      tooltipPosition: 'right',
-    } : null;
 
-    variable.help
     const field: FormlyFieldConfig = {
       key: variable.key,
       type: variable.fieldType,
@@ -284,23 +326,46 @@ export class ExpansionComponent implements OnInit {
         options: variable.admissibles.map(a => ({ value: a.value, label: a.value })),
         focus: (field, event) => this.focusedField = field.key,
 
-        // custom properties
-        suggestions: variableSuggestions,
+        // // custom properties
+        // suggestions: variableSuggestions,
 
-        // custom addons
-        addonRight: {
-          icon: 'search',
-          tooltip: `Primera evidencia en el texto: ${variableSuggestions[0]?.evidence}`,
-          tooltipPosition: 'right',
-          onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
-        },
-        help: variableHelp,
+        // // custom addons
+        // addonRight: {
+        //   icon: 'search',
+        //   // tooltip: `Primera evidencia en el texto: ${variableSuggestions[0]?.evidence}`,
+        //   tooltip: variableSuggestions[0]?.evidence || null,
+        //   tooltipPosition: 'right',
+        //   onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
+        // },
+        // help: variableHelp,
       }
     };
+
+    // custom properties
+    field.templateOptions.suggestions = variableSuggestions;
+    if (variableSuggestions) {
+      field.templateOptions.addonRight = {
+        icon: 'search',
+        // tooltip: `Primera evidencia en el texto: ${variableSuggestions[0]?.evidence}`,
+        tooltip: variableSuggestions[0]?.evidence || null,
+        tooltipPosition: 'right',
+        onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
+      }
+    }
+    if (variable.help) {
+      field.templateOptions.help = {
+        icon: 'info',
+        tooltip: variable.help,
+        tooltipPosition: 'right',
+      };
+    }
+
+
+
     return field;
   }
 
-    // iconVisible = false;
+  // iconVisible = false;
   // showIcon(event) {
   //   this.iconVisible = true;
   //   console.log(event);
