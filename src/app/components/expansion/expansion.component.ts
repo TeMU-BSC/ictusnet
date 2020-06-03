@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormArray, FormGroup } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
@@ -25,9 +25,10 @@ export interface PanelType {
   templateUrl: './expansion.component.html',
   styleUrls: ['./expansion.component.scss'],
 })
-export class ExpansionComponent implements OnInit {
+export class ExpansionComponent implements OnChanges {
 
   // core atrtibutes
+  @Input() fileId: string;
   file: File;
   text: string;
   focusedField: any;
@@ -60,9 +61,10 @@ export class ExpansionComponent implements OnInit {
     private parser: ParsingService
   ) { }
 
-  ngOnInit(): void {
-    // this.loadFile('321108781');
-    this.loadFile('321687159');
+  ngOnChanges(): void {
+    this.model = {};
+    this.panels = [];
+    this.loadFile(this.fileId);
   }
 
   /**
@@ -304,9 +306,7 @@ updateEvidence() {
 
 confirmReset() {
   if (confirm('Estás a punto de restablecer el formulario a su estado inicial, perdiendo todo el progreso hasta ahora.')) {
-    this.model = {};
-    this.panels = [];
-    this.ngOnInit();
+    this.ngOnChanges();
   }
 }
 
@@ -318,6 +318,8 @@ confirmReset() {
  */
 download(format: string) {
   format === 'json' ? downloadObjectAsJson(this.model, this.downloadFilename) : null;
+  format === 'ann' ? this.http.get(`assets/${this.fileId}.utf8.ann`, { responseType: 'text' }).subscribe(data => console.log(data)) : null;
+
 }
 
   // iconVisible = false;

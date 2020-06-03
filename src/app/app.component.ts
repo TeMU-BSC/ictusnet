@@ -8,4 +8,9 @@ import { faGithubAlt } from '@fortawesome/free-brands-svg-icons';
 })
 export class AppComponent {
   faGithubAlt = faGithubAlt;
+  fileId: string = '321108781';
+
+  setFileId(fileId: string) {
+    this.fileId = fileId;
+  }
 }

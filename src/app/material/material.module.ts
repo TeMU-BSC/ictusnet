@@ -14,7 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 // import { MatListModule } from '@angular/material/list'
-// import { MatMenuModule } from '@angular/material/menu'
+import { MatMenuModule } from '@angular/material/menu'
 // import { MatRadioModule } from '@angular/material/radio'
 // import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar'
 import { MatSelectModule } from '@angular/material/select'
@@ -48,7 +48,7 @@ const material = [
   MatToolbarModule,
   MatTooltipModule,
   // MatDialogModule,
-  // MatMenuModule,
+  MatMenuModule,
   // MaterialFileInputModule
 ]
 

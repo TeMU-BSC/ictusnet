@@ -9,7 +9,10 @@
     ngStyle.gt-xl="padding: 0 40rem 0 40rem;"
   >
     <form [formGroup]="form" (submit)="download('json')">
-      <div fxLayout fxLayoutAlign="end">
+      <div fxLayout fxLayoutAlign="center">
+        <a href="../../../assets/{{fileId}}.utf8.ann" type="button" mat-button color="accent">
+          dev: inspeccionar sugerencias ({{fileId}}.utf8.ann)
+        </a>
         <button type="button" mat-button color="secondary" (click)="accordion.closeAll()">
           <mat-icon>unfold_less</mat-icon>Contraer todo
         </button>
