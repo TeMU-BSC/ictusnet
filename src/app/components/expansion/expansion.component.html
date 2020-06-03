@@ -1,18 +1,19 @@
 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between center" fxLayoutGap="0rem"
-  ngStyle.gt-sm="height: calc(100% - 64px);">
+  ngStyle.gt-sm="height: 100%;">
 
-  <section fxFlex="60%" class="fullheight"
+  <section fxFlex="50%" class="fullheight plaintext wrap context" (mouseup)="updateEvidence()">{{ text }}</section>
+
+  <!-- <section fxFlex="60%" class="fullheight"
     style="padding: 0 1rem 0 1rem;"
     ngStyle.gt-sm="padding: 0  4rem 0  4rem;"
     ngStyle.gt-md="padding: 0  8rem 0  8rem;"
     ngStyle.gt-lg="padding: 0 16rem 0 16rem;"
     ngStyle.gt-xl="padding: 0 40rem 0 40rem;"
-  >
+  > -->
+  <section fxFlex="50%" class="fullheight"
+    style="padding: 0 1rem 0 1rem;">
     <form [formGroup]="form" (submit)="download('json')">
       <div fxLayout fxLayoutAlign="center">
-        <a href="../../../assets/{{fileId}}.utf8.ann" type="button" mat-button color="accent">
-          dev: inspeccionar sugerencias ({{fileId}}.utf8.ann)
-        </a>
         <button type="button" mat-button color="secondary" (click)="accordion.closeAll()">
           <mat-icon>unfold_less</mat-icon>Contraer todo
         </button>
@@ -43,7 +44,7 @@
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>
-      <div fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="0.5rem" style="margin-top: 2rem;">
+      <div fxLayout="column" fxLayoutAlign="stretch center" style="margin-top: 2rem;">
         <button type="submit" mat-button color="primary">
           <mat-icon style="margin-right: 0.3rem;">save_alt</mat-icon>
           Descargar las respuestas en formato JSON
@@ -54,9 +55,6 @@
       </div>
     </form>
   </section>
-
-  <section fxFlex="40%" class="fullheight plaintext wrap context" (mouseup)="updateEvidence()">{{ text }}</section>
-
 
   <!-- <div class="search_input">
     <input placeholder="Search..." #search type="text">

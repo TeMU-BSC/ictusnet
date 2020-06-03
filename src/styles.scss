@@ -10,6 +10,30 @@ body {
   // background-color: mat-color($custom, info-contrast);
 }
 
+.fullheight {
+  height: 100%;
+  overflow-y: scroll;
+}
+.plaintext {
+  height: 100%;
+  padding: 1rem;
+  // max-width: 50ch;
+  background-color: white;
+  font-family: 'Roboto Mono', monospace;
+}
+.wrap {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.clicked-field {
+  background:red;
+  color:#FFf;
+}
+
 // https://stackoverflow.com/a/58134022
 
 // custom colors

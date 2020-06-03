@@ -14,7 +14,7 @@ export class ParsingService {
 
   getSuggestionsFromFile(filename: string): Observable<Suggestion[]> {
     const suggestions: Suggestion[] = [];
-    this.papa.parse(`assets/${filename}`, {
+    this.papa.parse(filename, {
       download: true,
       skipEmptyLines: true,
       complete: results => {

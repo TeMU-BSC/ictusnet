@@ -28,6 +28,7 @@ export interface PanelType {
 export class ExpansionComponent implements OnChanges {
 
   // core atrtibutes
+  path: string = 'assets/alejandro_sample/10/';
   @Input() fileId: string;
   file: File;
   text: string;
@@ -73,7 +74,7 @@ export class ExpansionComponent implements OnChanges {
   loadFile(fileId: string) {
     this.downloadFilename = `${fileId}.json`;
 
-    this.http.get(`assets/${fileId}.utf8.txt`, { responseType: 'text' }).subscribe(data => this.text = data);
+    this.http.get(`${this.path}${fileId}.utf8.txt`, { responseType: 'text' }).subscribe(data => this.text = data);
     // ONLY txt file !Remember to pass the event as parameter ;)
     // this.file = event.target.files[0];
     // var reader = new FileReader();
@@ -87,9 +88,9 @@ export class ExpansionComponent implements OnChanges {
 
     // }
 
-    this.parser.getSuggestionsFromFile(`${fileId}.utf8.ann`).subscribe(data => {
+    this.parser.getSuggestionsFromFile(`${this.path}/${fileId}.utf8.ann`).subscribe(data => {
       const allSuggestions: Suggestion[] = data;
-      this.papa.parse('assets/variables.tsv', {
+      this.papa.parse(`assets/variables.tsv`, {
         download: true,
         header: true,
         skipEmptyLines: true,
@@ -318,8 +319,6 @@ confirmReset() {
  */
 download(format: string) {
   format === 'json' ? downloadObjectAsJson(this.model, this.downloadFilename) : null;
-  format === 'ann' ? this.http.get(`assets/${this.fileId}.utf8.ann`, { responseType: 'text' }).subscribe(data => console.log(data)) : null;
-
 }
 
   // iconVisible = false;
