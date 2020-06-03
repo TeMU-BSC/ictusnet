@@ -101,7 +101,6 @@ export class ExpansionComponent implements OnInit {
               variables.forEach(variable => {
                 variable.admissibles = admissibles.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }));
                 const suggestions = this.getVariableSuggestions(variable, allSuggestions);
-                console.log(variable.entity, suggestions);
 
                 // TODO add suggestions to this field
                 // ...
@@ -138,8 +137,13 @@ export class ExpansionComponent implements OnInit {
 
   getModelData(variable: Variable, suggestions: Suggestion[]): any {
     let data: any;
-
     data = suggestions ? (suggestions[0]?.notes || suggestions[0]?.evidence) : null;
+
+    // special case
+    if (variable.entity === 'Diagnostico_principal') {
+      const suggestion = suggestions.find(suggestion => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(suggestion.entity));
+      data = variable.admissibles.find(a => a.value.startsWith(suggestion?.entity.toLowerCase().split('_')[0]))?.value;
+    }
 
     // multiple values
     if (variable.fieldType === 'select' && variable.cardinality === 'n') {
