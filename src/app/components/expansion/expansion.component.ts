@@ -238,6 +238,7 @@ export class ExpansionComponent implements OnInit {
 
     // custom properties
     field.templateOptions.suggestions = suggestions;
+
     if (suggestions) {
       field.templateOptions.addonRight = {
         icon: 'search',
@@ -247,6 +248,7 @@ export class ExpansionComponent implements OnInit {
         onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
       }
     }
+
     if (variable.help) {
       field.templateOptions.help = {
         icon: 'info',
@@ -254,61 +256,69 @@ export class ExpansionComponent implements OnInit {
       };
     }
 
+    if (variable.entity === 'Arteria_afectada') {
+      field.expressionProperties = { 'templateOptions.disabled': 'model.diagnosticoPrincipal !== "ictus isquémico"' };
+    }
+
+    if (variable.entity === 'Diagnostico_principal') {
+      field.templateOptions.change = (field, event) => field.model.diagnosticoPrincipal !== 'ictus isquémico' ? this.model = { ...this.model, arteriasAfectadas: null } : null
+    };
+
     return field;
   }
 
-  /**
-   * Hishlight, in the text with class `className`, the offsets present in the given suggestions.
-   * Note: Requires an HTML element with the given `className` to exist.
-   *
-   * https://markjs.io/#markranges
-   * https://jsfiddle.net/julmot/hexomvbL/
-   *
-   */
-  highlight(suggestions: Suggestion[], className: string) {
-    const instance = new Mark(`.${className}`);
-    const ranges = suggestions.map(sugg => ({ start: sugg.offset.start, length: sugg.offset.end - sugg.offset.start }));
-    const options = {
-      each: (element: HTMLElement) => setTimeout(() => element.classList.add("animate"), 250),
-      done: (numberOfMatches: number) => numberOfMatches ? document.getElementsByTagName('mark')[0].scrollIntoView() : null
-    };
-    instance.unmark({
-      done: () => instance.markRanges(ranges, options)
-    });
-  }
+/**
+ * Hishlight, in the text with class `className`, the offsets present in the given suggestions.
+ * Note: Requires an HTML element with the given `className` to exist.
+ *
+ * https://markjs.io/#markranges
+ * https://jsfiddle.net/julmot/hexomvbL/
+ *
+ */
+highlight(suggestions: Suggestion[], className: string) {
+  const instance = new Mark(`.${className}`);
+  const ranges = suggestions.map(sugg => ({ start: sugg.offset.start, length: sugg.offset.end - sugg.offset.start }));
+  const options = {
+    each: (element: HTMLElement) => setTimeout(() => element.classList.add("animate"), 250),
+    done: (numberOfMatches: number) => numberOfMatches ? document.getElementsByTagName('mark')[0].scrollIntoView() : null
+  };
+  instance.unmark({
+    done: () => instance.markRanges(ranges, options)
+  });
+}
 
-  /**
-   * Update the value of a specific field (the picked field) with an evidence in text.
-   */
-  updateEvidence() {
-    const selection = window.getSelection();
-    const evidence = selection.toString();
-    const range = selection.getRangeAt(0);
-    const start = range.startOffset;
-    const end = range.endOffset;
-    if (evidence) {
-      this.model = { ...this.model, [this.focusedField]: evidence };
-      this.focusedField = null;
-    }
+/**
+ * Update the value of a specific field (the picked field) with an evidence in text.
+ */
+updateEvidence() {
+  const selection = window.getSelection();
+  const evidence = selection.toString();
+  const range = selection.getRangeAt(0);
+  const start = range.startOffset;
+  const end = range.endOffset;
+  if (evidence) {
+    this.model = { ...this.model, [this.focusedField]: evidence };
+    this.focusedField = null;
   }
+}
 
-  confirmReset() {
-    if (confirm('Estás a punto de restablecer el formulario a su estado inicial, perdiendo todo el progreso hasta ahora.')) {
-      this.model = {};
-      this.panels = [];
-      this.ngOnInit();
-    }
+confirmReset() {
+  if (confirm('Estás a punto de restablecer el formulario a su estado inicial, perdiendo todo el progreso hasta ahora.')) {
+    this.model = {};
+    this.panels = [];
+    this.ngOnInit();
   }
+}
 
-  /**
-   * Download the form completed so far in the given format.
-   *
-   * Accepted formats:
-   *  - json
-   */
-  download(format: string) {
-    format === 'json' ? downloadObjectAsJson(this.model, this.downloadFilename) : null;
-  }
+/**
+ * Download the form completed so far in the given format.
+ *
+ * Accepted formats:
+ *  - json
+ */
+download(format: string) {
+  format === 'json' ? downloadObjectAsJson(this.model, this.downloadFilename) : null;
+}
 
   // iconVisible = false;
   // showIcon(event) {
