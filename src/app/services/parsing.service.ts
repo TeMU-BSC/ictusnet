@@ -12,9 +12,9 @@ export class ParsingService {
     private papa: Papa,
   ) { }
 
-  getSuggestionsFromFile(filename: string): Observable<Suggestion[]> {
+  getSuggestionsFromFile(filepath: string): Observable<Suggestion[]> {
     const suggestions: Suggestion[] = [];
-    this.papa.parse(filename, {
+    this.papa.parse(filepath, {
       download: true,
       skipEmptyLines: true,
       complete: results => {

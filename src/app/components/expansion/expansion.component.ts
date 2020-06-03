@@ -40,6 +40,7 @@ export class ExpansionComponent implements OnChanges {
   panels: PanelType[] = [];
   form: FormArray = new FormArray(this.panels.map(() => new FormGroup({})));
   options = this.panels.map(() => <FormlyFormOptions>{});
+  etiologiaAdmissibles: any[];
 
   // expansion panel
   @ViewChild(MatAccordion) accordion: MatAccordion;
@@ -226,10 +227,17 @@ export class ExpansionComponent implements OnChanges {
   }
 
   getField(variable: Variable, suggestions: Suggestion[]): FormlyFieldConfig {
-    let options = variable.admissibles.map(a => a.comment ? ({ value: a.value, label: `${a.value} (${a.comment})` }) : ({ value: a.value, label: a.value }));
+    let options = variable.admissibles.map(a => ({value: a.value, label: a.value}));
 
-    if (variable.entity.startsWith('Etiologia') || variable.entity.startsWith('Tratamiento')) {
-      options.sort((a, b) => a.label.localeCompare(b.label));
+    if (variable.entity === 'Etiologia') {
+      this.etiologiaAdmissibles = variable.admissibles;
+      console.log(this.etiologiaAdmissibles);
+
+      options.sort((a, b) => a.value?.localeCompare(b.value));
+    }
+    if (variable.entity.startsWith('Tratamiento')) {
+      options = variable.admissibles.map(a => a.comment ? ({ value: a.value, label: `${a.value} (${a.comment})` }) : ({ value: a.value, label: a.value }));
+      options.sort((a, b) => a.value?.localeCompare(b.value));
     }
 
     const field: FormlyFieldConfig = {
@@ -269,26 +277,60 @@ export class ExpansionComponent implements OnChanges {
       field.expressionProperties = { 'templateOptions.disabled': 'model.diagnosticoPrincipal !== "ictus isquémico"' };
     }
 
+    const getEtiologiaSubset = (keyword: string) => this.etiologiaAdmissibles.filter(a => a.comment.match(keyword)).map(a => ({value: a.value, label: a.value}));
+
     if (variable.entity === 'Diagnostico_principal') {
       field.templateOptions.change = (currentField) => {
+
+        // empty arterias afectadas field when diagnostico principal is other than 'ictus isquémico'
         if (currentField.model.diagnosticoPrincipal !== 'ictus isquémico') {
           this.model = { ...this.model, arteriasAfectadas: null };
         }
+
+        // update etiologia field options depending on its value
+        let subset: any[];
+        if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
+          subset = getEtiologiaSubset('isquémico');
+        } else if (['hemorragia cerebral'].includes(this.model.diagnosticoPrincipal)) {
+          subset = getEtiologiaSubset('hemorragia');
+        }
+        this.panels[1].groups[4].fieldGroup[1].fieldGroup[0].templateOptions.options = subset;
       }
     };
 
+    // initialize etiologia subset options
     if (variable.entity === 'Etiologia') {
-      field.expressionProperties = { 'templateOptions.disabled': 'model.diagnosticoPrincipal === "hemorragia cerebral"' };
-      field.templateOptions.change = (currentField) => {
-        if (['ictus isquémico', 'ataque isquémico transitorio'].includes(currentField.model.diagnosticoPrincipal)) {
-          field.templateOptions.options = options.filter(option => option.label.match('isquémico'));
-        } else if (['hemorragia cerebral'].includes(currentField.model.diagnosticoPrincipal)) {
-          field.templateOptions.options = options.filter(option => option.label.match('hemorragia'));
-        }
+      let subset: any[];
+      if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
+        subset = getEtiologiaSubset('isquémico');
+      } else if (['hemorragia cerebral'].includes(this.model.diagnosticoPrincipal)) {
+        subset = getEtiologiaSubset('hemorragia');
       }
+      field.templateOptions.options = subset;
     }
 
     return field;
+  }
+
+  makeEtiologiaDynamic() {
+    const getEtiologiaFormfield = () => this.panels[1].groups[4].fieldGroup[1].fieldGroup[0];
+    const getEtiologiaOptions = () => (getEtiologiaFormfield().templateOptions.options as any[]);
+    const setEtiologiaOptions = (subset) => this.panels[1].groups[4].fieldGroup[1].fieldGroup[0].templateOptions.options = subset;
+    let subset: any[];
+
+    // listen to changes on diagnostico principal
+    this.panels[1].groups[0].fieldGroup[1].fieldGroup[0].templateOptions.change = (currentField) => {
+      if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
+        subset = getEtiologiaOptions().filter(option => option.label.match('isquémico'));
+        console.log(subset);
+
+      } else if (['hemorragia cerebral'].includes(this.model.diagnosticoPrincipal)) {
+        subset = getEtiologiaOptions().filter(option => option.label.match('hemorragia'));
+        console.log(subset);
+
+      }
+      setEtiologiaOptions(subset);
+    }
   }
 
   /**
