@@ -66,7 +66,7 @@ export function isValidTime(input: string): boolean {
  */
 export function downloadObjectAsJson(object: any, fileName: string): void {
   const element = document.createElement('a');
-  const href = `data:text/json;charset=UTF-8,${encodeURIComponent(JSON.stringify(object))}`;
+  const href = `data:text/json;charset=UTF-8,${encodeURIComponent(JSON.stringify(object, (k, v) => v === undefined ? null : v))}`;
   element.setAttribute('href', href);
   element.setAttribute('download', fileName);
   element.style.display = 'none';

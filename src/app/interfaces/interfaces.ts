@@ -6,7 +6,7 @@ export interface Suggestion {
     end: number;
   };
   evidence: string;
-  notes: string | string[];
+  notes: string;
 }
 
 export interface Variable {

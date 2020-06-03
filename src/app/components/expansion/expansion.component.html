@@ -8,7 +8,7 @@
     ngStyle.gt-lg="padding: 0 16rem 0 16rem;"
     ngStyle.gt-xl="padding: 0 40rem 0 40rem;"
   >
-    <form [formGroup]="form" (submit)="download()">
+    <form [formGroup]="form" (submit)="download('json')">
       <div fxLayout fxLayoutAlign="end">
         <button type="button" mat-button color="secondary" (click)="accordion.closeAll()">
           <mat-icon>unfold_less</mat-icon>Contraer todo

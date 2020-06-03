@@ -76,7 +76,7 @@ Tratamiento_anticoagulante	apixaban	eliquis
 Tratamiento_anticoagulante	edoxaban	lixiana
 Tratamiento_antiagregante	clopidogrel	plavix
 Tratamiento_antiagregante	ticlopidine	tiklid
-Tratamiento_antiagregante	acetylsalicylic acid	AAS, adiro
+Tratamiento_antiagregante	acetylsalicylic acid	AAS, adiro, aspirina
 Tratamiento_antiagregante	dipyridamole	persantin
 Tratamiento_antiagregante	abciximab	reopro
 Tratamiento_antiagregante	tirofiban	agrastat
@@ -86,4 +86,4 @@ Tratamiento_antiagregante	ticagrelor	brilique
 Tratamiento_antiagregante	cangrelor
 Tratamiento_antiagregante	prasugler
 Tratamiento_antiagregante	combinations
-Tratamiento_antiagregante	acetylsalicylic acid (combinations with proton pump inhibitors)
+Tratamiento_antiagregante	acetylsalicylic acid in combination with proton pump inhibitors
