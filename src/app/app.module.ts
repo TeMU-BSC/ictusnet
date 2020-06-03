@@ -17,6 +17,7 @@ import { FlexLayoutType } from './formly/flex-layout.type';
 // styling
 import { MaterialModule } from './material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // highlighting
 import { NgxMarkjsModule } from 'ngx-markjs';
@@ -26,6 +27,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StaticComponent } from './components/static/static.component';
 import { ExpansionComponent } from './components/expansion/expansion.component';
+import { InputaddonsComponent } from './components/inputaddons/inputaddons.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,7 @@ import { ExpansionComponent } from './components/expansion/expansion.component';
     FlexLayoutType,
     StaticComponent,
     ExpansionComponent,
+    InputaddonsComponent,
   ],
   imports: [
     CommonModule,
@@ -61,6 +64,7 @@ import { ExpansionComponent } from './components/expansion/expansion.component';
     }),
     FormlyMaterialModule,
     NgxMarkjsModule,
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

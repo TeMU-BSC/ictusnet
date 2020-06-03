@@ -12,7 +12,7 @@ export interface Suggestion {
 export interface Variable {
   section: string;
   group?: string;
-  label: string;
+  longLabel: string;
   shortLabel: string;
   help?: string;
   entity: string;

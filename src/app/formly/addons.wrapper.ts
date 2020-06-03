@@ -4,6 +4,7 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'formly-wrapper-addons',
   template: `
+  <div (mouseenter)="showIcon()" (mouseleave)="hideIcon()">
     <ng-template #matPrefix>
       <span
         *ngIf="to.addonLeft"
@@ -19,29 +20,41 @@ import { FieldWrapper } from '@ngx-formly/core';
 
     <ng-template #matSuffix>
       <span
-        *ngIf="to.addonRight"
-        [ngStyle]="{cursor: to.addonRight.onClick ? 'pointer' : 'inherit'}"
-        (click)="addonRightClick($event)"
-        fxLayout="row" fxLayoutAlign="center center"
+      *ngIf="to.addonRight"
+      [ngStyle]="{cursor: to.addonRight.onClick ? 'pointer' : 'inherit'}"
+      (click)="addonRightClick($event)"
+      fxLayout="row" fxLayoutAlign="center center"
       >
 
-        <button *ngIf="to.addonRight.icon !== null" type="button" mat-icon-button>
-          <mat-icon matTooltip="{{ to.addonRight.tooltip }}"
-            matTooltipPosition="{{ to.addonRight.tooltipPosition }}">
-            {{ to.addonRight.icon }}
-          </mat-icon>
-        </button>
-        <mat-icon *ngIf="to.help" color="primary" matTooltip="{{ to.help.tooltip }}"
-          matTooltipPosition="{{ to.help.tooltipPosition }}">
-          {{ to.help.icon }}
-        </mat-icon>
+      <mat-icon *ngIf="to.help" color="primary" matTooltip="{{ to.help.tooltip }}"
+        matTooltipPosition="{{ to.help.tooltipPosition || 'below' }}">
+        {{ to.help.icon }}
+      </mat-icon>
 
-        <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
-      </span>
+      <button *ngIf="to.addonRight.icon !== null" type="button" mat-icon-button>
+        <mat-icon matTooltip="{{ to.addonRight.tooltip }}"
+        matTooltipPosition="{{ to.addonRight.tooltipPosition || 'below' }}"
+        matTooltipClass="{{ to.addonRight.tooltipClass }}">
+          {{ to.addonRight.icon }}
+        </mat-icon>
+      </button>
+
+    <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
+    </span>
     </ng-template>
+  </div>
   `,
 })
 export class FormlyWrapperAddons extends FieldWrapper implements AfterViewInit {
+
+  visible = false;
+  showIcon() {
+    this.visible = true;
+  }
+  hideIcon() {
+    this.visible = false;
+  }
+
   @ViewChild('matPrefix') matPrefix: TemplateRef<any>;
   @ViewChild('matSuffix') matSuffix: TemplateRef<any>;
 

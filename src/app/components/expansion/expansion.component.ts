@@ -10,7 +10,8 @@ import { Suggestion, Variable } from 'src/app/interfaces/interfaces';
 import { downloadObjectAsJson } from 'src/app/helpers/helpers';
 import Mark from 'mark.js';
 
-// TODO autoscroll to first match
+// TODO show extra help in some fields: trombolisis (intravenosa e intraarterial), trombectomia, tac craneal
+// TODO show unspecified suggestions in some fields: tratamientos (antiagregante y anticoagulante), mrankin, nihss
 // TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
 
 export interface PanelType {
@@ -47,10 +48,10 @@ export class ExpansionComponent implements OnInit {
   panelIcons = {
     'Entrada y salida del paciente': 'airport_shuttle',
     'Diagnóstico': 'local_hospital',
-    'Procedimientos y pruebas': 'healing',
-    'Tratamientos y escalas de valoración': 'analytics',
-    // 'Tratamientos': 'local_pharmacy',
-    // 'Escalas': 'analytics',
+    'Procedimientos': 'healing',
+    // 'Tratamientos y escalas de valoración': 'analytics',
+    'Tratamientos': 'local_pharmacy',
+    'Pruebas y escalas de valoración': 'analytics',
   };
 
   constructor(
@@ -101,20 +102,7 @@ export class ExpansionComponent implements OnInit {
               variables.forEach(variable => {
                 variable.admissibles = admissibles.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }));
                 const suggestions = this.getVariableSuggestions(variable, allSuggestions);
-
-                // TODO add suggestions to this field
-                // ...
-
                 this.model = { ...this.model, [variable.key]: this.getModelData(variable, suggestions) }
-
-                // else if (variable.entity.startsWith('Tratamiento_antiagregante')) {
-                //   variableSuggestions = suggestions.filter(sugg => ['Tratamiento_antiagregante', 'Tratamiento_antiagregante_hab', 'Tratamiento_antiagregante_alta'].includes(sugg.entity));
-                // }
-                // else if (variable.entity.startsWith('Tratamiento_anticoagulante')) {
-                //   variableSuggestions = suggestions.filter(sugg => ['Tratamiento_anticoagulante', 'Tratamiento_anticoagulante_hab', 'Tratamiento_anticoagulante_alta'].includes(sugg.entity));
-                // }
-
-                // this.autofill(variable, variableSuggestions);
               });
               this.panels = [...this.panels, ...this.getPanels(variables, allSuggestions)];
             }
@@ -131,6 +119,13 @@ export class ExpansionComponent implements OnInit {
     if (variable.entity === 'Diagnostico_principal') {
       suggestions = allSuggestions.filter(suggestion => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(suggestion.entity));
     }
+
+    // else if (variable.entity.startsWith('Tratamiento_antiagregante')) {
+    //   variableSuggestions = suggestions.filter(sugg => ['Tratamiento_antiagregante', 'Tratamiento_antiagregante_hab', 'Tratamiento_antiagregante_alta'].includes(sugg.entity));
+    // }
+    // else if (variable.entity.startsWith('Tratamiento_anticoagulante')) {
+    //   variableSuggestions = suggestions.filter(sugg => ['Tratamiento_anticoagulante', 'Tratamiento_anticoagulante_hab', 'Tratamiento_anticoagulante_alta'].includes(sugg.entity));
+    // }
 
     return suggestions;
   }
@@ -201,30 +196,30 @@ export class ExpansionComponent implements OnInit {
         {
           type: 'flex-layout',
           templateOptions: {
+
+            // good UX
+            // fxLayout: 'row',
+
+            // bad UX
             fxLayout: 'row wrap',
             fxLayoutGap: '0.5rem',
+            // fxFlex: '',
           },
           fieldGroup: []
         }
       ]
     }
-    fieldGroup.forEach(field => group.fieldGroup[1].fieldGroup?.push(field));
-    return group;
 
-    // const group: FormlyFieldConfig = {
-    //   type: 'flex-layout',
-    //   templateOptions: {
-    //     fxLayout: 'row wrap',
-    //     fxLayoutGap: '0.5rem',
-    //   },
-    //   fieldGroup: [
-    //     {
-    //       template: `<p fxLayout="row">${groupName}</p><br/>`
-    //     }
-    //   ]
-    // }
-    // fieldGroup.forEach(field => group.fieldGroup.push(field));
-    // return group;
+    // bad UX: force more than one field per line
+    fieldGroup.forEach(field => {
+      if (field.templateOptions.multiple) {
+        const percentage = 100 / fieldGroup.length;
+        group.fieldGroup[1].templateOptions.fxFlex = `${percentage}%`;
+      }
+    });
+    fieldGroup.forEach(field => group.fieldGroup[1].fieldGroup?.push(field));
+
+    return group;
   }
 
   getField(variable: Variable, suggestions: Suggestion[]): FormlyFieldConfig {
@@ -246,9 +241,9 @@ export class ExpansionComponent implements OnInit {
     if (suggestions) {
       field.templateOptions.addonRight = {
         icon: 'search',
-        // tooltip: suggestions[0]?.evidence || null,
+        tooltip: suggestions.map(s => s.evidence).join('\n'),
         // tooltip: `Evidencias en el texto:\n${suggestions.map(s => s.evidence).join(' | ')}`,
-        // tooltipPosition: 'right',
+        tooltipClass: 'multiline-tooltip',
         onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
       }
     }
@@ -256,88 +251,10 @@ export class ExpansionComponent implements OnInit {
       field.templateOptions.help = {
         icon: 'info',
         tooltip: variable.help,
-        tooltipPosition: 'right',
       };
     }
 
     return field;
-  }
-
-  /**
-   * Autofill the form fields with suggestions.
-   *
-   * TODO treat special cases (1, n) and *_hab, *_alta, *_previa, *_alta
-   */
-  autofillOld(variable: Variable, suggestions: Suggestion[]) {
-    let sugg: Suggestion;
-    let autofill: string;
-    let suggs: Suggestion[];
-    let autofills: string[];
-
-    // input fields like dates, times and integers
-    if (variable.fieldType === 'input') {
-      sugg = suggestions.find(sugg => sugg.entity === variable.entity);
-      autofill = sugg?.notes;
-    }
-
-    // select fields
-    else if (variable.fieldType === 'select') {
-
-      // select fields that accept only one value
-      if (variable.cardinality === '1') {
-        autofill = variable.admissibles.find(a => a.value.match(sugg?.evidence))?.value;
-
-        // special case: 'Diagnostico_principal' is not an entity per se
-        if (variable.entity === 'Diagnostico_principal') {
-          sugg = suggestions.find(sugg => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral',].includes(sugg.entity));
-          autofill = variable.admissibles.find(a => a.value.startsWith(sugg?.entity.toLowerCase().split('_')[0]))?.value;
-        }
-      }
-
-      // select fields that accept multiple values
-      if (variable.cardinality === 'n') {
-
-        // special case: 'Tratamiento_*' entities can be unspecific
-        if (variable.entity === 'Tratamiento_antiagregante') {
-          suggs = suggestions.filter(sugg => [
-            'Tratamiento_antiagregante',
-            'Tratamiento_antiagregante_hab',
-            'Tratamiento_antiagregante_alta',
-          ].includes(sugg.entity));
-        } else if (variable.entity === 'Tratamiento_anticoagulate') {
-          suggs = suggestions.filter(sugg => [
-            'Tratamiento_anticoagulate',
-            'Tratamiento_anticoagulate_hab',
-            'Tratamiento_anticoagulate_alta',
-          ].includes(sugg.entity));
-        }
-        autofills = variable.admissibles.filter(a => a.value.concat(' ', a.comment).match(sugg?.evidence)).map(a => a.value);
-        // console.log(variable.entity, autofills);
-
-      }
-    }
-    // select fields that accept multiple values
-    // else if ([
-    //   'Arteria_afectada',
-    //   'Localizacion',
-    // ].includes(variable.entity)) {
-    //   autofill = variable.admissibles.filter(a => a.value.match(sugg?.evidence)).map(a => a.value);
-    // }
-
-    // update the model
-    this.model[variable.key] = autofills || autofill;
-  }
-
-  /**
-   * Autofill the form fields with suggestions.
-   */
-  autofill(suggestions: Suggestion[]) {
-
-  }
-
-  findUnspecificSuggestions(entityPrefix: string) {
-    entityPrefix = 'Tratamiento_antiagregante';
-
   }
 
   /**
@@ -393,19 +310,6 @@ export class ExpansionComponent implements OnInit {
     format === 'json' ? downloadObjectAsJson(this.model, this.downloadFilename) : null;
   }
 
-  list = ['potatoe', 'banana', 'grapes'];
-  hoveredIndex: number;
-  clickedIndex: number;
-  enter(i) {
-    this.hoveredIndex = i;
-  }
-  leave(i) {
-    this.hoveredIndex = null;
-  }
-  click(i) {
-    this.clickedIndex = i;
-  }
-
   // iconVisible = false;
   // showIcon(event) {
   //   this.iconVisible = true;
@@ -417,6 +321,7 @@ export class ExpansionComponent implements OnInit {
   //   console.log(event);
   // }
 
+  // TRY TO FIX BUG: EXPAND ALL / COLLAPSE ALL
   // @ViewChildren('expansionPanel') expansionPanels: QueryList<ElementRef>
   // allExpanded(): boolean | null {
   //   return this.expansionPanels ? this.expansionPanels['_results'].every(r => r._expanded) : null;

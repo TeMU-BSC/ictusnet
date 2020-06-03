@@ -3,11 +3,14 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row fxLayout.lt-sm="column" ngStyle.lt-sm="height: 128px;">
     <span fxLayout fxLayoutAlign="center center" fxLayoutGap="1rem" style="font-family: 'Roboto Mono', monospace; height: 100%;">
-      <img src="assets/logo_ictusnet.png" alt="" style="height: 70%; background-color: rgb(240, 250, 255); border-radius: 50%;">
+      <img src="assets/logo_ictusnet.png" alt="" style="height: 60%; background-color: rgb(240, 250, 255); border-radius: 50%;">
       <span>ICTUSnet web app</span>
     </span>
     <span style="flex: 1 1 auto;"></span>
-    <a mat-button href="https://github.com/TeMU-BSC/ictusnet">GitHub repo <mat-icon>open_in_new</mat-icon> </a>
+    <a mat-button href="https://github.com/TeMU-BSC/ictusnet">
+      <fa-icon [icon]="faGithubAlt" style="font-size: x-large; margin-right: 0.5rem;"></fa-icon>
+      Github repo
+    </a>
     <!-- <mat-icon>github</mat-icon>
     <mat-icon>home</mat-icon> -->
   </mat-toolbar-row>
@@ -18,3 +21,5 @@
 
 <!-- <app-static></app-static> -->
 <app-expansion></app-expansion>
+
+<!-- <app-inputaddons></app-inputaddons> -->

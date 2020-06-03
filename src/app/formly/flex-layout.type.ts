@@ -10,9 +10,8 @@ import { FieldType } from '@ngx-formly/core';
       fxLayout.xs="column"
       [fxLayoutAlign]="to.fxLayoutAlign || 'start stretch'"
       [fxLayoutGap]="to.fxLayoutGap || '0rem'"
-
     >
-      <formly-field *ngFor="let f of field.fieldGroup" [field]="f">
+      <formly-field [fxFlex]="to.fxFlex" *ngFor="let f of field.fieldGroup" [field]="f">
       </formly-field>
     </div>
   `
