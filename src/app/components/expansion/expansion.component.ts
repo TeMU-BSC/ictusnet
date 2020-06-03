@@ -119,17 +119,22 @@ export class ExpansionComponent implements OnChanges {
   getVariableSuggestions(variable: Variable, allSuggestions: Suggestion[]): Suggestion[] {
     let suggestions = allSuggestions.filter(suggestion => variable.entity.startsWith(suggestion.entity));
 
-    // special case
+    // special cases
     if (variable.entity === 'Diagnostico_principal') {
       suggestions = allSuggestions.filter(suggestion => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(suggestion.entity));
     }
-
-    // else if (variable.entity.startsWith('Tratamiento_antiagregante')) {
-    //   variableSuggestions = suggestions.filter(sugg => ['Tratamiento_antiagregante', 'Tratamiento_antiagregante_hab', 'Tratamiento_antiagregante_alta'].includes(sugg.entity));
-    // }
-    // else if (variable.entity.startsWith('Tratamiento_anticoagulante')) {
-    //   variableSuggestions = suggestions.filter(sugg => ['Tratamiento_anticoagulante', 'Tratamiento_anticoagulante_hab', 'Tratamiento_anticoagulante_alta'].includes(sugg.entity));
-    // }
+    else if (variable.entity.startsWith('Tratamiento_antiagregante') && suggestions.length === 0) {
+      suggestions = suggestions.filter(s => s.entity === 'Tratamiento_antiagregante');
+    }
+    else if (variable.entity.startsWith('Tratamiento_anticoagulante') && suggestions.length === 0) {
+      suggestions = suggestions.filter(s => s.entity === 'Tratamiento_anticoagulante');
+    }
+    else if (variable.entity.startsWith('mRankin') && suggestions.length === 0) {
+      suggestions = suggestions.filter(s => s.entity === 'mRankin');
+    }
+    else if (variable.entity.startsWith('NIHSS') && suggestions.length === 0) {
+      suggestions = suggestions.filter(s => s.entity === 'NIHSS');
+    }
 
     return suggestions;
   }
@@ -200,11 +205,6 @@ export class ExpansionComponent implements OnChanges {
         {
           type: 'flex-layout',
           templateOptions: {
-
-            // good UX
-            // fxLayout: 'row',
-
-            // bad UX
             fxLayout: 'row wrap',
             fxLayoutGap: '0.5rem',
             // fxFlex: '',
@@ -214,7 +214,6 @@ export class ExpansionComponent implements OnChanges {
       ]
     }
 
-    // bad UX: force more than one field per line
     fieldGroup.forEach(field => {
       if (field.templateOptions.multiple) {
         const percentage = 100 / fieldGroup.length;
@@ -334,7 +333,7 @@ export class ExpansionComponent implements OnChanges {
   }
 
   /**
-   * Hishlight, in the text with class `className`, the offsets present in the given suggestions.
+   * Highlight, in the text with class `className`, the offsets present in the given suggestions.
    * Note: Requires an HTML element with the given `className` to exist.
    *
    * https://markjs.io/#markranges
