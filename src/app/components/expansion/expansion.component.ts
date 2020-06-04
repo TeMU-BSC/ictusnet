@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, OnChanges } from '@angular/core';
+import { Component, OnChanges, ViewChild, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormArray, FormGroup } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
@@ -10,8 +10,8 @@ import { Suggestion, Variable } from 'src/app/interfaces/interfaces';
 import { downloadObjectAsJson } from 'src/app/helpers/helpers';
 import Mark from 'mark.js';
 
-// TODO show extra help in some fields: trombolisis (intravenosa e intraarterial), trombectomia, tac craneal
-// TODO show unspecified suggestions in some fields: tratamientos (antiagregante y anticoagulante), mrankin, nihss
+// TODO show unspecific suggestions in some fields: tratamientos (antiagregante y anticoagulante), mrankin, nihss
+// TODO show extra help (evidencia del procedimiento) in some fields: trombolisis (intravenosa e intraarterial), trombectomia, tac craneal
 // TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
 
 export interface PanelType {
@@ -40,7 +40,9 @@ export class ExpansionComponent implements OnChanges {
   panels: PanelType[] = [];
   form: FormArray = new FormArray(this.panels.map(() => new FormGroup({})));
   options = this.panels.map(() => <FormlyFormOptions>{});
-  etiologiaAdmissibles: any[];
+  // getEtiologiaOptions = () => (this.panels[1]?.groups[4]?.fieldGroup[1]?.fieldGroup[0]?.templateOptions?.options as any[]);
+  // getEtiologiaSubset = (comment: string) => this.getEtiologiaOptions().filter(o => o.comment === comment);
+  // setEtiologiaOptions = (subset: any[]) => this.panels[1].groups[4].fieldGroup[1].fieldGroup[0].templateOptions.options = subset;
 
   // expansion panel
   @ViewChild(MatAccordion) accordion: MatAccordion;
@@ -97,14 +99,14 @@ export class ExpansionComponent implements OnChanges {
         skipEmptyLines: true,
         complete: parsedVariables => {
           const variables: Variable[] = parsedVariables.data;
-          this.papa.parse('assets/admissibles.tsv', {
+          this.papa.parse('assets/options.tsv', {
             download: true,
             header: true,
             skipEmptyLines: true,
             complete: parsedAdmissibles => {
-              const admissibles: any[] = parsedAdmissibles.data;
+              const options: any[] = parsedAdmissibles.data;
               variables.forEach(variable => {
-                variable.admissibles = admissibles.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }));
+                variable.options = options.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }));
                 const suggestions = this.getVariableSuggestions(variable, allSuggestions);
                 this.model = { ...this.model, [variable.key]: this.getModelData(variable, suggestions) }
               });
@@ -114,51 +116,6 @@ export class ExpansionComponent implements OnChanges {
         }
       });
     });
-  }
-
-  getVariableSuggestions(variable: Variable, allSuggestions: Suggestion[]): Suggestion[] {
-    let suggestions = allSuggestions.filter(suggestion => variable.entity.startsWith(suggestion.entity));
-
-    // special cases
-    if (variable.entity === 'Diagnostico_principal') {
-      suggestions = allSuggestions.filter(suggestion => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(suggestion.entity));
-    }
-    else if (variable.entity.startsWith('Tratamiento_antiagregante') && suggestions.length === 0) {
-      suggestions = suggestions.filter(s => s.entity === 'Tratamiento_antiagregante');
-    }
-    else if (variable.entity.startsWith('Tratamiento_anticoagulante') && suggestions.length === 0) {
-      suggestions = suggestions.filter(s => s.entity === 'Tratamiento_anticoagulante');
-    }
-    else if (variable.entity.startsWith('mRankin') && suggestions.length === 0) {
-      suggestions = suggestions.filter(s => s.entity === 'mRankin');
-    }
-    else if (variable.entity.startsWith('NIHSS') && suggestions.length === 0) {
-      suggestions = suggestions.filter(s => s.entity === 'NIHSS');
-    }
-
-    return suggestions;
-  }
-
-  getModelData(variable: Variable, suggestions: Suggestion[]): any {
-    let data: any;
-    data = suggestions ? (suggestions[0]?.notes || suggestions[0]?.evidence) : null;
-
-    // special case
-    if (variable.entity === 'Diagnostico_principal') {
-      const suggestion = suggestions.find(suggestion => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(suggestion.entity));
-      data = variable.admissibles.find(a => a.value.startsWith(suggestion?.entity.toLowerCase().split('_')[0]))?.value;
-    }
-
-    // multiple values
-    if (variable.fieldType === 'select' && variable.cardinality === 'n') {
-      data = [];
-      suggestions.forEach(suggestion => {
-        const option = variable.admissibles.find(a => a.value.concat(' ', a.comment).match(suggestion?.evidence))?.value;
-        data.push(option);
-      });
-    }
-
-    return data;
   }
 
   getPanels(variables: Variable[], allSuggestions: Suggestion[]): PanelType[] {
@@ -214,31 +171,30 @@ export class ExpansionComponent implements OnChanges {
       ]
     }
 
+    // responsive approach
     fieldGroup.forEach(field => {
       if (field.templateOptions.multiple) {
         const percentage = 100 / fieldGroup.length;
         group.fieldGroup[1].templateOptions.fxFlex = `${percentage}%`;
       }
     });
-    fieldGroup.forEach(field => group.fieldGroup[1].fieldGroup?.push(field));
 
+    group.fieldGroup[1].fieldGroup = fieldGroup;
     return group;
   }
 
+  /**
+   * Build the form field with all needed attributes, considering some special cases.
+   */
   getField(variable: Variable, suggestions: Suggestion[]): FormlyFieldConfig {
-    let options = variable.admissibles.map(a => ({value: a.value, label: a.value}));
 
+    // prepare options for select fields
+    let options = variable.options.map(o => o.comment ? ({ value: o.value, label: `${o.value} (${o.comment})` }) : ({ value: o.value, label: o.value }));
     if (variable.entity === 'Etiologia') {
-      this.etiologiaAdmissibles = variable.admissibles;
-      console.log(this.etiologiaAdmissibles);
-
-      options.sort((a, b) => a.value?.localeCompare(b.value));
-    }
-    if (variable.entity.startsWith('Tratamiento')) {
-      options = variable.admissibles.map(a => a.comment ? ({ value: a.value, label: `${a.value} (${a.comment})` }) : ({ value: a.value, label: a.value }));
-      options.sort((a, b) => a.value?.localeCompare(b.value));
+      options = variable.options.map(o => ({ value: o.value, label: o.value }));
     }
 
+    // build the formly field
     const field: FormlyFieldConfig = {
       key: variable.key,
       type: variable.fieldType,
@@ -249,35 +205,33 @@ export class ExpansionComponent implements OnChanges {
         multiple: variable.cardinality === 'n',
         options: options,
         focus: (field, event) => this.focusedField = field.key,
+
+        // custom properties
+        suggestions: suggestions,
+        info: variable.info ? {
+          icon: 'info',
+          tooltip: variable.info
+        } : null,
+        addonRight: {
+          icon: 'search',
+          tooltip: suggestions.map(s => s.evidence).join('\n'),
+          tooltipClass: 'multiline-tooltip',
+          onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
+        }
       }
     };
 
-    // custom properties
-    field.templateOptions.suggestions = suggestions;
-
-    if (suggestions) {
-      field.templateOptions.addonRight = {
-        icon: 'search',
-        tooltip: suggestions.map(s => s.evidence).join('\n'),
-        // tooltip: `Evidencias en el texto:\n${suggestions.map(s => s.evidence).join(' | ')}`,
-        tooltipClass: 'multiline-tooltip',
-        onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
-      }
+    // sort options
+    if (variable.entity === 'Etiologia' || variable.entity.startsWith('Tratamiento')) {
+      (field.templateOptions.options as any[]).sort((a, b) => a.value?.localeCompare(b.value));
     }
 
-    if (variable.help) {
-      field.templateOptions.help = {
-        icon: 'info',
-        tooltip: variable.help,
-      };
-    }
-
+    // disable arteria field when diagnostico is not ictus
     if (variable.entity === 'Arteria_afectada') {
       field.expressionProperties = { 'templateOptions.disabled': 'model.diagnosticoPrincipal !== "ictus isquémico"' };
     }
 
-    const getEtiologiaSubset = (keyword: string) => this.etiologiaAdmissibles.filter(a => a.comment.match(keyword)).map(a => ({value: a.value, label: a.value}));
-
+    // listen to changes on diagnostico principal value
     if (variable.entity === 'Diagnostico_principal') {
       field.templateOptions.change = (currentField) => {
 
@@ -286,50 +240,90 @@ export class ExpansionComponent implements OnChanges {
           this.model = { ...this.model, arteriasAfectadas: null };
         }
 
-        // update etiologia field options depending on its value
-        let subset: any[];
-        if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
-          subset = getEtiologiaSubset('isquémico');
-        } else if (['hemorragia cerebral'].includes(this.model.diagnosticoPrincipal)) {
-          subset = getEtiologiaSubset('hemorragia');
-        }
-        this.panels[1].groups[4].fieldGroup[1].fieldGroup[0].templateOptions.options = subset;
+        // // update etiologia field options depending on its value
+        // let subset: any[];
+        // if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
+        //   subset = this.getEtiologiaSubset('isquémico');
+        // } else if (['hemorragia cerebral'].includes(this.model.diagnosticoPrincipal)) {
+        //   subset = this.getEtiologiaSubset('hemorragia');
+        // }
+        // this.setEtiologiaOptions(subset.map(s => ({ value: s.value, label: s.label })));
       }
     };
 
-    // initialize etiologia subset options
-    if (variable.entity === 'Etiologia') {
-      let subset: any[];
-      if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
-        subset = getEtiologiaSubset('isquémico');
-      } else if (['hemorragia cerebral'].includes(this.model.diagnosticoPrincipal)) {
-        subset = getEtiologiaSubset('hemorragia');
-      }
-      field.templateOptions.options = subset;
-    }
+    // // initialize etiologia subset options
+    // if (variable.entity === 'Etiologia') {
+    //   let subset: any[];
+    //   if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
+    //     subset = this.getEtiologiaSubset('isquémico');
+    //   } else if (['hemorragia cerebral'].includes(this.model.diagnosticoPrincipal)) {
+    //     subset = this.getEtiologiaSubset('hemorragia');
+    //   }
+    //   field.templateOptions.options = subset;
+    // }
 
     return field;
   }
 
-  makeEtiologiaDynamic() {
-    const getEtiologiaFormfield = () => this.panels[1].groups[4].fieldGroup[1].fieldGroup[0];
-    const getEtiologiaOptions = () => (getEtiologiaFormfield().templateOptions.options as any[]);
-    const setEtiologiaOptions = (subset) => this.panels[1].groups[4].fieldGroup[1].fieldGroup[0].templateOptions.options = subset;
-    let subset: any[];
+  getVariableSuggestions(variable: Variable, allSuggestions: Suggestion[]): Suggestion[] {
+    let suggestions = allSuggestions.filter(s => variable.entity === s.entity);
 
-    // listen to changes on diagnostico principal
-    this.panels[1].groups[0].fieldGroup[1].fieldGroup[0].templateOptions.change = (currentField) => {
-      if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
-        subset = getEtiologiaOptions().filter(option => option.label.match('isquémico'));
-        console.log(subset);
+    // when no exact suggestions are found, look for its coresponding unspecific entity
+    if (suggestions.length === 0) {
+      const unspecificEntities = [
+        'Tratamiento_antiagregante',
+        'Tratamiento_anticoagulante',
+        'mRankin',
+        'NIHSS',
+      ];
+      unspecificEntities.forEach(e => {
+        if (variable.entity.startsWith(e)) {
+          suggestions = allSuggestions.filter(s => s.entity === e);
+        }
+      });
 
-      } else if (['hemorragia cerebral'].includes(this.model.diagnosticoPrincipal)) {
-        subset = getEtiologiaOptions().filter(option => option.label.match('hemorragia'));
-        console.log(subset);
-
-      }
-      setEtiologiaOptions(subset);
+      // tag as 'unspecific'
+      // suggestions = suggestions.map(s => ({ ...s, unspecific: true }))
     }
+
+    // special case
+    if (variable.entity === 'Diagnostico_principal') {
+      suggestions = allSuggestions.filter(s => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(s.entity));
+    }
+
+    return suggestions;
+  }
+
+  getModelData(variable: Variable, suggestions: Suggestion[]): any {
+
+    // input fields
+    let data: any = suggestions[0]?.notes || suggestions[0]?.evidence;
+
+    // select fields
+    if (variable.fieldType === 'select') {
+
+      // special case
+      if (variable.entity === 'Diagnostico_principal') {
+        const suggestion = suggestions.find(s => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(s.entity));
+        data = variable.options.find(o => o.value.startsWith(suggestion?.entity.toLowerCase().split('_')[0]))?.value;
+      }
+
+      // single option need data to be a string
+      if (variable.cardinality === '1') {
+        data = variable.options.find(o => o.value.match(data))?.value;
+      }
+
+      // multiple options need data to be an array of strings
+      if (variable.cardinality === 'n') {
+        data = [];
+        suggestions.forEach(suggestion => {
+          const option = variable.options.find(a => a.value.concat(' ', a.comment).match(suggestion?.evidence))?.value;
+          data.push(option);
+        });
+      }
+    }
+
+    return data;
   }
 
   /**
@@ -365,6 +359,8 @@ export class ExpansionComponent implements OnChanges {
 
   /**
    * Update the value of a specific field (the picked field) with an evidence in text.
+   *
+   * Not used anymore because
    */
   updateEvidence() {
     const selection = window.getSelection();

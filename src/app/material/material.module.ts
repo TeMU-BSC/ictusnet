@@ -18,7 +18,7 @@ import { MatInputModule } from '@angular/material/input'
 import { MatRadioModule } from '@angular/material/radio'
 // import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar'
 import { MatSelectModule } from '@angular/material/select'
-// import { MatStepperModule } from '@angular/material/stepper'
+import { MatStepperModule } from '@angular/material/stepper'
 // import { MatTableModule } from '@angular/material/table'
 // import { MatTabsModule } from '@angular/material/tabs'
 import { MatToolbarModule } from '@angular/material/toolbar'
@@ -45,7 +45,7 @@ const material = [
   MatRadioModule,
   // MatSnackBarModule,
   MatSelectModule,
-  // MatStepperModule,
+  MatStepperModule,
   MatToolbarModule,
   MatTooltipModule,
   // MatDialogModule,

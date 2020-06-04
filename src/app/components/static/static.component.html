@@ -1,5 +1,5 @@
-<form [formGroup]="form" style="padding: 0 40rem 0 40rem;">
-  <p>PROTOTYPE</p>
+<form [formGroup]="form">
+  <p>STATIC PROTOTYPE</p>
 
   <div fxLayout fxLayoutAlign="space-between" class="collapse-expand-buttons">
     <button mat-button type="button" color="secondary" (click)="accordion.closeAll()">
@@ -25,39 +25,39 @@
       <p>Inicio de los síntomas</p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput #fecha type="date">
+        <input matInput type="date" formControlName="fechaInicioSintomas">
+        <mat-icon matSuffix color="primary" matTooltip="También es válida la última vez que el paciente estuvo asintomático."
+          matTooltipPosition="right">info</mat-icon>
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput #hora type="time">
+        <input matInput type="time" formControlName="horaInicioSintomas">
       </mat-form-field>
-      <mat-icon color="info" matTooltip="También es válida la última vez que el paciente estuvo asintomático."
-        matTooltipPosition="right">info</mat-icon>
 
       <p>Llegada al hospital</p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput #fecha type="date">
+        <input matInput type="date" formControlName="fechaLlegadaHospital">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput #hora type="time">
+        <input matInput type="time" formControlName="horaLlegadaHospital">
       </mat-form-field>
 
       <p>Ingreso</p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput #input type="date">
+        <input matInput #input type="date" formControlName="fechaIngreso">
       </mat-form-field>
 
       <p>Alta</p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput #fecha type="date">
+        <input matInput type="date" formControlName="fechaAlta">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput #hora type="time">
+        <input matInput type="time" formControlName="horaAlta">
       </mat-form-field>
 
       <mat-action-row>
@@ -76,21 +76,19 @@
       <div fxLayout="column">
         <mat-form-field appearance="outline">
           <mat-label>Diagnóstico principal</mat-label>
-          <mat-select #diagnosticoPrincipal value="ictus">
-            <mat-option value="ictus">ictus isquémico</mat-option>
-            <mat-option value="ataque">ataque isquémico transitorio</mat-option>
-            <mat-option value="hemorragia">hemorragia cerabral</mat-option>
+          <mat-select formControlName="diagnosticoPrincipal">
+            <mat-option *ngFor="let option of options.diagnosticoPrincipal" [value]="option.value">
+              {{ option.value }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Arteria afectada</mat-label>
-          <mat-select #arteriaAfectada multiple
-            [value]="diagnosticoPrincipal.value !== 'ictus' ? null : arteriaAfectada.value"
-            [disabled]="diagnosticoPrincipal.value !== 'ictus'">
-            <mat-option value="acc">arteria carótida común (o ACC) o primitiva</mat-option>
-            <mat-option value="acm">arteria cerebral media (o ACM)</mat-option>
-            <mat-option value="pica">arteria cerebelosa posteroinferior (o PICA)</mat-option>
+          <mat-label>Arterias afectadas</mat-label>
+          <mat-select multiple formControlName="arteriasAfectadas">
+            <mat-option *ngFor="let option of options.arteriasAfectadas" [value]="option.value">
+              {{ option.value }}
+            </mat-option>
           </mat-select>
           <mat-icon matSuffix color="primary"
             matTooltip='Para diagnóstico principal "ictus isquémico". Acepta múltiples valores.'
@@ -99,12 +97,11 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Localización</mat-label>
-          <mat-select multiple>
-            <mat-option value="taci">infarto total de circulación anterior (TACI)</mat-option>
-            <mat-option value="paci">infarto parcial de circulación anterior (PACI)</mat-option>
-            <mat-option value="laci">infarto lacunar (LACI) o síndrome lacunar</mat-option>
-            <mat-option value="poci">infarto de circulación posterior (POCI)</mat-option>
+          <mat-label>Localizaciones</mat-label>
+          <mat-select multiple formControlName="localizaciones">
+            <mat-option *ngFor="let option of options.localizaciones" [value]="option.value">
+              {{ option.value }}
+            </mat-option>
           </mat-select>
           <mat-icon matSuffix color="primary" matTooltip="Acepta múltiples valores." matTooltipPosition="right">info
           </mat-icon>
@@ -112,27 +109,19 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Lateralización</mat-label>
-          <mat-select #lateralizacion value="">
-            <mat-option value="izquierda">izquierda</mat-option>
-            <mat-option value="derecha">derecha</mat-option>
-            <mat-option value="ambas">ambas</mat-option>
-            <mat-option value="indeterminada">indeterminada</mat-option>
+          <mat-select formControlName="lateralizacion">
+            <mat-option *ngFor="let option of options.lateralizacion" [value]="option.value">
+              {{ option.value }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Etiología</mat-label>
-          <mat-select #etiologia *ngIf="['ictus', 'ataque'].includes(diagnosticoPrincipal.value)">
-            <mat-option value="aterotrombótico / aterosclerótico">aterotrombótico / aterosclerótico</mat-option>
-            <mat-option value="cardioembólico (CE)">cardioembólico (CE)</mat-option>
-            <mat-option value="lacunar">lacunar</mat-option>
-          </mat-select>
-          <mat-select #etiologia *ngIf="['hemorragia'].includes(diagnosticoPrincipal.value)">
-            <mat-option value="hipertensiva">hipertensiva</mat-option>
-            <mat-option value="secundaria a malformación vascular / aneurisma">secundaria a malformación vascular /
-              aneurisma
+          <mat-select formControlName="etiologia">
+            <mat-option *ngFor="let option of getEtiologiaOptions()" [value]="option.value">
+              {{ option.value }}
             </mat-option>
-            <mat-option value="indeterminada">indeterminada</mat-option>
           </mat-select>
           <mat-icon matSuffix color="primary" matTooltip='Las opciones varían según el diagnóstico principal.'
             matTooltipPosition="right">info
@@ -157,11 +146,11 @@
       <p>Trombólisis intravenosa</p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput #fecha type="date">
+        <input matInput type="date">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput #horaPrimerBolusTrombolisisRtpa type="time">
+        <input matInput PrimerBolusTrombolisisRtpa type="time">
         <mat-icon matSuffix color="primary" matTooltip='Hora del primer bolus de la trombólisis rtPA'
           matTooltipPosition="right">info
         </mat-icon>
@@ -170,25 +159,21 @@
       <p>Trombólisis intraaerterial</p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput #fecha type="date">
+        <input matInput type="date">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput #hora type="time">
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Procedimiento</mat-label>
-        <input matInput #prodecimientoTrombolisisIntraarterial>
+        <input matInput type="time">
       </mat-form-field>
 
       <p>Inicio de la trombectomía mecánica</p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput #fecha type="date">
+        <input matInput type="date">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput #hora type="time">
+        <input matInput type="time">
         <mat-icon matSuffix color="primary" matTooltip='Hora de la punción arterial (groin puncture)'
           matTooltipPosition="right">info
         </mat-icon>
@@ -201,41 +186,41 @@
       <p>Primera serie de la trombectomía mecánica</p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput #fecha type="date">
+        <input matInput type="date">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput #hora type="time">
+        <input matInput type="time">
       </mat-form-field>
 
       <p>Recanalización para la trombectomía mecánica</p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput #fecha type="date">
+        <input matInput type="date">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput #hora type="time">
+        <input matInput type="time">
       </mat-form-field>
 
       <p>Fin de la trombectomía mecánica</p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput #fecha type="date">
+        <input matInput type="date">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput #hora type="time">
+        <input matInput type="time">
       </mat-form-field>
 
       <p>TAC craneal</p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput #fecha type="date">
+        <input matInput type="date">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput #hora type="time">
+        <input matInput type="time">
       </mat-form-field>
 
       <mat-action-row>
@@ -307,21 +292,21 @@
       <p>mRankin</p>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Previa</mat-label>
-        <input matInput #fecha type="number">
+        <input matInput type="number">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Al alta</mat-label>
-        <input matInput #hora type="number">
+        <input matInput type="number">
       </mat-form-field>
 
       <p>NIHSS</p>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Previa</mat-label>
-        <input matInput #fecha type="number">
+        <input matInput type="number">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Al alta</mat-label>
-        <input matInput #hora type="number">
+        <input matInput type="number">
       </mat-form-field>
 
       <mat-action-row>

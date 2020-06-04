@@ -9,7 +9,7 @@
       <div fxLayout="column">
         <span>ICTUSnet</span>
         <small style="font-size: x-small; margin-top: -0.5rem;">
-          Tipificador de informes de alta de pacientes relacionados con ictus.
+          Tipificador de informes de alta de pacientes relacionados con ictus
         </small>
       </div>
     </span>
@@ -23,20 +23,20 @@
 </mat-toolbar>
 
 <div fxLayout="column" fxLayout.gt-sm="row" style="height: calc(100% - 64px);">
-  <!-- <label id="example-radio-group-label">Elige un informe de ejemplo</label> -->
   <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedFileId"
-    fxFlex="10%" class="fullheight">
+    fxFlex="20%" class="fullheight" fxLayout="column">
     <p>Elige un informe de ejemplo</p>
     <mat-radio-button class="example-radio-button" *ngFor="let fileId of fileIds" [value]="fileId">
       {{ fileId }}
-      <a href="assets/alejandro_sample/10/{{fileId}}.utf8.ann" type="button" mat-button color="accent">
-        <mat-icon matTooltip="Inspeccionar sugerencias">open_in_new</mat-icon>
+      <a href="assets/alejandro_sample/10/{{fileId}}.utf8.ann" style="margin-left: 0.5rem;">
+        <mat-icon matTooltip="Inspeccionar sugerencias" style="font-size: 1rem;">open_in_new</mat-icon>
       </a>
     </mat-radio-button>
   </mat-radio-group>
 
-  <app-expansion [fileId]="selectedFileId" fxFlex="90%" style="height: 100%;"></app-expansion>
+  <app-expansion [fileId]="selectedFileId" fxFlex="80%" style="height: 100%;"></app-expansion>
 </div>
 
 <!-- <app-static></app-static> -->
 <!-- <app-inputaddons></app-inputaddons> -->
+<!-- <app-stepper></app-stepper> -->

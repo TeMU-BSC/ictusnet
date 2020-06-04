@@ -7,6 +7,7 @@ export interface Suggestion {
   };
   evidence: string;
   notes: string;
+  unspecific?: boolean;
 }
 
 export interface Variable {
@@ -14,19 +15,19 @@ export interface Variable {
   group?: string;
   longLabel: string;
   shortLabel: string;
-  help?: string;
+  info?: string;
   entity: string;
   key: string;
   cardinality: string;
   fieldType: string;
   inputType?: string;
-  admissibles?: any[];
+  options?: any[];
   comments?: string;
 }
 
 export interface IctusModel {
   entradaSalidaPaciente: {
-    inicioSintomasOUltimaVezAsintomatico: {
+    inicioSintomas: {
       fecha: string,
       hora: string,
     },
@@ -36,14 +37,13 @@ export interface IctusModel {
     },
     ingreso: {
       fecha: string,
-      // hora: string,
     },
     alta: {
       fecha: string,
       hora: string,
     },
   },
-  diagnosticos: {
+  diagnostico: {
     diagnosticoPrincipal: string,
     arteriasAfectadas: string[],
     localizaciones: string[],
@@ -52,11 +52,11 @@ export interface IctusModel {
   },
   procedimientos: {
     trombolisis: {
-      intraarterial: {
+      intravenosa: {
         fecha: string,
         hora: string,
       },
-      intravenosa: {
+      intraarterial: {
         fecha: string,
         hora: string,
       },
@@ -80,6 +80,18 @@ export interface IctusModel {
         hora: string,
       },
     },
+  },
+  tratamientos: {
+    antiagregantes: {
+      habituales: string[],
+      alAlta: string[],
+    },
+    anticoagulantes: {
+      habituales: string[],
+      alAlta: string[],
+    },
+  },
+  pruebas: {
     tacCraneal: {
       fecha: string,
       hora: string,
@@ -96,14 +108,5 @@ export interface IctusModel {
       alAlta: number,
     },
   },
-  tratamientos: {
-    antiagregantes: {
-      habituales: string[],
-      alAlta: string[],
-    },
-    anticoagulantes: {
-      habituales: string[],
-      alAlta: string[],
-    },
-  },
+
 }

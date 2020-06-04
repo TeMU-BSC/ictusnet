@@ -26,9 +26,9 @@ import { FieldWrapper } from '@ngx-formly/core';
       fxLayout="row" fxLayoutAlign="center center"
       >
 
-      <mat-icon *ngIf="to.help" color="primary" matTooltip="{{ to.help.tooltip }}"
-        matTooltipPosition="{{ to.help.tooltipPosition || 'below' }}">
-        {{ to.help.icon }}
+      <mat-icon *ngIf="to.info" color="primary" matTooltip="{{ to.info.tooltip }}"
+        matTooltipPosition="{{ to.info.tooltipPosition || 'below' }}">
+        {{ to.info.icon }}
       </mat-icon>
 
       <button *ngIf="to.addonRight.icon !== null" type="button" mat-icon-button>

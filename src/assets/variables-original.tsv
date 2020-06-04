@@ -1,4 +1,4 @@
-section	label	entity	key	cardinality	getValueFrom	fieldType	inputType	admissibles	comments
+section	label	entity	key	cardinality	getValueFrom	fieldType	inputType	options	comments
 Entrada y salida del paciente	Fecha de llegada al hospital receptor	Fecha_llegada_hospital	fechaLlegadaHospital	1	notes	input	date
 Entrada y salida del paciente	Hora de llegada al hospital receptor	Hora_llegada_hospital	horaLlegadaHospital	1	notes	input	time
 Entrada y salida del paciente	Fecha de ingreso	Fecha_de_ingreso	fechaIngreso	1	notes	input	date
@@ -6,12 +6,12 @@ Entrada y salida del paciente	Fecha de alta	Fecha_de_alta	fechaAlta	1	notes	inpu
 Entrada y salida del paciente	Hora de alta	Hora_de_alta	horaAlta	1	notes	input	time
 Entrada y salida del paciente	Fecha inicio síntomas o última vez visto asintomático/a	Fecha_inicio_sintomas	fechaInicioSintomas	1	notes	input	date
 Entrada y salida del paciente	Hora inicio síntomas o última vez visto asintomático/a	Hora_inicio_sintomas	horaInicioSintomas	1	notes	input	time
-Diagnóstico	Diagnóstico principal	Diagnostico_principal	diagnosticoPrincipal	1	admissibles	select	text
-Diagnóstico	Arteria afectada	Arteria_afectada	arteriaAfectada	n	admissibles	select	text		sólo para dianóstico = ictus isquémico
-Diagnóstico	Localización	Localizacion	localizacion	n	admissibles	select	text
-Diagnóstico	Lateralización asociada	Lateralizacion	lateralizacion	1	admissibles	select	text
-Diagnóstico	Etiología (ictus)	Etiologia	etiologiaIctus	1	admissibles	select	text		sólo para diagnóstico = ictus isquémico o ataque isquemico
-Diagnóstico	Etiología (hemorragia)	Etiologia	etiologiaHemorragia	1	admissibles	select	text		sólo para diagnóstico = hemorragia
+Diagnóstico	Diagnóstico principal	Diagnostico_principal	diagnosticoPrincipal	1	options	select	text
+Diagnóstico	Arteria afectada	Arteria_afectada	arteriaAfectada	n	options	select	text		sólo para dianóstico = ictus isquémico
+Diagnóstico	Localización	Localizacion	localizacion	n	options	select	text
+Diagnóstico	Lateralización asociada	Lateralizacion	lateralizacion	1	options	select	text
+Diagnóstico	Etiología (ictus)	Etiologia	etiologiaIctus	1	options	select	text		sólo para diagnóstico = ictus isquémico o ataque isquemico
+Diagnóstico	Etiología (hemorragia)	Etiologia	etiologiaHemorragia	1	options	select	text		sólo para diagnóstico = hemorragia
 Procedimientos y pruebas	Fecha trombólisis intravenosa	Fecha_trombolisis_rtPA	fechaTrombolisisIntravenosa	1	notes	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 Procedimientos y pruebas	Hora inicio primer bolus de la trombólisis rtPA	Hora_primer_bolus_trombolisis_rtPA	horaInicioPrimerBolusTrombolisisRtpa	1	notes	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 Procedimientos y pruebas	Etiquetar el procedimiento Trombólisis intraarterial	Trombolisis_intraarterial	procedimientoTrombolisisIntraarterial	1	notes	input	?	?	sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
@@ -29,10 +29,10 @@ Procedimientos y pruebas	Hora fin de la trombectomía mecánica	Hora_fin_trombec
 Procedimientos y pruebas	Fecha TAC craneal	Fecha_TAC	fechaTac	1	notes	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 Procedimientos y pruebas	Hora TAC craneal	Hora_TAC	horaTac	1	notes	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 Tratamientos y escalas de valoración	ASPECTS	ASPECTS	aspects	1	notes	input	?	?	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
-Tratamientos y escalas de valoración	Tratamiento antiagregante habitual	Tratamiento_antiagregante_hab	tratamientoAntiagreganteHabitual	n	admissibles	select	text
-Tratamientos y escalas de valoración	Tratamiento anticoagulante habitual	Tratamiento_anticoagulante_hab	tratamientoAnticoagulanteHabitual	n	admissibles	select	text
-Tratamientos y escalas de valoración	Tratamiento antiagregante al alta	Tratamiento_antiagregante_alta	tratamientoAntiagreganteAlta	n	admissibles	select	text
-Tratamientos y escalas de valoración	Tratamiento anticoagulante al alta	Tratamiento_anticoagulante_alta	tratamientoAnticoagulanteAlta	n	admissibles	select	text
+Tratamientos y escalas de valoración	Tratamiento antiagregante habitual	Tratamiento_antiagregante_hab	tratamientoAntiagreganteHabitual	n	options	select	text
+Tratamientos y escalas de valoración	Tratamiento anticoagulante habitual	Tratamiento_anticoagulante_hab	tratamientoAnticoagulanteHabitual	n	options	select	text
+Tratamientos y escalas de valoración	Tratamiento antiagregante al alta	Tratamiento_antiagregante_alta	tratamientoAntiagreganteAlta	n	options	select	text
+Tratamientos y escalas de valoración	Tratamiento anticoagulante al alta	Tratamiento_anticoagulante_alta	tratamientoAnticoagulanteAlta	n	options	select	text
 Tratamientos y escalas de valoración	mRankin previa	mRankin_previa	mRankinPrevia	1	notes	input	number	integer	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
 Tratamientos y escalas de valoración	mRankin al alta	mRankin_alta	mRankinAlta	1	notes	input	number	integer	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
 Tratamientos y escalas de valoración	NIHSS previa	NIHSS_previa	nihssPrevia	1	notes	input	number	integer	posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
