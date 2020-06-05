@@ -7,11 +7,10 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { ParsingService } from 'src/app/services/parsing.service';
 import { Suggestion, Variable, PanelType } from 'src/app/interfaces/interfaces';
 import { downloadObjectAsJson, highlight, autofill } from 'src/app/helpers/helpers';
-import { panelIcons } from 'src/app/constants/constants';
+import { panelIcons, unspecifiedGroups } from 'src/app/constants/constants';
 
-
-// TODO when a field cannot be autofilled, highlight all unspecific suggestions: Tratamiento_* (antiagregante y anticoagulante), mRankin, NIHSS
-// TODO lupa: show extra help (evidencia del procedimiento) in some fields: trombolisis (intravenosa e intraarterial), trombectomia, tac craneal
+// TODO next to nihss header, add a button that shows all evidences in text (alta, previa and underspecified) (same for tratamientos y mrankin)
+// TODO lupa: show extra help (evidencia del procedimiento) in the groups: trombolisis (intravenosa e intraarterial), trombectomia, tac craneal
 // TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
 
 
@@ -27,6 +26,8 @@ export class ExpansionComponent implements OnChanges {
   @Input() fileId: string;
   file: File;
   text: string;
+  variables: Variable[];
+  suggestions: Suggestion[];
   focusedField: any;
   downloadFilename: string;
 
@@ -81,13 +82,15 @@ export class ExpansionComponent implements OnChanges {
     // }
 
     this.parser.getAnnotationsFromFile(`${this.path}${fileId}.utf8.ann`).subscribe(data => {
-      const allSuggestions: Suggestion[] = data;
+      this.suggestions = data;
+      const allSuggestions = this.suggestions;
       this.papa.parse(`assets/variables.tsv`, {
         download: true,
         header: true,
         skipEmptyLines: true,
         complete: parsedVariables => {
-          const variables: Variable[] = parsedVariables.data;
+          this.variables = parsedVariables.data;
+          const variables = this.variables;
           this.papa.parse('assets/options.tsv', {
             download: true,
             header: true,
@@ -139,6 +142,7 @@ export class ExpansionComponent implements OnChanges {
   }
 
   getGroup(groupName: string, fieldGroup: FormlyFieldConfig[]): FormlyFieldConfig {
+
     const group: FormlyFieldConfig = {
       type: 'flex-layout',
       templateOptions: {
@@ -167,6 +171,13 @@ export class ExpansionComponent implements OnChanges {
         group.fieldGroup[1].templateOptions.fxFlex = `${percentage}%`;
       }
     });
+
+    // handle groups with pottentially unspecified entities
+    if (Object.keys(unspecifiedGroups).includes(groupName)) {
+      group.templateOptions.unspecified = true;
+      const allGroupSuggestions = this.suggestions.filter(s => s.entity.startsWith(unspecifiedGroups[groupName]));
+      group.templateOptions.action = () => highlight(allGroupSuggestions, 'context');
+    }
 
     group.fieldGroup[1].fieldGroup = fieldGroup;
     return group;
@@ -257,22 +268,22 @@ export class ExpansionComponent implements OnChanges {
   getVariableSuggestions(variable: Variable, allSuggestions: Suggestion[]): Suggestion[] {
     let suggestions = allSuggestions.filter(s => variable.entity === s.entity);
 
-    // when no exact suggestions are found, look for its coresponding unspecific entity
+    // when no exact suggestions are found, look for its coresponding unspecified entity
     // if (suggestions.length === 0) {
-    //   const unspecificEntities = [
+    //   const unspecifiedEntities = [
     //     'Tratamiento_antiagregante',
     //     'Tratamiento_anticoagulante',
     //     'mRankin',
     //     'NIHSS',
     //   ];
-    //   unspecificEntities.forEach(e => {
+    //   unspecifiedEntities.forEach(e => {
     //     if (variable.entity.startsWith(e)) {
     //       suggestions = allSuggestions.filter(s => s.entity === e);
     //     }
     //   });
 
-    //   // tag as 'unspecific'
-    //   // suggestions = suggestions.map(s => ({ ...s, unspecific: true }))
+    //   // tag as 'unspecified'
+    //   // suggestions = suggestions.map(s => ({ ...s, unspecified: true }))
     // }
 
     // special case
@@ -284,7 +295,7 @@ export class ExpansionComponent implements OnChanges {
   }
 
   /**
-   * Update the value of a specific field (the picked field) with an evidence in text.
+   * Update the value of a specified field (the picked field) with an evidence in text.
    *
    * Not used anymore because
    */

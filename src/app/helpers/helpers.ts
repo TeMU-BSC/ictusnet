@@ -115,7 +115,7 @@ export function autofill(variable: Variable, suggestions: Suggestion[]): any {
  * https://jsfiddle.net/julmot/hexomvbL/
  *
  */
-export function highlight(suggestions: Suggestion[], className: string) {
+export function highlight(suggestions: Suggestion[], className: string): void {
   const instance = new Mark(`.${className}`);
   const ranges = suggestions.map(sugg => ({ start: sugg.offset.start, length: sugg.offset.end - sugg.offset.start }));
   const options = {

@@ -27,3 +27,10 @@ export const admissibleEvidences = {
   },
   etiologia: {}
 }
+
+export const unspecifiedGroups = {
+  'Anticoagulantes': 'Tratamiento_anticoagulante',
+  'Antiagregantes': 'Tratamiento_antiagregante',
+  'mRankin': 'mRankin',
+  'NIHSS': 'NIHSS',
+}

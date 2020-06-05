@@ -9,7 +9,7 @@ export interface Annotation {
   };
   evidence: string;
   notes: string;
-  unspecific?: boolean;
+  unspecified?: boolean;
 }
 
 export interface Suggestion {
@@ -21,7 +21,7 @@ export interface Suggestion {
   };
   evidence: string;
   notes: string;
-  unspecific?: boolean;
+  unspecified?: boolean;
 }
 
 export interface Variable {
