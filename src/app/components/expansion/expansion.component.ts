@@ -7,11 +7,11 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 
 import { ParsingService } from 'src/app/services/parsing.service';
 import { Suggestion, Variable } from 'src/app/interfaces/interfaces';
-import { downloadObjectAsJson } from 'src/app/helpers/helpers';
-import Mark from 'mark.js';
+import { downloadObjectAsJson, highlight } from 'src/app/helpers/helpers';
 
-// TODO show unspecific suggestions in some fields: tratamientos (antiagregante y anticoagulante), mrankin, nihss
-// TODO show extra help (evidencia del procedimiento) in some fields: trombolisis (intravenosa e intraarterial), trombectomia, tac craneal
+
+// TODO when a field cannot be autofilled, highlight all unspecific suggestions: Tratamiento_* (antiagregante y anticoagulante), mRankin, NIHSS
+// TODO lupa: show extra help (evidencia del procedimiento) in some fields: trombolisis (intravenosa e intraarterial), trombectomia, tac craneal
 // TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
 
 export interface PanelType {
@@ -46,10 +46,10 @@ export class ExpansionComponent implements OnChanges {
 
   // expansion panel
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  expandedStep: number = 0;
-  setStep(index: number) { this.expandedStep = index }
-  nextStep() { this.expandedStep++ }
-  prevStep() { this.expandedStep-- }
+  step: number = 0;
+  setStep(index: number) { this.step = index }
+  nextStep() { this.step++ }
+  prevStep() { this.step-- }
   panelIcons = {
     'Entrada y salida del paciente': 'airport_shuttle',
     'Diagnóstico': 'local_hospital',
@@ -91,7 +91,7 @@ export class ExpansionComponent implements OnChanges {
 
     // }
 
-    this.parser.getSuggestionsFromFile(`${this.path}/${fileId}.utf8.ann`).subscribe(data => {
+    this.parser.getAnnotationsFromFile(`${this.path}/${fileId}.utf8.ann`).subscribe(data => {
       const allSuggestions: Suggestion[] = data;
       this.papa.parse(`assets/variables.tsv`, {
         download: true,
@@ -204,7 +204,7 @@ export class ExpansionComponent implements OnChanges {
         label: variable.shortLabel,
         multiple: variable.cardinality === 'n',
         options: options,
-        focus: (field, event) => this.focusedField = field.key,
+        focus: (field, event) => highlight(field.templateOptions.suggestions, 'context'),
 
         // custom properties
         suggestions: suggestions,
@@ -212,12 +212,12 @@ export class ExpansionComponent implements OnChanges {
           icon: 'info',
           tooltip: variable.info
         } : null,
-        addonRight: {
-          icon: 'search',
-          tooltip: suggestions.map(s => s.evidence).join('\n'),
-          tooltipClass: 'multiline-tooltip',
-          onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
-        }
+        // addonRight: {
+        //   icon: 'search',
+        //   tooltip: suggestions.map(s => s.evidence).join('\n'),
+        //   tooltipClass: 'multiline-tooltip',
+        //   onClick: (to, addon, event) => highlight(to.suggestions, 'context'),
+        // }
       }
     };
 
@@ -324,37 +324,6 @@ export class ExpansionComponent implements OnChanges {
     }
 
     return data;
-  }
-
-  /**
-   * Highlight, in the text with class `className`, the offsets present in the given suggestions.
-   * Note: Requires an HTML element with the given `className` to exist.
-   *
-   * https://markjs.io/#markranges
-   * https://jsfiddle.net/julmot/hexomvbL/
-   *
-   */
-  highlight(suggestions: Suggestion[], className: string) {
-    const instance = new Mark(`.${className}`);
-    const ranges = suggestions.map(sugg => ({ start: sugg.offset.start, length: sugg.offset.end - sugg.offset.start }));
-    const options = {
-      each: (element: HTMLElement) => setTimeout(() => element.classList.add("animate"), 250),
-      done: (numberOfMatches: number) => {
-        // numberOfMatches ? document.getElementsByTagName('mark')[0].scrollIntoView() : null;
-
-        if (numberOfMatches) {
-
-          // https://github.com/iamdustan/smoothscroll/issues/47#issuecomment-350810238
-          let item = document.getElementsByTagName('mark')[0];  // what we want to scroll to
-          let wrapper = document.getElementById('hello');  // the wrapper we will scroll inside
-          let count = item.offsetTop - wrapper.scrollTop - 200;  // xx = any extra distance from top ex. 60
-          wrapper.scrollBy({ top: count, left: 0, behavior: 'smooth' })
-        }
-      }
-    };
-    instance.unmark({
-      done: () => instance.markRanges(ranges, options)
-    });
   }
 
   /**

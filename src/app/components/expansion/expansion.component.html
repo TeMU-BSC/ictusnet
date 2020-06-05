@@ -23,7 +23,7 @@
 
       <mat-accordion multi>
         <mat-expansion-panel *ngFor="let panel of panels; let index = index; let last = last;"
-          [expanded]="expandedStep === index" (opened)="setStep(index)" #expansionPanel>
+          [expanded]="step === index" (opened)="setStep(index)" #expansionPanel>
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon style="margin-right: 1rem;">{{ panel.icon }}</mat-icon>
@@ -58,6 +58,6 @@
 
   </section>
 
-  <section id="hello" fxFlex="50%" class="fullheight plaintext wrap context">{{ text }}</section>
+  <section id="wrapper" fxFlex="50%" class="fullheight plaintext wrap context">{{ text }}</section>
 
 </div>

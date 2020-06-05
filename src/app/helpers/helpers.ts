@@ -1,3 +1,4 @@
+import Mark from 'mark.js';
 import { Suggestion } from 'src/app/interfaces/interfaces';
 
 /**
@@ -57,6 +58,37 @@ export function isValidDate(input: string): boolean {
  */
 export function isValidTime(input: string): boolean {
   return /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(input);
+}
+
+/**
+ * Highlight, in the text with class `className`, the offsets present in the given suggestions.
+ * Note: Requires an HTML element with the given `className` to exist.
+ *
+ * https://markjs.io/#markranges
+ * https://jsfiddle.net/julmot/hexomvbL/
+ *
+ */
+export function highlight(suggestions: Suggestion[], className: string) {
+  const instance = new Mark(`.${className}`);
+  const ranges = suggestions.map(sugg => ({ start: sugg.offset.start, length: sugg.offset.end - sugg.offset.start }));
+  const options = {
+    each: (element: HTMLElement) => setTimeout(() => element.classList.add("animate"), 250),
+    done: (numberOfMatches: number) => {
+      // numberOfMatches ? document.getElementsByTagName('mark')[0].scrollIntoView() : null;
+
+      if (numberOfMatches) {
+
+        // https://github.com/iamdustan/smoothscroll/issues/47#issuecomment-350810238
+        let item = document.getElementsByTagName('mark')[0];  // what we want to scroll to
+        let wrapper = document.getElementById('wrapper');  // the wrapper we will scroll inside
+        let count = item.offsetTop - wrapper.scrollTop - 200;  // xx = any extra distance from top ex. 60
+        wrapper.scrollBy({ top: count, left: 0, behavior: 'smooth' })
+      }
+    }
+  };
+  instance.unmark({
+    done: () => instance.markRanges(ranges, options)
+  });
 }
 
 /**

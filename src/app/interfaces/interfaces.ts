@@ -1,3 +1,15 @@
+export interface Annotation {
+  id: string;
+  entity: string;
+  offset: {
+    start: number;
+    end: number;
+  };
+  evidence: string;
+  notes: string;
+  unspecific?: boolean;
+}
+
 export interface Suggestion {
   id: string;
   entity: string;

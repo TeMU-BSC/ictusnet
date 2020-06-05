@@ -8,12 +8,16 @@ import { Observable, of } from 'rxjs';
 })
 export class ParsingService {
 
+  annotations: Suggestion[];
+
   constructor(
     private papa: Papa,
-  ) { }
+  ) {
+    this.getAnnotationsFromFile('assets/alejandro_sample/10/321687159.utf8.ann')
+  }
 
-  getSuggestionsFromFile(filepath: string): Observable<Suggestion[]> {
-    const suggestions: Suggestion[] = [];
+  getAnnotationsFromFile(filepath: string): Observable<Suggestion[]> {
+    const annotations: Suggestion[] = [];
     this.papa.parse(filepath, {
       download: true,
       skipEmptyLines: true,
@@ -22,7 +26,7 @@ export class ParsingService {
         const annotatorNotesLines = results.data.filter((line: string[][]) => line.map((l: string[]) => l[0])[0].startsWith('#'));
         annotationLines.forEach((line: string[]) => {
           let foundNotesLine = annotatorNotesLines.find(note => note[1].split(' ')[1] === line[0])
-          suggestions.push({
+          annotations.push({
             id: line[0],
             entity: line[1].split(' ')[0],
             offset: {
@@ -35,7 +39,8 @@ export class ParsingService {
         });
       }
     });
-    return of(suggestions);
+    this.annotations = annotations;
+    return of(annotations);
   }
 
 }

@@ -1,16 +1,52 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (submit)="download()" fxLayout="column" fxLayoutAlign="center center">
   <p>STATIC PROTOTYPE</p>
 
   <div fxLayout fxLayoutAlign="space-between" class="collapse-expand-buttons">
     <button mat-button type="button" color="secondary" (click)="accordion.closeAll()">
-      <mat-icon style="padding: 0;">unfold_less</mat-icon>Colapsar todo
+      <mat-icon>unfold_less</mat-icon>Colapsar todo
     </button>
     <button mat-button type="button" color="secondary" (click)="accordion.openAll()">
-      <mat-icon style="padding: 0;">unfold_more</mat-icon>Expandir todo
+      <mat-icon>unfold_more</mat-icon>Expandir todo
     </button>
   </div>
 
-  <mat-accordion class="example-headers-align" multi>
+  <mat-accordion multi>
+    <mat-expansion-panel *ngFor="let panel of panels; let index = index; let last = last;"
+      [expanded]="step === index" (opened)="setStep(index)" #expansionPanel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon style="margin-right: 1rem;">{{ panel.icon }}</mat-icon>
+          <span class="title">{{ panel.title }}</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <formly-form [form]="form.at(index)" [model]="model" [fields]="panel.fields" [options]="options[index]">
+      </formly-form>
+
+      <mat-action-row>
+        <button *ngIf="index !== 0" type="button" mat-button color="secondary"
+          (click)="prevStep()">Anterior</button>
+        <button *ngIf="!last" type="button" mat-button color="primary" (click)="nextStep()">Siguiente</button>
+        <button *ngIf="last" type="button" mat-button color="primary"
+          (click)="accordion.closeAll()">Finalizar</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div fxLayout="column" fxLayoutAlign="stretch center" style="margin-top: 2rem;">
+    <button type="submit" mat-button color="primary">
+      <mat-icon style="margin-right: 0.3rem;">save_alt</mat-icon>
+      Descargar las respuestas en formato JSON
+    </button>
+    <button type="button" mat-button color="secondary" (click)="reset()">
+      o empezar de nuevo
+    </button>
+  </div>
+
+
+
+
+  <!-- <mat-accordion class="example-headers-align" multi>
 
     <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
       <mat-expansion-panel-header>
@@ -20,14 +56,14 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <!-- <formly-form [form]="form" [model]="model" [fields]="fields" [options]="options"></formly-form> -->
-
-      <p>Inicio de los síntomas</p>
+      <p>
+        Inicio de los síntomas
+        <mat-icon color="primary" matTooltip="También es válida la última vez que el paciente estuvo asintomático."
+          matTooltipPosition="right">info</mat-icon>
+      </p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
         <input matInput type="date" formControlName="fechaInicioSintomas">
-        <mat-icon matSuffix color="primary" matTooltip="También es válida la última vez que el paciente estuvo asintomático."
-          matTooltipPosition="right">info</mat-icon>
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
@@ -139,88 +175,105 @@
       <mat-expansion-panel-header>
         <mat-panel-title>
           <mat-icon>healing</mat-icon>
-          <span class="title">Procedimientos y pruebas</span>
+          <span class="title">Procedimientos</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <p>Trombólisis intravenosa</p>
+      <p>Trombólisis intravenosa
+        <button mat-icon-button color="attention" matTooltip="Buscar evidencia en el texto." matTooltipPosition="right">
+          <mat-icon>highlight</mat-icon>
+        </button>
+      </p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput type="date">
+        <input matInput type="date" formControlName="fechaTrombolisisIntravenosa">
       </mat-form-field>
-      <mat-form-field appearance="outline" class="short-field">
-        <mat-label>Hora</mat-label>
-        <input matInput PrimerBolusTrombolisisRtpa type="time">
+      <mat-form-field appearance="outline">
+        <mat-label>Hora del primer bolus</mat-label>
+        <input matInput type="time" formControlName="horaInicioPrimerBolusTrombolisisRtpa">
         <mat-icon matSuffix color="primary" matTooltip='Hora del primer bolus de la trombólisis rtPA'
           matTooltipPosition="right">info
         </mat-icon>
       </mat-form-field>
 
-      <p>Trombólisis intraaerterial</p>
+      <p>Trombólisis intraaerterial
+        <button mat-icon-button color="attention" matTooltip="Buscar evidencia en el texto." matTooltipPosition="right">
+          <mat-icon>highlight</mat-icon>
+        </button>
+      </p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput type="date">
+        <input matInput type="date" formControlName="fechaTrombolisisIntraarterial">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput type="time">
+        <input matInput type="time" formControlName="horaTrombolisisIntraarterial">
       </mat-form-field>
 
-      <p>Inicio de la trombectomía mecánica</p>
+      <p>Trombectomía mecánica
+        <button mat-icon-button color="attention" matTooltip="Buscar evidencia en el texto." matTooltipPosition="right">
+          <mat-icon>highlight</mat-icon>
+        </button>
+      </p>
+
+      <div class="subgroup">Inicio</div>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput type="date">
+        <input matInput type="date" formControlName="fechaInicioTrombectomia">
       </mat-form-field>
-      <mat-form-field appearance="outline" class="short-field">
-        <mat-label>Hora</mat-label>
-        <input matInput type="time">
-        <mat-icon matSuffix color="primary" matTooltip='Hora de la punción arterial (groin puncture)'
-          matTooltipPosition="right">info
+      <mat-form-field appearance="outline">
+        <mat-label>Hora de la punción arterial</mat-label>
+        <input matInput type="time" formControlName="horaInicioTrombectomia">
+        <mat-icon matSuffix color="primary" matTooltip='También llamada groin puncture' matTooltipPosition="right">info
         </mat-icon>
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>Regla tiempo punción (¿núm. entero?)</mat-label>
-        <input matInput #tiempoPuertaPuncion type="number">
+        <mat-label>Tiempo puerta punción</mat-label>
+        <input matInput type="number" formControlName="tiempoPuertaPuncion">
       </mat-form-field>
 
-      <p>Primera serie de la trombectomía mecánica</p>
+      <div class="subgroup">Primera serie</div>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput type="date">
+        <input matInput type="date" formControlName="fechaPrimeraSerieTrombectomia">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput type="time">
+        <input matInput type="time" formControlName="horaPrimeraSerieTrombectomia">
       </mat-form-field>
 
-      <p>Recanalización para la trombectomía mecánica</p>
+      <div class="subgroup">Recanalización</div>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput type="date">
+        <input matInput type="date" formControlName="fechaRecanalizacion">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput type="time">
+        <input matInput type="time" formControlName="horaRecanalizacion">
       </mat-form-field>
 
-      <p>Fin de la trombectomía mecánica</p>
+      <div class="subgroup">Finalización</div>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput type="date">
+        <input matInput type="date" formControlName="fechaFinTrombectomia">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput type="time">
+        <input matInput type="time" formControlName="horaFinTrombectomia">
       </mat-form-field>
 
-      <p>TAC craneal</p>
+      <p>TAC craneal
+        <button mat-icon-button color="attention" matTooltip="Buscar evidencia en el texto." matTooltipPosition="right">
+          <mat-icon>highlight</mat-icon>
+        </button>
+      </p>
       <mat-form-field appearance="outline">
         <mat-label>Fecha</mat-label>
-        <input matInput type="date">
+        <input matInput type="date" formControlName="fechaTac">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Hora</mat-label>
-        <input matInput type="time">
+        <input matInput type="time" formControlName="horaTac">
       </mat-form-field>
 
       <mat-action-row>
@@ -232,81 +285,97 @@
     <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)">
       <mat-expansion-panel-header>
         <mat-panel-title>
+          <mat-icon>local_pharmacy</mat-icon>
+          <span class="title">Tratamientos</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <p>Anticoagulante
+        <mat-icon color="primary" matTooltip="Acepta múltiples valores." matTooltipPosition="right">info
+        </mat-icon>
+      </p>
+      <mat-form-field appearance="outline">
+        <mat-label>Habitual</mat-label>
+        <mat-select multiple formControlName="tratamientosAnticoagulantesHabituales">
+          <mat-option *ngFor="let option of options.tratamientoAnticoagulante" [value]="option.value">
+            {{ option.value }}
+            <span *ngIf="option.comment">({{ option.comment }})</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Al alta</mat-label>
+        <mat-select multiple formControlName="tratamientosAnticoagulantesAlta">
+          <mat-option *ngFor="let option of options.tratamientoAnticoagulante" [value]="option.value">
+            {{ option.value }}
+            <span *ngIf="option.comment">({{ option.comment }})</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <p>Antiagregante
+        <mat-icon color="primary" matTooltip="Acepta múltiples valores." matTooltipPosition="right">info
+        </mat-icon>
+      </p>
+      <mat-form-field appearance="outline">
+        <mat-label>Habitual</mat-label>
+        <mat-select multiple formControlName="tratamientosAntiagregantesHabituales">
+          <mat-option *ngFor="let option of options.tratamientoAntiagregante" [value]="option.value">
+            {{ option.value }}
+            <span *ngIf="option.comment">({{ option.comment }})</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Al alta</mat-label>
+        <mat-select multiple formControlName="tratamientosAntiagregantesAlta">
+          <mat-option *ngFor="let option of options.tratamientoAntiagregante" [value]="option.value">
+            {{ option.value }}
+            <span *ngIf="option.comment">({{ option.comment }})</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-action-row>
+        <button mat-button color="secondary" (click)="prevStep()">Anterior</button>
+        <button mat-button color="primary" (click)="finish()">Finalizar</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
           <mat-icon>analytics</mat-icon>
-          <span class="title">Tratamientos y escalas de valoración</span>
+          <span class="title">Escalas de valoración</span>
         </mat-panel-title>
       </mat-expansion-panel-header>
 
       <p>ASPECTS</p>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>ASPECTS</mat-label>
-        <input matInput #aspects type="number">
+        <input matInput #aspects type="number" formControlName="aspects">
       </mat-form-field>
       <mat-icon matSuffix color="primary" matTooltip="Depende del TAC craneal." matTooltipPosition="right">info
-      </mat-icon>
-
-      <p>Tratamiento antiagregante</p>
-      <mat-form-field appearance="outline">
-        <mat-label>Habitual</mat-label>
-        <mat-select multiple>
-          <mat-option value="clopidogrel">clopidogrel (plavix)</mat-option>
-          <mat-option value="ticlopidine">ticlopidine (tiklid)</mat-option>
-          <mat-option value="acetylsalicylic acid, combinations with proton pump inhibitors">
-            acetylsalicylic acid, combinations with proton pump inhibitors
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Al alta</mat-label>
-        <mat-select multiple>
-          <mat-option value="clopidogrel">clopidogrel (plavix)</mat-option>
-          <mat-option value="ticlopidine">ticlopidine (tiklid)</mat-option>
-          <mat-option value="acetylsalicylic acid, combinations with proton pump inhibitors">
-            acetylsalicylic acid, combinations with proton pump inhibitors
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-icon matSuffix color="primary" matTooltip="Acepta múltiples valores." matTooltipPosition="right">info
-      </mat-icon>
-
-      <p>Tratamiento anticoagulante</p>
-      <mat-form-field appearance="outline">
-        <mat-label>Habitual</mat-label>
-        <mat-select multiple>
-          <mat-option value="acenocumarol">acenocumarol (sintrom)</mat-option>
-          <mat-option value="warfarin">warfarin (aldocumar)</mat-option>
-          <mat-option value="parnaparin">parnaparin</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Al alta</mat-label>
-        <mat-select multiple>
-          <mat-option value="acenocumarol">acenocumarol (sintrom)</mat-option>
-          <mat-option value="warfarin">warfarin (aldocumar)</mat-option>
-          <mat-option value="parnaparin">parnaparin</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-icon matSuffix color="primary" matTooltip="Acepta múltiples valores." matTooltipPosition="right">info
       </mat-icon>
 
       <p>mRankin</p>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Previa</mat-label>
-        <input matInput type="number">
+        <input matInput type="number" formControlName="mRankinPrevia">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Al alta</mat-label>
-        <input matInput type="number">
+        <input matInput type="number" formControlName="mRankinAlta">
       </mat-form-field>
 
       <p>NIHSS</p>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Previa</mat-label>
-        <input matInput type="number">
+        <input matInput type="number" formControlName="nihssPrevia">
       </mat-form-field>
       <mat-form-field appearance="outline" class="short-field">
         <mat-label>Al alta</mat-label>
-        <input matInput type="number">
+        <input matInput type="number" formControlName="nihssAlta">
       </mat-form-field>
 
       <mat-action-row>
@@ -321,8 +390,9 @@
     <button type="submit" mat-raised-button color="primary" #downloadButton (click)="download()">
       Descargar respuestas
     </button>
-    <button type="button" mat-button color="secondary" (click)="confirm()">
+    <button type="button" mat-button color="secondary" (click)="reset()">
       Restablecer formulario a los valores iniciales
     </button>
-  </div>
+  </div> -->
+
 </form>
