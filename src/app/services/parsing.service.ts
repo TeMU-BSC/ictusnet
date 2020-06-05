@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
 import { Suggestion } from 'src/app/interfaces/interfaces';
 import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,14 @@ export class ParsingService {
   annotations: Suggestion[];
 
   constructor(
+    private http: HttpClient,
     private papa: Papa,
   ) {
-    this.getAnnotationsFromFile('assets/alejandro_sample/10/321687159.utf8.ann')
+    // this.getAnnotationsFromFile('assets/alejandro_sample/10/321687159.utf8.ann')
+  }
+
+  getTextFromFile(filepath: string): Observable<string> {
+    return this.http.get(filepath, { responseType: 'text' });
   }
 
   getAnnotationsFromFile(filepath: string): Observable<Suggestion[]> {

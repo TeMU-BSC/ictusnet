@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { PanelType } from 'src/app/components/static/static.component';
 import { highlight } from 'src/app/helpers/helpers';
 import { ParsingService } from './parsing.service';
+import { admissibleEvidences } from '../constants/constants';
+import { Variable, Suggestion } from '../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -104,10 +106,50 @@ export class FormlyService {
 
 
   /**
-   * Build the formly model.
+   * Search for a suitable value or values to autofill a formly field.
    */
-  autofill(): any {
+  autofill(variable: Variable, suggestions: Suggestion[]): any {
+    let data: any = suggestions[0]?.evidence;
 
+    if (variable.fieldType === 'input' && ['date', 'time'].includes(variable.inputType)) {
+      data = suggestions[0]?.notes;
+    }
+
+    // single option select needs string data
+    if (variable.fieldType === 'select' && variable.cardinality === '1') {
+
+      // special cases
+      if (variable.entity === 'Diagnostico_principal') {
+        const suggestion = suggestions.find(s => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(s.entity));
+        data = variable.options.find(o => o.value.startsWith(suggestion?.entity.toLowerCase().split('_')[0]))?.value;
+      }
+
+      // autofill with option:
+      else {
+        data = variable.options.find(o =>
+
+          // 1. if that includes the first evidence as a substring
+          o.value.includes(suggestions[0]?.evidence.toLowerCase())
+
+          // 2. or if any of the predefined admissible values includes the first evidence
+          || admissibleEvidences[variable.key][o.value]?.includes(suggestions[0]?.evidence)
+
+          // 3. or if evidence starts with the first letter of that option
+          || suggestions[0]?.evidence.toLowerCase().startsWith(o.value[0])
+        )?.value;
+      }
+    }
+
+    // multiple option select needs array of strings
+    if (variable.fieldType === 'select' && variable.cardinality === 'n') {
+      data = [''];
+      suggestions.forEach(suggestion => {
+        const option = variable.options.find(o => o.value.concat(' ', o.comment).includes(suggestion?.evidence.toLowerCase()))?.value;
+        data.push(option);
+      });
+    }
+
+    return data;
   }
 
 }

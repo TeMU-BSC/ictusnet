@@ -8,10 +8,13 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { ParsingService } from 'src/app/services/parsing.service';
 import { Suggestion, Variable } from 'src/app/interfaces/interfaces';
 import { downloadObjectAsJson, highlight } from 'src/app/helpers/helpers';
+import { panelIcons } from 'src/app/constants/constants';
+import { FormlyService } from 'src/app/services/formly.service';
 
 
 // TODO when a field cannot be autofilled, highlight all unspecific suggestions: Tratamiento_* (antiagregante y anticoagulante), mRankin, NIHSS
 // TODO lupa: show extra help (evidencia del procedimiento) in some fields: trombolisis (intravenosa e intraarterial), trombectomia, tac craneal
+// TODO autofill with 'derecha' when evidence is 'derecho' or 'dreta'; with 'izquierda' when evidence is 'izquierd*' or 'esquerre'
 // TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
 
 export interface PanelType {
@@ -40,29 +43,23 @@ export class ExpansionComponent implements OnChanges {
   panels: PanelType[] = [];
   form: FormArray = new FormArray(this.panels.map(() => new FormGroup({})));
   options = this.panels.map(() => <FormlyFormOptions>{});
+
   // getEtiologiaOptions = () => (this.panels[1]?.groups[4]?.fieldGroup[1]?.fieldGroup[0]?.templateOptions?.options as any[]);
   // getEtiologiaSubset = (comment: string) => this.getEtiologiaOptions().filter(o => o.comment === comment);
   // setEtiologiaOptions = (subset: any[]) => this.panels[1].groups[4].fieldGroup[1].fieldGroup[0].templateOptions.options = subset;
 
   // expansion panel
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  step: number = 0;
+  step: number = 1;
   setStep(index: number) { this.step = index }
   nextStep() { this.step++ }
   prevStep() { this.step-- }
-  panelIcons = {
-    'Entrada y salida del paciente': 'airport_shuttle',
-    'Diagnóstico': 'local_hospital',
-    'Procedimientos': 'healing',
-    // 'Tratamientos y escalas de valoración': 'analytics',
-    'Tratamientos': 'local_pharmacy',
-    'Pruebas y escalas de valoración': 'analytics',
-  };
 
   constructor(
     private http: HttpClient,
     private papa: Papa,
-    private parser: ParsingService
+    private parser: ParsingService,
+    private formly: FormlyService,
   ) { }
 
   ngOnChanges(): void {
@@ -76,8 +73,9 @@ export class ExpansionComponent implements OnChanges {
    */
   loadFile(fileId: string) {
     this.downloadFilename = `${fileId}.json`;
+    this.parser.getTextFromFile(`${this.path}${fileId}.utf8.txt`).subscribe(data => this.text = data);
 
-    this.http.get(`${this.path}${fileId}.utf8.txt`, { responseType: 'text' }).subscribe(data => this.text = data);
+
     // ONLY txt file !Remember to pass the event as parameter ;)
     // this.file = event.target.files[0];
     // var reader = new FileReader();
@@ -91,7 +89,7 @@ export class ExpansionComponent implements OnChanges {
 
     // }
 
-    this.parser.getAnnotationsFromFile(`${this.path}/${fileId}.utf8.ann`).subscribe(data => {
+    this.parser.getAnnotationsFromFile(`${this.path}${fileId}.utf8.ann`).subscribe(data => {
       const allSuggestions: Suggestion[] = data;
       this.papa.parse(`assets/variables.tsv`, {
         download: true,
@@ -103,12 +101,12 @@ export class ExpansionComponent implements OnChanges {
             download: true,
             header: true,
             skipEmptyLines: true,
-            complete: parsedAdmissibles => {
-              const options: any[] = parsedAdmissibles.data;
+            complete: parsedOptions => {
+              const options: any[] = parsedOptions.data;
               variables.forEach(variable => {
                 variable.options = options.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }));
                 const suggestions = this.getVariableSuggestions(variable, allSuggestions);
-                this.model = { ...this.model, [variable.key]: this.getModelData(variable, suggestions) }
+                this.model = { ...this.model, [variable.key]: this.formly.autofill(variable, suggestions) }
               });
               this.panels = [...this.panels, ...this.getPanels(variables, allSuggestions)];
             }
@@ -142,7 +140,7 @@ export class ExpansionComponent implements OnChanges {
 
   getPanel(sectionName: string, groups: FormlyFieldConfig[]): PanelType {
     const panel: PanelType = {
-      icon: this.panelIcons[sectionName],
+      icon: panelIcons[sectionName],
       title: sectionName,
       groups: groups,
     };
@@ -269,22 +267,22 @@ export class ExpansionComponent implements OnChanges {
     let suggestions = allSuggestions.filter(s => variable.entity === s.entity);
 
     // when no exact suggestions are found, look for its coresponding unspecific entity
-    if (suggestions.length === 0) {
-      const unspecificEntities = [
-        'Tratamiento_antiagregante',
-        'Tratamiento_anticoagulante',
-        'mRankin',
-        'NIHSS',
-      ];
-      unspecificEntities.forEach(e => {
-        if (variable.entity.startsWith(e)) {
-          suggestions = allSuggestions.filter(s => s.entity === e);
-        }
-      });
+    // if (suggestions.length === 0) {
+    //   const unspecificEntities = [
+    //     'Tratamiento_antiagregante',
+    //     'Tratamiento_anticoagulante',
+    //     'mRankin',
+    //     'NIHSS',
+    //   ];
+    //   unspecificEntities.forEach(e => {
+    //     if (variable.entity.startsWith(e)) {
+    //       suggestions = allSuggestions.filter(s => s.entity === e);
+    //     }
+    //   });
 
-      // tag as 'unspecific'
-      // suggestions = suggestions.map(s => ({ ...s, unspecific: true }))
-    }
+    //   // tag as 'unspecific'
+    //   // suggestions = suggestions.map(s => ({ ...s, unspecific: true }))
+    // }
 
     // special case
     if (variable.entity === 'Diagnostico_principal') {
@@ -292,38 +290,6 @@ export class ExpansionComponent implements OnChanges {
     }
 
     return suggestions;
-  }
-
-  getModelData(variable: Variable, suggestions: Suggestion[]): any {
-
-    // input fields
-    let data: any = suggestions[0]?.notes || suggestions[0]?.evidence;
-
-    // select fields
-    if (variable.fieldType === 'select') {
-
-      // special case
-      if (variable.entity === 'Diagnostico_principal') {
-        const suggestion = suggestions.find(s => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(s.entity));
-        data = variable.options.find(o => o.value.startsWith(suggestion?.entity.toLowerCase().split('_')[0]))?.value;
-      }
-
-      // single option need data to be a string
-      if (variable.cardinality === '1') {
-        data = variable.options.find(o => o.value.match(data))?.value;
-      }
-
-      // multiple options need data to be an array of strings
-      if (variable.cardinality === 'n') {
-        data = [];
-        suggestions.forEach(suggestion => {
-          const option = variable.options.find(a => a.value.concat(' ', a.comment).match(suggestion?.evidence))?.value;
-          data.push(option);
-        });
-      }
-    }
-
-    return data;
   }
 
   /**

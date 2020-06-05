@@ -46,7 +46,7 @@ export class StaticComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    this.model= this.formly.autofill();
+    // this.model= this.formly.autofill(_, _);
   }
 
   reset(): void {
