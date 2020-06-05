@@ -1,5 +1,8 @@
 import Mark from 'mark.js';
-import { Suggestion } from 'src/app/interfaces/interfaces';
+import { admissibleEvidences } from 'src/app/constants/constants';
+import { Variable, Suggestion } from 'src/app/interfaces/interfaces';
+import { PanelType } from '../components/static/static.component';
+
 
 /**
  * Remove the spelling accents may contain the given text.
@@ -59,6 +62,50 @@ export function isValidDate(input: string): boolean {
 export function isValidTime(input: string): boolean {
   return /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(input);
 }
+
+/**
+   * Search for a suitable value or values to autofill a formly field.
+   */
+export function autofill(variable: Variable, suggestions: Suggestion[]): any {
+    let data: any = suggestions[0]?.evidence;
+
+    if (variable.fieldType === 'input') {
+      data = suggestions[0]?.notes;
+    }
+
+    // single option select needs string data
+    if (variable.fieldType === 'select' && variable.cardinality === '1') {
+
+      // special cases
+      if (variable.entity === 'Diagnostico_principal') {
+        const suggestion = suggestions.find(s => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(s.entity));
+        data = variable.options.find(o => o.value.toLowerCase().startsWith(suggestion?.entity.toLowerCase().split('_')[0]))?.value;
+      }
+
+      // autofill with option:
+      else {
+        data = variable.options.find(o =>
+
+          // 1. if that includes the first evidence as a substring
+          o.value.toLowerCase().includes(suggestions[0]?.evidence.toLowerCase())
+
+          // 2. or if any of the predefined admissible values includes the first evidence
+          || admissibleEvidences[variable.key][o.value]?.includes(suggestions[0]?.evidence)
+
+          // 3. or if evidence starts with the first letter of that option
+          || suggestions[0]?.evidence.toLowerCase().startsWith(o.value.toLowerCase()[0])
+        )?.value;
+      }
+    }
+
+    // multiple option select needs array of strings
+    if (variable.fieldType === 'select' && variable.cardinality === 'n') {
+      data = suggestions.map(s => variable.options.find(o => o.value.toLowerCase().concat(' ', o.comment).includes(s?.evidence.toLowerCase()))?.value);
+      data = [...new Set(data)];
+    }
+
+    return data;
+  }
 
 /**
  * Highlight, in the text with class `className`, the offsets present in the given suggestions.

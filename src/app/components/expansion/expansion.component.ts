@@ -1,27 +1,19 @@
 import { Component, OnChanges, ViewChild, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { FormArray, FormGroup } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { Papa } from 'ngx-papaparse';
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
 
 import { ParsingService } from 'src/app/services/parsing.service';
-import { Suggestion, Variable } from 'src/app/interfaces/interfaces';
-import { downloadObjectAsJson, highlight } from 'src/app/helpers/helpers';
+import { Suggestion, Variable, PanelType } from 'src/app/interfaces/interfaces';
+import { downloadObjectAsJson, highlight, autofill } from 'src/app/helpers/helpers';
 import { panelIcons } from 'src/app/constants/constants';
-import { FormlyService } from 'src/app/services/formly.service';
 
 
 // TODO when a field cannot be autofilled, highlight all unspecific suggestions: Tratamiento_* (antiagregante y anticoagulante), mRankin, NIHSS
 // TODO lupa: show extra help (evidencia del procedimiento) in some fields: trombolisis (intravenosa e intraarterial), trombectomia, tac craneal
-// TODO autofill with 'derecha' when evidence is 'derecho' or 'dreta'; with 'izquierda' when evidence is 'izquierd*' or 'esquerre'
 // TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
 
-export interface PanelType {
-  icon?: string;
-  title?: string;
-  groups?: FormlyFieldConfig[];
-}
 
 @Component({
   selector: 'app-expansion',
@@ -50,21 +42,20 @@ export class ExpansionComponent implements OnChanges {
 
   // expansion panel
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  step: number = 1;
+  step: number = 3;
   setStep(index: number) { this.step = index }
   nextStep() { this.step++ }
   prevStep() { this.step-- }
 
   constructor(
-    private http: HttpClient,
     private papa: Papa,
     private parser: ParsingService,
-    private formly: FormlyService,
   ) { }
 
   ngOnChanges(): void {
     this.model = {};
     this.panels = [];
+    document.getElementById('wrapper').scrollTop = 0;
     this.loadFile(this.fileId);
   }
 
@@ -106,7 +97,7 @@ export class ExpansionComponent implements OnChanges {
               variables.forEach(variable => {
                 variable.options = options.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }));
                 const suggestions = this.getVariableSuggestions(variable, allSuggestions);
-                this.model = { ...this.model, [variable.key]: this.formly.autofill(variable, suggestions) }
+                this.model = { ...this.model, [variable.key]: autofill(variable, suggestions) }
               });
               this.panels = [...this.panels, ...this.getPanels(variables, allSuggestions)];
             }

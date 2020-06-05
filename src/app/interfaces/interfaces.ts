@@ -1,3 +1,5 @@
+import { FormlyFieldConfig } from '@ngx-formly/core';
+
 export interface Annotation {
   id: string;
   entity: string;
@@ -35,6 +37,12 @@ export interface Variable {
   inputType?: string;
   options?: any[];
   comments?: string;
+}
+
+export interface PanelType {
+  icon?: string;
+  title?: string;
+  groups?: FormlyFieldConfig[];
 }
 
 export interface IctusModel {
