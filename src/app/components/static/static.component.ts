@@ -2,8 +2,11 @@ import { Component, ViewChild, OnChanges } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { FormGroup, FormArray } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+
+import Mark from 'mark.js';
+
 import { ParsingService } from 'src/app/services/parsing.service';
-import { highlight } from 'src/app/helpers/helpers';
+import { Suggestion } from 'src/app/interfaces/interfaces';
 
 export interface PanelType {
   icon?: string;
@@ -40,7 +43,7 @@ export class StaticComponent implements OnChanges {
 
   constructor(
     private parser: ParsingService,
-    ) {
+  ) {
     this.panels = this.getPanels();
   }
 
@@ -76,12 +79,12 @@ export class StaticComponent implements OnChanges {
               label: 'Fecha',
               // multiple: variable.cardinality === 'n',
               // options: options,
-              focus: (field, event) => highlight(this.parser.annotations, 'context'),
+              focus: (field, event) => this.highlight(this.parser.annotations, 'context'),
               // addonRight: {
               //   icon: 'search',
               //   tooltip: suggestions.map(s => s.evidence).join('\n'),
               //   tooltipClass: 'multiline-tooltip',
-              //   onClick: (to, addon, event) => highlight(to.suggestions, 'context'),
+              //   onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
               // }
             }
           },
@@ -94,12 +97,12 @@ export class StaticComponent implements OnChanges {
               label: 'Hora',
               // multiple: variable.cardinality === 'n',
               // options: options,
-              focus: (field, event) => highlight(this.parser.annotations, 'context'),
+              focus: (field, event) => this.highlight(this.parser.annotations, 'context'),
               // addonRight: {
               //   icon: 'search',
               //   tooltip: suggestions.map(s => s.evidence).join('\n'),
               //   tooltipClass: 'multiline-tooltip',
-              //   onClick: (to, addon, event) => highlight(to.suggestions, 'context'),
+              //   onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
               // }
             }
           },
@@ -123,7 +126,7 @@ export class StaticComponent implements OnChanges {
                 { label: 'ataque', value: 'ataque' },
                 { label: 'hemorragia', value: 'hemorragia' },
               ],
-              focus: (field, event) => highlight(this.parser.annotations, 'context'),
+              focus: (field, event) => this.highlight(this.parser.annotations, 'context'),
             }
           },
           {
@@ -138,7 +141,7 @@ export class StaticComponent implements OnChanges {
                 { label: 'ACA', value: 'ACA' },
               ],
               multiple: true,
-              focus: (field, event) => highlight(this.parser.annotations, 'context'),
+              focus: (field, event) => this.highlight(this.parser.annotations, 'context'),
             }
           },
 
@@ -148,6 +151,37 @@ export class StaticComponent implements OnChanges {
 
 
     ];
+  }
+
+  /**
+   * Highlight, in the text with class `className`, the offsets present in the given suggestions.
+   * Note: Requires an HTML element with the given `className` to exist.
+   *
+   * https://markjs.io/#markranges
+   * https://jsfiddle.net/julmot/hexomvbL/
+   *
+   */
+  highlight(suggestions: Suggestion[], className: string): void {
+    const instance = new Mark(`.${className}`);
+    const ranges = suggestions.map(sugg => ({ start: sugg.offset.start, length: sugg.offset.end - sugg.offset.start }));
+    const options = {
+      each: (element: HTMLElement) => setTimeout(() => element.classList.add("animate"), 250),
+      done: (numberOfMatches: number) => {
+        // numberOfMatches ? document.getElementsByTagName('mark')[0].scrollIntoView() : null;
+
+        if (numberOfMatches) {
+
+          // https://github.com/iamdustan/smoothscroll/issues/47#issuecomment-350810238
+          let item = document.getElementsByTagName('mark')[0];  // what we want to scroll to
+          let wrapper = document.getElementById('wrapper');  // the wrapper we will scroll inside
+          let count = item.offsetTop - wrapper.scrollTop - 200;  // xx = any extra distance from top ex. 60
+          wrapper.scrollBy({ top: count, left: 0, behavior: 'smooth' })
+        }
+      }
+    };
+    instance.unmark({
+      done: () => instance.markRanges(ranges, options)
+    });
   }
 
   // reactive form

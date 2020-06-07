@@ -1,15 +1,18 @@
 import { Component, OnChanges, ViewChild, Input } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
-import { Papa } from 'ngx-papaparse';
+
 import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
+
+import { Papa } from 'ngx-papaparse';
+import Mark from 'mark.js';
 
 import { ParsingService } from 'src/app/services/parsing.service';
 import { Suggestion, Variable, PanelType } from 'src/app/interfaces/interfaces';
-import { downloadObjectAsJson, highlight, autofill } from 'src/app/helpers/helpers';
-import { panelIcons, unspecifiedGroups } from 'src/app/constants/constants';
+import { downloadObjectAsJson } from 'src/app/helpers/helpers';
+import { panelIcons, unspecifiedGroups, admissibleEvidences } from 'src/app/constants/constants';
 
-// TODO next to nihss header, add a button that shows all evidences in text (alta, previa and underspecified) (same for tratamientos y mrankin)
+
 // TODO lupa: show extra help (evidencia del procedimiento) in the groups: trombolisis (intravenosa e intraarterial), trombectomia, tac craneal
 // TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
 
@@ -37,13 +40,9 @@ export class ExpansionComponent implements OnChanges {
   form: FormArray = new FormArray(this.panels.map(() => new FormGroup({})));
   options = this.panels.map(() => <FormlyFormOptions>{});
 
-  // getEtiologiaOptions = () => (this.panels[1]?.groups[4]?.fieldGroup[1]?.fieldGroup[0]?.templateOptions?.options as any[]);
-  // getEtiologiaSubset = (comment: string) => this.getEtiologiaOptions().filter(o => o.comment === comment);
-  // setEtiologiaOptions = (subset: any[]) => this.panels[1].groups[4].fieldGroup[1].fieldGroup[0].templateOptions.options = subset;
-
   // expansion panel
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  step: number = 0;
+  step: number = 4;
   setStep(index: number) { this.step = index }
   nextStep() { this.step++ }
   prevStep() { this.step-- }
@@ -56,8 +55,8 @@ export class ExpansionComponent implements OnChanges {
   ngOnChanges(): void {
     this.model = {};
     this.panels = [];
-    document.getElementById('wrapper').scrollTop = 0;
     this.loadFile(this.fileId);
+    document.getElementById('wrapper').scrollTop = 0;
   }
 
   /**
@@ -100,7 +99,7 @@ export class ExpansionComponent implements OnChanges {
               variables.forEach(variable => {
                 variable.options = options.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }));
                 const suggestions = this.getVariableSuggestions(variable, allSuggestions);
-                this.model = { ...this.model, [variable.key]: autofill(variable, suggestions) }
+                this.model = { ...this.model, [variable.key]: this.autofill(variable, suggestions) }
               });
               this.panels = [...this.panels, ...this.getPanels(variables, allSuggestions)];
             }
@@ -176,7 +175,7 @@ export class ExpansionComponent implements OnChanges {
     if (Object.keys(unspecifiedGroups).includes(groupName)) {
       group.templateOptions.unspecified = true;
       const allGroupSuggestions = this.suggestions.filter(s => s.entity.startsWith(unspecifiedGroups[groupName]));
-      group.templateOptions.action = () => highlight(allGroupSuggestions, 'context');
+      group.templateOptions.action = () => this.highlight(allGroupSuggestions, 'context');
     }
 
     group.fieldGroup[1].fieldGroup = fieldGroup;
@@ -189,10 +188,7 @@ export class ExpansionComponent implements OnChanges {
   getField(variable: Variable, suggestions: Suggestion[]): FormlyFieldConfig {
 
     // prepare options for select fields
-    let options = variable.options.map(o => o.comment ? ({ value: o.value, label: `${o.value} (${o.comment})` }) : ({ value: o.value, label: o.value }));
-    if (variable.entity === 'Etiologia') {
-      options = variable.options.map(o => ({ value: o.value, label: o.value }));
-    }
+    let options = variable.options.map(o => ({ ...o, label: o.value }));
 
     // build the formly field
     const field: FormlyFieldConfig = {
@@ -204,7 +200,7 @@ export class ExpansionComponent implements OnChanges {
         label: variable.shortLabel,
         multiple: variable.cardinality === 'n',
         options: options,
-        focus: (field, event) => highlight(field.templateOptions.suggestions, 'context'),
+        focus: (field, event) => this.highlight(field.templateOptions.suggestions, 'context'),
 
         // custom properties
         suggestions: suggestions,
@@ -221,46 +217,58 @@ export class ExpansionComponent implements OnChanges {
       }
     };
 
-    // sort options
+    // special cases
+    switch (variable.entity) {
+
+      // listen to disgnostico changes to dynamically toggle etiologia's available subset options
+      case 'Diagnostico_principal':
+        field.templateOptions.change = (currentField) => {
+          let subset: any[];
+          if (currentField.model.diagnosticoPrincipal.includes('isquémico')) {
+            subset = this.variables.find(v => v.entity === 'Etiologia').options.filter(o => o.comment === 'isquémico').map(o => ({ ...o, label: o.value }));
+          } else if (currentField.model.diagnosticoPrincipal.includes('hemorragia')) {
+            subset = this.variables.find(v => v.entity === 'Etiologia').options.filter(o => o.comment === 'hemorragia').map(o => ({ ...o, label: o.value }));
+          }
+          this.panels[1].groups[4].fieldGroup[1].fieldGroup[0].templateOptions.options = subset;
+
+
+
+          // PENDING AITOR/MARTA CONFIRMATION: empty arterias afectadas field when diagnostico principal is other than 'ictus isquémico'
+          // if (currentField.model.diagnosticoPrincipal !== 'ictus isquémico') {
+          //   this.model = { ...this.model, arteriasAfectadas: null };
+          // }
+        }
+        break;
+
+      case 'Arteria_afectada':
+        // field.expressionProperties = { 'templateOptions.disabled': 'model.diagnosticoPrincipal !== "ictus isquémico"' };
+        break;
+
+      case 'Etiologia':
+
+        // set initial available options depending on the initial autofilled value of diagnostico principal
+        let subset: any[];
+        if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
+          subset = (field.templateOptions.options as any[]).filter(o => o.comment === 'isquémico');
+        } else if (['hemorragia cerebral'].includes(this.model.diagnosticoPrincipal)) {
+          subset = (field.templateOptions.options as any[]).filter(o => o.comment === 'hemorragia');
+        }
+        field.templateOptions.options = subset;
+        break;
+
+      default:
+        break;
+    }
+
+    // append (comment) on tratameinto fields that have commercial name
+    if (variable.entity.startsWith('Tratamiento')) {
+      field.templateOptions.options = variable.options.map(o => o.comment ? ({ value: o.value, label: `${o.value} (${o.comment})` }) : ({ value: o.value, label: o.value }));
+    }
+
+    // sort some options
     if (variable.entity === 'Etiologia' || variable.entity.startsWith('Tratamiento')) {
       (field.templateOptions.options as any[]).sort((a, b) => a.value?.localeCompare(b.value));
     }
-
-    // disable arteria field when diagnostico is not ictus
-    if (variable.entity === 'Arteria_afectada') {
-      field.expressionProperties = { 'templateOptions.disabled': 'model.diagnosticoPrincipal !== "ictus isquémico"' };
-    }
-
-    // listen to changes on diagnostico principal value
-    if (variable.entity === 'Diagnostico_principal') {
-      field.templateOptions.change = (currentField) => {
-
-        // empty arterias afectadas field when diagnostico principal is other than 'ictus isquémico'
-        if (currentField.model.diagnosticoPrincipal !== 'ictus isquémico') {
-          this.model = { ...this.model, arteriasAfectadas: null };
-        }
-
-        // // update etiologia field options depending on its value
-        // let subset: any[];
-        // if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
-        //   subset = this.getEtiologiaSubset('isquémico');
-        // } else if (['hemorragia cerebral'].includes(this.model.diagnosticoPrincipal)) {
-        //   subset = this.getEtiologiaSubset('hemorragia');
-        // }
-        // this.setEtiologiaOptions(subset.map(s => ({ value: s.value, label: s.label })));
-      }
-    };
-
-    // // initialize etiologia subset options
-    // if (variable.entity === 'Etiologia') {
-    //   let subset: any[];
-    //   if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
-    //     subset = this.getEtiologiaSubset('isquémico');
-    //   } else if (['hemorragia cerebral'].includes(this.model.diagnosticoPrincipal)) {
-    //     subset = this.getEtiologiaSubset('hemorragia');
-    //   }
-    //   field.templateOptions.options = subset;
-    // }
 
     return field;
   }
@@ -268,30 +276,87 @@ export class ExpansionComponent implements OnChanges {
   getVariableSuggestions(variable: Variable, allSuggestions: Suggestion[]): Suggestion[] {
     let suggestions = allSuggestions.filter(s => variable.entity === s.entity);
 
-    // when no exact suggestions are found, look for its coresponding unspecified entity
-    // if (suggestions.length === 0) {
-    //   const unspecifiedEntities = [
-    //     'Tratamiento_antiagregante',
-    //     'Tratamiento_anticoagulante',
-    //     'mRankin',
-    //     'NIHSS',
-    //   ];
-    //   unspecifiedEntities.forEach(e => {
-    //     if (variable.entity.startsWith(e)) {
-    //       suggestions = allSuggestions.filter(s => s.entity === e);
-    //     }
-    //   });
-
-    //   // tag as 'unspecified'
-    //   // suggestions = suggestions.map(s => ({ ...s, unspecified: true }))
-    // }
-
     // special case
     if (variable.entity === 'Diagnostico_principal') {
       suggestions = allSuggestions.filter(s => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(s.entity));
     }
 
     return suggestions;
+  }
+
+  /**
+ * Search for a suitable value or values to autofill a formly field.
+ */
+  autofill(variable: Variable, suggestions: Suggestion[]): any {
+    let data: any;
+
+    if (variable.fieldType === 'input') {
+      data = suggestions.find(s => s.notes)?.notes;
+    }
+
+    // single option select needs string data
+    if (variable.fieldType === 'select' && variable.cardinality === '1') {
+
+      // special cases
+      if (variable.entity === 'Diagnostico_principal') {
+        const suggestion = suggestions.find(s => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(s.entity));
+        data = variable.options.find(o => o.value.toLowerCase().startsWith(suggestion?.entity.toLowerCase().split('_')[0]))?.value;
+      }
+
+      // autofill with option:
+      else {
+        data = variable.options.find(o =>
+
+          // 1. if that includes the first evidence as a substring
+          o.value.toLowerCase().includes(suggestions[0]?.evidence.toLowerCase())
+
+          // 2. or if any of the predefined admissible values includes the first evidence
+          || admissibleEvidences[variable.key][o.value]?.includes(suggestions[0]?.evidence)
+
+          // 3. or if evidence starts with the first letter of that option
+          || suggestions[0]?.evidence.toLowerCase().startsWith(o.value.toLowerCase()[0])
+        )?.value;
+      }
+    }
+
+    // multiple option select needs array of strings
+    if (variable.fieldType === 'select' && variable.cardinality === 'n') {
+      data = suggestions.map(s => variable.options.find(o => o.value.toLowerCase().concat(' ', o.comment).includes(s?.evidence.toLowerCase()))?.value);
+      data = [...new Set(data)];
+    }
+
+    return data;
+  }
+
+  /**
+  * Highlight, in the text with class `className`, the offsets present in the given suggestions.
+  * Note: Requires an HTML element with the given `className` to exist.
+  *
+  * https://markjs.io/#markranges
+  * https://jsfiddle.net/julmot/hexomvbL/
+  *
+  */
+  highlight(suggestions: Suggestion[], className: string): void {
+    const instance = new Mark(`.${className}`);
+    const ranges = suggestions.map(sugg => ({ start: sugg.offset.start, length: sugg.offset.end - sugg.offset.start }));
+    const options = {
+      each: (element: HTMLElement) => setTimeout(() => element.classList.add("animate"), 250),
+      done: (numberOfMatches: number) => {
+        // numberOfMatches ? document.getElementsByTagName('mark')[0].scrollIntoView() : null;
+
+        if (numberOfMatches) {
+
+          // https://github.com/iamdustan/smoothscroll/issues/47#issuecomment-350810238
+          let item = document.getElementsByTagName('mark')[0];  // what we want to scroll to
+          let wrapper = document.getElementById('wrapper');  // the wrapper we will scroll inside
+          let count = item.offsetTop - wrapper.scrollTop - 200;  // xx = any extra distance from top ex. 60
+          wrapper.scrollBy({ top: count, left: 0, behavior: 'smooth' })
+        }
+      }
+    };
+    instance.unmark({
+      done: () => instance.markRanges(ranges, options)
+    });
   }
 
   /**
