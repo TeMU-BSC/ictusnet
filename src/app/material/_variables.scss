@@ -10,10 +10,8 @@ $app-warn: mat-palette($mat-red);
 
 $app-success: mat-palette($mat-green);
 $app-info: mat-palette($mat-blue);
-$app-attention: mat-palette($mat-amber);
+$app-attention: mat-palette($mat-orange, 800);
 $app-secondary: mat-palette($mat-grey);
-
-// $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 
 // Create your Sass color vars (will be available in all the project)
 $primary: mat-color($app-primary);
@@ -32,10 +30,10 @@ $custom-collection: (
   attention: $attention,
   secondary: $secondary,
   contrast: (
-    success: mat-color(mat-palette($mat-green, 50)),
-    info: mat-color(mat-palette($mat-blue, 50)),
-    attention: mat-color(mat-palette($mat-amber, 50)),
-    secondary: mat-color(mat-palette($mat-grey, 50)),
+    success: mat-contrast($mat-green, 600),
+    info: mat-contrast($mat-blue, 600),
+    attention: mat-contrast($mat-orange, 800),
+    secondary: mat-contrast($mat-grey, 600),
   )
 );
 $my-app-custom: mat-palette($custom-collection, custom);

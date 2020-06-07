@@ -28,9 +28,13 @@ export const admissibleEvidences = {
   etiologia: {}
 }
 
-export const unspecifiedGroups = {
+export const unspecifiedEntities = {
+  'Trombólisis intravenosa': 'Trombolisis_intravenosa',
+  'Trombólisis intraarterial': 'Trombolisis_intraarterial',
+  'Trombectomía mecánica': 'Trombectomia_mecanica',
   'Anticoagulantes': 'Tratamiento_anticoagulante',
   'Antiagregantes': 'Tratamiento_antiagregante',
+  'TAC craneal': 'TAC_craneal',
   'mRankin': 'mRankin',
   'NIHSS': 'NIHSS',
 }

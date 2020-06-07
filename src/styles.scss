@@ -17,7 +17,6 @@ body {
 .plaintext {
   height: 100%;
   padding: 1rem;
-  // max-width: 50ch;
   background-color: white;
   font-family: 'Roboto Mono', monospace;
 }
@@ -28,10 +27,6 @@ body {
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
-}
-.clicked-field {
-  background:red;
-  color:#FFf;
 }
 
 // https://stackoverflow.com/a/58134022
@@ -101,16 +96,16 @@ body {
 .mat-stroked-button.mat-secondary {
     color: mat-color($custom, secondary);
 }
-.mat-button.mat-secondary:hover,
-.mat-stroked-button.mat-secondary:hover {
-  // background-color: mat-color($custom, secondary-contrast);
-}
+// .mat-button.mat-secondary:hover,
+// .mat-stroked-button.mat-secondary:hover {
+//   background-color: mat-color($custom, secondary-contrast);
+// }
 .mat-raised-button.mat-secondary,
 .mat-flat-button.mat-secondary,
 .mat-fab.mat-secondary,
 .mat-mini-fab.mat-secondary {
   color: mat-color($custom, secondary-contrast);
-  // background-color: mat-color($custom, secondary);
+  background-color: mat-color($custom, secondary);
 }
 .mat-icon-button.mat-secondary {
   color: mat-color($custom, secondary);
@@ -120,24 +115,22 @@ body {
 mark {
   padding: 0;
   background: transparent;
-  // background: linear-gradient(to right, #f0ad4e 50%, transparent 50%);
-  background: linear-gradient(to right, #dd621f 50%, transparent 50%);
-  // background: linear-gradient(to right, mat-color($custom, info) 50%, transparent 50%);
+  // background: linear-gradient(to right, #dd621f 50%, transparent 50%);
+  background: linear-gradient(to right, mat-color($custom, attention) 50%, transparent 50%);
   background-position: right bottom;
   background-size: 200% 100%;
   transition: all .5s ease;
-  // color: #fff;
 }
 mark.animate {
   background-position: left bottom;
-  color: white;
-  // color: mat-color($custom, info-contrast);
+  // color: white;
+  color: mat-color($custom, attention-contrast);
 }
 
 // https://stackblitz.com/edit/ngx-formly-flex-layout?file=src%2Fstyles.scss
-.flex-layout-content {
-  // background-color: purple;
-}
+// .flex-layout-content {
+//   background-color: purple;
+// }
 
 // https://github.com/angular/components/issues/12779#issuecomment-462241207
 .mat-select-panel mat-option.mat-option {
@@ -154,4 +147,9 @@ mark.animate {
 // https://stackblitz.com/edit/angular-xrrwqb?file=styles.css
 .multiline-tooltip {
   white-space: pre-line;
+}
+
+.group-title {
+  font-weight: bolder;
+  margin-bottom: 0.5rem;
 }

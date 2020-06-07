@@ -10,7 +10,7 @@ import Mark from 'mark.js';
 import { ParsingService } from 'src/app/services/parsing.service';
 import { Suggestion, Variable, PanelType } from 'src/app/interfaces/interfaces';
 import { downloadObjectAsJson } from 'src/app/helpers/helpers';
-import { panelIcons, unspecifiedGroups, admissibleEvidences } from 'src/app/constants/constants';
+import { panelIcons, unspecifiedEntities, admissibleEvidences } from 'src/app/constants/constants';
 
 
 // TODO lupa: show extra help (evidencia del procedimiento) in the groups: trombolisis (intravenosa e intraarterial), trombectomia, tac craneal
@@ -140,7 +140,7 @@ export class ExpansionComponent implements OnChanges {
     return panel;
   }
 
-  getGroup(groupName: string, fieldGroup: FormlyFieldConfig[]): FormlyFieldConfig {
+  getGroup(groupName: string, fields: FormlyFieldConfig[]): FormlyFieldConfig {
 
     const group: FormlyFieldConfig = {
       type: 'flex-layout',
@@ -149,7 +149,24 @@ export class ExpansionComponent implements OnChanges {
       },
       fieldGroup: [
         {
-          template: `<p><b>${groupName}</b></p>`
+          type: 'flex-layout',
+          templateOptions: {
+            fxLayout: 'row wrap',
+            fxLayoutAlign: 'start center',
+            fxLayoutGap: '0.5rem',
+            unspecified: Object.keys(unspecifiedEntities).includes(groupName),
+            button: {
+              icon: 'highlight',
+              tooltip: 'Resaltar todas las evidencias auxiliares para este grupo de variables.',
+              tooltipPosition: 'right',
+              action: () => this.highlight(this.suggestions.filter(s => s.entity.startsWith(unspecifiedEntities[groupName])), 'context'),
+            }
+          },
+          fieldGroup: [
+            {
+              template: `<div class="group-title">${groupName}</div>`,
+            }
+          ]
         },
         {
           type: 'flex-layout',
@@ -164,21 +181,33 @@ export class ExpansionComponent implements OnChanges {
     }
 
     // responsive approach
-    fieldGroup.forEach(field => {
+    fields.forEach(field => {
       if (field.templateOptions.multiple) {
-        const percentage = 100 / fieldGroup.length;
+        const percentage = 100 / fields.length;
         group.fieldGroup[1].templateOptions.fxFlex = `${percentage}%`;
       }
     });
 
-    // handle groups with pottentially unspecified entities
-    if (Object.keys(unspecifiedGroups).includes(groupName)) {
-      group.templateOptions.unspecified = true;
-      const allGroupSuggestions = this.suggestions.filter(s => s.entity.startsWith(unspecifiedGroups[groupName]));
-      group.templateOptions.action = () => this.highlight(allGroupSuggestions, 'context');
-    }
+    group.fieldGroup[1].fieldGroup.push(...fields);
 
-    group.fieldGroup[1].fieldGroup = fieldGroup;
+
+    // const group: FormlyFieldConfig = {
+    //   type: 'flex-layout',
+    //   templateOptions: {
+    //     fxLayout: 'row wrap',
+    //     fxLayoutGap: '0.5rem',
+    //   },
+    //   fieldGroup: [
+    //     {
+    //       type: 'flex-layout',
+    //       template: `<div class=group-title>${groupName}</div>`,
+    //       templateOptions: {
+    //         fxLayout: 'column',
+    //       }
+    //     }
+    //   ]
+    // };
+
     return group;
   }
 
