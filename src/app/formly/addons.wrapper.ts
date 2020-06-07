@@ -31,7 +31,7 @@ import { FieldWrapper } from '@ngx-formly/core';
         {{ to.info.icon }}
       </mat-icon>
 
-      <button *ngIf="to.addonRight.icon !== null" type="button" mat-icon-button>
+      <button *ngIf="to.addonRight" type="button" mat-icon-button>
         <mat-icon matTooltip="{{ to.addonRight.tooltip }}"
         matTooltipPosition="{{ to.addonRight.tooltipPosition || 'below' }}"
         matTooltipClass="{{ to.addonRight.tooltipClass }}">

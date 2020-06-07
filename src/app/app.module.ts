@@ -27,8 +27,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StaticComponent } from './components/static/static.component';
 import { ExpansionComponent } from './components/expansion/expansion.component';
-import { InputaddonsComponent } from './components/inputaddons/inputaddons.component';
-import { StepperComponent } from './components/stepper/stepper.component';
 
 @NgModule({
   declarations: [
@@ -37,8 +35,6 @@ import { StepperComponent } from './components/stepper/stepper.component';
     FlexLayoutType,
     StaticComponent,
     ExpansionComponent,
-    InputaddonsComponent,
-    StepperComponent,
   ],
   imports: [
     CommonModule,

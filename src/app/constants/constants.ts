@@ -8,6 +8,7 @@ export const panelIcons = {
 };
 
 export const admissibleEvidences = {
+  diagnosticoPrincipal: {},
   lateralizacion: {
     izquierda: [
       'esquerre',
@@ -25,7 +26,7 @@ export const admissibleEvidences = {
       ''
     ]
   },
-  etiologia: {}
+  etiologia: {},
 }
 
 export const unspecifiedEntities = {

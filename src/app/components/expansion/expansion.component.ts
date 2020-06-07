@@ -13,7 +13,6 @@ import { downloadObjectAsJson } from 'src/app/helpers/helpers';
 import { panelIcons, unspecifiedEntities, admissibleEvidences } from 'src/app/constants/constants';
 
 
-// TODO lupa: show extra help (evidencia del procedimiento) in the groups: trombolisis (intravenosa e intraarterial), trombectomia, tac craneal
 // TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
 
 
@@ -173,7 +172,6 @@ export class ExpansionComponent implements OnChanges {
           templateOptions: {
             fxLayout: 'row wrap',
             fxLayoutGap: '0.5rem',
-            // fxFlex: '',
           },
           fieldGroup: []
         }
@@ -183,30 +181,12 @@ export class ExpansionComponent implements OnChanges {
     // responsive approach
     fields.forEach(field => {
       if (field.templateOptions.multiple) {
-        const percentage = 100 / fields.length;
+        const percentage = (100 / fields.length) - 3;
         group.fieldGroup[1].templateOptions.fxFlex = `${percentage}%`;
       }
     });
 
     group.fieldGroup[1].fieldGroup.push(...fields);
-
-
-    // const group: FormlyFieldConfig = {
-    //   type: 'flex-layout',
-    //   templateOptions: {
-    //     fxLayout: 'row wrap',
-    //     fxLayoutGap: '0.5rem',
-    //   },
-    //   fieldGroup: [
-    //     {
-    //       type: 'flex-layout',
-    //       template: `<div class=group-title>${groupName}</div>`,
-    //       templateOptions: {
-    //         fxLayout: 'column',
-    //       }
-    //     }
-    //   ]
-    // };
 
     return group;
   }
@@ -237,12 +217,12 @@ export class ExpansionComponent implements OnChanges {
           icon: 'info',
           tooltip: variable.info
         } : null,
-        // addonRight: {
-        //   icon: 'search',
-        //   tooltip: suggestions.map(s => s.evidence).join('\n'),
-        //   tooltipClass: 'multiline-tooltip',
-        //   onClick: (to, addon, event) => highlight(to.suggestions, 'context'),
-        // }
+        addonRight: {
+          icon: 'search',
+          tooltip: suggestions.map(s => s.evidence).join('\n'),
+          tooltipClass: 'multiline-tooltip',
+          onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
+        }
       }
     };
 
@@ -260,8 +240,6 @@ export class ExpansionComponent implements OnChanges {
           }
           this.panels[1].groups[4].fieldGroup[1].fieldGroup[0].templateOptions.options = subset;
 
-
-
           // PENDING AITOR/MARTA CONFIRMATION: empty arterias afectadas field when diagnostico principal is other than 'ictus isquémico'
           // if (currentField.model.diagnosticoPrincipal !== 'ictus isquémico') {
           //   this.model = { ...this.model, arteriasAfectadas: null };
@@ -273,9 +251,8 @@ export class ExpansionComponent implements OnChanges {
         // field.expressionProperties = { 'templateOptions.disabled': 'model.diagnosticoPrincipal !== "ictus isquémico"' };
         break;
 
+      // set initial available options of etiologia depending on the initial autofilled value of diagnostico principal
       case 'Etiologia':
-
-        // set initial available options depending on the initial autofilled value of diagnostico principal
         let subset: any[];
         if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
           subset = (field.templateOptions.options as any[]).filter(o => o.comment === 'isquémico');
@@ -294,7 +271,7 @@ export class ExpansionComponent implements OnChanges {
       field.templateOptions.options = variable.options.map(o => o.comment ? ({ value: o.value, label: `${o.value} (${o.comment})` }) : ({ value: o.value, label: o.value }));
     }
 
-    // sort some options
+    // sort alphabetically the options of some fields
     if (variable.entity === 'Etiologia' || variable.entity.startsWith('Tratamiento')) {
       (field.templateOptions.options as any[]).sort((a, b) => a.value?.localeCompare(b.value));
     }
@@ -302,6 +279,9 @@ export class ExpansionComponent implements OnChanges {
     return field;
   }
 
+  /**
+   * Return the according suggestions for the given variable, taking into accound some special cases.
+   */
   getVariableSuggestions(variable: Variable, allSuggestions: Suggestion[]): Suggestion[] {
     let suggestions = allSuggestions.filter(s => variable.entity === s.entity);
 
@@ -323,16 +303,16 @@ export class ExpansionComponent implements OnChanges {
       data = suggestions.find(s => s.notes)?.notes;
     }
 
-    // single option select needs string data
+    // single option select needs some rule-based criteria to be autofilled
     if (variable.fieldType === 'select' && variable.cardinality === '1') {
 
-      // special cases
+      // check first special case
       if (variable.entity === 'Diagnostico_principal') {
         const suggestion = suggestions.find(s => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(s.entity));
         data = variable.options.find(o => o.value.toLowerCase().startsWith(suggestion?.entity.toLowerCase().split('_')[0]))?.value;
       }
 
-      // autofill with option:
+      // rest of the cases: lateralizacion and etiologia
       else {
         data = variable.options.find(o =>
 
@@ -363,6 +343,7 @@ export class ExpansionComponent implements OnChanges {
   *
   * https://markjs.io/#markranges
   * https://jsfiddle.net/julmot/hexomvbL/
+  * https://github.com/iamdustan/smoothscroll/issues/47#issuecomment-350810238
   *
   */
   highlight(suggestions: Suggestion[], className: string): void {
@@ -371,14 +352,10 @@ export class ExpansionComponent implements OnChanges {
     const options = {
       each: (element: HTMLElement) => setTimeout(() => element.classList.add("animate"), 250),
       done: (numberOfMatches: number) => {
-        // numberOfMatches ? document.getElementsByTagName('mark')[0].scrollIntoView() : null;
-
         if (numberOfMatches) {
-
-          // https://github.com/iamdustan/smoothscroll/issues/47#issuecomment-350810238
           let item = document.getElementsByTagName('mark')[0];  // what we want to scroll to
           let wrapper = document.getElementById('wrapper');  // the wrapper we will scroll inside
-          let count = item.offsetTop - wrapper.scrollTop - 200;  // xx = any extra distance from top ex. 60
+          let count = item.offsetTop - wrapper.scrollTop - 200;  // any extra distance from top, for example 200px
           wrapper.scrollBy({ top: count, left: 0, behavior: 'smooth' })
         }
       }
@@ -391,7 +368,7 @@ export class ExpansionComponent implements OnChanges {
   /**
    * Update the value of a specified field (the picked field) with an evidence in text.
    *
-   * Not used anymore because
+   * @deprecated Not used anymore because there is no need to manually fill a field selecting an evidence in text.
    */
   updateEvidence() {
     const selection = window.getSelection();
