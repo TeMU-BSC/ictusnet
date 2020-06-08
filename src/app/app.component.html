@@ -1,40 +1,60 @@
 <!-- <router-outlet></router-outlet> -->
 
 <mat-toolbar color="primary">
-  <mat-toolbar-row fxLayout.lt-sm="column" ngStyle.lt-sm="height: 128px;">
-    <span fxLayout fxLayoutAlign="center center" fxLayoutGap="1rem"
-      style="font-family: 'Roboto Mono', monospace; height: 100%;">
-      <img src="assets/ictusnet_isotipo.png" alt=""
-        style="height: 60%; background-color: rgb(240, 250, 255); border-radius: 50%;">
-      <div fxLayout="column">
-        <span>ICTUSnet</span>
-        <small style="font-size: x-small; margin-top: -0.5rem;">
-          Tipificador de informes de alta de pacientes relacionados con ictus
-        </small>
-      </div>
-    </span>
-    <span style="flex: 1 1 auto;"></span>
+  <mat-toolbar-row fxLayout fxLayoutAlign="space-between center">
+    <span (click)="selected = null" style="cursor: pointer;">ICTUS<span style="font-weight: lighter;">net</span></span>
+    <div fxHide fxShow.gt-sm fxLayout fxLayoutAlign="center center" fxLayoutGap="1rem">
+      <a mat-button href="https://github.com/TeMU-BSC/ictusnet">
+        <fa-icon [icon]="faGithub" style="font-size: x-large; margin-right: 0.5rem;"></fa-icon>
+        Github repository
+      </a>
+      <mat-form-field *ngIf="selected" appareance="outline" style="font-size: small;">
+        <mat-label>Documento actual</mat-label>
+        <mat-select [(value)]="selected">
+          <mat-option></mat-option>
+          <mat-option *ngFor="let file of files; let i = index" [value]="file">({{ i + 1 }}) {{ file }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <a *ngIf="selected" mat-icon-button href="assets/alejandro_sample/10/{{selected}}.utf8.ann" matTooltip="Inspect associated annotation file">.ann</a>
+    </div>
 
+    <!-- Mobile menu button -->
+    <button mat-icon-button fxHide.gt-sm (click)="menuOpen = !menuOpen">
+      <mat-icon *ngIf="!menuOpen">menu</mat-icon>
+      <mat-icon *ngIf="menuOpen">close</mat-icon>
+    </button>
+  </mat-toolbar-row>
+
+  <!-- Mobile menu -->
+  <mat-toolbar-row *ngIf="menuOpen" fxLayout="column">
+    <mat-form-field *ngIf="selected" appareance="filled" style="font-size: small;">
+      <mat-label>Documento actual</mat-label>
+      <mat-select [(value)]="selected">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let file of files" [value]="file">{{ file }}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <a mat-button href="https://github.com/TeMU-BSC/ictusnet">
-      <fa-icon [icon]="faGithubAlt" style="font-size: x-large; margin-right: 0.5rem;"></fa-icon>
-      Github repo
+      <fa-icon [icon]="faGithub" style="font-size: x-large; margin-right: 0.5rem;"></fa-icon>
+      Github repository
     </a>
   </mat-toolbar-row>
 </mat-toolbar>
 
-<div fxLayout="column" fxLayout.gt-sm="row" style="height: calc(100% - 64px);">
-  <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedFileId"
-    fxFlex="20%" class="fullheight" fxLayout="column">
-    <p>Elige un informe de ejemplo</p>
-    <mat-radio-button class="example-radio-button" *ngFor="let fileId of fileIds" [value]="fileId">
-      {{ fileId }}
-      <a href="assets/alejandro_sample/10/{{fileId}}.utf8.ann" style="margin-left: 0.5rem;">
-        <mat-icon matTooltip="Inspeccionar sugerencias" style="font-size: 1rem;">open_in_new</mat-icon>
-      </a>
-    </mat-radio-button>
-  </mat-radio-group>
-
-  <app-expansion [fileId]="selectedFileId" fxFlex="80%" style="height: 100%;"></app-expansion>
-</div>
+<main style="height: calc(100% - 64px);">
+  <div *ngIf="!selected" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem" style="padding: 5rem;">
+    <img src="assets/ictusnet_imagotipo.png" alt="imagotipo ictusnet">
+    <h3 style="text-align: center;">
+      Tipificador de informes de alta
+      <br>
+      de pacientes relacionados con ictus
+    </h3>
+    <div fxLayout fxLayoutAlign="center center" fxLayoutGap="1rem">
+      <button mat-raised-button color="accent" disabled>Cargar informes de alta</button>
+      <button mat-raised-button color="primary" (click)="selectFirst()">Probar la demo</button>
+    </div>
+  </div>
+  <app-expansion *ngIf="selected" [fileId]="selected"></app-expansion>
+</main>
 
 <!-- <app-static></app-static> -->

@@ -12,11 +12,12 @@ body {
 
 .fullheight {
   height: 100%;
+}
+.scroll {
   overflow-y: scroll;
 }
 .plaintext {
-  height: 100%;
-  padding: 1rem;
+  padding: 2rem;
   background-color: white;
   font-family: 'Roboto Mono', monospace;
 }

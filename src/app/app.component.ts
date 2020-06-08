@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { faGithubAlt } from '@fortawesome/free-brands-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,9 @@ import { faGithubAlt } from '@fortawesome/free-brands-svg-icons';
 })
 export class AppComponent {
 
-  fileIds: string[] = [
+  menuOpen = false;
+  faGithub = faGithub;
+  files: string[] = [
     '321108781',
     '321687159',
     '324602237',
@@ -20,9 +22,11 @@ export class AppComponent {
     '330459779',
     '330682083',
   ];
-  selectedFileId: string = this.fileIds[0];
-  faGithubAlt = faGithubAlt;
+  selected: string;
+  // selected: string = '321108781';    // default selected file
 
-  selectFile(fileId: string) { this.selectedFileId = fileId }
+  selectFirst() {
+    this.selected = '321108781';
+  }
 
 }

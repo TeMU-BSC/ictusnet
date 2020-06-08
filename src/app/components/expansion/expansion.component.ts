@@ -8,13 +8,19 @@ import { Papa } from 'ngx-papaparse';
 import Mark from 'mark.js';
 
 import { ParsingService } from 'src/app/services/parsing.service';
-import { Suggestion, Variable, PanelType } from 'src/app/interfaces/interfaces';
+import { Suggestion, Variable } from 'src/app/interfaces/interfaces';
 import { downloadObjectAsJson } from 'src/app/helpers/helpers';
 import { panelIcons, unspecifiedEntities, admissibleEvidences } from 'src/app/constants/constants';
 
 
 // TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
 
+
+export interface PanelType {
+  icon?: string;
+  title?: string;
+  groups?: FormlyFieldConfig[];
+}
 
 @Component({
   selector: 'app-expansion',
@@ -23,7 +29,7 @@ import { panelIcons, unspecifiedEntities, admissibleEvidences } from 'src/app/co
 })
 export class ExpansionComponent implements OnChanges {
 
-  // core atrtibutes
+  // core
   path: string = 'assets/alejandro_sample/10/';
   @Input() fileId: string;
   file: File;
@@ -41,7 +47,7 @@ export class ExpansionComponent implements OnChanges {
 
   // expansion panel
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  step: number = 4;
+  step: number = 0;  // default open panel
   setStep(index: number) { this.step = index }
   nextStep() { this.step++ }
   prevStep() { this.step-- }
@@ -52,6 +58,7 @@ export class ExpansionComponent implements OnChanges {
   ) { }
 
   ngOnChanges(): void {
+    this.text = '';
     this.model = {};
     this.panels = [];
     this.loadFile(this.fileId);
@@ -140,7 +147,6 @@ export class ExpansionComponent implements OnChanges {
   }
 
   getGroup(groupName: string, fields: FormlyFieldConfig[]): FormlyFieldConfig {
-
     const group: FormlyFieldConfig = {
       type: 'flex-layout',
       templateOptions: {
@@ -152,7 +158,6 @@ export class ExpansionComponent implements OnChanges {
           templateOptions: {
             fxLayout: 'row wrap',
             fxLayoutAlign: 'start center',
-            fxLayoutGap: '0.5rem',
             unspecified: Object.keys(unspecifiedEntities).includes(groupName),
             button: {
               icon: 'highlight',
@@ -171,21 +176,22 @@ export class ExpansionComponent implements OnChanges {
           type: 'flex-layout',
           templateOptions: {
             fxLayout: 'row wrap',
-            fxLayoutGap: '0.5rem',
+            fxLayoutGap: '1rem',
           },
           fieldGroup: []
         }
       ]
     }
 
-    // responsive approach
+    // almost full width for multiple option select fields
     fields.forEach(field => {
       if (field.templateOptions.multiple) {
-        const percentage = (100 / fields.length) - 3;
+        const percentage = (100 / fields.length) - 5;
         group.fieldGroup[1].templateOptions.fxFlex = `${percentage}%`;
       }
     });
 
+    // populate the group with the actual fields
     group.fieldGroup[1].fieldGroup.push(...fields);
 
     return group;
@@ -344,18 +350,20 @@ export class ExpansionComponent implements OnChanges {
   * https://markjs.io/#markranges
   * https://jsfiddle.net/julmot/hexomvbL/
   * https://github.com/iamdustan/smoothscroll/issues/47#issuecomment-350810238
+  * https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle
   *
   */
   highlight(suggestions: Suggestion[], className: string): void {
     const instance = new Mark(`.${className}`);
-    const ranges = suggestions.map(sugg => ({ start: sugg.offset.start, length: sugg.offset.end - sugg.offset.start }));
+    const ranges = suggestions.map(s => ({ start: s.offset.start, length: s.offset.end - s.offset.start }));
     const options = {
       each: (element: HTMLElement) => setTimeout(() => element.classList.add("animate"), 250),
       done: (numberOfMatches: number) => {
         if (numberOfMatches) {
           let item = document.getElementsByTagName('mark')[0];  // what we want to scroll to
           let wrapper = document.getElementById('wrapper');  // the wrapper we will scroll inside
-          let count = item.offsetTop - wrapper.scrollTop - 200;  // any extra distance from top, for example 200px
+          const lineHeightPixels: number = Number(window.getComputedStyle(wrapper).getPropertyValue('line-height').replace('px', ''));
+          let count = item.offsetTop - wrapper.scrollTop - lineHeightPixels * 10;  // any extra distance from top
           wrapper.scrollBy({ top: count, left: 0, behavior: 'smooth' })
         }
       }
@@ -397,26 +405,6 @@ export class ExpansionComponent implements OnChanges {
   download(format: string) {
     format === 'json' ? downloadObjectAsJson(this.model, this.downloadFilename) : null;
   }
-
-  // iconVisible = false;
-  // showIcon(event) {
-  //   this.iconVisible = true;
-  //   console.log(event);
-  //   event.target.lastElementChild.style = "background-color: blue;";
-  // }
-  // hideIcon(event) {
-  //   this.iconVisible = false;
-  //   console.log(event);
-  // }
-
-  // TRY TO FIX BUG: EXPAND ALL / COLLAPSE ALL
-  // @ViewChildren('expansionPanel') expansionPanels: QueryList<ElementRef>
-  // allExpanded(): boolean | null {
-  //   return this.expansionPanels ? this.expansionPanels['_results'].every(r => r._expanded) : null;
-  // }
-  // allCollapsed(): boolean| null {
-  //   return this.expansionPanels ? this.expansionPanels['_results'].every(r => !r._expanded) : null;
-  // }
 
   // SEARCH INSIDE TEXT (MAYBE)
   // @ViewChild('search', { static: false }) searchElemRef: ElementRef;

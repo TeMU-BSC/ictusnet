@@ -1,31 +1,25 @@
-<div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between center" fxLayoutGap="0rem"
-  ngStyle.gt-sm="height: 100%;">
+<div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between center" class="fullheight">
 
-  <section id="wrapper" fxFlex="50%" class="fullheight plaintext wrap context">{{ text }}</section>
+  <section id="wrapper" fxFlex="50%" class="fullheight scroll plaintext wrap context">{{ text }}</section>
 
-  <!-- <section fxFlex="60%" class="fullheight"
-    style="padding: 0 1rem 0 1rem;"
-    ngStyle.gt-sm="padding: 0  5vw 0  5vw;"
-    ngStyle.gt-md="padding: 0 10vw 0 10vw;"
-    ngStyle.gt-lg="padding: 0 20vw 0 20vw;"
-    ngStyle.gt-xl="padding: 0 30vw 0 30vw;"
-  > -->
-  <section fxFlex="50%" class="fullheight" style="padding: 0 1rem 0 1rem;">
-
+  <section fxFlex="50%" ngClass.gt-sm="fullheight scroll"
+    style="padding: 0 2vw 0 2vw;"
+    ngStyle.gt-md="padding: 0 5vw 0 5vw;"
+    ngStyle.gt-lg="padding: 0 10vw 0 10vw;"
+  >
     <form [formGroup]="form" (submit)="download('json')">
-
       <div fxLayout fxLayoutAlign="center">
         <button type="button" mat-button color="secondary" (click)="accordion.closeAll()">
-          <mat-icon>unfold_less</mat-icon>Contraer todo
+          <mat-icon>unfold_less</mat-icon>Contraer todos
         </button>
         <button type="button" mat-button color="secondary" (click)="accordion.openAll()">
-          <mat-icon>unfold_more</mat-icon>Expandir todo
+          <mat-icon>unfold_more</mat-icon>Expandir todos
         </button>
       </div>
 
       <mat-accordion multi>
         <mat-expansion-panel *ngFor="let panel of panels; let index = index; let last = last;"
-          [expanded]="step === index" (opened)="setStep(index)" #expansionPanel>
+          [expanded]="step === index" (opened)="setStep(index)">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon style="margin-right: 1rem;">{{ panel.icon }}</mat-icon>
@@ -55,10 +49,7 @@
           o empezar de nuevo
         </button>
       </div>
-
     </form>
-
   </section>
-
 
 </div>
