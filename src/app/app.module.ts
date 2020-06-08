@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // http
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // formly
 import { FormlyModule } from '@ngx-formly/core';
@@ -26,7 +26,9 @@ import { NgxMarkjsModule } from 'ngx-markjs';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StaticComponent } from './components/static/static.component';
-import { ExpansionComponent } from './components/expansion/expansion.component';
+import { ExpansionComponent } from './components/form/form.component';
+import { LoaderInterceptor } from './interceptors/loader.interceptor';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { ExpansionComponent } from './components/expansion/expansion.component';
     FlexLayoutType,
     StaticComponent,
     ExpansionComponent,
+    LoaderComponent,
   ],
   imports: [
     CommonModule,
@@ -64,7 +67,9 @@ import { ExpansionComponent } from './components/expansion/expansion.component';
     NgxMarkjsModule,
     FontAwesomeModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

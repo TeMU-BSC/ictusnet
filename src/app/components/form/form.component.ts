@@ -23,13 +23,14 @@ export interface PanelType {
 }
 
 @Component({
-  selector: 'app-expansion',
-  templateUrl: './expansion.component.html',
-  styleUrls: ['./expansion.component.scss'],
+  selector: 'app-form',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.scss'],
 })
 export class ExpansionComponent implements OnChanges {
 
   // core
+  loading: boolean = true;
   path: string = 'assets/alejandro_sample/10/';
   @Input() fileId: string;
   file: File;
@@ -69,6 +70,7 @@ export class ExpansionComponent implements OnChanges {
    * Load a single text file from user.
    */
   loadFile(fileId: string) {
+    this.loading = true;
     this.downloadFilename = `${fileId}.json`;
     this.parser.getTextFromFile(`${this.path}${fileId}.utf8.txt`).subscribe(data => this.text = data);
 
@@ -108,6 +110,7 @@ export class ExpansionComponent implements OnChanges {
                 this.model = { ...this.model, [variable.key]: this.autofill(variable, suggestions) }
               });
               this.panels = [...this.panels, ...this.getPanels(variables, allSuggestions)];
+              this.loading = false;
             }
           });
         }

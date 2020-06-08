@@ -15,6 +15,8 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 // import { MatListModule } from '@angular/material/list'
 // import { MatMenuModule } from '@angular/material/menu'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatRadioModule } from '@angular/material/radio'
 // import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar'
 import { MatSelectModule } from '@angular/material/select'
@@ -42,6 +44,8 @@ const material = [
   // MatMenuModule,
   // MatTableModule,
   // MatTabsModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
   MatRadioModule,
   // MatSnackBarModule,
   MatSelectModule,

@@ -42,7 +42,7 @@
 </mat-toolbar>
 
 <main style="height: calc(100% - 64px);">
-  <div *ngIf="!selected" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem" style="padding: 5rem;">
+  <div *ngIf="!selected" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem" style="margin-top: 5rem;">
     <img src="assets/ictusnet_imagotipo.png" alt="imagotipo ictusnet">
     <h3 style="text-align: center;">
       Tipificador de informes de alta
@@ -50,11 +50,13 @@
       de pacientes relacionados con ictus
     </h3>
     <div fxLayout fxLayoutAlign="center center" fxLayoutGap="1rem">
-      <button mat-raised-button color="accent" disabled>Cargar informes de alta</button>
-      <button mat-raised-button color="primary" (click)="selectFirst()">Probar la demo</button>
+      <button mat-raised-button color="accent" (click)="fileInput.click()" disabled>Cargar informes de alta</button>
+      <input type="file" #fileInput multiple accept="text/plain" (change)="uploadFiles($event)" hidden>
+      <button mat-raised-button color="primary" (click)="loadDemo()">Probar la demo</button>
     </div>
   </div>
-  <app-expansion *ngIf="selected" [fileId]="selected"></app-expansion>
+
+  <app-form *ngIf="selected" [fileId]="selected"></app-form>
 </main>
 
 <!-- <app-static></app-static> -->

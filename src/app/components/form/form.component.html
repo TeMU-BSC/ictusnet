@@ -1,24 +1,28 @@
-<div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between center" class="fullheight">
+<div *ngIf="loading" fxLayout fxLayoutAlign="center center" class="fullheight">
+  <!-- <mat-spinner mode="indeterminate" color="primary"></mat-spinner> -->
+  <mat-progress-bar mode="indeterminate" color="primary" style="width: 50%"></mat-progress-bar>
+</div>
+
+<div [fxHide]="loading" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between center" class="fullheight">
 
   <section id="wrapper" fxFlex="50%" class="fullheight scroll plaintext wrap context">{{ text }}</section>
 
-  <section fxFlex="50%" ngClass.gt-sm="fullheight scroll"
-    style="padding: 0 2vw 0 2vw;"
-    ngStyle.gt-md="padding: 0 5vw 0 5vw;"
-    ngStyle.gt-lg="padding: 0 10vw 0 10vw;"
-  >
+  <section fxFlex="50%" ngClass.gt-sm="fullheight scroll" style="padding: 0 2vw 0 2vw;"
+    ngStyle.gt-md="padding: 0 5vw 0 5vw;" ngStyle.gt-lg="padding: 0 10vw 0 10vw;">
     <form [formGroup]="form" (submit)="download('json')">
-      <div fxLayout fxLayoutAlign="center">
+      <div fxLayout fxLayoutAlign="center" style="padding: 1rem;">
         <button type="button" mat-button color="secondary" (click)="accordion.closeAll()">
-          <mat-icon>unfold_less</mat-icon>Contraer todos
+          <!-- <mat-icon>unfold_less</mat-icon> -->
+          Contraer paneles
         </button>
         <button type="button" mat-button color="secondary" (click)="accordion.openAll()">
-          <mat-icon>unfold_more</mat-icon>Expandir todos
+          <!-- <mat-icon>unfold_more</mat-icon> -->
+          Expandir paneles
         </button>
       </div>
 
       <mat-accordion multi>
-        <mat-expansion-panel *ngFor="let panel of panels; let index = index; let last = last;"
+        <mat-expansion-panel *ngFor="let panel of panels; let index = index; let first = first; let last = last;"
           [expanded]="step === index" (opened)="setStep(index)">
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -31,8 +35,7 @@
           </formly-form>
 
           <mat-action-row>
-            <button *ngIf="index !== 0" type="button" mat-button color="secondary"
-              (click)="prevStep()">Anterior</button>
+            <button *ngIf="!first" type="button" mat-button color="secondary" (click)="prevStep()">Anterior</button>
             <button *ngIf="!last" type="button" mat-button color="primary" (click)="nextStep()">Siguiente</button>
             <button *ngIf="last" type="button" mat-button color="primary"
               (click)="accordion.closeAll()">Finalizar</button>
@@ -40,7 +43,7 @@
         </mat-expansion-panel>
       </mat-accordion>
 
-      <div fxLayout="column" fxLayoutAlign="stretch center" style="margin-top: 2rem;">
+      <div fxLayout="column" fxLayoutAlign="stretch center" style="margin: 2rem 0 1rem 0;">
         <button type="submit" mat-button color="primary">
           <mat-icon style="margin-right: 0.3rem;">save_alt</mat-icon>
           Descargar las respuestas en formato JSON
