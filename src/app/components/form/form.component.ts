@@ -27,7 +27,7 @@ export interface PanelType {
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class ExpansionComponent implements OnChanges {
+export class FieldComponent implements OnChanges {
 
   // core
   loading: boolean = true;
@@ -223,16 +223,32 @@ export class ExpansionComponent implements OnChanges {
 
         // custom properties
         suggestions: suggestions,
-        info: variable.info ? {
-          icon: 'info',
-          tooltip: variable.info
-        } : null,
-        addonRight: suggestions.length > 0 ? {
-          icon: 'pageview',
-          tooltip: suggestions.map(s => s.evidence).join('\n'),
-          tooltipClass: 'multiline-tooltip',
-          onClick: (to, addon, event) => this.highlight(to.suggestions, 'context', 'attention'),
-        } : null,
+        addonRight: {
+          info: variable.info ? {
+            icon: 'info',
+            color: 'primary',
+            tooltip: variable.info,
+          } : null,
+          locate: suggestions.length > 0 ? {
+            icon: 'search',
+            // icon: 'find_in_page',
+            color: 'attention',
+            tooltip: suggestions.map(s => s.evidence).join('\n'),
+            tooltipClass: 'multiline-tooltip',
+            onClick: (to, addon, event) => this.highlight(to.suggestions, 'context', 'attention'),
+          } : null,
+        }
+
+        // info: variable.info ? {
+        //   icon: 'info',
+        //   tooltip: variable.info
+        // } : null,
+        // addonRight: suggestions.length > 0 ? {
+        //   icon: 'pageview',
+        //   tooltip: suggestions.map(s => s.evidence).join('\n'),
+        //   tooltipClass: 'multiline-tooltip',
+        //   onClick: (to, addon, event) => this.highlight(to.suggestions, 'context', 'attention'),
+        // } : null,
       }
     };
 

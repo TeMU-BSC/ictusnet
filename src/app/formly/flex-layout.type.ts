@@ -22,7 +22,8 @@ import { FieldType } from '@ngx-formly/core';
         matTooltipPosition="{{ to.lantern.tooltipPosition || 'below' }}"
         (click)="to.lantern.action()"
       >
-        <mat-icon style="color: rgb(160, 0, 160);">{{ to.lantern.icon }}</mat-icon>
+        <!-- https://github.com/angular/components/issues/11544 -->
+        <mat-icon style="color: rgb(160, 0, 160);" fontSet="material-icons-outlined">{{ to.lantern.icon }}</mat-icon>
       </span>
     </div>
   `

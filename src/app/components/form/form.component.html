@@ -5,10 +5,10 @@
 
 <div [fxHide]="loading" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between center" class="fullheight">
 
-  <section id="wrapper" fxFlex="50%" class="fullheight scroll plaintext wrap context">{{ text }}</section>
+  <section id="wrapper" fxFlex="40%" class="fullheight scroll plaintext wrap context">{{ text }}</section>
 
-  <section fxFlex="50%" ngClass.gt-sm="fullheight scroll" style="padding: 0 2vw 0 2vw;"
-    ngStyle.gt-md="padding: 0 5vw 0 5vw;" ngStyle.gt-lg="padding: 0 10vw 0 10vw;">
+  <section fxFlex="60%" ngClass.gt-sm="fullheight scroll" style="padding: 0 1vw 0 1vw;"
+    ngStyle.gt-sm="padding: 0 5vw 0 5vw;" ngStyle.gt-md="padding: 0 10vw 0 10vw;">
     <form [formGroup]="form" (submit)="download('json')">
       <div fxLayout fxLayoutAlign="center" style="padding: 1rem;">
         <button type="button" mat-button color="secondary" (click)="accordion.closeAll()">
@@ -44,8 +44,8 @@
       </mat-accordion>
 
       <div fxLayout="column" fxLayoutAlign="stretch center" style="margin: 2rem 0 1rem 0;">
-        <button type="submit" mat-button color="primary">
-          <mat-icon style="margin-right: 0.3rem;">save_alt</mat-icon>
+        <button type="submit" mat-raised-button color="primary">
+          <!-- <mat-icon style="margin-right: 0.3rem;">save_alt</mat-icon> -->
           Descargar las respuestas en formato JSON
         </button>
         <button type="button" mat-button color="secondary" (click)="confirmReset()">

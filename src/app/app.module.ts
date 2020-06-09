@@ -26,7 +26,7 @@ import { NgxMarkjsModule } from 'ngx-markjs';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StaticComponent } from './components/static/static.component';
-import { ExpansionComponent } from './components/form/form.component';
+import { FieldComponent } from './components/form/form.component';
 import { LoaderInterceptor } from './interceptors/loader.interceptor';
 import { LoaderComponent } from './components/loader/loader.component';
 
@@ -36,7 +36,7 @@ import { LoaderComponent } from './components/loader/loader.component';
     FormlyWrapperAddons,
     FlexLayoutType,
     StaticComponent,
-    ExpansionComponent,
+    FieldComponent,
     LoaderComponent,
   ],
   imports: [

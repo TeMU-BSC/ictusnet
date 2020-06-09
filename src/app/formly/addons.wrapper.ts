@@ -24,9 +24,40 @@ import { FieldWrapper } from '@ngx-formly/core';
         (click)="addonRightClick($event)"
         fxLayout="row" fxLayoutAlign="center center"
       >
-        <mat-icon [hidden]="!to.info" color="primary" matTooltip="{{ to.info?.tooltip }}"
-          matTooltipPosition="{{ to.info?.tooltipPosition || 'below' }}">
-          {{ to.info?.icon }}
+        <mat-icon [hidden]="!to.addonRight.info"
+          fontSet="material-icons-outlined"
+          color="{{ to.addonRight.info?.color }}"
+          matTooltip="{{ to.addonRight.info?.tooltip }}"
+          matTooltipPosition="{{ to.addonRight.info?.tooltipPosition || 'below' }}"
+        >
+          {{ to.addonRight.info?.icon }}
+        </mat-icon>
+
+        <mat-icon [hidden]="!to.addonRight.locate"
+          color="{{ to.addonRight.locate?.color }}"
+          fontSet="material-icons-outlined"
+          matTooltip="{{ to.addonRight.locate?.tooltip }}"
+          matTooltipPosition="{{ to.addonRight.locate?.tooltipPosition || 'below' }}"
+          matTooltipClass="{{ to.addonRight.locate?.tooltipClass }}"
+          [ngStyle]="{cursor: to.addonRight.locate?.onClick ? 'pointer' : 'inherit'}"
+        >
+          {{ to.addonRight.locate?.icon }}
+        </mat-icon>
+
+        <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
+      </span>
+
+
+
+
+      <!-- <span
+        *ngIf="to.addonRight"
+        (click)="addonRightClick($event)"
+        fxLayout="row" fxLayoutAlign="center center"
+      >
+        <mat-icon [hidden]="!to.info" color="primary" matTooltip="{{ to.info.tooltip }}"
+          matTooltipPosition="{{ to.info.tooltipPosition || 'below' }}">
+          {{ to.info.icon }}
         </mat-icon>
 
         <mat-icon [hidden]="!to.addonRight" color="attention" matTooltip="{{ to.addonRight.tooltip }}"
@@ -38,7 +69,7 @@ import { FieldWrapper } from '@ngx-formly/core';
         </mat-icon>
 
         <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
-      </span>
+      </span> -->
     </ng-template>
   </div>
   `,
