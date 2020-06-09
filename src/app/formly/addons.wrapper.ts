@@ -20,27 +20,25 @@ import { FieldWrapper } from '@ngx-formly/core';
 
     <ng-template #matSuffix>
       <span
-      *ngIf="to.addonRight"
-      [ngStyle]="{cursor: to.addonRight.onClick ? 'pointer' : 'inherit'}"
-      (click)="addonRightClick($event)"
-      fxLayout="row" fxLayoutAlign="center center"
+        *ngIf="to.addonRight"
+        (click)="addonRightClick($event)"
+        fxLayout="row" fxLayoutAlign="center center"
       >
+        <mat-icon [hidden]="!to.info" color="primary" matTooltip="{{ to.info?.tooltip }}"
+          matTooltipPosition="{{ to.info?.tooltipPosition || 'below' }}">
+          {{ to.info?.icon }}
+        </mat-icon>
 
-      <mat-icon *ngIf="to.info" color="primary" matTooltip="{{ to.info.tooltip }}"
-        matTooltipPosition="{{ to.info.tooltipPosition || 'below' }}">
-        {{ to.info.icon }}
-      </mat-icon>
-
-      <button *ngIf="to.addonRight" type="button" mat-icon-button>
-        <mat-icon matTooltip="{{ to.addonRight.tooltip }}"
-        matTooltipPosition="{{ to.addonRight.tooltipPosition || 'below' }}"
-        matTooltipClass="{{ to.addonRight.tooltipClass }}">
+        <mat-icon [hidden]="!to.addonRight" color="attention" matTooltip="{{ to.addonRight.tooltip }}"
+          matTooltipPosition="{{ to.addonRight.tooltipPosition || 'below' }}"
+          matTooltipClass="{{ to.addonRight.tooltipClass }}"
+          [ngStyle]="{cursor: to.addonRight.onClick ? 'pointer' : 'inherit'}"
+        >
           {{ to.addonRight.icon }}
         </mat-icon>
-      </button>
 
-    <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
-    </span>
+        <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
+      </span>
     </ng-template>
   </div>
   `,

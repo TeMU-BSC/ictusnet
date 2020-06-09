@@ -150,6 +150,7 @@ export class ExpansionComponent implements OnChanges {
   }
 
   getGroup(groupName: string, fields: FormlyFieldConfig[]): FormlyFieldConfig {
+    const unespecifiedSuggestions = this.suggestions.filter(s => s.entity.startsWith(unspecifiedEntities[groupName]));
     const group: FormlyFieldConfig = {
       type: 'flex-layout',
       templateOptions: {
@@ -161,17 +162,17 @@ export class ExpansionComponent implements OnChanges {
           templateOptions: {
             fxLayout: 'row wrap',
             fxLayoutAlign: 'start center',
-            unspecified: Object.keys(unspecifiedEntities).includes(groupName),
-            button: {
+            fxLayoutGap: '1rem',
+            lantern: unespecifiedSuggestions.length > 0 ? {
               icon: 'highlight',
-              tooltip: 'Resaltar todas las evidencias auxiliares para este grupo de variables.',
-              tooltipPosition: 'right',
-              action: () => this.highlight(this.suggestions.filter(s => s.entity.startsWith(unspecifiedEntities[groupName])), 'context'),
-            }
+              tooltip: ['Evidencias auxiliares:'].concat(unespecifiedSuggestions.map(s => s.evidence)).join('\n'),
+              tooltipClass: 'multiline-tooltip',
+              action: () => this.highlight(unespecifiedSuggestions, 'context', 'unspecified'),
+            } : null,
           },
           fieldGroup: [
             {
-              template: `<div class="group-title">${groupName}</div>`,
+              template: `<p class="group-title">${groupName}</p>`,
             }
           ]
         },
@@ -218,7 +219,7 @@ export class ExpansionComponent implements OnChanges {
         label: variable.shortLabel,
         multiple: variable.cardinality === 'n',
         options: options,
-        focus: (field, event) => this.highlight(field.templateOptions.suggestions, 'context'),
+        focus: (field, event) => this.highlight(field.templateOptions.suggestions, 'context', 'attention'),
 
         // custom properties
         suggestions: suggestions,
@@ -226,12 +227,12 @@ export class ExpansionComponent implements OnChanges {
           icon: 'info',
           tooltip: variable.info
         } : null,
-        addonRight: {
-          icon: 'search',
+        addonRight: suggestions.length > 0 ? {
+          icon: 'pageview',
           tooltip: suggestions.map(s => s.evidence).join('\n'),
           tooltipClass: 'multiline-tooltip',
-          onClick: (to, addon, event) => this.highlight(to.suggestions, 'context'),
-        }
+          onClick: (to, addon, event) => this.highlight(to.suggestions, 'context', 'attention'),
+        } : null,
       }
     };
 
@@ -356,11 +357,11 @@ export class ExpansionComponent implements OnChanges {
   * https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle
   *
   */
-  highlight(suggestions: Suggestion[], className: string): void {
+  highlight(suggestions: Suggestion[], className: string, color: string): void {
     const instance = new Mark(`.${className}`);
     const ranges = suggestions.map(s => ({ start: s.offset.start, length: s.offset.end - s.offset.start }));
     const options = {
-      each: (element: HTMLElement) => setTimeout(() => element.classList.add("animate"), 250),
+      each: (element: HTMLElement) => setTimeout(() => element.classList.add('animate', color), 250),
       done: (numberOfMatches: number) => {
         if (numberOfMatches) {
           let item = document.getElementsByTagName('mark')[0];  // what we want to scroll to

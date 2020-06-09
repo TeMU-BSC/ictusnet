@@ -88,7 +88,8 @@ body {
   color: mat-color($custom, attention-contrast);
   background-color: mat-color($custom, attention);
 }
-.mat-icon-button.mat-attention {
+.mat-icon-button.mat-attention,
+.mat-icon.mat-attention {
   color:mat-color($custom, attention);
 }
 
@@ -127,6 +128,22 @@ mark.animate {
   // color: white;
   color: mat-color($custom, attention-contrast);
 }
+
+
+mark.unspecified {
+  padding: 0;
+  background: transparent;
+  background: linear-gradient(to right, rgb(160, 0, 160) 50%, transparent 50%);
+  background-position: right bottom;
+  background-size: 200% 100%;
+  transition: all .5s ease;
+}
+mark.unspecified.animate {
+  background-position: left bottom;
+  color: white;
+  // color: mat-color($custom, attention-contrast);
+}
+
 
 // https://stackblitz.com/edit/ngx-formly-flex-layout?file=src%2Fstyles.scss
 // .flex-layout-content {

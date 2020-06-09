@@ -11,14 +11,19 @@ import { FieldType } from '@ngx-formly/core';
       [fxLayoutAlign]="to.fxLayoutAlign || 'start stretch'"
       [fxLayoutGap]="to.fxLayoutGap || '0rem'"
     >
+
       <formly-field [fxFlex]="to.fxFlex" *ngFor="let f of field.fieldGroup" [field]="f">
       </formly-field>
-      <button *ngIf="to.unspecified" type="button" mat-icon-button color="attention"
-        matTooltip="{{ to.button.tooltip }}"
-        matTooltipPosition="{{ to.button.tooltipPosition }}"
-        (click)="to.button.action()">
-        <mat-icon>{{ to.button.icon }}</mat-icon>
-      </button>
+
+      <span *ngIf="to.lantern"
+        [ngStyle]="{cursor: to.lantern.action ? 'pointer' : 'inherit'}"
+        matTooltip="{{ to.lantern.tooltip }}"
+        matTooltipClass="{{ to.lantern.tooltipClass }}"
+        matTooltipPosition="{{ to.lantern.tooltipPosition || 'below' }}"
+        (click)="to.lantern.action()"
+      >
+        <mat-icon style="color: rgb(160, 0, 160);">{{ to.lantern.icon }}</mat-icon>
+      </span>
     </div>
   `
 })
