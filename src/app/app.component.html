@@ -12,10 +12,12 @@
         <mat-label>Documento actual</mat-label>
         <mat-select [(value)]="selected">
           <mat-option></mat-option>
-          <mat-option *ngFor="let file of files; let i = index" [value]="file">({{ i + 1 }}) {{ file }}</mat-option>
+          <mat-option *ngFor="let filename of filenames; let i = index" [value]="filename">({{ i + 1 }}) {{ filename }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
-      <a *ngIf="selected" mat-icon-button href="assets/alejandro_sample/10/{{selected}}.utf8.ann" matTooltip="Inspect associated annotation file">.ann</a>
+      <a *ngIf="selected" mat-icon-button href="assets/alejandro_sample/10/{{selected}}.utf8.ann"
+        matTooltip="Inspect associated annotation file">.ann</a>
     </div>
 
     <!-- Mobile menu button -->
@@ -31,7 +33,7 @@
       <mat-label>Documento actual</mat-label>
       <mat-select [(value)]="selected">
         <mat-option></mat-option>
-        <mat-option *ngFor="let file of files" [value]="file">{{ file }}</mat-option>
+        <mat-option *ngFor="let filename of filenames" [value]="filename">{{ filename }}</mat-option>
       </mat-select>
     </mat-form-field>
     <a mat-button href="https://github.com/TeMU-BSC/ictusnet">
@@ -50,8 +52,12 @@
       de pacientes relacionados con ictus
     </h3>
     <div fxLayout fxLayoutAlign="center center" fxLayoutGap="1rem">
-      <button mat-raised-button color="accent" (click)="fileInput.click()" disabled>Cargar informes de alta</button>
+      <button mat-raised-button color="attention" (click)="fileInput.click()" disabled>Cargar informes de alta</button>
       <input type="file" #fileInput multiple accept="text/plain" (change)="uploadFiles($event)" hidden>
+
+      <!-- <button mat-raised-button color="attention" (click)="fileInput.click()">Cargar informes de alta</button>
+      <input type="file" #fileInput multiple accept="text/plain" (change)="uploadFiles($event)" hidden> -->
+
       <button mat-raised-button color="primary" (click)="loadDemo()">Probar la demo</button>
     </div>
   </div>

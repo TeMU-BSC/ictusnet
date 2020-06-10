@@ -11,6 +11,8 @@ import { ParsingService } from 'src/app/services/parsing.service';
 import { Suggestion, Variable } from 'src/app/interfaces/interfaces';
 import { downloadObjectAsJson } from 'src/app/helpers/helpers';
 import { panelIcons, unspecifiedEntities, admissibleEvidences } from 'src/app/constants/constants';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
 
 
 // TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
@@ -31,14 +33,16 @@ export class FieldComponent implements OnChanges {
 
   // core
   loading: boolean = true;
-  path: string = 'assets/alejandro_sample/10/';
-  @Input() fileId: string;
-  file: File;
+  @Input() file: File;
   text: string;
   variables: Variable[];
   suggestions: Suggestion[];
   focusedField: any;
   downloadFilename: string;
+
+  // demo
+  path: string = 'assets/alejandro_sample/10/';
+  @Input() fileId: string;
 
   // formly
   model: any = {};
@@ -56,38 +60,24 @@ export class FieldComponent implements OnChanges {
   constructor(
     private papa: Papa,
     private parser: ParsingService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnChanges(): void {
-    this.text = '';
-    this.model = {};
-    this.panels = [];
-    this.loadFile(this.fileId);
+    this.loadForm(this.fileId);
     document.getElementById('wrapper').scrollTop = 0;
   }
 
   /**
-   * Load a single text file from user.
+   * Load the form with the given text file.
    */
-  loadFile(fileId: string) {
+  loadForm(fileId: string) {
     this.loading = true;
+    this.text = '';
+    this.model = {};
+    this.panels = [];
     this.downloadFilename = `${fileId}.json`;
     this.parser.getTextFromFile(`${this.path}${fileId}.utf8.txt`).subscribe(data => this.text = data);
-
-
-    // ONLY txt file !Remember to pass the event as parameter ;)
-    // this.file = event.target.files[0];
-    // var reader = new FileReader();
-    // reader.readAsText(this.file);
-    // reader.onload = () => {
-    //   this.text = reader.result.toString();
-
-    //   TODO localstorage with array of files
-    //   localStorage.setItem(this.file.name, reader.result.toString());
-    //   this.text = localStorage.getItem('377259358.utf8.txt');
-
-    // }
-
     this.parser.getAnnotationsFromFile(`${this.path}${fileId}.utf8.ann`).subscribe(data => {
       this.suggestions = data;
       const allSuggestions = this.suggestions;
@@ -240,25 +230,13 @@ export class FieldComponent implements OnChanges {
           } : null,
           locate: suggestions.length > 0 ? {
             icon: 'search',
-            // icon: 'find_in_page',
             color: 'attention',
             tooltip: suggestions.map(s => s.evidence).join('\n'),
             tooltipClass: 'multiline-tooltip',
             onClick: (to, addon, event) => this.highlight(to.suggestions, 'context', 'attention'),
           } : null,
-        }
-
-        // info: variable.info ? {
-        //   icon: 'info',
-        //   tooltip: variable.info
-        // } : null,
-        // addonRight: suggestions.length > 0 ? {
-        //   icon: 'pageview',
-        //   tooltip: suggestions.map(s => s.evidence).join('\n'),
-        //   tooltipClass: 'multiline-tooltip',
-        //   onClick: (to, addon, event) => this.highlight(to.suggestions, 'context', 'attention'),
-        // } : null,
-      }
+        },
+      },
     };
 
     // special cases
@@ -329,8 +307,8 @@ export class FieldComponent implements OnChanges {
   }
 
   /**
- * Search for a suitable value or values to autofill a formly field.
- */
+   * Search for a suitable value or values to autofill a formly field.
+   */
   autofill(variable: Variable, suggestions: Suggestion[]): any {
     let data: any;
 
@@ -419,10 +397,25 @@ export class FieldComponent implements OnChanges {
     }
   }
 
-  confirmReset() {
-    if (confirm('Estás a punto de restablecer el formulario a su estado inicial, perdiendo todo el progreso hasta ahora.')) {
-      this.ngOnChanges();
-    }
+  /**
+   * Open a confirmation dialog before reseting the form.
+   */
+  confirmReset(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '500px',
+      data: {
+        title: 'Restablecer formulario',
+        content: '¿Quieres volver al estado inicial de este formulario?',
+        cancel: 'Atrás',
+        buttonName: 'Restablecer',
+        color: 'warn'
+      }
+    })
+    dialogRef.afterClosed().subscribe(confirmation => {
+      if (confirmation) {
+        this.ngOnChanges();
+      }
+    })
   }
 
   /**
