@@ -2,6 +2,7 @@ version: "3.7"
 
 services:
   angular:
+    container_name: ictusnet_angular_dev
     build: ./frontend
     # command: ng serve --host 0.0.0.0
     command: ng serve --host 0.0.0.0 --proxy-config proxy.conf.json
@@ -11,6 +12,7 @@ services:
       - ./frontend:/app
 
   express:
+    container_name: ictusnet_express_dev
     build: ./backend
     command: node app.js
     ports:

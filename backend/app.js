@@ -12,10 +12,16 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.post('/api/upload', multipartMiddleware, (req, res) => {
+app.get('/', (req, res) => {
     res.json({
-        'message': 'File uploaded succesfully.'
+        'greeting': 'hello from express.'
     });
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.post('/api/upload', multipartMiddleware, (req, res) => {
+    res.json({
+        'message': 'Files uploaded succesfully to "./backend/uploads/".'
+    });
+});
+
+app.listen(port, () => console.log(`Ictusnet backend listening on port ${port}!`))

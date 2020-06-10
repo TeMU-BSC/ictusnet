@@ -2,6 +2,7 @@ version: "3.7"
 
 services:
   angular:
+    container_name: ictusnet_angular_prod
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
@@ -9,9 +10,12 @@ services:
       - 9999:80
 
   express:
+    container_name: ictusnet_express_prod
     build:
       context: ./backend
       dockerfile: Dockerfile.prod
+    command: node app.js
     ports:
       - 3000:3000
-    command: node app.js
+    volumes:
+      - ./backend:/app
