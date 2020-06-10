@@ -1,0 +1,108 @@
+I.CLINIC DE NEUROCIÈNCIES NEUROLOGIA
+_NAME_	NHC: _ID_
+
+
+Sexo/Sexe: Fem.	Fecha nac./Data naix.: _DATE_	Edad/Edat: 82 años
+Dirección/Adreça: _LOCATION_ 	
+CP: _LOCATION_
+Municip. (Prov.): _LOCATION_  ABS:_SS_	Tel.:_CONTACT_
+As.: SERVEI CATALA DE LA SALUT	CIP: _ID_	NASS: _ID_
+Nº epis.: _ID_	Tipo/Tipus: HOSPIT.	Inici.: 19.09.2017
+Serv: NEUROLOGIA	UO Enf.: I064 SALA G DE NEUROL. INTE   Hora: 22:05:20 Facult. de ref.: _NAME_
+
+
+
+
+Tipo ingreso/Tipus ingrés: Urgent	Motivo/Motiu alta: Dom. Familiar
+Diag.:
+Ictus isquémico. ()
+Proc.:
+
+
+
+
+INFORME CLÍNICO ALTA / INFORME CLÍNIC ALTA
+
+Motivo de consulta / Motiu de consulta
+Sensación vertiginosa e inestabilidad de la marcha
+
+Antecedentes e historia previa / Antecedents i història prèvia
+Antecedentes personales:
+Paciente de 82 años, sin alergias medicamentosas ni hábitos tóxicos. Independiente para la vida diaria.
+
+*	ANTECEDENTES PATOLÓGICOS
+
+-	Hipertensión arterial en tratamiento farmacológico.
+
+-	Dislipemia en tratamiento farmacológico.
+
+
+*	ANTECEDENTES QUIRÚRGICOS
+
+-	Colecistectomía abierta (hace > 15 años)
+
+-	Histerectomía (vía vaginal)
+
+-	Rodilla (meniscos)
+
+-	Cataratas.
+
+Medicación habitual: - Irbersartan/hidroclorotiazida 150/12 ,5 mg 0,5-0- 0,5 - Simvastatina 10 mg - Lorazepam 1 mg si precisa - Calci fediol 266 mcg - Oxibutinina parche.
+
+Proceso actual / Procés actual
+Acude a Urgencias por sensación de giro de objetos hacia la izquierda, de incio súbito aproximadamente a las 18:00h, asociado a disestesias en hemicara derecha y paresia leve del miembro superior izquierdo.
+
+Exploración física / Exploració física
+19/09/2017-23:00:00: Frecuencia respiratoria (rpm) 12, PAS (mm Hg) 161, PAD (mm Hg) 51, Pulsioximetría (%) 97, Tª axilar (ºC) 36.8. 20/09/2017-0 1:00:00 : Glicemia capilar (mg/dl) 113.
+Hemodinámicamente estable, con tendencia a la HTA, normocloreada y normohidratada.
+AC: Tonos ritmicos y sin soplos AR: MVC ABD: Peristaltismo conservado, blando y depresible, no doloroso a la palpación. EEII: Sin edemas.
+NRL: Consciente, orientada en las tres esferas. Lenguaje normofluente sin afasia. No disartria. Mirada centrada en posición primaria sin alteraciones en la excursión visual. No diplopia. Pupilas isocóricas y normorreactivas a la luz. No paresia facial. Balance muscular 4-/5 en brazo y pierna izquierda. Hipoestesia facial derecha y braquio-crural izquierda en todas las modalidades. No dismetrías. Marcha dificultosa con tendencia a la retropulsión. Romberg negativo por caída hacia atrás con ojos abiertos. NIHSS 1.
+
+Laboratorio / Laboratori
+*	ANALÍTICA SANGUÍNEA: Leucocitosis de 12.500(73% neutrófilos). Resto  de hemograma, función renal, ionograma, hemostasia y niveles de ácido fólico y vit. b12 y perfil tiroidal sin alteraciones. Hemoglobina glicada de 5,9% Pefil lipídico: LDL 113 HDL 44.
+* SEDIMENTO URINARIO: 100 leucocitos por campo con abundantes bacterias sin otros hallazgos. URINOCULTIVO: En curso.
+
+Radiología / Radiologia
+*	TC MULTIMODAL: - TC BASAL: No se observan imágenes de sangrado agudo intra ni extra- axial. Imágenes lacunares capsuloganglionares bilaterales y en ambos hemisferios cerebelosos, en relación a lesiones isquémicas antiguas. Leucoaraiosis periventricular.
+-	TC PERFUSIÓN: No se identifican otras alteraciones valorables en los mapas paramétricos.
+-	ANGIO-TC: Sistema vertebrobasilar sin alteraciones. Placas de ateromatosis calcificada aisladas en arco aórtico. Ateromatosis calcificada en segmentos intracavernosos de ambas ACIs sin estenosis significativas.
+*	RMN CEREBRAL: Se objetiva una pequeña lesión isquémica aguda de 6,4 mm en el flóculo izdo. Lesiones isquémicas crónicas de pequeño tamaño a nivel cerebeloso, de predominio cerebeloso derecho. Escasas lesiones lacunares crónicas en los ganglios basales.
+ANGIO-RM: Pequeño defecto de replección de 1,7 mm intraluminal izdo en la porción inferior del tronco de la basilar, posible placa de ateroma sin estenosis significativa.
+*	RADIOGRAFÍA DE TÓRAX: Sin infiltrados ni consolidaciones.
+
+Exploraciones complementarias / Exploracions complementàries
+*	ECOGRAFÍA-DOPPLER DE TRONCOS SUPRAAÓRTICOS: Sin estenosis ni placas de ateroma.
+*	ECOSCAN: No signos sugestivos de fuentes cardioembólicas mayores.
+*	EKG: Ritmo sinusal a 60lpm sin bloqueos de la conducción. Pobre pogresión de R en precordiales. S profundas en III y aVF.
+
+Evolución / Evolució
+1.	ICTUS EN TERRITORIO VÉRTEBRO-BASILAR (ARTERIA CEREBELOSA INFERIOR IZQUIERDA)
+Mujer de 82 años con antecedentes de HTA y DLP que acude a Urgencias por un síndrome vertiginoso asociado a alteraciones sensitivas en hemicara derecha y hemicuerpo izquierdo y paresia muy leve de extremidades izquierdas.
+La analítica sanguínea y el electrocardiograma no muestran alteraciones significativas. Se realiza un TC multimodal (TC basal, angio-TC y mapas de perfusión) en los que no se aprecian déficits de perfusión ni oclusiones  vasculares. No obstante, ingresa en Unidad de Ictus con la  sospecha de ictus en territorio
+
+
+
+vértebro-basilar para completar estudio y monitorización.
+Durante su estancia presenta mejoría progresiva, persistiendo en el momento del alta una marcha cautelosa, así como discretas hipoestesia termoalgésica y disestesias en la porción superior de la hemicara derecha.
+Se realiza una RM donde se identifica una pequeña lesión isquémica en el territorio de arteria cerebelosa anteroinferior (AICA) izquierda así como otras lesiones lacunares crónicas de predominio en el hemicerebelo derecho. Se completa estudio con ecografía de troncos supraórticos y angio-RM intracraneal en los que no se identifican signos de ateromatosis. El ecoscan no revela fuentes embólicas mayores.
+Se trata de un ictus isquémico en el territoro de AICA izquierda en una paciente con signos de microangiopatía crónica, por lo que se inicia tratamiento antiagregante y se optimiza el tratamiento hipolipemiante.
+NIHSS DE 1; mRS de 2; TOAST: Indeterminado.
+2.	INFECCIÓN DE ORINA.
+Durante su estancia la paciente presenta molestias urinarias, así como orina turbia y maloliente, por lo que se solicita un sedimento urinario que resulta patológico, pendiente de resutlado de urocultivo. Se inicia tratamiento antibiótico empírico con cefixima.
+
+Plan terapéutico / Pla terapèutic
+Se aumenta dosis de simvastatina de 10 a 20mg. Se inicia Adiro 100mg y omeprazol 20mg al día de forma indeficina. Cefixima 200mg cada 12hs hasta completar 7 días de tratamiento.
+
+Otras recomendaciones / Altres recomanacions
+Dieta variada y equilibrada, realizar actividad física moderada de forma regular y control de los factores de riesgo cardiovascular por sus médicos habituales.
+
+
+
+Firma/Signatura1: _NAME_	Firma/Signatura2: _NAME_ Categoría: Resident 2	Categoría: Especialista
+Nº Matrícula _SS_: _ID_	Nº Matrícula _SS_: _ID_
+
+Fecha/Data Informe: 23.09.2017
+Hora Informe: 12:59:42
+
+3
+_SS_

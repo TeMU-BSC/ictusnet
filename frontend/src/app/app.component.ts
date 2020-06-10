@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import * as DEMO_FILENAMES from 'src/assets/demo.json';
 import { ParsingService } from './services/parsing.service';
-import { HttpClient } from '@angular/common/http';
-
-// TODO https://blog.jscrambler.com/implementing-file-upload-using-node-and-angular/
 
 @Component({
   selector: 'app-root',
@@ -22,11 +20,12 @@ export class AppComponent {
   demoFilenames = (DEMO_FILENAMES as any).default;
 
   files: FileList;
+  uploadedFiles: Array<File>;
 
   constructor(
     private http: HttpClient,
     private parser: ParsingService,
-    ) { }
+  ) { }
 
   loadDemo() {
     this.filenames = this.demoFilenames;
@@ -59,12 +58,14 @@ export class AppComponent {
 
   // https://blog.jscrambler.com/implementing-file-upload-using-node-and-angular/
   upload(event) {
-    const files = event.target.files;
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append("documents[]", files[i], files[i]['name']);
+    this.uploadedFiles = event.target.files;
+    let formData = new FormData();
+    for (var i = 0; i < this.uploadedFiles.length; i++) {
+      formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
     }
-    this.http.post('http://localhost:3000/upload', formData).subscribe(response => console.log('response: ', response))
+    this.http.post('/api/upload', formData).subscribe(response => {
+      console.log('response received is ', response);
+    });
   }
 
 }
