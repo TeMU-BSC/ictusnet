@@ -15,16 +15,15 @@ import { FieldType } from '@ngx-formly/core';
       <formly-field [fxFlex]="to.fxFlex" *ngFor="let f of field.fieldGroup" [field]="f">
       </formly-field>
 
-      <span *ngIf="to.lantern"
-        [ngStyle]="{cursor: to.lantern.action ? 'pointer' : 'inherit'}"
+      <button *ngIf="to.lantern" type="button" mat-icon-button style="color: rgb(160, 0, 160);"
         matTooltip="{{ to.lantern.tooltip }}"
         matTooltipClass="{{ to.lantern.tooltipClass }}"
         matTooltipPosition="{{ to.lantern.tooltipPosition || 'below' }}"
         (click)="to.lantern.action()"
       >
         <!-- https://github.com/angular/components/issues/11544 -->
-        <mat-icon style="color: rgb(160, 0, 160);" fontSet="material-icons-outlined">{{ to.lantern.icon }}</mat-icon>
-      </span>
+        <mat-icon fontSet="material-icons-outlined">{{ to.lantern.icon }}</mat-icon>
+      </button>
     </div>
   `
 })

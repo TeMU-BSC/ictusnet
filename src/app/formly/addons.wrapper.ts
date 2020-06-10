@@ -33,16 +33,16 @@ import { FieldWrapper } from '@ngx-formly/core';
           {{ to.addonRight.info?.icon }}
         </mat-icon>
 
-        <mat-icon [hidden]="!to.addonRight.locate"
-          color="{{ to.addonRight.locate?.color }}"
-          fontSet="material-icons-outlined"
-          matTooltip="{{ to.addonRight.locate?.tooltip }}"
-          matTooltipPosition="{{ to.addonRight.locate?.tooltipPosition || 'below' }}"
-          matTooltipClass="{{ to.addonRight.locate?.tooltipClass }}"
-          [ngStyle]="{cursor: to.addonRight.locate?.onClick ? 'pointer' : 'inherit'}"
-        >
-          {{ to.addonRight.locate?.icon }}
-        </mat-icon>
+        <button [hidden]="!to.addonRight.locate" type="button" mat-icon-button color="{{ to.addonRight.locate?.color }}">
+          <mat-icon
+            fontSet="material-icons-outlined"
+            matTooltip="{{ to.addonRight.locate?.tooltip }}"
+            matTooltipPosition="{{ to.addonRight.locate?.tooltipPosition || 'below' }}"
+            matTooltipClass="{{ to.addonRight.locate?.tooltipClass }}"
+          >
+            {{ to.addonRight.locate?.icon }}
+          </mat-icon>
+        </button>
 
         <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
       </span>

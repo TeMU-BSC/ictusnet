@@ -78,6 +78,7 @@ body {
     color: mat-color($custom, attention);
 }
 .mat-button.mat-attention:hover,
+.mat-icon-button.mat-attention:hover,
 .mat-stroked-button.mat-attention:hover {
   background-color: mat-color($custom, attention-contrast);
 }

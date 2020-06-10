@@ -179,21 +179,30 @@ export class FieldComponent implements OnChanges {
         {
           type: 'flex-layout',
           templateOptions: {
-            fxLayout: 'row wrap',
+            fxLayout: 'row',
             fxLayoutGap: '1rem',
+            fxFlex: '45%',
           },
           fieldGroup: []
         }
       ]
     }
 
-    // almost full width for multiple option select fields
-    fields.forEach(field => {
-      if (field.templateOptions.multiple) {
-        const percentage = (100 / fields.length) - 5;
-        group.fieldGroup[1].templateOptions.fxFlex = `${percentage}%`;
-      }
-    });
+    // row wrap layout when more than two fields per group
+    if (fields.length > 2) {
+      group.fieldGroup[1].templateOptions.fxLayout = 'row wrap';
+    }
+
+    // special cases
+    if ([
+      'Diagnóstico principal',
+      'Arterias afectadas',
+      'Localizaciones',
+      'Lateralización',
+      'Etiología',
+    ].includes(groupName)) {
+      group.fieldGroup[1].templateOptions.fxFlex = '90%';
+    }
 
     // populate the group with the actual fields
     group.fieldGroup[1].fieldGroup.push(...fields);
