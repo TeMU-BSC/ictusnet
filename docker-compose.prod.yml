@@ -17,5 +17,3 @@ services:
     command: node app.js
     ports:
       - 3000:3000
-    volumes:
-      - ./backend:/app
