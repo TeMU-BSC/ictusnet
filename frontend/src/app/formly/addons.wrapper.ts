@@ -25,7 +25,7 @@ import { FieldWrapper } from '@ngx-formly/core';
         fxLayout="row" fxLayoutAlign="center center"
       >
         <mat-icon [hidden]="!to.addonRight.info"
-          fontSet="material-icons-outlined"
+          fontSet="material-icons-round"
           color="{{ to.addonRight.info?.color }}"
           matTooltip="{{ to.addonRight.info?.tooltip }}"
           matTooltipPosition="{{ to.addonRight.info?.tooltipPosition || 'below' }}"
@@ -35,7 +35,7 @@ import { FieldWrapper } from '@ngx-formly/core';
 
         <button [hidden]="!to.addonRight.locate" type="button" mat-icon-button color="{{ to.addonRight.locate?.color }}">
           <mat-icon
-            fontSet="material-icons-outlined"
+            fontSet="material-icons-round"
             matTooltip="{{ to.addonRight.locate?.tooltip }}"
             matTooltipPosition="{{ to.addonRight.locate?.tooltipPosition || 'below' }}"
             matTooltipClass="{{ to.addonRight.locate?.tooltipClass }}"

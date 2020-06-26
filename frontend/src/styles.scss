@@ -10,24 +10,65 @@ body {
   // background-color: mat-color($custom, info-contrast);
 }
 
-.fullheight {
-  height: 100%;
+// https://jsfiddle.net/julmot/hexomvbL/
+mark {
+  padding: 0;
+  background: transparent;
+  // background: linear-gradient(to right, #dd621f 50%, transparent 50%);
+  background: linear-gradient(to right, mat-color($custom, attention) 50%, transparent 50%);
+  background-position: right bottom;
+  background-size: 200% 100%;
+  transition: all .5s ease;
 }
-.scroll {
-  overflow-y: scroll;
+
+mark.animate {
+  background-position: left bottom;
+  // color: white;
+  color: mat-color($custom, attention-contrast);
 }
-.plaintext {
-  padding: 1rem;
-  background-color: white;
-  font-family: 'Roboto Mono', monospace;
+
+mark.unspecified {
+  padding: 0;
+  background: transparent;
+  background: linear-gradient(to right, rgb(160, 0, 160) 50%, transparent 50%);
+  background-position: right bottom;
+  background-size: 200% 100%;
+  transition: all .5s ease;
 }
-.wrap {
-  overflow-x: auto;
-  white-space: pre-wrap;
-  white-space: -moz-pre-wrap;
-  white-space: -pre-wrap;
-  white-space: -o-pre-wrap;
+
+mark.unspecified.animate {
+  background-position: left bottom;
+  color: white;
+  // color: mat-color($custom, attention-contrast);
+}
+
+// https://stackblitz.com/edit/angular-xrrwqb?file=styles.css
+.multiline-tooltip {
+  white-space: pre-line;
+}
+
+.group-title {
+  font-weight: bolder;
+  margin-bottom: 0.5rem;
+}
+
+// https://github.com/angular/components/issues/12779#issuecomment-462241207
+.mat-select-panel mat-option.mat-option {
+  margin: 0;
+  overflow: visible;
+  line-height: initial;
   word-wrap: break-word;
+  white-space: pre-wrap;
+}
+.mat-option-text.mat-option-text {
+  white-space: normal;
+}
+
+// form field color
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: rgb(255, 255, 240);  // very light yellow
+  // background-color: rgb(240, 250, 255);  // very light blue
+  border-radius: 0.3rem;
 }
 
 // https://stackoverflow.com/a/58134022
@@ -112,62 +153,4 @@ body {
 }
 .mat-icon-button.mat-secondary {
   color: mat-color($custom, secondary);
-}
-
-// https://jsfiddle.net/julmot/hexomvbL/
-mark {
-  padding: 0;
-  background: transparent;
-  // background: linear-gradient(to right, #dd621f 50%, transparent 50%);
-  background: linear-gradient(to right, mat-color($custom, attention) 50%, transparent 50%);
-  background-position: right bottom;
-  background-size: 200% 100%;
-  transition: all .5s ease;
-}
-mark.animate {
-  background-position: left bottom;
-  // color: white;
-  color: mat-color($custom, attention-contrast);
-}
-
-mark.unspecified {
-  padding: 0;
-  background: transparent;
-  background: linear-gradient(to right, rgb(160, 0, 160) 50%, transparent 50%);
-  background-position: right bottom;
-  background-size: 200% 100%;
-  transition: all .5s ease;
-}
-mark.unspecified.animate {
-  background-position: left bottom;
-  color: white;
-  // color: mat-color($custom, attention-contrast);
-}
-
-
-// https://stackblitz.com/edit/ngx-formly-flex-layout?file=src%2Fstyles.scss
-// .flex-layout-content {
-//   background-color: purple;
-// }
-
-// https://github.com/angular/components/issues/12779#issuecomment-462241207
-.mat-select-panel mat-option.mat-option {
-  margin: 0;
-  overflow: visible;
-  line-height: initial;
-  word-wrap: break-word;
-  white-space: pre-wrap;
-}
-.mat-option-text.mat-option-text {
-  white-space: normal;
-}
-
-// https://stackblitz.com/edit/angular-xrrwqb?file=styles.css
-.multiline-tooltip {
-  white-space: pre-line;
-}
-
-.group-title {
-  font-weight: bolder;
-  margin-bottom: 0.5rem;
 }

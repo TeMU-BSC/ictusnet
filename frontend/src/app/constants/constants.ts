@@ -7,20 +7,30 @@ export const panelIcons = {
   'Pruebas y escalas de valoración': 'analytics',
 };
 
+// https://github.com/TeMU-BSC/spactes/blob/master/ctakes-SpaCTeS-res/src/main/resources/org/apache/ctakes/examples/dictionary/lookup/fuzzy/IctusnetDict.bsv
 export const admissibleEvidences = {
   diagnosticoPrincipal: {},
   lateralizacion: {
     izquierda: [
+      'i',
+      'izq',
+      'izdo',
       'esquerre',
       'esquerra',
+      'esq',
     ],
     derecha: [
+      'd',
+      'der',
+      'dcho',
+      'derecho',
       'dret',
       'dreta',
     ],
     ambas: [
       'bilateral',
       'ambdues',
+      'bihemisferico',
     ],
     indeterminada: [
       ''

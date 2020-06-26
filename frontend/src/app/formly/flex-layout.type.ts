@@ -22,7 +22,7 @@ import { FieldType } from '@ngx-formly/core';
         (click)="to.lantern.action()"
       >
         <!-- https://github.com/angular/components/issues/11544 -->
-        <mat-icon fontSet="material-icons-outlined">{{ to.lantern.icon }}</mat-icon>
+        <mat-icon fontSet="material-icons-round">{{ to.lantern.icon }}</mat-icon>
       </button>
     </div>
   `
