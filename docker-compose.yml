@@ -4,7 +4,6 @@ services:
   angular:
     container_name: ictusnet_angular_dev
     build: ./frontend
-    # command: ng serve --host 0.0.0.0
     command: ng serve --host 0.0.0.0 --proxy-config proxy.conf.json
     ports:
       - 4200:4200
