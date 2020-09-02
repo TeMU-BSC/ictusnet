@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import * as DEMO_FILENAMES from 'src/assets/demo.json';
-import { ParsingService } from './services/parsing.service';
 
 @Component({
   selector: 'app-root',
@@ -11,61 +10,58 @@ import { ParsingService } from './services/parsing.service';
 })
 export class AppComponent {
 
-  menuOpen = false;
   faGithub = faGithub;
+  files: FileList;
   filenames: string[];
   selected: string;
 
-  demoDirectory: string = 'assets/alejandro_sample/10/';
+  // TODO replace demo path and fileIds for real uploaded files
+  demoDirectory: string = 'assets/alejandro_sample/10';
   demoFilenames = (DEMO_FILENAMES as any).default;
-
-  files: FileList;
-  uploadedFiles: Array<File>;
-
-  constructor(
-    private http: HttpClient,
-    private parser: ParsingService,
-  ) { }
-
-  loadDemo() {
+  demo(): void {
     this.filenames = this.demoFilenames;
     this.selected = this.filenames[0];
   }
 
-  uploadFiles(event) {
-    this.files = event.target.files;
-    // console.log(this.files);
+  constructor(private http: HttpClient) { }
 
-    // loop through files
-    for (let i = 0; i < this.files.length; i++) {
-      const file: File = this.files.item(i);
+  updateFiles(event): void {
+    this.files = event.target.files;
+    this.load(this.files);
+    this.upload(this.files);
+  }
+
+  load(files: FileList): void {
+    for (let i = 0; i < files.length; i++) {
+      const file: File = files.item(i);
       const reader = new FileReader();
       reader.readAsText(file);
       reader.onload = () => {
         const content = reader.result.toString();
         localStorage.setItem(file.name, content);
-        console.log(localStorage);
-
-        localStorage.clear();
       }
     }
-
-    // this.demoFilenames.forEach(filename => {
-    //   this.parser.getTextFromFile(`${this.demoDirectory}${filename}.utf8.txt`).subscribe(data => console.log(data));
-    // });
-
+    // localStorage.clear();
   }
 
   // https://blog.jscrambler.com/implementing-file-upload-using-node-and-angular/
-  upload(event) {
-    this.uploadedFiles = event.target.files;
+  upload(files: FileList): void {
     let formData = new FormData();
-    for (var i = 0; i < this.uploadedFiles.length; i++) {
-      formData.append("uploads[]", this.uploadedFiles[i], this.uploadedFiles[i].name);
+    for (var i = 0; i < files.length; i++) {
+      formData.append("uploads[]", files[i], files[i].name);
     }
     this.http.post('/api/upload', formData).subscribe(response => {
-      console.log('response received is ', response);
+      alert(`${response['message']} Check F12 -> Application > LocalStorage.`);
+      // this.readFromLocalStorage();
     });
+  }
+
+  readFromLocalStorage() {
+    this.filenames = [];
+    for (var i = 0; i < localStorage.length; i++) {
+      this.filenames.push(localStorage.key(i));
+    }
+    this.selected = this.filenames[0];
   }
 
 }

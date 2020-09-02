@@ -82,10 +82,10 @@ mark.unspecified.animate {
 .mat-icon.mat-success {
     color: mat-color($custom, success);
 }
-.mat-button.mat-success:hover,
-.mat-stroked-button.mat-success:hover {
-  background-color: mat-color($custom, success-contrast);
-}
+// .mat-button.mat-success:hover,
+// .mat-stroked-button.mat-success:hover {
+//   background-color: mat-color($custom, success-contrast);
+// }
 .mat-raised-button.mat-success,
 .mat-flat-button.mat-success,
 .mat-fab.mat-success,
@@ -101,10 +101,11 @@ mark.unspecified.animate {
 .mat-icon.mat-info {
     color: mat-color($custom, info);
 }
-.mat-button.mat-info:hover,
-.mat-stroked-button.mat-info:hover {
-  background-color: mat-color($custom, info-contrast);
-}
+// .mat-button.mat-info:hover,
+// .mat-icon-button.mat-info:hover,
+// .mat-stroked-button.mat-info:hover {
+//   background-color: mat-color($custom, info-contrast);
+// }
 .mat-raised-button.mat-info,
 .mat-flat-button.mat-info,
 .mat-fab.mat-info,
@@ -118,11 +119,11 @@ mark.unspecified.animate {
 .mat-stroked-button.mat-attention {
     color: mat-color($custom, attention);
 }
-.mat-button.mat-attention:hover,
-.mat-icon-button.mat-attention:hover,
-.mat-stroked-button.mat-attention:hover {
-  background-color: mat-color($custom, attention-contrast);
-}
+// .mat-button.mat-attention:hover,
+// .mat-icon-button.mat-attention:hover,
+// .mat-stroked-button.mat-attention:hover {
+//   background-color: mat-color($custom, attention-contrast);
+// }
 .mat-raised-button.mat-attention,
 .mat-flat-button.mat-attention,
 .mat-fab.mat-attention,

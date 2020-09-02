@@ -14,9 +14,7 @@ export class ParsingService {
   constructor(
     private http: HttpClient,
     private papa: Papa,
-  ) {
-    // this.getAnnotationsFromFile('assets/alejandro_sample/10/321687159.utf8.ann')
-  }
+  ) { }
 
   getTextFromFile(filepath: string): Observable<string> {
     return this.http.get(filepath, { responseType: 'text' });

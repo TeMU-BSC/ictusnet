@@ -32,16 +32,16 @@ export interface PanelType {
 export class FieldComponent implements OnChanges {
 
   // core
-  loading: boolean = true;
   @Input() file: File;
   text: string;
+  loading: boolean = true;
   variables: Variable[];
   suggestions: Suggestion[];
   focusedField: any;
   downloadFilename: string;
 
-  // demo
-  path: string = 'assets/alejandro_sample/10/';
+  // TODO replace demo path and fileIds for real uploaded files
+  path: string = 'assets/alejandro_sample/10';
   @Input() fileId: string;
 
   // formly
@@ -76,9 +76,11 @@ export class FieldComponent implements OnChanges {
     this.text = '';
     this.model = {};
     this.panels = [];
+
+    // TODO replace demo path and fileIds for real uploaded files
     this.downloadFilename = `${fileId}.json`;
-    this.parser.getTextFromFile(`${this.path}${fileId}.utf8.txt`).subscribe(data => this.text = data);
-    this.parser.getAnnotationsFromFile(`${this.path}${fileId}.utf8.ann`).subscribe(data => {
+    this.parser.getTextFromFile(`${this.path}/${fileId}.utf8.txt`).subscribe(data => this.text = data);
+    this.parser.getAnnotationsFromFile(`${this.path}/${fileId}.utf8.ann`).subscribe(data => {
       this.suggestions = data;
       const allSuggestions = this.suggestions;
       this.papa.parse(`assets/variables.tsv`, {
@@ -427,17 +429,5 @@ export class FieldComponent implements OnChanges {
   download(format: string) {
     format === 'json' ? downloadObjectAsJson(this.model, this.downloadFilename) : null;
   }
-
-  // SEARCH INSIDE TEXT (MAYBE)
-  // @ViewChild('search', { static: false }) searchElemRef: ElementRef;
-  // searchText$: Observable<string>;
-  // searchConfig = { separateWordSearch: false };
-  // ngAfterViewInit() {
-  //   this.searchText$ = fromEvent(this.searchElemRef.nativeElement, 'keyup').pipe(
-  //     map((e: Event) => (e.target as HTMLInputElement).value),
-  //     debounceTime(300),
-  //     distinctUntilChanged()
-  //   );
-  // }
 
 }

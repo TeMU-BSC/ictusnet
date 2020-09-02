@@ -18,3 +18,12 @@ services:
       - 3000:3000
     volumes:
       - ./backend:/app
+
+  deno:
+    container_name: ictusnet_deno_dev
+    image: hayd/alpine-deno
+    command: deno run --allow-run --allow-net /app/main.ts
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend-deno:/app
