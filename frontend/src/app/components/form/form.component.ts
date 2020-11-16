@@ -31,18 +31,14 @@ export interface PanelType {
 })
 export class FieldComponent implements OnChanges {
 
-  // core
-  @Input() file: File;
+  @Input() fileId: string;  // development
+  @Input() file: File;  // production
   text: string;
   loading: boolean = true;
   variables: Variable[];
   suggestions: Suggestion[];
   focusedField: any;
   downloadFilename: string;
-
-  // TODO replace demo path and fileIds for real uploaded files
-  path: string = 'assets/alejandro_sample/10';
-  @Input() fileId: string;
 
   // formly
   model: any = {};
@@ -78,9 +74,10 @@ export class FieldComponent implements OnChanges {
     this.panels = [];
 
     // TODO replace demo path and fileIds for real uploaded files
+    const path: string = 'assets/alejandro_sample/10';
     this.downloadFilename = `${fileId}.json`;
-    this.parser.getTextFromFile(`${this.path}/${fileId}.utf8.txt`).subscribe(data => this.text = data);
-    this.parser.getAnnotationsFromFile(`${this.path}/${fileId}.utf8.ann`).subscribe(data => {
+    this.parser.getTextFromFile(`${path}/${fileId}.utf8.txt`).subscribe(data => this.text = data);
+    this.parser.getAnnotationsFromFile(`${path}/${fileId}.utf8.ann`).subscribe(data => {
       this.suggestions = data;
       const allSuggestions = this.suggestions;
       this.papa.parse(`assets/variables.tsv`, {
