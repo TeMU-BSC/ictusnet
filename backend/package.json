@@ -1,16 +1,14 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Backend for ICTUSnet webapp",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Alejandro Asensio",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "connect-multiparty": "^2.2.0",
     "express": "^4.17.1",
     "multer": "^1.4.2"
   }
