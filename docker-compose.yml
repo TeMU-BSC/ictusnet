@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   angular:
-    container_name: angular_development
+    container_name: ictusnet_angular
     build: ./frontend
     command: ng serve --host 0.0.0.0 --proxy-config proxy.conf.json
     ports:
@@ -11,7 +11,7 @@ services:
       - ./frontend:/app
 
   express:
-    container_name: express_development
+    container_name: ictusnet_express
     build: ./backend
     command: node app.js
     ports:
@@ -20,7 +20,7 @@ services:
       - ./backend:/app
 
   deno:
-    container_name: deno_development
+    container_name: ictusnet_deno
     build: ./backend-deno
     command: deno run --allow-run --allow-net main.ts
     ports:

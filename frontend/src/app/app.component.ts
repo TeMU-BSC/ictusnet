@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { ApiService } from 'src/app/services/api.service';
 import * as DEMO_FILENAMES from 'src/assets/demo.json';
 
 @Component({
@@ -23,12 +23,14 @@ export class AppComponent {
     this.selected = this.filenames[0];
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private api: ApiService) { }
 
   updateFiles(event): void {
     this.files = event.target.files;
     this.load(this.files);
-    this.upload(this.files);
+    this.api.upload(this.files).subscribe((response) => {
+      alert(`${response["message"]} Check F12 -> Application > LocalStorage.`);
+    });
   }
 
   load(files: FileList): void {
@@ -42,18 +44,6 @@ export class AppComponent {
       }
     }
     // localStorage.clear();
-  }
-
-  // https://blog.jscrambler.com/implementing-file-upload-using-node-and-angular/
-  upload(files: FileList): void {
-    let formData = new FormData();
-    for (var i = 0; i < files.length; i++) {
-      formData.append("uploads[]", files[i], files[i].name);
-    }
-    this.http.post('/api/upload', formData).subscribe(response => {
-      alert(`${response['message']} Check F12 -> Application > LocalStorage.`);
-      // this.readFromLocalStorage();
-    });
   }
 
   readFromLocalStorage() {
