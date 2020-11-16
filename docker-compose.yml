@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   angular:
-    container_name: ictusnet_angular_dev
+    container_name: angular_development
     build: ./frontend
     command: ng serve --host 0.0.0.0 --proxy-config proxy.conf.json
     ports:
@@ -11,7 +11,7 @@ services:
       - ./frontend:/app
 
   express:
-    container_name: ictusnet_express_dev
+    container_name: express_development
     build: ./backend
     command: node app.js
     ports:
@@ -20,9 +20,9 @@ services:
       - ./backend:/app
 
   deno:
-    container_name: ictusnet_deno_dev
-    image: hayd/alpine-deno
-    command: deno run --allow-run --allow-net /app/main.ts
+    container_name: deno_development
+    build: ./backend-deno
+    command: deno run --allow-run --allow-net main.ts
     ports:
       - 8000:8000
     volumes:

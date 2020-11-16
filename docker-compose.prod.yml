@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   angular:
-    container_name: ictusnet_angular_prod
+    container_name: angular_production
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
@@ -11,7 +11,7 @@ services:
     restart: always
 
   express:
-    container_name: ictusnet_express_prod
+    container_name: express_production
     build:
       context: ./backend
       dockerfile: Dockerfile.prod
