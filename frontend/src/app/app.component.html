@@ -31,7 +31,7 @@
       de pacientes relacionados con ictus
     </h3>
     <div fxLayout fxLayoutAlign="center center" fxLayoutGap="1rem">
-      <button mat-raised-button color="attention" (click)="fileInput.click()">Cargar informes de alta (.txt)</button>
+      <button mat-raised-button color="attention" (click)="fileInput.click()" disabled>Cargar informes de alta (.txt)</button>
       <input type="file" #fileInput multiple accept="text/plain" (change)="updateFiles($event)" hidden>
       <button mat-raised-button color="primary" (click)="demo()">Probar la demo</button>
     </div>
