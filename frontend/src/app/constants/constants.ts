@@ -49,3 +49,9 @@ export const unspecifiedEntities = {
   'mRankin': 'mRankin',
   'NIHSS': 'NIHSS',
 }
+
+export const diagnosticoPrincipalEntities = [
+  'Ictus_isquemico',
+  'Ataque_isquemico_transitorio',
+  'Hemorragia_cerebral'
+]

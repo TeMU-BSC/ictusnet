@@ -10,18 +10,6 @@ export interface Annotation {
   unspecified?: boolean;
 }
 
-export interface Suggestion {
-  id: string;
-  entity: string;
-  offset: {
-    start: number;
-    end: number;
-  };
-  evidence: string;
-  notes: string;
-  unspecified?: boolean;
-}
-
 export interface Variable {
   section: string;
   group?: string;

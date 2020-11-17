@@ -8,9 +8,9 @@ import { Papa } from 'ngx-papaparse';
 import Mark from 'mark.js';
 
 import { ParsingService } from 'src/app/services/parsing.service';
-import { Suggestion, Variable } from 'src/app/interfaces/interfaces';
+import { Annotation, Variable } from 'src/app/interfaces/interfaces';
 import { downloadObjectAsJson } from 'src/app/helpers/helpers';
-import { panelIcons, unspecifiedEntities, admissibleEvidences } from 'src/app/constants/constants';
+import { panelIcons, unspecifiedEntities, admissibleEvidences, diagnosticoPrincipalEntities } from 'src/app/constants/constants';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 
@@ -36,7 +36,7 @@ export class FieldComponent implements OnChanges {
   text: string;
   loading: boolean = true;
   variables: Variable[];
-  suggestions: Suggestion[];
+  annotations: Annotation[];
   focusedField: any;
   downloadFilename: string;
 
@@ -78,8 +78,8 @@ export class FieldComponent implements OnChanges {
     this.downloadFilename = `${fileId}.json`;
     this.parser.getTextFromFile(`${path}/${fileId}.utf8.txt`).subscribe(data => this.text = data);
     this.parser.getAnnotationsFromFile(`${path}/${fileId}.utf8.ann`).subscribe(data => {
-      this.suggestions = data;
-      const allSuggestions = this.suggestions;
+      this.annotations = data;
+      const allAnnotations = this.annotations;
       this.papa.parse(`assets/variables.tsv`, {
         download: true,
         header: true,
@@ -95,10 +95,10 @@ export class FieldComponent implements OnChanges {
               const options: any[] = parsedOptions.data;
               variables.forEach(variable => {
                 variable.options = options.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }));
-                const suggestions = this.getVariableSuggestions(variable, allSuggestions);
-                this.model = { ...this.model, [variable.key]: this.autofill(variable, suggestions) }
+                const annotations = this.getVariableAnnotations(variable, allAnnotations);
+                this.model = { ...this.model, [variable.key]: this.autofill(variable, annotations) }
               });
-              this.panels = [...this.panels, ...this.getPanels(variables, allSuggestions)];
+              this.panels = [...this.panels, ...this.getPanels(variables, allAnnotations)];
               this.loading = false;
             }
           });
@@ -107,7 +107,7 @@ export class FieldComponent implements OnChanges {
     });
   }
 
-  getPanels(variables: Variable[], allSuggestions: Suggestion[]): PanelType[] {
+  getPanels(variables: Variable[], allAnnotations: Annotation[]): PanelType[] {
     const panels: PanelType[] = [];
     new Set(variables.map(v => v.section)).forEach(sectionName => {
       const sectionVariables = variables.filter(v => v.section === sectionName);
@@ -116,8 +116,8 @@ export class FieldComponent implements OnChanges {
         const groupVariables = variables.filter(v => v.group === groupName);
         const fields: FormlyFieldConfig[] = [];
         groupVariables.filter(v => v.group === groupName).forEach(variable => {
-          const suggestions = this.getVariableSuggestions(variable, allSuggestions);
-          const field = this.getField(variable, suggestions);
+          const annotations = this.getVariableAnnotations(variable, allAnnotations);
+          const field = this.getField(variable, annotations);
           fields.push(field);
         });
         const group = this.getGroup(groupName, fields);
@@ -139,7 +139,7 @@ export class FieldComponent implements OnChanges {
   }
 
   getGroup(groupName: string, fields: FormlyFieldConfig[]): FormlyFieldConfig {
-    const unespecifiedSuggestions = this.suggestions.filter(s => s.entity.startsWith(unspecifiedEntities[groupName]));
+    const unespecifiedAnnotations = this.annotations.filter(a => a.entity.startsWith(unspecifiedEntities[groupName]));
     const group: FormlyFieldConfig = {
       type: 'flex-layout',
       templateOptions: {
@@ -152,11 +152,11 @@ export class FieldComponent implements OnChanges {
             fxLayout: 'row wrap',
             fxLayoutAlign: 'start center',
             fxLayoutGap: '1rem',
-            lantern: unespecifiedSuggestions.length > 0 ? {
+            lantern: unespecifiedAnnotations.length > 0 ? {
               icon: 'highlight',
-              tooltip: ['Evidencias auxiliares:'].concat(unespecifiedSuggestions.map(s => s.evidence)).join('\n'),
+              tooltip: ['Evidencias auxiliares:'].concat(unespecifiedAnnotations.map(a => a.evidence)).join('\n'),
               tooltipClass: 'multiline-tooltip',
-              action: () => this.highlight(unespecifiedSuggestions, 'context', 'unspecified'),
+              action: () => this.highlight(unespecifiedAnnotations, 'context', 'unspecified'),
             } : null,
           },
           fieldGroup: [
@@ -202,7 +202,7 @@ export class FieldComponent implements OnChanges {
   /**
    * Build the form field with all needed attributes, considering some special cases.
    */
-  getField(variable: Variable, suggestions: Suggestion[]): FormlyFieldConfig {
+  getField(variable: Variable, annotations: Annotation[]): FormlyFieldConfig {
 
     // prepare options for select fields
     let options = variable.options.map(o => ({ ...o, label: o.value }));
@@ -217,140 +217,139 @@ export class FieldComponent implements OnChanges {
         label: variable.shortLabel,
         multiple: variable.cardinality === 'n',
         options: options,
-        focus: (field, event) => this.highlight(field.templateOptions.suggestions, 'context', 'attention'),
+        focus: (field, event) => this.highlight(field.templateOptions.annotations, 'context', 'attention'),
 
         // custom properties
-        suggestions: suggestions,
+        annotations: annotations,
         addonRight: {
           info: variable.info ? {
             icon: 'info',
             color: 'primary',
             tooltip: variable.info,
           } : null,
-          locate: suggestions.length > 0 ? {
+          locate: annotations.length > 0 ? {
             icon: 'search',
             color: 'attention',
-            tooltip: suggestions.map(s => s.evidence).join('\n'),
+            tooltip: annotations.map(a => a.evidence).join('\n'),
             tooltipClass: 'multiline-tooltip',
-            onClick: (to, addon, event) => this.highlight(to.suggestions, 'context', 'attention'),
+            onClick: (to, addon, event) => this.highlight(to.annotations, 'context', 'attention'),
           } : null,
         },
       },
     };
 
     // special cases
-    switch (variable.entity) {
+    const isDiagnosticoPrincipal = variable.entity === 'Diagnostico_principal';
+    const isEtiologia = variable.entity === 'Etiologia';
+    const isArteriaAfectada = variable.entity === 'Arteria_afectada';
+    const isTratamiento = variable.entity.startsWith('Tratamiento');
 
-      // listen to disgnostico changes to dynamically toggle etiologia's available subset options
-      case 'Diagnostico_principal':
-        field.templateOptions.change = (currentField) => {
-          let subset: any[];
-          if (currentField.model.diagnosticoPrincipal.includes('isquémico')) {
-            subset = this.variables.find(v => v.entity === 'Etiologia').options.filter(o => o.comment === 'isquémico').map(o => ({ ...o, label: o.value }));
-          } else if (currentField.model.diagnosticoPrincipal.includes('hemorragia')) {
-            subset = this.variables.find(v => v.entity === 'Etiologia').options.filter(o => o.comment === 'hemorragia').map(o => ({ ...o, label: o.value }));
-          }
-          this.panels[1].groups[4].fieldGroup[1].fieldGroup[0].templateOptions.options = subset;
+    const containsIsquemico = (object) => object.model.diagnosticoPrincipal.includes('isquémico');
+    const containsHemorragia = (object) => object.model.diagnosticoPrincipal.includes('hemorragia');
+    const getFilteredOptions = (entity: string, criteria: string) => this.variables.find(v => v.entity === entity).options.filter(o => o.comment === criteria).map(o => ({ ...o, label: o.value }));
 
-          // PENDING AITOR/MARTA CONFIRMATION: empty arterias afectadas field when diagnostico principal is other than 'ictus isquémico'
-          // if (currentField.model.diagnosticoPrincipal !== 'ictus isquémico') {
-          //   this.model = { ...this.model, arteriasAfectadas: null };
-          // }
-        }
-        break;
-
-      case 'Arteria_afectada':
-        // field.expressionProperties = { 'templateOptions.disabled': 'model.diagnosticoPrincipal !== "ictus isquémico"' };
-        break;
-
-      // set initial available options of etiologia depending on the initial autofilled value of diagnostico principal
-      case 'Etiologia':
-        let subset: any[];
-        if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
-          subset = (field.templateOptions.options as any[]).filter(o => o.comment === 'isquémico');
-        } else if (['hemorragia cerebral'].includes(this.model.diagnosticoPrincipal)) {
-          subset = (field.templateOptions.options as any[]).filter(o => o.comment === 'hemorragia');
-        }
-        field.templateOptions.options = subset;
-        break;
-
-      default:
-        break;
+    // listen to disgnostico field's changes to dynamically toggle etiologia's available options
+    if (isDiagnosticoPrincipal) {
+      field.templateOptions.change = (changedField) => {
+        let criteria: string;
+        if (containsIsquemico(changedField)) criteria = 'isquémico';
+        if (containsHemorragia(changedField)) criteria = 'hemorragia';
+        const etiologiaField = this.panels[1].groups[4].fieldGroup[1].fieldGroup[0]
+        etiologiaField.templateOptions.options = getFilteredOptions('Etiologia', criteria);
+        this.model.etiologia = '';
+      }
     }
 
-    // append (comment) on tratameinto fields that have commercial name
-    if (variable.entity.startsWith('Tratamiento')) {
-      field.templateOptions.options = variable.options.map(o => o.comment ? ({ value: o.value, label: `${o.value} (${o.comment})` }) : ({ value: o.value, label: o.value }));
+    // disable arteria afectada field if diagnostico principal is other than 'ictus isquémico'
+    if (isArteriaAfectada) {
+      // field.expressionProperties = { 'templateOptions.disabled': 'model.diagnosticoPrincipal !== "ictus isquémico"' };
+    }
+
+    // set initial available options of etiologia depending on the initial autofilled value of diagnostico principal
+    if (isEtiologia) {
+      let criteria: string;
+      if (containsIsquemico(this)) criteria = 'isquémico';
+      if (containsHemorragia(this)) criteria = 'hemorragia';
+      field.templateOptions.options = getFilteredOptions('Etiologia', criteria);
+    }
+
+    // append the comment of tratameinto fields that have commercial name
+    if (isTratamiento) {
+      field.templateOptions.options = variable.options.map(o => o.comment ?
+        ({ value: o.value, label: `${o.value} (${o.comment})` }) :
+        ({ value: o.value, label: o.value }));
     }
 
     // sort alphabetically the options of some fields
-    if (variable.entity === 'Etiologia' || variable.entity.startsWith('Tratamiento')) {
-      (field.templateOptions.options as any[]).sort((a, b) => a.value?.localeCompare(b.value));
+    const sortOptions = () => (field.templateOptions.options as any[]).sort((a, b) => a.value?.localeCompare(b.value));
+    if (isEtiologia || isTratamiento) {
+      sortOptions();
     }
 
     return field;
   }
 
   /**
-   * Return the according suggestions for the given variable, taking into accound some special cases.
+   * Return the according annotations for the given variable, taking into accound some special cases.
    */
-  getVariableSuggestions(variable: Variable, allSuggestions: Suggestion[]): Suggestion[] {
-    let suggestions = allSuggestions.filter(s => variable.entity === s.entity);
-
-    // special case
+  getVariableAnnotations(variable: Variable, allAnnotations: Annotation[]): Annotation[] {
     if (variable.entity === 'Diagnostico_principal') {
-      suggestions = allSuggestions.filter(s => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(s.entity));
+      return allAnnotations.filter(a => diagnosticoPrincipalEntities.includes(a.entity));
     }
-
-    return suggestions;
+    return allAnnotations.filter(a => variable.entity === a.entity);
   }
 
   /**
-   * Search for a suitable value or values to autofill a formly field.
+   * Search for a suitable value (or values) to autofill a formly field.
    */
-  autofill(variable: Variable, suggestions: Suggestion[]): any {
-    let data: any;
+  autofill(variable: Variable, annotations: Annotation[]): string | string[] {
+    const isInput = variable.fieldType === 'input';
+    const isSelect = variable.fieldType === 'select';
+    const isSingle = variable.cardinality === '1';
+    const isMulti = variable.cardinality === 'n';
+    const isSingleSelect = isSelect && isSingle;
+    const isMultiSelect = isSelect && isMulti;
 
-    if (variable.fieldType === 'input') {
-      data = suggestions.find(s => s.notes)?.notes;
+    // 'input' is the most common field type in the form: horas, fechas
+    if (isInput) {
+      const firstFoundAnnotation = annotations.find(a => a.notes);
+      const normalizedValue = firstFoundAnnotation?.notes;
+      const evidence = firstFoundAnnotation?.evidence;
+      return normalizedValue || evidence;
     }
 
-    // single option select needs some rule-based criteria to be autofilled
-    if (variable.fieldType === 'select' && variable.cardinality === '1') {
+    // single-option select needs some rule-based criteria to be autofilled
+    if (isSingleSelect) {
 
-      // check first special case
+      // check special field
       if (variable.entity === 'Diagnostico_principal') {
-        const suggestion = suggestions.find(s => ['Ictus_isquemico', 'Ataque_isquemico_transitorio', 'Hemorragia_cerebral'].includes(s.entity));
-        data = variable.options.find(o => o.value.toLowerCase().startsWith(suggestion?.entity.toLowerCase().split('_')[0]))?.value;
+        const annotation = annotations.find(a => diagnosticoPrincipalEntities.includes(a.entity));
+        return variable.options.find(o => o.value.toLowerCase().startsWith(annotation?.entity.toLowerCase().split('_')[0]))?.value;
       }
 
-      // rest of the cases: lateralizacion and etiologia
-      else {
-        data = variable.options.find(o =>
+      // rest of the fields: lateralizacion, etiologia
+      return variable.options.find(o =>
 
-          // 1. if that includes the first evidence as a substring
-          o.value.toLowerCase().includes(suggestions[0]?.evidence.toLowerCase())
+        // 1. if that includes the first evidence as a substring
+        o.value.toLowerCase().includes(annotations[0]?.evidence.toLowerCase())
 
-          // 2. or if any of the predefined admissible values includes the first evidence
-          || admissibleEvidences[variable.key][o.value]?.includes(suggestions[0]?.evidence)
+        // 2. or if any of the predefined admissible values includes the first evidence
+        || admissibleEvidences[variable.key][o.value]?.includes(annotations[0]?.evidence)
 
-          // 3. or if evidence starts with the first letter of that option
-          || suggestions[0]?.evidence.toLowerCase().startsWith(o.value.toLowerCase()[0])
-        )?.value;
-      }
+        // 3. or if evidence starts with the first letter of that option
+        || annotations[0]?.evidence.toLowerCase().startsWith(o.value.toLowerCase()[0])
+      )?.value;
     }
 
-    // multiple option select needs array of strings
-    if (variable.fieldType === 'select' && variable.cardinality === 'n') {
-      data = suggestions.map(s => variable.options.find(o => o.value.toLowerCase().concat(' ', o.comment).includes(s?.evidence.toLowerCase()))?.value);
-      data = [...new Set(data)];
+    // multiple-option select needs array of strings
+    if (isMultiSelect) {
+      const data: string[] = annotations.map(a => variable.options.find(o => o.value.toLowerCase().concat(' ', o.comment).includes(a?.evidence.toLowerCase()))?.value);
+      return [...new Set(data)];
     }
-
-    return data;
   }
 
   /**
-  * Highlight, in the text with class `className`, the offsets present in the given suggestions.
+  * Highlight, in the text with class `className`, the offsets present in the given annotations.
   * Note: Requires an HTML element with the given `className` to exist.
   *
   * https://markjs.io/#markranges
@@ -359,9 +358,9 @@ export class FieldComponent implements OnChanges {
   * https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle
   *
   */
-  highlight(suggestions: Suggestion[], className: string, color: string): void {
+  highlight(annotations: Annotation[], className: string, color: string): void {
     const instance = new Mark(`.${className}`);
-    const ranges = suggestions.map(s => ({ start: s.offset.start, length: s.offset.end - s.offset.start }));
+    const ranges = annotations.map(a => ({ start: a.offset.start, length: a.offset.end - a.offset.start }));
     const options = {
       each: (element: HTMLElement) => setTimeout(() => element.classList.add('animate', color), 250),
       done: (numberOfMatches: number) => {

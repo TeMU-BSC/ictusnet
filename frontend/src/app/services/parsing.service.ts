@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
-import { Suggestion } from 'src/app/interfaces/interfaces';
+import { Annotation } from 'src/app/interfaces/interfaces';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ParsingService {
 
-  annotations: Suggestion[];
+  annotations: Annotation[];
 
   constructor(
     private http: HttpClient,
@@ -20,8 +20,8 @@ export class ParsingService {
     return this.http.get(filepath, { responseType: 'text' });
   }
 
-  getAnnotationsFromFile(filepath: string): Observable<Suggestion[]> {
-    const annotations: Suggestion[] = [];
+  getAnnotationsFromFile(filepath: string): Observable<Annotation[]> {
+    const annotations: Annotation[] = [];
     this.papa.parse(filepath, {
       download: true,
       skipEmptyLines: true,
