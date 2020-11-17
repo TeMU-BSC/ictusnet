@@ -239,55 +239,51 @@ export class FieldComponent implements OnChanges {
     };
 
     // special cases
-    switch (variable.entity) {
+    const isDiagnosticoPrincipal = variable.entity === 'Diagnostico_principal';
+    const isEtiologia = variable.entity === 'Etiologia';
+    const isArteriaAfectada = variable.entity === 'Arteria_afectada';
+    const isTratamiento = variable.entity.startsWith('Tratamiento');
 
-      // listen to disgnostico changes to dynamically toggle etiologia's available subset options
-      case 'Diagnostico_principal':
-        field.templateOptions.change = (currentField) => {
-          let subset: any[];
-          if (currentField.model.diagnosticoPrincipal.includes('isquémico')) {
-            subset = this.variables.find(v => v.entity === 'Etiologia').options.filter(o => o.comment === 'isquémico').map(o => ({ ...o, label: o.value }));
-          } else if (currentField.model.diagnosticoPrincipal.includes('hemorragia')) {
-            subset = this.variables.find(v => v.entity === 'Etiologia').options.filter(o => o.comment === 'hemorragia').map(o => ({ ...o, label: o.value }));
-          }
-          this.panels[1].groups[4].fieldGroup[1].fieldGroup[0].templateOptions.options = subset;
+    const containsIsquemico = (object) => object.model.diagnosticoPrincipal.includes('isquémico');
+    const containsHemorragia = (object) => object.model.diagnosticoPrincipal.includes('hemorragia');
+    const getFilteredOptions = (entity: string, criteria: string) => this.variables.find(v => v.entity === entity).options.filter(o => o.comment === criteria).map(o => ({ ...o, label: o.value }));
 
-          // PENDING AITOR/MARTA CONFIRMATION: empty arterias afectadas field when diagnostico principal is other than 'ictus isquémico'
-          // if (currentField.model.diagnosticoPrincipal !== 'ictus isquémico') {
-          //   this.model = { ...this.model, arteriasAfectadas: null };
-          // }
-        }
-        break;
-
-      case 'Arteria_afectada':
-        // field.expressionProperties = { 'templateOptions.disabled': 'model.diagnosticoPrincipal !== "ictus isquémico"' };
-        break;
-
-      // set initial available options of etiologia depending on the initial autofilled value of diagnostico principal
-      case 'Etiologia':
-        let subset: any[];
-        if (['ictus isquémico', 'ataque isquémico transitorio'].includes(this.model.diagnosticoPrincipal)) {
-          subset = (field.templateOptions.options as any[]).filter(o => o.comment === 'isquémico');
-        } else if (['hemorragia cerebral'].includes(this.model.diagnosticoPrincipal)) {
-          subset = (field.templateOptions.options as any[]).filter(o => o.comment === 'hemorragia');
-        }
-        field.templateOptions.options = subset;
-        break;
-
-      default:
-        break;
+    // listen to disgnostico field's changes to dynamically toggle etiologia's available options
+    if (isDiagnosticoPrincipal) {
+      field.templateOptions.change = (changedField) => {
+        let criteria: string;
+        if (containsIsquemico(changedField)) criteria = 'isquémico';
+        if (containsHemorragia(changedField)) criteria = 'hemorragia';
+        const etiologiaField = this.panels[1].groups[4].fieldGroup[1].fieldGroup[0]
+        etiologiaField.templateOptions.options = getFilteredOptions('Etiologia', criteria);
+        this.model.etiologia = '';
+      }
     }
 
-    // append (comment) on tratameinto fields that have commercial name
-    if (variable.entity.startsWith('Tratamiento')) {
+    // disable arteria afectada field if diagnostico principal is other than 'ictus isquémico'
+    if (isArteriaAfectada) {
+      // field.expressionProperties = { 'templateOptions.disabled': 'model.diagnosticoPrincipal !== "ictus isquémico"' };
+    }
+
+    // set initial available options of etiologia depending on the initial autofilled value of diagnostico principal
+    if (isEtiologia) {
+      let criteria: string;
+      if (containsIsquemico(this)) criteria = 'isquémico';
+      if (containsHemorragia(this)) criteria = 'hemorragia';
+      field.templateOptions.options = getFilteredOptions('Etiologia', criteria);
+    }
+
+    // append the comment of tratameinto fields that have commercial name
+    if (isTratamiento) {
       field.templateOptions.options = variable.options.map(o => o.comment ?
         ({ value: o.value, label: `${o.value} (${o.comment})` }) :
         ({ value: o.value, label: o.value }));
     }
 
     // sort alphabetically the options of some fields
-    if (variable.entity === 'Etiologia' || variable.entity.startsWith('Tratamiento')) {
-      (field.templateOptions.options as any[]).sort((a, b) => a.value?.localeCompare(b.value));
+    const sortOptions = () => (field.templateOptions.options as any[]).sort((a, b) => a.value?.localeCompare(b.value));
+    if (isEtiologia || isTratamiento) {
+      sortOptions();
     }
 
     return field;
