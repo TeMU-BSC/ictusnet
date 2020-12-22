@@ -1,27 +1,27 @@
-import { Component, OnChanges, ViewChild, Input } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
-import { MatAccordion } from '@angular/material/expansion';
+import { Component, OnChanges, ViewChild, Input } from '@angular/core'
+import { FormArray, FormGroup } from '@angular/forms'
+import { MatAccordion } from '@angular/material/expansion'
 
-import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core';
+import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core'
 
-import { Papa } from 'ngx-papaparse';
-import Mark from 'mark.js';
+import { Papa } from 'ngx-papaparse'
+import Mark from 'mark.js'
 
-import { ParsingService } from 'src/app/services/parsing.service';
-import { Annotation, Variable } from 'src/app/interfaces/interfaces';
-import { downloadObjectAsJson } from 'src/app/helpers/helpers';
-import { panelIcons, unspecifiedEntities, admissibleEvidences, diagnosticoPrincipalEntities } from 'src/app/constants/constants';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../dialog/dialog.component';
+import { ParsingService } from 'src/app/services/parsing.service'
+import { Annotation, Variable } from 'src/app/interfaces/interfaces'
+import { downloadObjectAsJson } from 'src/app/helpers/helpers'
+import { panelIcons, unspecifiedEntities, admissibleEvidences, diagnosticoPrincipalEntities } from 'src/app/constants/constants'
+import { MatDialog } from '@angular/material/dialog'
+import { DialogComponent } from '../dialog/dialog.component'
 
 
 // TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
 
 
 export interface PanelType {
-  icon?: string;
-  title?: string;
-  groups?: FormlyFieldConfig[];
+  icon?: string
+  title?: string
+  groups?: FormlyFieldConfig[]
 }
 
 @Component({
@@ -31,14 +31,14 @@ export interface PanelType {
 })
 export class FieldComponent implements OnChanges {
 
-  @Input() fileId: string;  // development
-  @Input() file: File;  // production
-  text: string;
+  @Input() fileId: string  // development
+  @Input() file: File  // production
+  text: string
   loading: boolean = true;
-  variables: Variable[];
-  annotations: Annotation[];
-  focusedField: any;
-  downloadFilename: string;
+  variables: Variable[]
+  annotations: Annotation[]
+  focusedField: any
+  downloadFilename: string
 
   // formly
   model: any = {};
@@ -47,7 +47,7 @@ export class FieldComponent implements OnChanges {
   options = this.panels.map(() => <FormlyFormOptions>{});
 
   // expansion panel
-  @ViewChild(MatAccordion) accordion: MatAccordion;
+  @ViewChild(MatAccordion) accordion: MatAccordion
   step: number = 0;  // default open panel
   setStep(index: number) { this.step = index }
   nextStep() { this.step++ }
@@ -60,73 +60,73 @@ export class FieldComponent implements OnChanges {
   ) { }
 
   ngOnChanges(): void {
-    this.loadForm(this.fileId);
-    document.getElementById('wrapper').scrollTop = 0;
+    this.loadForm(this.fileId)
+    document.getElementById('wrapper').scrollTop = 0
   }
 
   /**
    * Load the form with the given text file.
    */
   loadForm(fileId: string) {
-    this.loading = true;
-    this.text = '';
-    this.model = {};
-    this.panels = [];
+    this.loading = true
+    this.text = ''
+    this.model = {}
+    this.panels = []
 
     // TODO replace demo path and fileIds for real uploaded files
-    const path: string = 'assets/alejandro_sample/10';
-    this.downloadFilename = `${fileId}.json`;
-    this.parser.getTextFromFile(`${path}/${fileId}.utf8.txt`).subscribe(data => this.text = data);
+    const path: string = 'assets/alejandro_sample/10'
+    this.downloadFilename = `${fileId}.json`
+    this.parser.getTextFromFile(`${path}/${fileId}.utf8.txt`).subscribe(data => this.text = data)
     this.parser.getAnnotationsFromFile(`${path}/${fileId}.utf8.ann`).subscribe(data => {
-      this.annotations = data;
-      const allAnnotations = this.annotations;
+      this.annotations = data
+      const allAnnotations = this.annotations
       this.papa.parse(`assets/variables.tsv`, {
         download: true,
         header: true,
         skipEmptyLines: true,
         complete: parsedVariables => {
-          this.variables = parsedVariables.data;
-          const variables = this.variables;
+          this.variables = parsedVariables.data
+          const variables = this.variables
           this.papa.parse('assets/options.tsv', {
             download: true,
             header: true,
             skipEmptyLines: true,
             complete: parsedOptions => {
-              const options: any[] = parsedOptions.data;
+              const options: any[] = parsedOptions.data
               variables.forEach(variable => {
-                variable.options = options.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }));
-                const annotations = this.getVariableAnnotations(variable, allAnnotations);
+                variable.options = options.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }))
+                const annotations = this.getVariableAnnotations(variable, allAnnotations)
                 this.model = { ...this.model, [variable.key]: this.autofill(variable, annotations) }
-              });
-              this.panels = [...this.panels, ...this.getPanels(variables, allAnnotations)];
-              this.loading = false;
+              })
+              this.panels = [...this.panels, ...this.getPanels(variables, allAnnotations)]
+              this.loading = false
             }
-          });
+          })
         }
-      });
-    });
+      })
+    })
   }
 
   getPanels(variables: Variable[], allAnnotations: Annotation[]): PanelType[] {
-    const panels: PanelType[] = [];
+    const panels: PanelType[] = []
     new Set(variables.map(v => v.section)).forEach(sectionName => {
-      const sectionVariables = variables.filter(v => v.section === sectionName);
-      const groups: FormlyFieldConfig[] = [];
+      const sectionVariables = variables.filter(v => v.section === sectionName)
+      const groups: FormlyFieldConfig[] = []
       new Set(sectionVariables.map(v => v.group)).forEach(groupName => {
-        const groupVariables = variables.filter(v => v.group === groupName);
-        const fields: FormlyFieldConfig[] = [];
+        const groupVariables = variables.filter(v => v.group === groupName)
+        const fields: FormlyFieldConfig[] = []
         groupVariables.filter(v => v.group === groupName).forEach(variable => {
-          const annotations = this.getVariableAnnotations(variable, allAnnotations);
-          const field = this.getField(variable, annotations);
-          fields.push(field);
-        });
-        const group = this.getGroup(groupName, fields);
-        groups.push(group);
-      });
-      const panel = this.getPanel(sectionName, groups);
-      panels.push(panel);
-    });
-    return panels;
+          const annotations = this.getVariableAnnotations(variable, allAnnotations)
+          const field = this.getField(variable, annotations)
+          fields.push(field)
+        })
+        const group = this.getGroup(groupName, fields)
+        groups.push(group)
+      })
+      const panel = this.getPanel(sectionName, groups)
+      panels.push(panel)
+    })
+    return panels
   }
 
   getPanel(sectionName: string, groups: FormlyFieldConfig[]): PanelType {
@@ -134,12 +134,12 @@ export class FieldComponent implements OnChanges {
       icon: panelIcons[sectionName],
       title: sectionName,
       groups: groups,
-    };
-    return panel;
+    }
+    return panel
   }
 
   getGroup(groupName: string, fields: FormlyFieldConfig[]): FormlyFieldConfig {
-    const unespecifiedAnnotations = this.annotations.filter(a => a.entity.startsWith(unspecifiedEntities[groupName]));
+    const unespecifiedAnnotations = this.annotations.filter(a => a.entity.startsWith(unspecifiedEntities[groupName]))
     const group: FormlyFieldConfig = {
       type: 'flex-layout',
       templateOptions: {
@@ -179,7 +179,7 @@ export class FieldComponent implements OnChanges {
 
     // row wrap layout when more than two fields per group
     if (fields.length > 2) {
-      group.fieldGroup[1].templateOptions.fxLayout = 'row wrap';
+      group.fieldGroup[1].templateOptions.fxLayout = 'row wrap'
     }
 
     // special cases
@@ -190,13 +190,13 @@ export class FieldComponent implements OnChanges {
       'Lateralización',
       'Etiología',
     ].includes(groupName)) {
-      group.fieldGroup[1].templateOptions.fxFlex = '90%';
+      group.fieldGroup[1].templateOptions.fxFlex = '90%'
     }
 
     // populate the group with the actual fields
-    group.fieldGroup[1].fieldGroup.push(...fields);
+    group.fieldGroup[1].fieldGroup.push(...fields)
 
-    return group;
+    return group
   }
 
   /**
@@ -205,7 +205,7 @@ export class FieldComponent implements OnChanges {
   getField(variable: Variable, annotations: Annotation[]): FormlyFieldConfig {
 
     // prepare options for select fields
-    let options = variable.options.map(o => ({ ...o, label: o.value }));
+    let options = variable.options.map(o => ({ ...o, label: o.value }))
 
     // build the formly field
     const field: FormlyFieldConfig = {
@@ -236,27 +236,27 @@ export class FieldComponent implements OnChanges {
           } : null,
         },
       },
-    };
+    }
 
     // special cases
-    const isDiagnosticoPrincipal = variable.entity === 'Diagnostico_principal';
-    const isEtiologia = variable.entity === 'Etiologia';
-    const isArteriaAfectada = variable.entity === 'Arteria_afectada';
-    const isTratamiento = variable.entity.startsWith('Tratamiento');
+    const isDiagnosticoPrincipal = variable.entity === 'Diagnostico_principal'
+    const isEtiologia = variable.entity === 'Etiologia'
+    const isArteriaAfectada = variable.entity === 'Arteria_afectada'
+    const isTratamiento = variable.entity.startsWith('Tratamiento')
 
-    const containsIsquemico = (object) => object.model.diagnosticoPrincipal.includes('isquémico');
-    const containsHemorragia = (object) => object.model.diagnosticoPrincipal.includes('hemorragia');
-    const getFilteredOptions = (entity: string, criteria: string) => this.variables.find(v => v.entity === entity).options.filter(o => o.comment === criteria).map(o => ({ ...o, label: o.value }));
+    const containsIsquemico = (object) => object.model.diagnosticoPrincipal.includes('isquémico')
+    const containsHemorragia = (object) => object.model.diagnosticoPrincipal.includes('hemorragia')
+    const getFilteredOptions = (entity: string, criteria: string) => this.variables.find(v => v.entity === entity).options.filter(o => o.comment === criteria).map(o => ({ ...o, label: o.value }))
 
     // listen to disgnostico field's changes to dynamically toggle etiologia's available options
     if (isDiagnosticoPrincipal) {
       field.templateOptions.change = (changedField) => {
-        let criteria: string;
-        if (containsIsquemico(changedField)) criteria = 'isquémico';
-        if (containsHemorragia(changedField)) criteria = 'hemorragia';
+        let criteria: string
+        if (containsIsquemico(changedField)) criteria = 'isquémico'
+        if (containsHemorragia(changedField)) criteria = 'hemorragia'
         const etiologiaField = this.panels[1].groups[4].fieldGroup[1].fieldGroup[0]
-        etiologiaField.templateOptions.options = getFilteredOptions('Etiologia', criteria);
-        this.model.etiologia = '';
+        etiologiaField.templateOptions.options = getFilteredOptions('Etiologia', criteria)
+        this.model.etiologia = ''
       }
     }
 
@@ -267,26 +267,26 @@ export class FieldComponent implements OnChanges {
 
     // set initial available options of etiologia depending on the initial autofilled value of diagnostico principal
     if (isEtiologia) {
-      let criteria: string;
-      if (containsIsquemico(this)) criteria = 'isquémico';
-      if (containsHemorragia(this)) criteria = 'hemorragia';
-      field.templateOptions.options = getFilteredOptions('Etiologia', criteria);
+      let criteria: string
+      if (containsIsquemico(this)) criteria = 'isquémico'
+      if (containsHemorragia(this)) criteria = 'hemorragia'
+      field.templateOptions.options = getFilteredOptions('Etiologia', criteria)
     }
 
     // append the comment of tratameinto fields that have commercial name
     if (isTratamiento) {
       field.templateOptions.options = variable.options.map(o => o.comment ?
         ({ value: o.value, label: `${o.value} (${o.comment})` }) :
-        ({ value: o.value, label: o.value }));
+        ({ value: o.value, label: o.value }))
     }
 
     // sort alphabetically the options of some fields
-    const sortOptions = () => (field.templateOptions.options as any[]).sort((a, b) => a.value?.localeCompare(b.value));
+    const sortOptions = () => (field.templateOptions.options as any[]).sort((a, b) => a.value?.localeCompare(b.value))
     if (isEtiologia || isTratamiento) {
-      sortOptions();
+      sortOptions()
     }
 
-    return field;
+    return field
   }
 
   /**
@@ -294,28 +294,28 @@ export class FieldComponent implements OnChanges {
    */
   getVariableAnnotations(variable: Variable, allAnnotations: Annotation[]): Annotation[] {
     if (variable.entity === 'Diagnostico_principal') {
-      return allAnnotations.filter(a => diagnosticoPrincipalEntities.includes(a.entity));
+      return allAnnotations.filter(a => diagnosticoPrincipalEntities.includes(a.entity))
     }
-    return allAnnotations.filter(a => variable.entity === a.entity);
+    return allAnnotations.filter(a => variable.entity === a.entity)
   }
 
   /**
    * Search for a suitable value (or values) to autofill a formly field.
    */
   autofill(variable: Variable, annotations: Annotation[]): string | string[] {
-    const isInput = variable.fieldType === 'input';
-    const isSelect = variable.fieldType === 'select';
-    const isSingle = variable.cardinality === '1';
-    const isMulti = variable.cardinality === 'n';
-    const isSingleSelect = isSelect && isSingle;
-    const isMultiSelect = isSelect && isMulti;
+    const isInput = variable.fieldType === 'input'
+    const isSelect = variable.fieldType === 'select'
+    const isSingle = variable.cardinality === '1'
+    const isMulti = variable.cardinality === 'n'
+    const isSingleSelect = isSelect && isSingle
+    const isMultiSelect = isSelect && isMulti
 
     // 'input' is the most common field type in the form: horas, fechas
     if (isInput) {
-      const firstFoundAnnotation = annotations.find(a => a.notes);
-      const normalizedValue = firstFoundAnnotation?.notes;
-      const evidence = firstFoundAnnotation?.evidence;
-      return normalizedValue || evidence;
+      const firstFoundAnnotation = annotations.find(a => a.notes)
+      const normalizedValue = firstFoundAnnotation?.notes
+      const evidence = firstFoundAnnotation?.evidence
+      return normalizedValue || evidence
     }
 
     // single-option select needs some rule-based criteria to be autofilled
@@ -323,8 +323,8 @@ export class FieldComponent implements OnChanges {
 
       // check special field
       if (variable.entity === 'Diagnostico_principal') {
-        const annotation = annotations.find(a => diagnosticoPrincipalEntities.includes(a.entity));
-        return variable.options.find(o => o.value.toLowerCase().startsWith(annotation?.entity.toLowerCase().split('_')[0]))?.value;
+        const annotation = annotations.find(a => diagnosticoPrincipalEntities.includes(a.entity))
+        return variable.options.find(o => o.value.toLowerCase().startsWith(annotation?.entity.toLowerCase().split('_')[0]))?.value
       }
 
       // rest of the fields: lateralizacion, etiologia
@@ -338,13 +338,13 @@ export class FieldComponent implements OnChanges {
 
         // 3. or if evidence starts with the first letter of that option
         || annotations[0]?.evidence.toLowerCase().startsWith(o.value.toLowerCase()[0])
-      )?.value;
+      )?.value
     }
 
     // multiple-option select needs array of strings
     if (isMultiSelect) {
-      const data: string[] = annotations.map(a => variable.options.find(o => o.value.toLowerCase().concat(' ', o.comment).includes(a?.evidence.toLowerCase()))?.value);
-      return [...new Set(data)];
+      const data: string[] = annotations.map(a => variable.options.find(o => o.value.toLowerCase().concat(' ', o.comment).includes(a?.evidence.toLowerCase()))?.value)
+      return [...new Set(data)]
     }
   }
 
@@ -359,23 +359,23 @@ export class FieldComponent implements OnChanges {
   *
   */
   highlight(annotations: Annotation[], className: string, color: string): void {
-    const instance = new Mark(`.${className}`);
-    const ranges = annotations.map(a => ({ start: a.offset.start, length: a.offset.end - a.offset.start }));
+    const instance = new Mark(`.${className}`)
+    const ranges = annotations.map(a => ({ start: a.offset.start, length: a.offset.end - a.offset.start }))
     const options = {
       each: (element: HTMLElement) => setTimeout(() => element.classList.add('animate', color), 250),
       done: (numberOfMatches: number) => {
         if (numberOfMatches) {
-          let item = document.getElementsByTagName('mark')[0];  // what we want to scroll to
-          let wrapper = document.getElementById('wrapper');  // the wrapper we will scroll inside
-          const lineHeightPixels: number = Number(window.getComputedStyle(wrapper).getPropertyValue('line-height').replace('px', ''));
-          let count = item.offsetTop - wrapper.scrollTop - lineHeightPixels * 10;  // any extra distance from top
+          let item = document.getElementsByTagName('mark')[0]  // what we want to scroll to
+          let wrapper = document.getElementById('wrapper')  // the wrapper we will scroll inside
+          const lineHeightPixels: number = Number(window.getComputedStyle(wrapper).getPropertyValue('line-height').replace('px', ''))
+          let count = item.offsetTop - wrapper.scrollTop - lineHeightPixels * 10  // any extra distance from top
           wrapper.scrollBy({ top: count, left: 0, behavior: 'smooth' })
         }
       }
-    };
+    }
     instance.unmark({
       done: () => instance.markRanges(ranges, options)
-    });
+    })
   }
 
   /**
@@ -384,14 +384,14 @@ export class FieldComponent implements OnChanges {
    * @deprecated Not used anymore because there is no need to manually fill a field selecting an evidence in text.
    */
   updateEvidence() {
-    const selection = window.getSelection();
-    const evidence = selection.toString();
-    const range = selection.getRangeAt(0);
-    const start = range.startOffset;
-    const end = range.endOffset;
+    const selection = window.getSelection()
+    const evidence = selection.toString()
+    const range = selection.getRangeAt(0)
+    const start = range.startOffset
+    const end = range.endOffset
     if (evidence) {
-      this.model = { ...this.model, [this.focusedField]: evidence };
-      this.focusedField = null;
+      this.model = { ...this.model, [this.focusedField]: evidence }
+      this.focusedField = null
     }
   }
 
@@ -403,15 +403,15 @@ export class FieldComponent implements OnChanges {
       width: '500px',
       data: {
         title: 'Restablecer formulario',
-        content: '¿Quieres volver al estado inicial de este formulario?',
-        cancel: 'Atrás',
-        buttonName: 'Restablecer',
-        color: 'warn'
+        content: '¿Quieres volver al estado inicial de este formulario? Perderás los cambios que has realizado sobre este documento.',
+        cancelButton: 'Atrás',
+        acceptButton: 'Restablecer',
+        buttonColor: 'warn',
       }
     })
     dialogRef.afterClosed().subscribe(confirmation => {
       if (confirmation) {
-        this.ngOnChanges();
+        this.ngOnChanges()
       }
     })
   }
@@ -423,7 +423,9 @@ export class FieldComponent implements OnChanges {
    *  - json
    */
   download(format: string) {
-    format === 'json' ? downloadObjectAsJson(this.model, this.downloadFilename) : null;
+    if (format === 'json') {
+      downloadObjectAsJson(this.model, this.downloadFilename)
+    }
   }
 
 }

@@ -1,45 +1,45 @@
-@import "src/app/material/_variables.scss";
+@import "./app/material/_variables.scss";
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
+html,
 body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: rgb(240, 250, 255);
-  // background-color: mat-color($custom, info-contrast);
 }
 
 // https://jsfiddle.net/julmot/hexomvbL/
 mark {
   padding: 0;
   background: transparent;
-  // background: linear-gradient(to right, #dd621f 50%, transparent 50%);
-  background: linear-gradient(to right, mat-color($custom, attention) 50%, transparent 50%);
+  background: linear-gradient(
+    to right,
+    mat-color($custom, attention) 50%,
+    transparent 50%
+  );
   background-position: right bottom;
   background-size: 200% 100%;
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
-
 mark.animate {
   background-position: left bottom;
-  // color: white;
   color: mat-color($custom, attention-contrast);
 }
-
 mark.unspecified {
   padding: 0;
   background: transparent;
   background: linear-gradient(to right, rgb(160, 0, 160) 50%, transparent 50%);
   background-position: right bottom;
   background-size: 200% 100%;
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
-
 mark.unspecified.animate {
   background-position: left bottom;
-  color: white;
-  // color: mat-color($custom, attention-contrast);
+  color: mat-color($custom, attention-contrast);
 }
 
 // https://stackblitz.com/edit/angular-xrrwqb?file=styles.css
@@ -66,26 +66,19 @@ mark.unspecified.animate {
 
 // form field color
 .mat-form-field-appearance-outline .mat-form-field-outline {
-  background-color: rgb(255, 255, 240);  // very light yellow
-  // background-color: rgb(240, 250, 255);  // very light blue
+  background-color: rgb(255, 255, 240);
   border-radius: 0.3rem;
 }
 
-// https://stackoverflow.com/a/58134022
-
-// custom colors
+// custom colors https://stackoverflow.com/a/58134022
 
 // success
 .mat-button.mat-success,
 .mat-stroked-button.mat-success,
 .mat-icon-button.mat-success,
 .mat-icon.mat-success {
-    color: mat-color($custom, success);
+  color: mat-color($custom, success);
 }
-// .mat-button.mat-success:hover,
-// .mat-stroked-button.mat-success:hover {
-//   background-color: mat-color($custom, success-contrast);
-// }
 .mat-raised-button.mat-success,
 .mat-flat-button.mat-success,
 .mat-fab.mat-success,
@@ -99,13 +92,8 @@ mark.unspecified.animate {
 .mat-stroked-button.mat-info,
 .mat-icon-button.mat-info,
 .mat-icon.mat-info {
-    color: mat-color($custom, info);
+  color: mat-color($custom, info);
 }
-// .mat-button.mat-info:hover,
-// .mat-icon-button.mat-info:hover,
-// .mat-stroked-button.mat-info:hover {
-//   background-color: mat-color($custom, info-contrast);
-// }
 .mat-raised-button.mat-info,
 .mat-flat-button.mat-info,
 .mat-fab.mat-info,
@@ -117,13 +105,8 @@ mark.unspecified.animate {
 // attention
 .mat-button.mat-attention,
 .mat-stroked-button.mat-attention {
-    color: mat-color($custom, attention);
+  color: mat-color($custom, attention);
 }
-// .mat-button.mat-attention:hover,
-// .mat-icon-button.mat-attention:hover,
-// .mat-stroked-button.mat-attention:hover {
-//   background-color: mat-color($custom, attention-contrast);
-// }
 .mat-raised-button.mat-attention,
 .mat-flat-button.mat-attention,
 .mat-fab.mat-attention,
@@ -133,18 +116,14 @@ mark.unspecified.animate {
 }
 .mat-icon-button.mat-attention,
 .mat-icon.mat-attention {
-  color:mat-color($custom, attention);
+  color: mat-color($custom, attention);
 }
 
-// custom color: secondary
+// secondary
 .mat-button.mat-secondary,
 .mat-stroked-button.mat-secondary {
-    color: mat-color($custom, secondary);
+  color: mat-color($custom, secondary);
 }
-// .mat-button.mat-secondary:hover,
-// .mat-stroked-button.mat-secondary:hover {
-//   background-color: mat-color($custom, secondary-contrast);
-// }
 .mat-raised-button.mat-secondary,
 .mat-flat-button.mat-secondary,
 .mat-fab.mat-secondary,

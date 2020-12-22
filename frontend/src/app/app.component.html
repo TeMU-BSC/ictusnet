@@ -1,41 +1,44 @@
-<!-- <router-outlet></router-outlet> -->
-
 <mat-toolbar color="primary" fxLayout fxLayoutAlign="space-between center">
-  <span (click)="selected = null" style="cursor: pointer; margin-right: 1em;">ICTUS<span
-      style="font-weight: lighter;">net</span></span>
+  <span (click)="selected = null" style="cursor: pointer; margin-right: 1em;">
+    ICTUS
+    <span style="font-weight: lighter;">net</span></span>
   <div *ngIf="selected" fxLayout fxLayoutAlign="space-between center" fxLayoutGap="1em">
     <mat-form-field appearance="fill" style="font-size: small;">
-      <mat-label>Documento actual</mat-label>
+      <mat-label>
+        Documento actual
+      </mat-label>
       <mat-select [(value)]="selected">
         <mat-option></mat-option>
-        <mat-option *ngFor="let filename of filenames; let i = index" [value]="filename">({{ i + 1 }})
-          {{ filename }}.txt
+        <mat-option *ngFor="let filename of filenames; let i = index" [value]="filename">
+          ({{ i + 1 }}) {{ filename }}.txt
         </mat-option>
       </mat-select>
     </mat-form-field>
     <a mat-stroked-button color="attention" href="{{demoDirectory}}/{{selected}}.utf8.ann"
-      matTooltip="Inspect associated annotation file">.ann</a>
-    <a mat-icon-button href="https://github.com/TeMU-BSC/ictusnet" matTooltip="Github repository"
+      matTooltip="Inspect associated annotation file">
+      .ann
+    </a>
+    <a fxHide.lt-sm mat-icon-button href="https://github.com/TeMU-BSC/ictusnet" matTooltip="Github repository"
       style="font-size: x-large; margin-right: 0.5rem;">
       <fa-icon [icon]="faGithub"></fa-icon>
     </a>
   </div>
 </mat-toolbar>
-
 <main style="height: calc(100% - 64px);">
   <div *ngIf="!selected" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem" style="padding-top: 5rem;">
     <img src="assets/ictusnet_imagotipo.png" alt="imagotipo ictusnet">
-    <h3 style="text-align: center;">
-      Tipificador de informes de alta
-      <br>
-      de pacientes relacionados con ictus
+    <h3 style="text-align: center; max-width: 250px;">
+      Tipificador de informes de alta de pacientes relacionados con ictus
     </h3>
     <div fxLayout fxLayoutAlign="center center" fxLayoutGap="1rem">
-      <button mat-raised-button color="attention" (click)="fileInput.click()" disabled>Cargar informes de alta (.txt)</button>
+      <button mat-raised-button color="attention" (click)="fileInput.click()" disabled>
+        Cargar informes de alta (.txt)
+      </button>
       <input type="file" #fileInput multiple accept="text/plain" (change)="updateFiles($event)" hidden>
-      <button mat-raised-button color="primary" (click)="demo()">Probar la demo</button>
+      <button mat-raised-button color="primary" (click)="demo()">
+        Probar la demo
+      </button>
     </div>
   </div>
-
   <app-form *ngIf="selected" [fileId]="selected"></app-form>
 </main>

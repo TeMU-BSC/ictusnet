@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { LoaderService } from './loader.service';
+import { Component } from '@angular/core'
+import { LoaderService } from './loader.service'
 
 @Component({
   selector: 'app-loader',
@@ -8,14 +8,10 @@ import { LoaderService } from './loader.service';
 })
 export class LoaderComponent {
 
-  @Input() color: string;
-  loading: boolean;
+  loading: boolean
 
   constructor(private loaderService: LoaderService) {
-    this.loaderService.isLoading.subscribe((v) => {
-      // console.log(v);
-      this.loading = v;
-    })
+    this.loaderService.isLoading.subscribe(v => this.loading = v)
   }
 
 }

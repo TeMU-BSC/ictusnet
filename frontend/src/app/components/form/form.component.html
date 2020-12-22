@@ -1,14 +1,11 @@
 <div *ngIf="loading" fxLayout fxLayoutAlign="center center" class="fullheight">
   <mat-progress-bar mode="indeterminate" color="primary" style="width: 50%"></mat-progress-bar>
 </div>
-
-<div [fxHide]="loading" fxLayout="column" fxLayoutGap="0.5rem" fxLayout.gt-sm="row" fxLayoutAlign="space-between center"
+<div [fxHide]="loading" fxLayout="column" fxLayoutGap="0.5em" fxLayout.gt-sm="row" fxLayoutAlign="space-between center"
   fxLayoutGap.gt-sm="0rem" class="fullheight">
-
   <section id="wrapper" fxFlex="45%" class="fullheight scroll plaintext wrap context">{{ text }}</section>
-
-  <section fxFlex="55%" ngClass="scroll" ngClass.gt-sm="fullheight scroll" style="padding: 0 1vw 0 1vw;"
-    ngStyle.gt-sm="padding: 0 5vw 0 5vw;" ngStyle.gt-md="padding: 0 7vw 0 7vw;">
+  <section fxFlex="55%" ngClass="scroll" ngClass.gt-sm="fullheight scroll" style="padding: 0 1vw;"
+    ngStyle.gt-sm="padding: 0 5vw;" ngStyle.gt-md="padding: 0 7vw;">
     <form [formGroup]="form" (submit)="download('json')">
       <div fxLayout fxLayoutAlign="center" style="padding: 1rem;">
         <button type="button" mat-button color="secondary" (click)="accordion.closeAll()">
@@ -18,32 +15,37 @@
           Expandir paneles
         </button>
       </div>
-
       <mat-accordion multi>
         <mat-expansion-panel *ngFor="let panel of panels; let index = index; let first = first; let last = last;"
           [expanded]="step === index" (opened)="setStep(index)">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <mat-icon style="margin-right: 1rem;">{{ panel.icon }}</mat-icon>
-              <span class="title">{{ panel.title }}</span>
+              <mat-icon style="margin-right: 1rem;">
+                {{ panel.icon }}
+              </mat-icon>
+              <span class="title">
+                {{ panel.title }}
+              </span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-
           <formly-form [form]="form.at(index)" [model]="model" [fields]="panel.groups" [options]="options[index]">
           </formly-form>
-
           <mat-action-row>
-            <button *ngIf="!first" type="button" mat-button color="secondary" (click)="prevStep()">Anterior</button>
-            <button *ngIf="!last" type="button" mat-button color="primary" (click)="nextStep()">Siguiente</button>
-            <button *ngIf="last" type="button" mat-button color="primary"
-              (click)="accordion.closeAll()">Finalizar</button>
+            <button *ngIf="!first" type="button" mat-button color="secondary" (click)="prevStep()">
+              Anterior
+            </button>
+            <button *ngIf="!last" type="button" mat-button color="primary" (click)="nextStep()">
+              Siguiente
+            </button>
+            <button *ngIf="last" type="button" mat-button color="primary" (click)="accordion.closeAll()">
+              Finalizar
+            </button>
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>
-
-      <div fxLayout="column" fxLayoutAlign="stretch center" style="margin: 2rem 0 1rem 0;">
+      <div fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="0.5em" style="margin: 2em 0;">
         <button type="submit" mat-raised-button color="primary">
-          <!-- <mat-icon style="margin-right: 0.3rem;">save_alt</mat-icon> -->
+          <mat-icon style="margin-right: 0.3em;">save_alt</mat-icon>
           Descargar las respuestas en formato JSON
         </button>
         <button type="button" mat-button color="secondary" (click)="confirmReset()">
@@ -52,5 +54,4 @@
       </div>
     </form>
   </section>
-
 </div>

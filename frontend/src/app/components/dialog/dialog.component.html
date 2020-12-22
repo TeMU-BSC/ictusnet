@@ -1,8 +1,16 @@
-<h1 mat-dialog-title>{{ data.title }}</h1>
+<h1 mat-dialog-title>
+  {{ data.title }}
+</h1>
 <div mat-dialog-content>
-  <p>{{ data.content }}</p>
+  <p>
+    {{ data.content }}
+  </p>
 </div>
 <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
-  <button mat-button (click)="onNoClick()" cdkFocusInitial>Cancelar</button>
-  <button mat-raised-button [color]="data.color" [mat-dialog-close]="data">{{ data.buttonName | titlecase }}</button>
+  <button mat-button mat-dialog-close cdkFocusInitial>
+    {{ data.cancelButton }}
+  </button>
+  <button mat-button [color]="data.buttonColor" [mat-dialog-close]="data">
+    {{ data.acceptButton | titlecase }}
+  </button>
 </div>
