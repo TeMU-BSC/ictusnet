@@ -1,28 +1,34 @@
 export interface Annotation {
-  id: string;
-  entity: string;
+  id: string
+  entity: string
   offset: {
-    start: number;
-    end: number;
-  };
-  evidence: string;
-  notes: string;
-  unspecified?: boolean;
+    start: number
+    end: number
+  }
+  evidence: string
+  note: string
+  unspecified?: boolean
 }
 
 export interface Variable {
-  section: string;
-  group?: string;
-  longLabel: string;
-  shortLabel: string;
-  info?: string;
-  entity: string;
-  key: string;
-  cardinality: string;
-  fieldType: string;
-  inputType?: string;
-  options?: any[];
-  comments?: string;
+  section: string
+  group?: string
+  longLabel: string
+  shortLabel: string
+  info?: string
+  entity: string
+  key: string
+  cardinality: string
+  fieldType: string
+  inputType?: string
+  options?: any[]
+  comments?: string
+}
+
+export interface Report {
+  filename: string,
+  text: string,
+  annotations: Annotation[]
 }
 
 // not used, it's just a possible nested json schema

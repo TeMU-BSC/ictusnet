@@ -7,10 +7,9 @@ import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core'
 import { Papa } from 'ngx-papaparse'
 import Mark from 'mark.js'
 
-import { ParsingService } from 'src/app/services/parsing.service'
-import { Annotation, Variable } from 'src/app/interfaces/interfaces'
+import { Annotation, Report, Variable } from 'src/app/interfaces/interfaces'
 import { downloadObjectAsJson } from 'src/app/helpers/helpers'
-import { panelIcons, unspecifiedEntities, admissibleEvidences, diagnosticoPrincipalEntities } from 'src/app/constants/constants'
+import { panelIcons, unspecifiedEntities, admissibleEvidences, diagnosticoPrincipalEntities, specialGroupNames } from 'src/app/constants/constants'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '../dialog/dialog.component'
 
@@ -31,20 +30,17 @@ export interface PanelType {
 })
 export class FieldComponent implements OnChanges {
 
-  @Input() fileId: string  // development
-  @Input() file: File  // production
-  text: string
-  loading: boolean = true;
+  @Input() report: Report
   variables: Variable[]
-  annotations: Annotation[]
+  loading: boolean = true
   focusedField: any
   downloadFilename: string
 
   // formly
-  model: any = {};
-  panels: PanelType[] = [];
-  form: FormArray = new FormArray(this.panels.map(() => new FormGroup({})));
-  options = this.panels.map(() => <FormlyFormOptions>{});
+  model: any = {}
+  panels: PanelType[] = []
+  form: FormArray = new FormArray(this.panels.map(() => new FormGroup({})))
+  options = this.panels.map(() => <FormlyFormOptions>{})
 
   // expansion panel
   @ViewChild(MatAccordion) accordion: MatAccordion
@@ -55,55 +51,48 @@ export class FieldComponent implements OnChanges {
 
   constructor(
     private papa: Papa,
-    private parser: ParsingService,
     public dialog: MatDialog,
   ) { }
 
   ngOnChanges(): void {
-    this.loadForm(this.fileId)
+    this.loadForm()
     document.getElementById('wrapper').scrollTop = 0
   }
 
   /**
-   * Load the form with the given text file.
+   * Load the form with the ictus Input() report property.
    */
-  loadForm(fileId: string) {
+  loadForm() {
     this.loading = true
-    this.text = ''
     this.model = {}
     this.panels = []
+    this.downloadFilename = `${this.report.filename}.json`
 
-    // TODO replace demo path and fileIds for real uploaded files
-    const path: string = 'assets/alejandro_sample/10'
-    this.downloadFilename = `${fileId}.json`
-    this.parser.getTextFromFile(`${path}/${fileId}.utf8.txt`).subscribe(data => this.text = data)
-    this.parser.getAnnotationsFromFile(`${path}/${fileId}.utf8.ann`).subscribe(data => {
-      this.annotations = data
-      const allAnnotations = this.annotations
-      this.papa.parse(`assets/variables.tsv`, {
-        download: true,
-        header: true,
-        skipEmptyLines: true,
-        complete: parsedVariables => {
-          this.variables = parsedVariables.data
-          const variables = this.variables
-          this.papa.parse('assets/options.tsv', {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            complete: parsedOptions => {
-              const options: any[] = parsedOptions.data
-              variables.forEach(variable => {
-                variable.options = options.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }))
-                const annotations = this.getVariableAnnotations(variable, allAnnotations)
-                this.model = { ...this.model, [variable.key]: this.autofill(variable, annotations) }
-              })
-              this.panels = [...this.panels, ...this.getPanels(variables, allAnnotations)]
-              this.loading = false
-            }
-          })
-        }
-      })
+    // TODO await new Promises in papa-parses to avoid callback hell
+
+    this.papa.parse(`assets/variables.tsv`, {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: parsedVariables => {
+        this.variables = parsedVariables.data
+        const variables: Variable[] = this.variables
+        this.papa.parse('assets/options.tsv', {
+          download: true,
+          header: true,
+          skipEmptyLines: true,
+          complete: parsedOptions => {
+            const options: any[] = parsedOptions.data
+            variables.forEach(variable => {
+              variable.options = options.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }))
+              const annotations = this.getVariableAnnotations(variable, this.report.annotations)
+              this.model = { ...this.model, [variable.key]: this.autofill(variable, annotations) }
+            })
+            this.panels = [...this.panels, ...this.getPanels(variables, this.report.annotations)]
+            this.loading = false
+          }
+        })
+      }
     })
   }
 
@@ -139,7 +128,7 @@ export class FieldComponent implements OnChanges {
   }
 
   getGroup(groupName: string, fields: FormlyFieldConfig[]): FormlyFieldConfig {
-    const unespecifiedAnnotations = this.annotations.filter(a => a.entity.startsWith(unspecifiedEntities[groupName]))
+    const unespecifiedAnnotations = this.report.annotations.filter(a => a.entity.startsWith(unspecifiedEntities[groupName]))
     const group: FormlyFieldConfig = {
       type: 'flex-layout',
       templateOptions: {
@@ -183,13 +172,7 @@ export class FieldComponent implements OnChanges {
     }
 
     // special cases
-    if ([
-      'Diagnóstico principal',
-      'Arterias afectadas',
-      'Localizaciones',
-      'Lateralización',
-      'Etiología',
-    ].includes(groupName)) {
+    if (specialGroupNames.includes(groupName)) {
       group.fieldGroup[1].templateOptions.fxFlex = '90%'
     }
 
@@ -246,7 +229,12 @@ export class FieldComponent implements OnChanges {
 
     const containsIsquemico = (object) => object.model.diagnosticoPrincipal.includes('isquémico')
     const containsHemorragia = (object) => object.model.diagnosticoPrincipal.includes('hemorragia')
-    const getFilteredOptions = (entity: string, criteria: string) => this.variables.find(v => v.entity === entity).options.filter(o => o.comment === criteria).map(o => ({ ...o, label: o.value }))
+    const getFilteredOptions = (entity: string, criteria: string) => {
+      return this.variables
+        .find(v => v.entity === entity).options
+        .filter(o => o.comment === criteria)
+        .map(o => ({ ...o, label: o.value }))
+    }
 
     // listen to disgnostico field's changes to dynamically toggle etiologia's available options
     if (isDiagnosticoPrincipal) {
@@ -312,8 +300,8 @@ export class FieldComponent implements OnChanges {
 
     // 'input' is the most common field type in the form: horas, fechas
     if (isInput) {
-      const firstFoundAnnotation = annotations.find(a => a.notes)
-      const normalizedValue = firstFoundAnnotation?.notes
+      const firstFoundAnnotation = annotations.find(a => a.note)
+      const normalizedValue = firstFoundAnnotation?.note
       const evidence = firstFoundAnnotation?.evidence
       return normalizedValue || evidence
     }

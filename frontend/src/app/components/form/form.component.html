@@ -3,7 +3,7 @@
 </div>
 <div [fxHide]="loading" fxLayout="column" fxLayoutGap="0.5em" fxLayout.gt-sm="row" fxLayoutAlign="space-between center"
   fxLayoutGap.gt-sm="0rem" class="fullheight">
-  <section id="wrapper" fxFlex="45%" class="fullheight scroll plaintext wrap context">{{ text }}</section>
+  <section id="wrapper" fxFlex="45%" class="fullheight scroll plaintext wrap context">{{ report.text }}</section>
   <section fxFlex="55%" ngClass="scroll" ngClass.gt-sm="fullheight scroll" style="padding: 0 1vw;"
     ngStyle.gt-sm="padding: 0 5vw;" ngStyle.gt-md="padding: 0 7vw;">
     <form [formGroup]="form" (submit)="download('json')">
