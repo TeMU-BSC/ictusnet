@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/demo', (req, res) => {
-  res.json(brat.processDirectory('./brat_sample/10'))
+  res.json(brat.processDirectory('./demo/brat_sample/10'))
 })
 
 app.post('/upload', upload.array('uploads[]'), (req, res) => {

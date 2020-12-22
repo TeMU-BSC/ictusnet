@@ -2,7 +2,6 @@ import { Component } from '@angular/core'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { ApiService } from './services/api.service'
 import { Report } from './interfaces/interfaces'
-// import * as DEMO_FILENAMES from 'src/assets/demo.json'
 
 @Component({
   selector: 'app-root',
@@ -14,16 +13,12 @@ export class AppComponent {
   faGithub = faGithub;
   files: FileList
   filenames: string[]
-  // selected: string
   reports: Report[]
   selectedReport: Report
 
   constructor(private api: ApiService) { }
 
   demo(): void {
-    // this.filenames = this.demoFilenames
-    // this.selected = this.filenames[0]
-
     this.api.demo().subscribe(reports => {
       this.reports = reports
       this.selectedReport = this.reports[0]
