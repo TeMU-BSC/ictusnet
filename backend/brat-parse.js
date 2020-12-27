@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const parse = require('csv-parse/lib/sync')
+const csvParse = require('csv-parse/lib/sync')
 
 const getLinesStartingWith = (annArray, startingText) => annArray.filter((line) => line[0].startsWith(startingText))
 const getAnnotationLines = (annArray) => getLinesStartingWith(annArray, 'T')
@@ -29,27 +29,15 @@ const getAnnotations = (annArray) => {
   return annotations
 }
 
-const convert = (txt, ann) => {
+const parse = (txt, ann) => {
   const filename = path.parse(txt).name
   const text = fs.readFileSync(txt, 'utf8')
   const annString = fs.readFileSync(ann, 'utf8')
-  const annArray = parse(annString, { delimiter: '\t' })
+  const annArray = csvParse(annString, { delimiter: '\t' })
   const annotations = getAnnotations(annArray)
   return { filename, text, annotations }
 }
 
-const processDirectory = (directory) => {
-  const results = []
-  const uniqueBasenames = new Set()
-  fs.readdirSync(directory).forEach(file => {
-    const basename = path.parse(file).name
-    uniqueBasenames.add(basename)
-  })
-  uniqueBasenames.forEach(basename => {
-    const relativepath = path.join(directory, basename)
-    results.push(convert(`${relativepath}.txt`, `${relativepath}.ann`))
-  })
-  return results
+module.exports = {
+  parse
 }
-
-module.exports = { processDirectory }
