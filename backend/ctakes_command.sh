@@ -1,0 +1,1 @@
+sh /home/alejandro/code/ictusnet-ctakes/run-docker.sh /tmp/ctakes/input /tmp/ctakes/output

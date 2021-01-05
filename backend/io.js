@@ -1,35 +1,13 @@
+const child_process = require('child_process')
 const fs = require('fs')
-const exec = require('child_process').exec
 const path = require('path')
-const { parse } = require('./brat-parse')
 
-const runCtakesDocker = (script, input, output) => {
-  // run ctakes docker to generate ann files from uploaded txt files
-  // https://github.com/TeMU-BSC/ictusnet-ctakes#method-1-docker
-  const execution = exec(`bash ${script} ${input} ${output}`)
-  console.log(execution)
-  execution.stdout.on('data', (data) => {
-    console.log(data)
-    // do whatever you want here with data
-  })
-  execution.stderr.on('data', (data) => {
-    console.error(data)
-  })
-}
-runCtakesDocker('/home/alejandro/code/ictusnet-ctakes/run-docker.sh',
-  '/home/alejandro/code/ictusnet/backend/ctakes/input',
-  '/home/alejandro/code/ictusnet/backend/ctakes/output'
-)
+const { parse } = require('./brat')
 
-const moveFiles = (inputDir, outputputDir, destinationDir) => {
-  fs.readdirSync(inputDir).forEach(file => {
-    const oldFile = path.join(inputDir, file)
-    const newFile = path.join(destinationDir, path.parse(file).base)
-    fs.renameSync(oldFile, newFile)
-  })
-  fs.readdirSync(outputputDir).forEach(file => {
-    const oldFile = path.join(outputDir, file)
-    const newFile = path.join(destinationDir, path.parse(file).base)
+const moveFiles = (sourceDirectory, destinationDirectory) => {
+  fs.readdirSync(sourceDirectory).forEach(file => {
+    const oldFile = path.join(sourceDirectory, file)
+    const newFile = path.join(destinationDirectory, path.parse(file).base)
     fs.renameSync(oldFile, newFile)
   })
 }
@@ -45,14 +23,27 @@ const processBratDirectory = (directory) => {
     const relativepath = path.join(directory, basename)
     const txt = `${relativepath}.txt`
     const ann = `${relativepath}.ann`
-    const annotatedObject = parse(txt, ann)
-    results.push(annotatedObject)
+    const parsedBrat = parse(txt, ann)
+    results.push(parsedBrat)
   })
   return results
 }
 
+// const generateAnnFiles = () => {
+//   child_process.execFileSync('sh', ['./ctakes_command.sh'], { stdio: 'inherit' })
+// }
+// generateAnnFiles()
+
+const generateAnnFiles = (runDockerScriptPath, inputDirAbsolutePath, outputDirAbsolutePath) => {
+  child_process.execFileSync('sh', [runDockerScriptPath, inputDirAbsolutePath, outputDirAbsolutePath], { stdio: 'inherit' })
+}
+// const runDockerScriptPath = '/home/alejandro/code/ictusnet-ctakes/run-docker.sh'
+// const inputDirAbsolutePath = '/tmp/ctakes/input'
+// const outputDirAbsolutePath = '/tmp/ctakes/output'
+// generateAnnFiles(runDockerScriptPath, inputDirAbsolutePath, outputDirAbsolutePath)
+
 module.exports = {
-  runCtakesDocker,
   moveFiles,
-  processBratDirectory
+  generateAnnFiles,
+  processBratDirectory,
 }

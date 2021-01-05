@@ -10,10 +10,10 @@ services:
     volumes:
       - ./frontend:/app
 
-  express:
+  node:
     container_name: ictusnet_express
     build: ./backend
-    command: node app.js
+    command: npm start
     ports:
       - 3000:3000
     volumes:
@@ -21,9 +21,9 @@ services:
 
   deno:
     container_name: ictusnet_deno
-    build: ./backend-deno
+    build: ./deno
     command: deno run --allow-run --allow-net main.ts
     ports:
       - 8000:8000
     volumes:
-      - ./backend-deno:/app
+      - ./deno:/app
