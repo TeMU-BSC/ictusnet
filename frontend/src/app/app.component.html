@@ -30,11 +30,14 @@
       <button mat-raised-button color="attention" (click)="fileInput.click()">
         Cargar informes de alta (.txt)
       </button>
-      <input type="file" #fileInput multiple accept="text/plain" (change)="updateFiles($event)" hidden>
-      <button mat-raised-button color="primary" (click)="demo()">
+      <input type="file" #fileInput accept="text/plain" (change)="fileChange($event)" multiple hidden>
+      <button mat-raised-button color="primary" (click)="isDemo = true; getAnnotatedReports()">
         Probar la demo
       </button>
     </div>
+  </div>
+  <div *ngIf="loading" fxLayout fxLayoutAlign="center center" class="fullheight" style="margin-top: 3em;">
+    <mat-progress-bar mode="indeterminate" color="primary" style="width: 50%"></mat-progress-bar>
   </div>
   <app-form *ngIf="selectedReport" [report]="selectedReport"></app-form>
 </main>

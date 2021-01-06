@@ -1,49 +1,36 @@
 const child_process = require('child_process')
-const fs = require('fs')
 const path = require('path')
 
 const { parse } = require('./brat')
+const { moveFiles, walk } = require('./helpers')
 
-const moveFiles = (sourceDirectory, destinationDirectory) => {
-  fs.readdirSync(sourceDirectory).forEach(file => {
-    const oldFile = path.join(sourceDirectory, file)
-    const newFile = path.join(destinationDirectory, path.parse(file).base)
-    fs.renameSync(oldFile, newFile)
-  })
+/**
+ * Generate annotation (.ann) files by calling the CTAKES docker container https://github.com/TeMU-BSC/ictusnet-ctakes.
+ * @param {string} runDockerScriptPath Path to the downloaded script: https://github.com/TeMU-BSC/ictusnet-ctakes/blob/master/run-docker.sh
+ * @param {string} txtDir /absolute/path/to/txt/files
+ * @param {string} annDir /absolute/path/to/ann/files
+ */
+const generateAnnFilesSync = (runDockerScriptPath, txtDir, annDir) => {
+  child_process.execFileSync('sh', [runDockerScriptPath, txtDir, annDir], { stdio: 'inherit' })
 }
 
-const processBratDirectory = (directory) => {
-  const results = []
+const getReports = async (reportsDir) => {
+  const reports = []
   const uniqueBasenames = new Set()
-  fs.readdirSync(directory).forEach(file => {
-    const basename = path.parse(file).name
-    uniqueBasenames.add(basename)
-  })
+  for await (const file of walk(reportsDir))
+    uniqueBasenames.add(path.parse(file).name)
   uniqueBasenames.forEach(basename => {
-    const relativepath = path.join(directory, basename)
-    const txt = `${relativepath}.txt`
-    const ann = `${relativepath}.ann`
+    const txtRelativepath = path.join(reportsDir, 'txt', basename)
+    const annRelativepath = path.join(reportsDir, 'ann', basename)
+    const txt = `${txtRelativepath}.txt`
+    const ann = `${annRelativepath}.ann`
     const parsedBrat = parse(txt, ann)
-    results.push(parsedBrat)
+    reports.push(parsedBrat)
   })
-  return results
+  return reports
 }
-
-// const generateAnnFiles = () => {
-//   child_process.execFileSync('sh', ['./ctakes_command.sh'], { stdio: 'inherit' })
-// }
-// generateAnnFiles()
-
-const generateAnnFiles = (runDockerScriptPath, inputDirAbsolutePath, outputDirAbsolutePath) => {
-  child_process.execFileSync('sh', [runDockerScriptPath, inputDirAbsolutePath, outputDirAbsolutePath], { stdio: 'inherit' })
-}
-// const runDockerScriptPath = '/home/alejandro/code/ictusnet-ctakes/run-docker.sh'
-// const inputDirAbsolutePath = '/tmp/ctakes/input'
-// const outputDirAbsolutePath = '/tmp/ctakes/output'
-// generateAnnFiles(runDockerScriptPath, inputDirAbsolutePath, outputDirAbsolutePath)
 
 module.exports = {
-  moveFiles,
-  generateAnnFiles,
-  processBratDirectory,
+  generateAnnFilesSync,
+  getReports,
 }

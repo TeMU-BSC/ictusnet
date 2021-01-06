@@ -19,11 +19,11 @@ services:
     volumes:
       - ./backend:/app
 
-  deno:
-    container_name: ictusnet_deno
-    build: ./deno
-    command: deno run --allow-run --allow-net main.ts
-    ports:
-      - 8000:8000
-    volumes:
-      - ./deno:/app
+  # deno:
+  #   container_name: ictusnet_deno
+  #   build: ./deno
+  #   command: deno run --allow-run --allow-net main.ts
+  #   ports:
+  #     - 8000:8000
+  #   volumes:
+  #     - ./deno:/app

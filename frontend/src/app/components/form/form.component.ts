@@ -29,9 +29,9 @@ export class FieldComponent implements OnChanges {
 
   @Input() report: Report
   variables: Variable[]
-  loading: boolean = true
   focusedField: any
   downloadFilename: string
+  loading = true
 
   // formly
   model: any = {}

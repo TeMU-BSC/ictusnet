@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core"
-import { HttpClient } from "@angular/common/http"
+import { HttpClient, HttpParams } from "@angular/common/http"
 import { Observable } from 'rxjs'
 import { environment } from 'src/environments/environment'
 import { Report } from "../interfaces/interfaces"
@@ -13,16 +13,14 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  demo(): Observable<Report[]> {
-    return this.http.get<Report[]>(`${this.url}/demo`)
+  getAnnotatedReports({ isDemo = false }): Observable<Report[]> {
+    const params = new HttpParams().append('isDemo', isDemo.toString())
+    return this.http.get<Report[]>(`${this.url}/reports`, { params })
   }
 
-  // https://blog.jscrambler.com/implementing-file-upload-using-node-and-angular/
   upload(files: FileList): Observable<any> {
-    let formData = new FormData()
-    for (var i = 0; i < files.length; i++) {
-      formData.append("uploads[]", files[i], files[i].name)
-    }
+    const formData = new FormData()
+    Array.from(files).forEach(file => formData.append('files[]', file))
     return this.http.post<any>(`${this.url}/upload`, formData)
   }
 }
