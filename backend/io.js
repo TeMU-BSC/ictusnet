@@ -14,7 +14,7 @@ const generateAnnFilesSync = (runDockerScriptPath, txtDir, annDir) => {
   child_process.execFileSync('sh', [runDockerScriptPath, txtDir, annDir], { stdio: 'inherit' })
 }
 
-const getReports = async (reportsDir) => {
+const getAnnotatedReports = async (reportsDir) => {
   const reports = []
   const uniqueBasenames = new Set()
   for await (const file of walk(reportsDir))
@@ -32,5 +32,5 @@ const getReports = async (reportsDir) => {
 
 module.exports = {
   generateAnnFilesSync,
-  getReports,
+  getAnnotatedReports,
 }

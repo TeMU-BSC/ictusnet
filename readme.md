@@ -1,6 +1,8 @@
 # ICTUSnet web application
 
-Tipificador de informes de alta en español de pacientes relacionados con ictus.
+Typifier of medical reports written in Spanish of patients related to stroke (ictus).
+
+[TODO: explain the architecture by summarizing Marta's report]
 
 ## Development
 

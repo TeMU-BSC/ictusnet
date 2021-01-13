@@ -1,0 +1,6 @@
+Esto es un informe médico de prueba.
+Paciente llega al hospital el 01/01/2021 a las 10:25 con ictus isquémico sufrido ese mismo día una hora antes.
+Lateralización derecha.
+Se le realiza TAC craneal.
+NIHSS al alta: 0.0.0.0.0/0(0.0)(0.0)//0.0.1.1.0 = 2
+mRankin al alta: mRS = 5
