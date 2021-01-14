@@ -7,7 +7,14 @@ Typifier of medical reports written in Spanish of patients related to stroke (ic
 ## Development
 
 ```bash
-docker-compose up --build
+# terminal 1
+docker run -p 27017:27017 -v "$(realpath ./database/mongodb)":/data/db mongo
+
+# terminal 2
+cd backend && npm install && npm run dev
+
+# terminal 3
+cd frontend && npm install && npm run dev
 ```
 
 ## Production

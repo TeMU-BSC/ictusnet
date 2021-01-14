@@ -8,7 +8,10 @@ services:
     ports:
       - 27017-27019:27017-27019
     volumes:
-      - /var/lib/mongodb:/data/db
+      - ./database/mongodb:/data/db
+
+  ictusnet-ctakes:
+    image: bsctemu/ictusnet
 
   node:
     container_name: ictusnet_express
@@ -27,12 +30,3 @@ services:
       - 4200:4200
     volumes:
       - ./frontend:/app
-
-  # deno:
-  #   container_name: ictusnet_deno
-  #   build: ./deno
-  #   command: deno run --allow-run --allow-net main.ts
-  #   ports:
-  #     - 8000:8000
-  #   volumes:
-  #     - ./deno:/app

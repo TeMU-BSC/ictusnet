@@ -1,6 +1,12 @@
 // https://docs.mongodb.com/drivers/node/
 const { MongoClient } = require("mongodb")
-const uri = "mongodb://mongo/ictusnet"
+
+// docker run ...
+const uri = "mongodb://localhost/ictusnet"
+
+// docker-compose ...
+// const uri = "mongodb://mongo/ictusnet"
+
 const client = new MongoClient(uri, { useUnifiedTopology: true })
 async function insertMultipleDocuments(docs = []) {
   try {
