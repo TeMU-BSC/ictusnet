@@ -1,0 +1,91 @@
+// Additional palettes.
+$ictusnet-secondary: mat-palette($mat-grey);
+$ictusnet-terciary: mat-palette($mat-yellow);
+$ictusnet-success: mat-palette($mat-green);
+$ictusnet-info: mat-palette($mat-blue);
+
+// https://github.com/angular/components/issues/11888#issuecomment-536509515
+$custom-collection: (
+  secondary: mat-color($ictusnet-secondary),
+  terciary: mat-color($ictusnet-terciary),
+  success: mat-color($ictusnet-success),
+  info: mat-color($ictusnet-info),
+  contrast: (
+    secondary: mat-contrast($mat-grey, 600),
+    success: mat-contrast($mat-green, 600),
+    info: mat-contrast($mat-blue, 600),
+  ),
+);
+$ictusnet-custom: mat-palette($custom-collection, custom);
+$ictusnet-theme: map_merge(
+  $ictusnet-theme,
+  (
+    custom: $ictusnet-custom,
+  )
+);
+$custom: map-get($ictusnet-theme, custom);
+
+// Append custom colors to material classes.
+.mat-secondary {
+  &.mat-button,
+  &.mat-stroked-button,
+  &.mat-icon-button,
+  &.mat-icon {
+    color: mat-color($custom, secondary);
+  }
+  &.mat-raised-button,
+  &.mat-flat-button,
+  &.mat-fab-button,
+  &.mat-mini-fab {
+    color: mat-color($custom, secondary-contrast);
+    background-color: mat-color($custom, secondary);
+  }
+}
+
+.mat-terciary {
+  &.mat-button,
+  &.mat-stroked-button,
+  &.mat-icon-button,
+  &.mat-icon {
+    color: mat-color($custom, terciary);
+  }
+  &.mat-raised-button,
+  &.mat-flat-button,
+  &.mat-fab-button,
+  &.mat-mini-fab {
+    color: mat-color($custom, terciary-contrast);
+    background-color: mat-color($custom, terciary);
+  }
+}
+
+.mat-success {
+  &.mat-button,
+  &.mat-stroked-button,
+  &.mat-icon-button,
+  &.mat-icon {
+    color: mat-color($custom, success);
+  }
+  &.mat-raised-button,
+  &.mat-flat-button,
+  &.mat-fab-button,
+  &.mat-mini-fab {
+    color: mat-color($custom, success-contrast);
+    background-color: mat-color($custom, success);
+  }
+}
+
+.mat-info {
+  &.mat-button,
+  &.mat-stroked-button,
+  &.mat-icon-button,
+  &.mat-icon {
+    color: mat-color($custom, info);
+  }
+  &.mat-raised-button,
+  &.mat-flat-button,
+  &.mat-fab-button,
+  &.mat-mini-fab {
+    color: mat-color($custom, info-contrast);
+    background-color: mat-color($custom, info);
+  }
+}

@@ -1,5 +1,5 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
-import { FieldType } from '@ngx-formly/core';
+import { Component, ViewChild, ViewContainerRef } from '@angular/core'
+import { FieldType } from '@ngx-formly/core'
 
 @Component({
   selector: 'formly-form-flex',
@@ -15,14 +15,19 @@ import { FieldType } from '@ngx-formly/core';
       <formly-field [fxFlex]="to.fxFlex" *ngFor="let f of field.fieldGroup" [field]="f">
       </formly-field>
 
-      <button *ngIf="to.lantern" type="button" mat-icon-button style="color: rgb(160, 0, 160);"
-        matTooltip="{{ to.lantern.tooltip }}"
-        matTooltipClass="{{ to.lantern.tooltipClass }}"
-        matTooltipPosition="{{ to.lantern.tooltipPosition || 'below' }}"
-        (click)="to.lantern.action()"
+      <button
+        *ngIf="to.hint"
+        type="button"
+        mat-icon-button
+        color="terciary"
+        class="hint-button"
+        matTooltip="{{ to.hint.tooltip }}"
+        matTooltipClass="{{ to.hint.tooltipClass }}"
+        matTooltipPosition="{{ to.hint.tooltipPosition || 'below' }}"
+        (click)="to.hint.action()"
       >
         <!-- https://github.com/angular/components/issues/11544 -->
-        <mat-icon fontSet="material-icons-round">{{ to.lantern.icon }}</mat-icon>
+        <mat-icon fontSet="material-icons-round">{{ to.hint.icon }}</mat-icon>
       </button>
     </div>
   `

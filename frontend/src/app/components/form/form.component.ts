@@ -2,23 +2,14 @@ import { Component, OnChanges, ViewChild, Input } from '@angular/core'
 import { FormArray, FormGroup } from '@angular/forms'
 import { MatAccordion } from '@angular/material/expansion'
 
-import { FormlyFormOptions, FormlyFieldConfig } from '@ngx-formly/core'
-
+import { FormlyFormOptions } from '@ngx-formly/core'
 import { Papa } from 'ngx-papaparse'
 
 import { Report, Variable } from 'src/app/interfaces/interfaces'
 import { downloadObjectAsJson } from 'src/app/helpers/json'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '../dialog/dialog.component'
-import { getVariableAnnotations, autofill, getPanels } from 'src/app/helpers/formly'
-
-// TODO https://js.devexpress.com/Demos/WidgetsGallery/Demo/ContextMenu/Basics/Angular/Light/
-
-export interface PanelType {
-  icon?: string
-  title?: string
-  groups?: FormlyFieldConfig[]
-}
+import { getVariableAnnotations, autofill, getPanels, PanelType } from 'src/app/helpers/formly'
 
 @Component({
   selector: 'app-form',
@@ -31,7 +22,7 @@ export class FieldComponent implements OnChanges {
   variables: Variable[]
   focusedField: any
   downloadFilename: string
-  loading = true
+  isLoading = true
 
   // formly
   model: any = {}
@@ -60,12 +51,12 @@ export class FieldComponent implements OnChanges {
    * Load the form with the ictus Input() report property.
    */
   loadForm() {
-    this.loading = true
+    this.isLoading = true
     this.model = {}
     this.panels = []
     this.downloadFilename = `${this.report.filename}.json`
 
-    // TODO await new Promises in papa-parses to avoid callback hell
+    // TODO await new Promises in papa-parse's to avoid the "callback hell"
 
     this.papa.parse(`assets/variables.tsv`, {
       download: true,
@@ -86,7 +77,7 @@ export class FieldComponent implements OnChanges {
               this.model = { ...this.model, [variable.key]: autofill(variable, annotations) }
             })
             this.panels = [...this.panels, ...getPanels(variables, this.report.annotations)]
-            this.loading = false
+            this.isLoading = false
           }
         })
       }

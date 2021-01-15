@@ -1,8 +1,8 @@
-<div *ngIf="loading" fxLayout fxLayoutAlign="center center" class="fullheight">
-  <mat-progress-bar mode="indeterminate" color="primary" style="width: 50%"></mat-progress-bar>
+<div *ngIf="isLoading" fxLayout fxLayoutAlign="center center" class="fullheight">
+  <mat-progress-bar mode="indeterminate" style="width: 50%"></mat-progress-bar>
 </div>
-<div [fxHide]="loading" fxLayout="column" fxLayoutGap="0.5em" fxLayout.gt-sm="row" fxLayoutAlign="space-between center"
-  fxLayoutGap.gt-sm="0rem" class="fullheight">
+<div [fxHide]="isLoading" fxLayout="column" fxLayoutGap="0.5em" fxLayout.gt-sm="row"
+  fxLayoutAlign="space-between center" fxLayoutGap.gt-sm="0rem" class="fullheight">
   <section id="wrapper" fxFlex="45%" class="fullheight scroll plaintext wrap context">{{ report.text }}</section>
   <section fxFlex="55%" ngClass="scroll" ngClass.gt-sm="fullheight scroll" style="padding: 0 1vw;"
     ngStyle.gt-sm="padding: 0 5vw;" ngStyle.gt-md="padding: 0 7vw;">
@@ -44,7 +44,7 @@
         </mat-expansion-panel>
       </mat-accordion>
       <div fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="0.5em" style="margin: 2em 0;">
-        <button type="submit" mat-raised-button color="primary">
+        <button type="submit" mat-raised-button color="accent">
           <mat-icon style="margin-right: 0.3em;">save_alt</mat-icon>
           Descargar las respuestas en formato JSON
         </button>

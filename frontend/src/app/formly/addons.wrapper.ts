@@ -1,10 +1,10 @@
-import { Component, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
-import { FieldWrapper } from '@ngx-formly/core';
+import { Component, TemplateRef, ViewChild, AfterViewInit } from '@angular/core'
+import { FieldWrapper } from '@ngx-formly/core'
 
 @Component({
   selector: 'formly-wrapper-addons',
   template: `
-  <div (mouseenter)="showIcon()" (mouseleave)="hideIcon()">
+  <div>
     <ng-template #matPrefix>
       <span
         *ngIf="to.addonLeft"
@@ -24,7 +24,8 @@ import { FieldWrapper } from '@ngx-formly/core';
         (click)="addonRightClick($event)"
         fxLayout="row" fxLayoutAlign="center center"
       >
-        <mat-icon [hidden]="!to.addonRight.info"
+        <mat-icon
+          [hidden]="!to.addonRight.info"
           fontSet="material-icons-round"
           color="{{ to.addonRight.info?.color }}"
           matTooltip="{{ to.addonRight.info?.tooltip }}"
@@ -33,79 +34,52 @@ import { FieldWrapper } from '@ngx-formly/core';
           {{ to.addonRight.info?.icon }}
         </mat-icon>
 
-        <button [hidden]="!to.addonRight.locate" type="button" mat-icon-button color="{{ to.addonRight.locate?.color }}">
+        <button
+          [hidden]="!to.addonRight.evidenceButton"
+          type="button"
+          mat-icon-button
+          color="{{ to.addonRight.evidenceButton?.color }}"
+        >
           <mat-icon
             fontSet="material-icons-round"
-            matTooltip="{{ to.addonRight.locate?.tooltip }}"
-            matTooltipPosition="{{ to.addonRight.locate?.tooltipPosition || 'below' }}"
-            matTooltipClass="{{ to.addonRight.locate?.tooltipClass }}"
+            matTooltip="{{ to.addonRight.evidenceButton?.tooltip }}"
+            matTooltipPosition="{{ to.addonRight.evidenceButton?.tooltipPosition || 'below' }}"
+            matTooltipClass="{{ to.addonRight.evidenceButton?.tooltipClass }}"
           >
-            {{ to.addonRight.locate?.icon }}
+            {{ to.addonRight.evidenceButton?.icon }}
           </mat-icon>
         </button>
 
         <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
       </span>
-
-
-
-
-      <!-- <span
-        *ngIf="to.addonRight"
-        (click)="addonRightClick($event)"
-        fxLayout="row" fxLayoutAlign="center center"
-      >
-        <mat-icon [hidden]="!to.info" color="primary" matTooltip="{{ to.info.tooltip }}"
-          matTooltipPosition="{{ to.info.tooltipPosition || 'below' }}">
-          {{ to.info.icon }}
-        </mat-icon>
-
-        <mat-icon [hidden]="!to.addonRight" color="attention" matTooltip="{{ to.addonRight.tooltip }}"
-          matTooltipPosition="{{ to.addonRight.tooltipPosition || 'below' }}"
-          matTooltipClass="{{ to.addonRight.tooltipClass }}"
-          [ngStyle]="{cursor: to.addonRight.onClick ? 'pointer' : 'inherit'}"
-        >
-          {{ to.addonRight.icon }}
-        </mat-icon>
-
-        <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
-      </span> -->
     </ng-template>
   </div>
   `,
 })
 export class FormlyWrapperAddons extends FieldWrapper implements AfterViewInit {
 
-  visible = false;
-  showIcon() {
-    this.visible = true;
-  }
-  hideIcon() {
-    this.visible = false;
-  }
-
-  @ViewChild('matPrefix') matPrefix: TemplateRef<any>;
-  @ViewChild('matSuffix') matSuffix: TemplateRef<any>;
+  @ViewChild('matPrefix') matPrefix: TemplateRef<any>
+  @ViewChild('matSuffix') matSuffix: TemplateRef<any>
 
   ngAfterViewInit() {
     if (this.matPrefix) {
-      Promise.resolve().then(() => this.to.prefix = this.matPrefix);
+      Promise.resolve().then(() => this.to.prefix = this.matPrefix)
     }
 
     if (this.matSuffix) {
-      Promise.resolve().then(() => this.to.suffix = this.matSuffix);
+      Promise.resolve().then(() => this.to.suffix = this.matSuffix)
     }
   }
 
   addonLeftClick($event: any) {
     if (this.to.addonLeft.onClick) {
-      this.to.addonLeft.onClick(this.to, this, $event);
+      this.to.addonLeft.onClick(this.to, this, $event)
     }
   }
 
   addonRightClick($event: any) {
     if (this.to.addonRight.onClick) {
-      this.to.addonRight.onClick(this.to, this, $event);
+      this.to.addonRight.onClick(this.to, this, $event)
     }
   }
 

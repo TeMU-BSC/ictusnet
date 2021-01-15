@@ -1,7 +1,5 @@
-<mat-toolbar color="primary" fxLayout fxLayoutAlign="space-between center">
-  <span (click)="selectedReport = null" style="cursor: pointer; margin-right: 1em;">
-    ICTUS<span style="font-weight: lighter;">net</span>
-  </span>
+<mat-toolbar fxLayout fxLayoutAlign="space-between center">
+  <img src="assets/ictusnet-horizontal-logo-removebg.png" alt="ICTUSnet" class="logo" (click)="selectedReport = null" />
   <div *ngIf="selectedReport" fxLayout fxLayoutAlign="space-between center" fxLayoutGap="1em">
     <mat-form-field appearance="fill" style="font-size: small;">
       <mat-label>
@@ -19,25 +17,26 @@
     </a>
   </div>
 </mat-toolbar>
-<main style="height: calc(100% - 64px);">
+<mat-divider></mat-divider>
+<main style="height: calc(100% - 75px);">
   <div *ngIf="!selectedReport" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem"
     style="padding-top: 5rem;">
     <img src="assets/ictusnet_imagotipo.png" alt="imagotipo ictusnet">
     <h3 style="text-align: center; max-width: 250px;">
       Tipificador de informes de alta de pacientes relacionados con ictus
     </h3>
-    <div fxLayout fxLayoutAlign="center center" fxLayoutGap="1rem">
-      <button mat-raised-button color="attention" (click)="fileInput.click()">
-        Cargar informes de alta (.txt)
-      </button>
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1rem">
       <input type="file" #fileInput accept="text/plain" (change)="fileChange($event)" multiple hidden>
-      <button mat-raised-button color="primary" (click)="isDemo = true; getAnnotatedReports()">
-        Probar la demo
+      <button mat-raised-button color="accent" (click)="fileInput.click()">
+        Subir informes de texto plano
+      </button>
+      <button mat-button color="primary" (click)="isDemo = true; getAnnotatedReports()">
+        o probar la demo con informes de ejemplo
       </button>
     </div>
   </div>
-  <div *ngIf="loading" fxLayout fxLayoutAlign="center center" class="fullheight" style="margin-top: 3em;">
-    <mat-progress-bar mode="indeterminate" color="primary" style="width: 50%"></mat-progress-bar>
+  <div *ngIf="isLoading" fxLayout fxLayoutAlign="center center" class="fullheight" style="margin-top: 3em;">
+    <mat-progress-bar mode="indeterminate" style="width: 50%"></mat-progress-bar>
   </div>
   <app-form *ngIf="selectedReport" [report]="selectedReport"></app-form>
 </main>

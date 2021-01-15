@@ -15,18 +15,18 @@ export class AppComponent {
   reports: Report[]
   selectedReport: Report
   isDemo = false
-  loading = false
+  isLoading = false
 
   filenames: string[]
 
   constructor(private api: ApiService) { }
 
   getAnnotatedReports(): void {
-    this.loading = true
+    this.isLoading = true
     this.api.getAnnotatedReports({ isDemo: this.isDemo }).subscribe(reports => {
       this.reports = reports
       this.selectedReport = this.reports[0]
-      this.loading = false
+      this.isLoading = false
       // this.filenames = reports.map(report => report.filename)
     })
   }

@@ -1,0 +1,25 @@
+// https://jsfiddle.net/julmot/hexomvbL/
+mark {
+  padding: 0;
+  background: transparent;
+  background: linear-gradient(to right, $ictusnet-orange 50%, transparent 50%);
+  background-position: right bottom;
+  background-size: 200% 100%;
+  transition: all 0.5s ease;
+}
+mark.animate {
+  background-position: left bottom;
+  color: white;
+}
+mark.unspecified {
+  padding: 0;
+  background: transparent;
+  background: linear-gradient(to right, yellow 50%, transparent 50%);
+  background-position: right bottom;
+  background-size: 200% 100%;
+  transition: all 0.5s ease;
+}
+mark.unspecified.animate {
+  background-position: left bottom;
+  color: black;
+}

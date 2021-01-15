@@ -1,8 +1,13 @@
 import { FormlyFieldConfig } from "@ngx-formly/core"
-import { PanelType } from "../components/form/form.component"
 import { panelIcons, unspecifiedEntities, specialGroupNames, diagnosticoPrincipalEntities, admissibleEvidences } from "../constants/constants"
 import { Annotation, Variable } from "../interfaces/interfaces"
 import Mark from 'mark.js'
+
+export interface PanelType {
+  icon?: string
+  title?: string
+  groups?: FormlyFieldConfig[]
+}
 
 export function getPanels(variables: Variable[], allAnnotations: Annotation[]): PanelType[] {
   const panels: PanelType[] = []
@@ -36,7 +41,10 @@ export function getPanel(sectionName: string, groups: FormlyFieldConfig[]): Pane
 }
 
 export function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnnotations: Annotation[]): FormlyFieldConfig {
-  const unespecifiedAnnotations = allAnnotations.filter(a => a.entity.startsWith(unspecifiedEntities[groupName]))
+  const hints = allAnnotations.filter(a => a.entity.startsWith(unspecifiedEntities[groupName]))
+  const tooltipText = hints.length === 1 ?
+    [`Se ha encontrado ${hints.length} pista:`].concat(hints.map(a => a.evidence)).join('\n') :
+    [`Se han encontrado ${hints.length} pistas:`].concat(hints.map(a => a.evidence)).join('\n')
   const group: FormlyFieldConfig = {
     type: 'flex-layout',
     templateOptions: {
@@ -47,18 +55,18 @@ export function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnno
         type: 'flex-layout',
         templateOptions: {
           fxLayout: 'row wrap',
-          fxLayoutAlign: 'start center',
+          fxLayoutAlign: 'space-between',
           fxLayoutGap: '1rem',
-          lantern: unespecifiedAnnotations.length > 0 ? {
-            icon: 'highlight',
-            tooltip: ['Evidencias auxiliares:'].concat(unespecifiedAnnotations.map(a => a.evidence)).join('\n'),
+          hint: hints.length > 0 ? {
+            icon: 'emoji_objects',
+            tooltip: tooltipText,
             tooltipClass: 'multiline-tooltip',
-            action: () => highlight(unespecifiedAnnotations, 'context', 'unspecified'),
+            action: () => highlight(hints, 'context', 'unspecified'),
           } : null,
         },
         fieldGroup: [
           {
-            template: `<p class="group-title">${groupName}</p>`,
+            template: `<h3 class="group-title">${groupName}</h3>`,
           }
         ]
       },
@@ -108,7 +116,7 @@ export function getField(variable: Variable, annotations: Annotation[], allVaria
       label: variable.shortLabel,
       multiple: variable.cardinality === 'n',
       options: options,
-      focus: (field, event) => highlight(field.templateOptions.annotations, 'context', 'attention'),
+      focus: (field, event) => highlight(field.templateOptions.annotations, 'context', 'accent'),
 
       // custom properties
       annotations: annotations,
@@ -118,12 +126,12 @@ export function getField(variable: Variable, annotations: Annotation[], allVaria
           color: 'primary',
           tooltip: variable.info,
         } : null,
-        locate: annotations.length > 0 ? {
-          icon: 'search',
-          color: 'attention',
+        evidenceButton: annotations.length > 0 ? {
+          icon: 'gps_fixed',
+          color: 'accent',
           tooltip: annotations.map(a => a.evidence).join('\n'),
           tooltipClass: 'multiline-tooltip',
-          onClick: (to, addon, event) => highlight(to.annotations, 'context', 'attention'),
+          onClick: (to, addon, event) => highlight(to.annotations, 'context', 'accent'),
         } : null,
       },
     },

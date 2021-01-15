@@ -8,10 +8,10 @@ import { LoaderService } from './loader.service'
 })
 export class LoaderComponent {
 
-  loading: boolean
+  isLloading: boolean
 
   constructor(private loaderService: LoaderService) {
-    this.loaderService.isLoading.subscribe(v => this.loading = v)
+    this.loaderService.isLoading.subscribe(v => this.isLloading = v)
   }
 
 }

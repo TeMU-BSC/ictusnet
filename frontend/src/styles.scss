@@ -1,4 +1,8 @@
-@import "./app/material/_variables.scss";
+@import "./styles/ictusnet-theme.scss";
+@import "./styles/ictusnet-colors.scss";
+@import "./styles/additional-mat-colors.scss";
+@import "./styles/mat-components-hacks.scss";
+@import "./styles/markjs.scss";
 
 /* You can add global styles to this file, and also import other style files */
 
@@ -9,37 +13,14 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: rgb(240, 250, 255);
+  background-color: $ictusnet-lightblue;
 }
 
-// https://jsfiddle.net/julmot/hexomvbL/
-mark {
-  padding: 0;
-  background: transparent;
-  background: linear-gradient(
-    to right,
-    mat-color($custom, attention) 50%,
-    transparent 50%
-  );
-  background-position: right bottom;
-  background-size: 200% 100%;
-  transition: all 0.5s ease;
-}
-mark.animate {
-  background-position: left bottom;
-  color: mat-color($custom, attention-contrast);
-}
-mark.unspecified {
-  padding: 0;
-  background: transparent;
-  background: linear-gradient(to right, rgb(160, 0, 160) 50%, transparent 50%);
-  background-position: right bottom;
-  background-size: 200% 100%;
-  transition: all 0.5s ease;
-}
-mark.unspecified.animate {
-  background-position: left bottom;
-  color: mat-color($custom, attention-contrast);
+.logo {
+  display: inline-block;
+  height: 100%;
+  margin-top: 10px;
+  cursor: pointer;
 }
 
 // https://stackblitz.com/edit/angular-xrrwqb?file=styles.css
@@ -48,89 +29,11 @@ mark.unspecified.animate {
 }
 
 .group-title {
-  font-weight: bolder;
-  margin-bottom: 0.5rem;
+  font-weight: bolder !important;
 }
 
-// https://github.com/angular/components/issues/12779#issuecomment-462241207
-.mat-select-panel mat-option.mat-option {
-  margin: 0;
-  overflow: visible;
-  line-height: initial;
-  word-wrap: break-word;
-  white-space: pre-wrap;
-}
-.mat-option-text.mat-option-text {
-  white-space: normal;
-}
-
-// form field color
-.mat-form-field-appearance-outline .mat-form-field-outline {
-  background-color: rgb(255, 255, 240);
-  border-radius: 0.3rem;
-}
-
-// custom colors https://stackoverflow.com/a/58134022
-
-// success
-.mat-button.mat-success,
-.mat-stroked-button.mat-success,
-.mat-icon-button.mat-success,
-.mat-icon.mat-success {
-  color: mat-color($custom, success);
-}
-.mat-raised-button.mat-success,
-.mat-flat-button.mat-success,
-.mat-fab.mat-success,
-.mat-mini-fab.mat-success {
-  color: mat-color($custom, success-contrast);
-  background-color: mat-color($custom, success);
-}
-
-// info
-.mat-button.mat-info,
-.mat-stroked-button.mat-info,
-.mat-icon-button.mat-info,
-.mat-icon.mat-info {
-  color: mat-color($custom, info);
-}
-.mat-raised-button.mat-info,
-.mat-flat-button.mat-info,
-.mat-fab.mat-info,
-.mat-mini-fab.mat-info {
-  color: mat-color($custom, info-contrast);
-  background-color: mat-color($custom, info);
-}
-
-// attention
-.mat-button.mat-attention,
-.mat-stroked-button.mat-attention {
-  color: mat-color($custom, attention);
-}
-.mat-raised-button.mat-attention,
-.mat-flat-button.mat-attention,
-.mat-fab.mat-attention,
-.mat-mini-fab.mat-attention {
-  color: mat-color($custom, attention-contrast);
-  background-color: mat-color($custom, attention);
-}
-.mat-icon-button.mat-attention,
-.mat-icon.mat-attention {
-  color: mat-color($custom, attention);
-}
-
-// secondary
-.mat-button.mat-secondary,
-.mat-stroked-button.mat-secondary {
-  color: mat-color($custom, secondary);
-}
-.mat-raised-button.mat-secondary,
-.mat-flat-button.mat-secondary,
-.mat-fab.mat-secondary,
-.mat-mini-fab.mat-secondary {
-  color: mat-color($custom, secondary-contrast);
-  background-color: mat-color($custom, secondary);
-}
-.mat-icon-button.mat-secondary {
-  color: mat-color($custom, secondary);
+.hint-button {
+  background-color: rgba(0, 0, 0, 0.62);
+  line-height: 0;
+  cursor: pointer;
 }
