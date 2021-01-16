@@ -25,28 +25,25 @@ import { FieldWrapper } from '@ngx-formly/core'
         fxLayout="row" fxLayoutAlign="center center"
       >
         <mat-icon
-          [hidden]="!to.addonRight.info"
-          fontSet="material-icons-round"
-          color="{{ to.addonRight.info?.color }}"
-          matTooltip="{{ to.addonRight.info?.tooltip }}"
-          matTooltipPosition="{{ to.addonRight.info?.tooltipPosition || 'below' }}"
+          color="{{ to.addonRight.infoIcon.color }}"
+          matTooltip="{{ to.addonRight.infoIcon.tooltip }}"
+          matTooltipPosition="{{ to.addonRight.infoIcon.tooltipPosition || 'below' }}"
+          *ngIf="!to.addonRight.infoIcon.hidden"
         >
-          {{ to.addonRight.info?.icon }}
+          {{ to.addonRight.infoIcon.icon }}
         </mat-icon>
 
         <button
-          [hidden]="!to.addonRight.evidenceButton"
           type="button"
           mat-icon-button
-          color="{{ to.addonRight.evidenceButton?.color }}"
+          color="{{ to.addonRight.evidenceButton.color }}"
+          matTooltip="{{ to.addonRight.evidenceButton.tooltip }}"
+          matTooltipPosition="{{ to.addonRight.evidenceButton.tooltipPosition || 'below' }}"
+          matTooltipClass="{{ to.addonRight.evidenceButton.tooltipClass }}"
+          [disabled]="to.addonRight.evidenceButton.disabled"
         >
-          <mat-icon
-            fontSet="material-icons-round"
-            matTooltip="{{ to.addonRight.evidenceButton?.tooltip }}"
-            matTooltipPosition="{{ to.addonRight.evidenceButton?.tooltipPosition || 'below' }}"
-            matTooltipClass="{{ to.addonRight.evidenceButton?.tooltipClass }}"
-          >
-            {{ to.addonRight.evidenceButton?.icon }}
+          <mat-icon>
+            {{ to.addonRight.evidenceButton.icon }}
           </mat-icon>
         </button>
 

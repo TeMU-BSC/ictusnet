@@ -16,13 +16,6 @@ body {
   background-color: $ictusnet-lightblue;
 }
 
-.logo {
-  display: inline-block;
-  height: 100%;
-  margin-top: 10px;
-  cursor: pointer;
-}
-
 // https://stackblitz.com/edit/angular-xrrwqb?file=styles.css
 .multiline-tooltip {
   white-space: pre-line;
@@ -30,10 +23,4 @@ body {
 
 .group-title {
   font-weight: bolder !important;
-}
-
-.hint-button {
-  background-color: rgba(0, 0, 0, 0.62);
-  line-height: 0;
-  cursor: pointer;
 }

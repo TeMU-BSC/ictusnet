@@ -42,9 +42,8 @@ export function getPanel(sectionName: string, groups: FormlyFieldConfig[]): Pane
 
 export function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnnotations: Annotation[]): FormlyFieldConfig {
   const hints = allAnnotations.filter(a => a.entity.startsWith(unspecifiedEntities[groupName]))
-  const tooltipText = hints.length === 1 ?
-    [`Se ha encontrado ${hints.length} pista:`].concat(hints.map(a => a.evidence)).join('\n') :
-    [`Se han encontrado ${hints.length} pistas:`].concat(hints.map(a => a.evidence)).join('\n')
+  const suffix = hints.length === 1 ? 'pista auxiliar' : 'pistas auxiliares'
+  const tooltip = [`${hints.length} ${suffix}`].concat(hints.map(a => a.evidence)).join('\n')
   const group: FormlyFieldConfig = {
     type: 'flex-layout',
     templateOptions: {
@@ -57,9 +56,11 @@ export function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnno
           fxLayout: 'row wrap',
           fxLayoutAlign: 'space-between',
           fxLayoutGap: '1rem',
-          hint: hints.length > 0 ? {
+
+          // custom property
+          hintButton: hints.length > 0 ? {
             icon: 'emoji_objects',
-            tooltip: tooltipText,
+            tooltip: tooltip,
             tooltipClass: 'multiline-tooltip',
             action: () => highlight(hints, 'context', 'unspecified'),
           } : null,
@@ -89,7 +90,7 @@ export function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnno
 
   // special cases
   if (specialGroupNames.includes(groupName)) {
-    group.fieldGroup[1].templateOptions.fxFlex = '90%'
+    group.fieldGroup[1].templateOptions.fxFlex = '100%'
   }
 
   // populate the group with the actual fields
@@ -102,11 +103,9 @@ export function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnno
  * Build the form field with all needed attributes, considering some special cases.
  */
 export function getField(variable: Variable, annotations: Annotation[], allVariables: Variable[]): FormlyFieldConfig {
-
-  // prepare options for select fields
-  let options = variable.options.map(o => ({ ...o, label: o.value }))
-
-  // build the formly field
+  const options = variable.options.map(o => ({ ...o, label: o.value }))
+  const suffix = annotations.length === 1 ? 'evidencia textual' : 'evidencias textuales'
+  const tooltip = [`${annotations.length} ${suffix}`].concat(annotations.map(a => a.evidence)).join('\n')
   const field: FormlyFieldConfig = {
     key: variable.key,
     type: variable.fieldType,
@@ -121,18 +120,20 @@ export function getField(variable: Variable, annotations: Annotation[], allVaria
       // custom properties
       annotations: annotations,
       addonRight: {
-        info: variable.info ? {
+        infoIcon: {
           icon: 'info',
           color: 'primary',
           tooltip: variable.info,
-        } : null,
-        evidenceButton: annotations.length > 0 ? {
+          hidden: variable.info === '',
+        },
+        evidenceButton: {
           icon: 'gps_fixed',
           color: 'accent',
-          tooltip: annotations.map(a => a.evidence).join('\n'),
+          tooltip: tooltip,
           tooltipClass: 'multiline-tooltip',
+          disabled: annotations.length === 0,
           onClick: (to, addon, event) => highlight(to.annotations, 'context', 'accent'),
-        } : null,
+        },
       },
     },
   }

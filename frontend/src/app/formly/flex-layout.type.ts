@@ -16,21 +16,28 @@ import { FieldType } from '@ngx-formly/core'
       </formly-field>
 
       <button
-        *ngIf="to.hint"
         type="button"
         mat-icon-button
         color="terciary"
         class="hint-button"
-        matTooltip="{{ to.hint.tooltip }}"
-        matTooltipClass="{{ to.hint.tooltipClass }}"
-        matTooltipPosition="{{ to.hint.tooltipPosition || 'below' }}"
-        (click)="to.hint.action()"
+        matTooltip="{{ to.hintButton.tooltip }}"
+        matTooltipClass="{{ to.hintButton.tooltipClass }}"
+        matTooltipPosition="{{ to.hintButton.tooltipPosition || 'below' }}"
+        (click)="to.hintButton.action()"
+        *ngIf="to.hintButton"
       >
-        <!-- https://github.com/angular/components/issues/11544 -->
-        <mat-icon fontSet="material-icons-round">{{ to.hint.icon }}</mat-icon>
+        <mat-icon>
+          {{ to.hintButton.icon }}
+        </mat-icon>
       </button>
     </div>
-  `
+  `,
+  styles: [`
+    .hint-button {
+      background-color: rgba(0, 0, 0, 0.67);
+      line-height: 0; /* Force icon centered */
+    }
+    `]
 })
 export class FlexLayoutType extends FieldType {
 }
