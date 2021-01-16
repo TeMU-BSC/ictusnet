@@ -12,7 +12,7 @@ async function insertMultipleDocuments(docs = []) {
   try {
     await client.connect()
     const database = client.db("ictusnet")
-    const collection = database.collection("annotated_reports")
+    const collection = database.collection("annotated_documents")
     // this option prevents additional documents from being inserted if one fails
     const options = { ordered: true }
     const result = await collection.insertMany(docs, options)

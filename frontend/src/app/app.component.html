@@ -1,13 +1,14 @@
 <mat-toolbar fxLayout fxLayoutAlign="space-between center">
-  <img src="assets/ictusnet-horizontal-logo-removebg.png" alt="ICTUSnet" class="logo" (click)="selectedReport = null" />
-  <div *ngIf="selectedReport" fxLayout fxLayoutAlign="space-between center" fxLayoutGap="1em">
+  <img src="assets/ictusnet-horizontal-logo-removebg.png" alt="ICTUSnet" class="logo"
+    (click)="selectedDocument = null" />
+  <div *ngIf="selectedDocument" fxLayout fxLayoutAlign="space-between center" fxLayoutGap="1em">
     <mat-form-field appearance="fill" style="font-size: small;">
       <mat-label>
         Documento actual
       </mat-label>
-      <mat-select [(value)]="selectedReport">
-        <mat-option *ngFor="let report of reports; let i = index" [value]="report">
-          ({{ i + 1 }}) {{ report.filename }}
+      <mat-select [(value)]="selectedDocument">
+        <mat-option *ngFor="let document of documents; let i = index" [value]="document">
+          ({{ i + 1 }}) {{ document.filename }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -19,7 +20,7 @@
 </mat-toolbar>
 <mat-divider></mat-divider>
 <main style="height: calc(100% - 4rem - 1px);">
-  <div *ngIf="!selectedReport" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem"
+  <div *ngIf="!selectedDocument" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem"
     style="padding-top: 5rem;">
     <img src="assets/ictusnet_imagotipo.png" alt="imagotipo ictusnet">
     <h3 style="text-align: center; max-width: 250px;">
@@ -30,7 +31,7 @@
       <button mat-raised-button color="accent" (click)="fileInput.click()">
         Subir informes de texto plano
       </button>
-      <button mat-button color="primary" (click)="isDemo = true; getAnnotatedReports()">
+      <button mat-button color="primary" (click)="isDemo = true; getAnnotatedDocuments()">
         o probar la demo con informes de ejemplo
       </button>
     </div>
@@ -38,5 +39,5 @@
   <div *ngIf="isLoading" fxLayout fxLayoutAlign="center center" class="fullheight" style="margin-top: 3em;">
     <mat-progress-bar mode="indeterminate" style="width: 50%"></mat-progress-bar>
   </div>
-  <app-form *ngIf="selectedReport" [report]="selectedReport"></app-form>
+  <app-form *ngIf="selectedDocument" [document]="selectedDocument"></app-form>
 </main>

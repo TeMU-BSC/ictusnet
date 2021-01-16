@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { ApiService } from './services/api.service'
-import { Report } from './interfaces/interfaces'
+import { Document } from './interfaces/interfaces'
 
 @Component({
   selector: 'app-root',
@@ -12,8 +12,8 @@ export class AppComponent {
 
   faGithub = faGithub;
   files: FileList
-  reports: Report[]
-  selectedReport: Report
+  documents: Document[]
+  selectedDocument: Document
   isDemo = false
   isLoading = false
 
@@ -21,13 +21,13 @@ export class AppComponent {
 
   constructor(private api: ApiService) { }
 
-  getAnnotatedReports(): void {
+  getAnnotatedDocuments(): void {
     this.isLoading = true
-    this.api.getAnnotatedReports({ isDemo: this.isDemo }).subscribe(reports => {
-      this.reports = reports
-      this.selectedReport = this.reports[0]
+    this.api.getAnnotatedDocuments({ isDemo: this.isDemo }).subscribe(documents => {
+      this.documents = documents
+      this.selectedDocument = this.documents[0]
       this.isLoading = false
-      // this.filenames = reports.map(report => report.filename)
+      // this.filenames = documents.map(document => document.filename)
     })
   }
 
@@ -39,7 +39,7 @@ export class AppComponent {
       this.load(this.files)
       console.log(`Check F12 -> Application > LocalStorage.`)
 
-      this.getAnnotatedReports()
+      this.getAnnotatedDocuments()
 
       // this.load(annFiles)
     })
@@ -64,7 +64,7 @@ export class AppComponent {
     // for (var i = 0; i < localStorage.length; i++) {
     //   this.filenames.push(localStorage.key(i))
     // }
-    this.selectedReport = this.reports[0]
+    this.selectedDocument = this.documents[0]
   }
 
 }

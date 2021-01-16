@@ -5,7 +5,7 @@ import { MatAccordion } from '@angular/material/expansion'
 import { FormlyFormOptions } from '@ngx-formly/core'
 import { Papa } from 'ngx-papaparse'
 
-import { Report, Variable } from 'src/app/interfaces/interfaces'
+import { Document, Variable } from 'src/app/interfaces/interfaces'
 import { downloadObjectAsJson } from 'src/app/helpers/json'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '../dialog/dialog.component'
@@ -18,7 +18,7 @@ import { getVariableAnnotations, autofill, getPanels, PanelType } from 'src/app/
 })
 export class FieldComponent implements OnChanges {
 
-  @Input() report: Report
+  @Input() document: Document
   variables: Variable[]
   focusedField: any
   downloadFilename: string
@@ -48,13 +48,13 @@ export class FieldComponent implements OnChanges {
   }
 
   /**
-   * Load the form with the ictus Input() report property.
+   * Load the form with the ictus Input() document property.
    */
   loadForm() {
     this.isLoading = true
     this.model = {}
     this.panels = []
-    this.downloadFilename = `${this.report.filename}.json`
+    this.downloadFilename = `${this.document.filename}.json`
 
     // TODO await new Promises in papa-parse's to avoid the "callback hell"
 
@@ -73,10 +73,10 @@ export class FieldComponent implements OnChanges {
             const options: any[] = parsedOptions.data
             variables.forEach(variable => {
               variable.options = options.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }))
-              const annotations = getVariableAnnotations(variable, this.report.annotations)
+              const annotations = getVariableAnnotations(variable, this.document.annotations)
               this.model = { ...this.model, [variable.key]: autofill(variable, annotations) }
             })
-            this.panels = [...this.panels, ...getPanels(variables, this.report.annotations)]
+            this.panels = [...this.panels, ...getPanels(variables, this.document.annotations)]
             this.isLoading = false
           }
         })

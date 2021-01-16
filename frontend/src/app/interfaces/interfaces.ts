@@ -25,7 +25,7 @@ export interface Variable {
   comments?: string
 }
 
-export interface Report {
+export interface Document {
   filename: string,
   text: string,
   annotations: Annotation[]

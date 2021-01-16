@@ -1,6 +1,6 @@
 // uploads direcory must be a relative path so it can work with multer
-const uploadsDir = './reports/uploads'
-const demoDir = './reports/demo'
+const uploadsDir = './documents/uploads'
+const demoDir = './documents/demo'
 const runDockerScript = './ictusnet-ctakes/run-docker.sh'
 
 const express = require('express')
@@ -24,22 +24,22 @@ app.get('/', (req, res) => {
 })
 
 app.post('/upload', upload.array('files[]'), (req, res) => {
-  res.json({ 'message': `Medical report files have been uploaded successfully to backend directory "${uploadsDir}".` })
+  res.json({ 'message': `Medical document files have been uploaded successfully to backend directory "${uploadsDir}".` })
 })
 
-app.get('/reports', async (req, res) => {
+app.get('/documents', async (req, res) => {
   const isDemo = JSON.parse(req.query.isDemo.toLowerCase())
   if (isDemo) {
-    const annotatedDemoReports = await getParsedBratDirArray(demoDir)
-    res.json(annotatedDemoReports)
+    const annotatedDemoDocuments = await getParsedBratDirArray(demoDir)
+    res.json(annotatedDemoDocuments)
     return
   }
   generateAnnFilesSync(runDockerScript, uploadsDir, uploadsDir)
-  const annotatedReports = await getParsedBratDirArray(uploadsDir)
-  await insertMultipleDocuments(annotatedReports).catch(console.dir)
-  console.log(`Annotated reports have been converted into JSON documents to be stored into MongoDB local instance (database "ictusnet", collection "uploads")`)
+  const annotatedDocuments = await getParsedBratDirArray(uploadsDir)
+  await insertMultipleDocuments(annotatedDocuments).catch(console.dir)
+  console.log(`Annotated documents have been converted into JSON to be stored into MongoDB local instance`)
 
-  res.json(annotatedReports)
+  res.json(annotatedDocuments)
 })
 
 const port = 3000
