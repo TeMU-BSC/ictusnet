@@ -8,7 +8,7 @@ This is a webapp that allows to upload medical documents and displays a categori
 
 ```bash
 # terminal 1
-docker run -p 27017:27017 -v "$(realpath ./database/mongodb)":/data/db mongo
+docker run --name ictusnet_mongo --rm -p 27017:27017 -v "$(realpath ./database/mongodb)":/data/db mongo
 
 # terminal 2
 cd backend

@@ -11,7 +11,7 @@ export class LoaderComponent {
   isLloading: boolean
 
   constructor(private loaderService: LoaderService) {
-    this.loaderService.isLoading.subscribe(v => this.isLloading = v)
+    this.loaderService.loading.subscribe(v => this.isLloading = v)
   }
 
 }

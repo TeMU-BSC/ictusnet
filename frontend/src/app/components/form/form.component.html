@@ -1,7 +1,7 @@
-<div *ngIf="isLoading" fxLayout fxLayoutAlign="center center" class="fullheight">
+<div *ngIf="loading" fxLayout fxLayoutAlign="center center" class="fullheight">
   <mat-progress-bar mode="indeterminate" style="width: 50%"></mat-progress-bar>
 </div>
-<div [fxHide]="isLoading" fxLayout="column" fxLayoutGap="0.5em" fxLayout.gt-sm="row" fxLayoutAlign="space-between"
+<div [fxHide]="loading" fxLayout="column" fxLayoutGap="0.5em" fxLayout.gt-sm="row" fxLayoutAlign="space-between"
   fxLayoutAlign.gt-sm="space-between center" fxLayoutGap.gt-sm="0rem" class="fullheight">
   <section id="wrapper" class="fullheight scroll context" fxFlex="45%" fxFlexOrder.gt-sm="2">
     <pre class="plaintext wrap">{{ document.text }}</pre>

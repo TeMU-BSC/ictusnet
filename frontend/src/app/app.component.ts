@@ -14,34 +14,29 @@ export class AppComponent {
   files: FileList
   documents: Document[]
   selectedDocument: Document
-  isDemo = false
-  isLoading = false
-
-  filenames: string[]
+  loading = false
+  uploading = false
 
   constructor(private api: ApiService) { }
 
-  getAnnotatedDocuments(): void {
-    this.isLoading = true
-    this.api.getAnnotatedDocuments({ isDemo: this.isDemo }).subscribe(documents => {
+  getAnnotatedDocuments(isDemo = false): void {
+    this.loading = true
+    this.api.getAnnotatedDocuments({ isDemo }).subscribe(documents => {
       this.documents = documents
       this.selectedDocument = this.documents[0]
-      this.isLoading = false
-      // this.filenames = documents.map(document => document.filename)
+      this.loading = false
     })
   }
 
   fileChange(event: Event): void {
+    this.uploading = true
     this.files = (event.target as HTMLInputElement).files
     this.api.upload(this.files).subscribe(result => {
       console.log(result.message)
 
-      this.load(this.files)
-      console.log(`Check F12 -> Application > LocalStorage.`)
-
+      // this.load(this.files)
       this.getAnnotatedDocuments()
-
-      // this.load(annFiles)
+      this.uploading = false
     })
   }
 
@@ -58,13 +53,9 @@ export class AppComponent {
   }
 
   readFromLocalStorage() {
-    this.filenames = Array.from(localStorage)
-    // Array.from(localStorage).forEach(item => this.filenames.push(item))
+    const filenames = Array.from(localStorage)
+    console.log(filenames)
 
-    // for (var i = 0; i < localStorage.length; i++) {
-    //   this.filenames.push(localStorage.key(i))
-    // }
-    this.selectedDocument = this.documents[0]
   }
 
 }

@@ -22,7 +22,7 @@ export class FieldComponent implements OnChanges {
   variables: Variable[]
   focusedField: any
   downloadFilename: string
-  isLoading = true
+  loading = true
 
   // formly
   model: any = {}
@@ -51,7 +51,7 @@ export class FieldComponent implements OnChanges {
    * Load the form with the ictus Input() document property.
    */
   loadForm() {
-    this.isLoading = true
+    this.loading = true
     this.model = {}
     this.panels = []
     this.downloadFilename = `${this.document.filename}.json`
@@ -77,7 +77,7 @@ export class FieldComponent implements OnChanges {
               this.model = { ...this.model, [variable.key]: autofill(variable, annotations) }
             })
             this.panels = [...this.panels, ...getPanels(variables, this.document.annotations)]
-            this.isLoading = false
+            this.loading = false
           }
         })
       }

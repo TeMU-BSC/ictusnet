@@ -124,7 +124,7 @@ export function getField(variable: Variable, annotations: Annotation[],
   const options = variable.options.map(o => ({ ...o, label: o.value }))
 
   // Locate FECHA and HORA unspecific variables
-  const hints = allAnnotations.filter(a => a.entity.startsWith(variable.shortLabel))
+  const hints = allAnnotations.filter(a => a.entity.toUpperCase().startsWith(variable.shortLabel.toUpperCase()))
   const hintTitleSuffix = hints.length === 1 ? 'pista' : 'pistas'
   const hintTooltip = [`${hints.length} ${hintTitleSuffix}`].concat(hints.map(a => a.evidence)).join('\n')
   const evidenceTitleSuffix = annotations.length === 1 ? 'evidencia textual' : 'evidencias textuales'
