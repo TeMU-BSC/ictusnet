@@ -9,7 +9,7 @@ import { Document, Variable } from 'src/app/interfaces/interfaces'
 import { downloadObjectAsJson } from 'src/app/helpers/json'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from '../dialog/dialog.component'
-import { getVariableAnnotations, autofill, getPanels, PanelType } from 'src/app/helpers/formly'
+import { getVariableAnnotations, autofill, getPanels, PanelType } from 'src/app/formly/formly'
 
 @Component({
   selector: 'app-form',

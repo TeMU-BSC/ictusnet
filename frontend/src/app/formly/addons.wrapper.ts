@@ -5,23 +5,11 @@ import { FieldWrapper } from '@ngx-formly/core'
   selector: 'formly-wrapper-addons',
   template: `
   <div>
-    <ng-template #matPrefix>
-      <span
-        *ngIf="to.addonLeft"
-        [ngStyle]="{cursor: to.addonLeft.onClick ? 'pointer' : 'inherit'}"
-        (click)="addonLeftClick($event)"
-      >
-        <mat-icon *ngIf="to.addonLeft.icon">{{ to.addonLeft.icon }}</mat-icon>&nbsp;
-        <span *ngIf="to.addonLeft.text">{{ to.addonLeft.text }}</span>&nbsp;
-      </span>
-    </ng-template>
-
     <ng-container #fieldComponent></ng-container>
 
     <ng-template #matSuffix>
       <span
         *ngIf="to.addonRight"
-        (click)="addonRightClick($event)"
         fxLayout="row" fxLayoutAlign="center center"
       >
         <mat-icon
@@ -36,18 +24,32 @@ import { FieldWrapper } from '@ngx-formly/core'
         <button
           type="button"
           mat-icon-button
+          color="{{ to.addonRight.hintButton.color }}"
+          matTooltip="{{ to.addonRight.hintButton.tooltip }}"
+          matTooltipPosition="{{ to.addonRight.hintButton.tooltipPosition || 'below' }}"
+          matTooltipClass="{{ to.addonRight.hintButton.tooltipClass }}"
+          *ngIf="!to.addonRight.hintButton.hidden"
+          (click)="addonRightHintButtonClick($event)"
+        >
+          <mat-icon>
+            {{ to.addonRight.hintButton.icon }}
+          </mat-icon>
+        </button>
+
+        <button
+          type="button"
+          mat-icon-button
           color="{{ to.addonRight.evidenceButton.color }}"
           matTooltip="{{ to.addonRight.evidenceButton.tooltip }}"
           matTooltipPosition="{{ to.addonRight.evidenceButton.tooltipPosition || 'below' }}"
           matTooltipClass="{{ to.addonRight.evidenceButton.tooltipClass }}"
-          [disabled]="to.addonRight.evidenceButton.disabled"
+          *ngIf="!to.addonRight.evidenceButton.hidden"
+          (click)="addonRightEvidenceButtonClick($event)"
         >
           <mat-icon>
             {{ to.addonRight.evidenceButton.icon }}
           </mat-icon>
         </button>
-
-        <span *ngIf="to.addonRight.text">{{ to.addonRight.text }}</span>
       </span>
     </ng-template>
   </div>
@@ -55,29 +57,31 @@ import { FieldWrapper } from '@ngx-formly/core'
 })
 export class FormlyWrapperAddons extends FieldWrapper implements AfterViewInit {
 
-  @ViewChild('matPrefix') matPrefix: TemplateRef<any>
+  // @ViewChild('matPrefix') matPrefix: TemplateRef<any>
   @ViewChild('matSuffix') matSuffix: TemplateRef<any>
 
   ngAfterViewInit() {
-    if (this.matPrefix) {
-      Promise.resolve().then(() => this.to.prefix = this.matPrefix)
-    }
+    // if (this.matPrefix) {
+    //   Promise.resolve().then(() => this.to.prefix = this.matPrefix)
+    // }
 
     if (this.matSuffix) {
       Promise.resolve().then(() => this.to.suffix = this.matSuffix)
     }
   }
 
-  addonLeftClick($event: any) {
-    if (this.to.addonLeft.onClick) {
-      this.to.addonLeft.onClick(this.to, this, $event)
-    }
+  // addonLeftClick($event: any) {
+  //   if (this.to.addonLeft.onClick) {
+  //     this.to.addonLeft.onClick(this.to, this, $event)
+  //   }
+  // }
+
+  addonRightHintButtonClick($event: any) {
+    this.to.addonRight?.hintButton?.onClick(this.to, this, $event)
   }
 
-  addonRightClick($event: any) {
-    if (this.to.addonRight.onClick) {
-      this.to.addonRight.onClick(this.to, this, $event)
-    }
+  addonRightEvidenceButtonClick($event: any) {
+    this.to.addonRight?.evidenceButton?.onClick(this.to, this, $event)
   }
 
 }

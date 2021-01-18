@@ -1,5 +1,5 @@
 import { FormlyFieldConfig } from "@ngx-formly/core"
-import { panelIcons, unspecifiedEntities, specialGroupNames, diagnosticoPrincipalEntities, admissibleEvidences } from "../constants/constants"
+import { panelIcons, nonSpecificEntities, diagnosticoSectionGroupNames, diagnosticoPrincipalEntities, admissibleEvidences } from "../constants/constants"
 import { Annotation, Variable } from "../interfaces/interfaces"
 import Mark from 'mark.js'
 
@@ -19,7 +19,7 @@ export function getPanels(variables: Variable[], allAnnotations: Annotation[]): 
       const fields: FormlyFieldConfig[] = []
       groupVariables.filter(v => v.group === groupName).forEach(variable => {
         const annotations = getVariableAnnotations(variable, allAnnotations)
-        const field = getField(variable, annotations, variables)
+        const field = getField(variable, annotations, variables, allAnnotations)
         fields.push(field)
       })
       const group = getGroup(groupName, fields, allAnnotations)
@@ -41,55 +41,64 @@ export function getPanel(sectionName: string, groups: FormlyFieldConfig[]): Pane
 }
 
 export function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnnotations: Annotation[]): FormlyFieldConfig {
-  const hints = allAnnotations.filter(a => a.entity.startsWith(unspecifiedEntities[groupName]))
-  const suffix = hints.length === 1 ? 'pista auxiliar' : 'pistas auxiliares'
-  const tooltip = [`${hints.length} ${suffix}`].concat(hints.map(a => a.evidence)).join('\n')
+  const auxiliaryHints = allAnnotations.filter(a => a.entity.startsWith(nonSpecificEntities[groupName]))
+  const shouldHide = auxiliaryHints.length === 0
+  const suffix = auxiliaryHints.length === 1 ? 'pista auxiliar' : 'pistas auxiliares'
+  const tooltip = [`${auxiliaryHints.length} ${suffix}`].concat(auxiliaryHints.map(a => a.evidence)).join('\n')
   const group: FormlyFieldConfig = {
     type: 'flex-layout',
     templateOptions: {
       fxLayout: 'column',
     },
     fieldGroup: [
+
+      // Group title: group.fieldGroup[0]
       {
         type: 'flex-layout',
         templateOptions: {
           fxLayout: 'row wrap',
-          fxLayoutAlign: 'space-between',
+          fxLayoutXs: 'row',
+          fxLayoutAlign: 'start end',
           fxLayoutGap: '1rem',
 
           // custom property
-          hintButton: hints.length > 0 ? {
+          auxiliaryHintButton: shouldHide ? null : {
             icon: 'emoji_objects',
             tooltip: tooltip,
             tooltipClass: 'multiline-tooltip',
-            action: () => highlight(hints, 'context', 'unspecified'),
-          } : null,
+            onClick: () => highlight(auxiliaryHints, 'auxiliar'),
+          },
         },
         fieldGroup: [
           {
-            template: `<h3 class="group-title">${groupName}</h3>`,
+            template: `<span class="group-title">${groupName}</span>`,
           }
         ]
       },
+
+      // Group form fields: group.fieldGroup[1]
       {
         type: 'flex-layout',
         templateOptions: {
           fxLayout: 'row',
+          fxLayoutXs: 'column',
           fxLayoutGap: '1rem',
           fxFlex: '45%',
         },
+
+        // Populated below
         fieldGroup: []
       }
     ]
   }
 
-  // row wrap layout when more than two fields per group
+  // row wrap layout when more than two fields per group (avoiding too many fields per line)
   if (fields.length > 2) {
     group.fieldGroup[1].templateOptions.fxLayout = 'row wrap'
   }
 
   // special cases
-  if (specialGroupNames.includes(groupName)) {
+  if (diagnosticoSectionGroupNames.includes(groupName)) {
     group.fieldGroup[1].templateOptions.fxFlex = '100%'
   }
 
@@ -102,10 +111,18 @@ export function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnno
 /**
  * Build the form field with all needed attributes, considering some special cases.
  */
-export function getField(variable: Variable, annotations: Annotation[], allVariables: Variable[]): FormlyFieldConfig {
+export function getField(variable: Variable, annotations: Annotation[],
+  allVariables: Variable[], allAnnotations: Annotation[]): FormlyFieldConfig {
+
   const options = variable.options.map(o => ({ ...o, label: o.value }))
-  const suffix = annotations.length === 1 ? 'evidencia textual' : 'evidencias textuales'
-  const tooltip = [`${annotations.length} ${suffix}`].concat(annotations.map(a => a.evidence)).join('\n')
+
+  // Locate FECHA and HORA unspecific variables
+  const hints = allAnnotations.filter(a => a.entity.startsWith(variable.shortLabel))
+  const hintTitleSuffix = hints.length === 1 ? 'pista' : 'pistas'
+  const hintTooltip = [`${hints.length} ${hintTitleSuffix}`].concat(hints.map(a => a.evidence)).join('\n')
+  const evidenceTitleSuffix = annotations.length === 1 ? 'evidencia textual' : 'evidencias textuales'
+  const evidenceTooltip = [`${annotations.length} ${evidenceTitleSuffix}`].concat(annotations.map(a => a.evidence)).join('\n')
+
   const field: FormlyFieldConfig = {
     key: variable.key,
     type: variable.fieldType,
@@ -115,9 +132,9 @@ export function getField(variable: Variable, annotations: Annotation[], allVaria
       label: variable.shortLabel,
       multiple: variable.cardinality === 'n',
       options: options,
-      focus: (field, event) => highlight(field.templateOptions.annotations, 'context', 'accent'),
 
       // custom properties
+      hints: hints,
       annotations: annotations,
       addonRight: {
         infoIcon: {
@@ -126,13 +143,21 @@ export function getField(variable: Variable, annotations: Annotation[], allVaria
           tooltip: variable.info,
           hidden: variable.info === '',
         },
+        hintButton: {
+          icon: 'gps_not_fixed',
+          color: 'primary',
+          tooltip: hintTooltip,
+          tooltipClass: 'multiline-tooltip',
+          hidden: hints.length === 0 || annotations.length > 0,
+          onClick: (to, addon, event) => highlight(to.hints, 'hint'),
+        },
         evidenceButton: {
           icon: 'gps_fixed',
           color: 'accent',
-          tooltip: tooltip,
+          tooltip: evidenceTooltip,
           tooltipClass: 'multiline-tooltip',
-          disabled: annotations.length === 0,
-          onClick: (to, addon, event) => highlight(to.annotations, 'context', 'accent'),
+          hidden: annotations.length === 0,
+          onClick: (to, addon, event) => highlight(to.annotations, 'evidence'),
         },
       },
     },
@@ -248,14 +273,19 @@ export function autofill(variable: Variable, annotations: Annotation[]): string 
 
   // multiple-option select needs array of strings
   if (isMultiSelect) {
-    const data: string[] = annotations.map(a => variable.options.find(o => o.value.toLowerCase().concat(' ', o.comment).includes(a?.evidence.toLowerCase()))?.value)
+    const data: string[] = annotations
+      .map(a => variable.options
+        .find(o => o.value.toLowerCase()
+          .concat(' ', o.comment)
+          .includes(a?.evidence.toLowerCase())
+        )?.value
+      )
     return [...new Set(data)]
   }
 }
 
 /**
-* Highlight, in the text with class `className`, the offsets present in the given annotations.
-* Note: Requires an HTML element with the given `className` to exist.
+* Highlight the offset range (start, end) present in each given annotation within the HTML elements which have the CSS class named 'context'.
 *
 * https://markjs.io/#markranges
 * https://jsfiddle.net/julmot/hexomvbL/
@@ -263,18 +293,18 @@ export function autofill(variable: Variable, annotations: Annotation[]): string 
 * https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle
 *
 */
-export function highlight(annotations: Annotation[], className: string, color: string): void {
-  const instance = new Mark(`.${className}`)
+export function highlight(annotations: Annotation[], highlightType: 'hint' | 'evidence' | 'auxiliar'): void {
+  const instance = new Mark('.context')
   const ranges = annotations.map(a => ({ start: a.offset.start, length: a.offset.end - a.offset.start }))
   const options = {
-    each: (element: HTMLElement) => setTimeout(() => element.classList.add('animate', color), 250),
+    each: (element: HTMLElement) => setTimeout(() => element.classList.add('animate', highlightType), 250),
     done: (numberOfMatches: number) => {
       if (numberOfMatches) {
-        let item = document.getElementsByTagName('mark')[0]  // what we want to scroll to
-        let wrapper = document.getElementById('wrapper')  // the wrapper we will scroll inside
+        const item = document.getElementsByTagName('mark')[0]  // what we want to scroll to
+        const wrapper = document.getElementById('wrapper')  // the wrapper we will scroll inside
         const lineHeightPixels: number = Number(window.getComputedStyle(wrapper).getPropertyValue('line-height').replace('px', ''))
-        let count = item.offsetTop - wrapper.scrollTop - lineHeightPixels * 10  // any extra distance from top
-        wrapper.scrollBy({ top: count, left: 0, behavior: 'smooth' })
+        const top = item.offsetTop - wrapper.scrollTop - lineHeightPixels * 10  // extra pixels distance from top
+        wrapper.scrollBy({ top: top, left: 0, behavior: 'smooth' })
       }
     }
   }

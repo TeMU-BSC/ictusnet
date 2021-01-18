@@ -4,9 +4,9 @@ export const panelIcons = {
   'Procedimientos': 'healing',
   'Tratamientos': 'local_pharmacy',
   'Pruebas y escalas de valoración': 'analytics',
-  // 'Tratamientos y escalas de valoración': 'analytics',
 }
 
+// Similar behaviour as the suggestions from CTAKES:
 // https://github.com/TeMU-BSC/spactes/blob/master/ctakes-SpaCTeS-res/src/main/resources/org/apache/ctakes/examples/dictionary/lookup/fuzzy/IctusnetDict.bsv
 export const admissibleEvidences = {
   diagnosticoPrincipal: {},
@@ -39,7 +39,7 @@ export const admissibleEvidences = {
   etiologia: {},
 }
 
-export const unspecifiedEntities = {
+export const nonSpecificEntities = {
   'Trombólisis intravenosa': 'Trombolisis_intravenosa',
   'Trombólisis intraarterial': 'Trombolisis_intraarterial',
   'Trombectomía mecánica': 'Trombectomia_mecanica',
@@ -56,7 +56,7 @@ export const diagnosticoPrincipalEntities = [
   'Hemorragia_cerebral'
 ]
 
-export const specialGroupNames = [
+export const diagnosticoSectionGroupNames = [
   'Diagnóstico principal',
   'Arterias afectadas',
   'Localizaciones',

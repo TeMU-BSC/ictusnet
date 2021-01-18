@@ -2,24 +2,55 @@
 mark {
   padding: 0;
   background: transparent;
-  background: linear-gradient(to right, $ictusnet-orange 50%, transparent 50%);
+  background: linear-gradient(to right, darkorange 50%, transparent 50%);
   background-position: right bottom;
   background-size: 200% 100%;
-  transition: all 0.5s ease;
+
+  &.animate {
+    transition: all 0.5s ease;
+    background-position: left bottom;
+    color: black;
+  }
 }
-mark.animate {
-  background-position: left bottom;
-  color: white;
-}
-mark.unspecified {
+
+mark.hint {
   padding: 0;
   background: transparent;
-  background: linear-gradient(to right, yellow 50%, transparent 50%);
+  background: linear-gradient(to right, $primary 50%, transparent 50%);
   background-position: right bottom;
   background-size: 200% 100%;
-  transition: all 0.5s ease;
+
+  &.animate {
+    transition: all 0.5s ease;
+    background-position: left bottom;
+    color: white;
+  }
 }
-mark.unspecified.animate {
-  background-position: left bottom;
-  color: black;
+
+mark.evidence {
+  padding: 0;
+  background: transparent;
+  background: linear-gradient(to right, $accent 50%, transparent 50%);
+  background-position: right bottom;
+  background-size: 200% 100%;
+
+  &.animate {
+    transition: all 0.5s ease;
+    background-position: left bottom;
+    color: white;
+  }
+}
+
+mark.auxiliar {
+  padding: 0;
+  background: transparent;
+  background: linear-gradient(to right, $terciary 50%, transparent 50%);
+  background-position: right bottom;
+  background-size: 200% 100%;
+
+  &.animate {
+    transition: all 0.5s ease;
+    background-position: left bottom;
+    color: black;
+  }
 }

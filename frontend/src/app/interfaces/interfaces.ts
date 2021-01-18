@@ -7,7 +7,7 @@ export interface Annotation {
   }
   evidence: string
   note: string
-  unspecified?: boolean
+  nonSpecific?: boolean
 }
 
 export interface Variable {

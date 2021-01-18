@@ -1,13 +1,12 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core'
+import { Component } from '@angular/core'
 import { FieldType } from '@ngx-formly/core'
 
 @Component({
   selector: 'formly-form-flex',
   template: `
     <div
-      class="flex-layout-content"
-      [fxLayout]="to.fxLayout"
-      fxLayout.xs="column"
+      [fxLayout]="to.fxLayout || 'row wrap'"
+      [fxLayout.xs]="to.fxLayoutXs || 'column'"
       [fxLayoutAlign]="to.fxLayoutAlign || 'start stretch'"
       [fxLayoutGap]="to.fxLayoutGap || '0rem'"
     >
@@ -15,29 +14,26 @@ import { FieldType } from '@ngx-formly/core'
       <formly-field [fxFlex]="to.fxFlex" *ngFor="let f of field.fieldGroup" [field]="f">
       </formly-field>
 
-      <button
-        type="button"
-        mat-icon-button
+      <mat-icon
+        *ngIf="to.auxiliaryHintButton"
         color="terciary"
-        class="hint-button"
-        matTooltip="{{ to.hintButton.tooltip }}"
-        matTooltipClass="{{ to.hintButton.tooltipClass }}"
-        matTooltipPosition="{{ to.hintButton.tooltipPosition || 'below' }}"
-        (click)="to.hintButton.action()"
-        *ngIf="to.hintButton"
+        class="auxiliar-hint-button"
+        matTooltip="{{ to.auxiliaryHintButton?.tooltip }}"
+        matTooltipClass="{{ to.auxiliaryHintButton?.tooltipClass }}"
+        matTooltipPosition="{{ to.auxiliaryHintButton?.tooltipPosition || 'below' }}"
+        (click)="to.auxiliaryHintButton?.onClick()"
       >
-        <mat-icon>
-          {{ to.hintButton.icon }}
-        </mat-icon>
-      </button>
+        {{ to.auxiliaryHintButton?.icon }}
+      </mat-icon>
     </div>
   `,
   styles: [`
-    .hint-button {
-      background-color: rgba(0, 0, 0, 0.67);
-      line-height: 0; /* Force icon centered */
+    .auxiliar-hint-button {
+      background-color: #283593;
+      border-radius: 50%;
+      padding: 0.2rem;
+      cursor: pointer;
     }
-    `]
+  `]
 })
-export class FlexLayoutType extends FieldType {
-}
+export class FlexLayoutType extends FieldType { }

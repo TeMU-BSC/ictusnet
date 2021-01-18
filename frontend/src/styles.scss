@@ -1,6 +1,5 @@
 @import "./styles/ictusnet-theme.scss";
-@import "./styles/ictusnet-colors.scss";
-@import "./styles/additional-mat-colors.scss";
+@import "./styles/mat-colors-additional.scss";
 @import "./styles/mat-components-hacks.scss";
 @import "./styles/markjs.scss";
 
@@ -13,7 +12,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: $ictusnet-lightblue;
+  background-color: $lightblue;
 }
 
 // https://stackblitz.com/edit/angular-xrrwqb?file=styles.css
@@ -22,5 +21,5 @@ body {
 }
 
 .group-title {
-  font-weight: bolder !important;
+  font-weight: 500 !important;
 }

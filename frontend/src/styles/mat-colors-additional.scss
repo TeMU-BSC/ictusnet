@@ -1,8 +1,24 @@
+// Basic material colors (sass variables accessible).
+$primary: mat-color($ictusnet-primary);
+$accent: mat-color($ictusnet-accent);
+$warn: mat-color($ictusnet-warn);
+
 // Additional palettes.
 $ictusnet-secondary: mat-palette($mat-grey);
 $ictusnet-terciary: mat-palette($mat-yellow);
 $ictusnet-success: mat-palette($mat-green);
 $ictusnet-info: mat-palette($mat-blue);
+
+// Additinal colors.
+$secondary: mat-color($ictusnet-secondary);
+$terciary: mat-color($ictusnet-terciary);
+$success: mat-color($ictusnet-success);
+$info: mat-color($ictusnet-info);
+
+// Ictusnet exact colors.
+$indigo: #174489;
+$orange: #ce612f;
+$lightblue: #f0faff;
 
 // https://github.com/angular/components/issues/11888#issuecomment-536509515
 $custom-collection: (
@@ -12,6 +28,7 @@ $custom-collection: (
   info: mat-color($ictusnet-info),
   contrast: (
     secondary: mat-contrast($mat-grey, 600),
+    terciary: mat-contrast($mat-yellow, 600),
     success: mat-contrast($mat-green, 600),
     info: mat-contrast($mat-blue, 600),
   ),
