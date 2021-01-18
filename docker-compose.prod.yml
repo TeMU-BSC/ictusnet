@@ -1,21 +1,33 @@
-version: "3.7"
-
 services:
+
+  mongo:
+    image: mongo
+    container_name: ictusnet_mongo_production
+    ports:
+      - 27017-27019:27017-27019
+    volumes:
+      - ./database/mongodb:/data/db
+
+  node:
+    container_name: ictusnet_node_production
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    privileged: true
+    environment:
+      - MONGODB_HOST=mongo
+    command: node app.js
+
   angular:
     container_name: ictusnet_angular_production
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
     ports:
-      - 9999:80
-    restart: always
-
-  express:
-    container_name: ictusnet_express_production
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.prod
-    ports:
-      - 3000:3000
-    command: node app.js
+      - 81:80
     restart: always

@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
-const HOST = 'localhost'  // when executing docker run ...
-// const HOST = 'mongo'  // (container_name) when executing docker-compose up ...
-const uri = `mongodb://${HOST}/ictusnet`
+/**
+ * 'mongo' (docker service name in docker-compose file) when launching app by docker-compose up [...] OR
+ * 'localhost' when launching app by docker run [...]
+ */
+const MONGODB_HOST = process.env.MONGODB_HOST || 'localhost'
+const uri = `mongodb://${MONGODB_HOST}:27017/ictusnet`
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

@@ -6,6 +6,8 @@ This is a webapp that allows to upload medical documents and displays a categori
 
 ## Development
 
+### Method A: Using three different terminal windows
+
 ```bash
 # terminal 1
 docker run --name ictusnet_mongo --rm -p 27017:27017 -v "$(realpath ./database/mongodb)":/data/db mongo
@@ -19,6 +21,12 @@ npm run dev
 cd frontend
 npm install
 npm run dev
+```
+
+### Method B: Using three different terminal windows
+
+```bash
+docker-compose up --build
 ```
 
 ## Production

@@ -1,9 +1,6 @@
-FROM yobasystems/alpine-docker
-RUN apk add --update nodejs npm
-WORKDIR /app
+FROM node:14.15.4-alpine
 
-# testing
-# FROM alpine
-# RUN apk add --update openrc docker nodejs npm
-# RUN service docker start
-# RUN docker run hello-world
+# Install docker upon Alpine image
+RUN apk add --update docker
+
+WORKDIR /app
