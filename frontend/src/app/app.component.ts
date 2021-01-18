@@ -2,6 +2,8 @@ import { Component } from '@angular/core'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { ApiService } from './services/api.service'
 import { Document } from './interfaces/interfaces'
+import { MatDialog } from '@angular/material/dialog'
+import { DialogComponent } from './components/dialog/dialog.component'
 
 @Component({
   selector: 'app-root',
@@ -14,14 +16,18 @@ export class AppComponent {
   files: FileList
   documents: Document[]
   selectedDocument: Document
+  isDemo = false
   loading = false
   uploading = false
 
-  constructor(private api: ApiService) { }
+  constructor(
+    private api: ApiService,
+    public dialog: MatDialog,
+  ) { }
 
-  getAnnotatedDocuments(isDemo = false): void {
+  getDocuments(): void {
     this.loading = true
-    this.api.getAnnotatedDocuments({ isDemo }).subscribe(documents => {
+    this.api.getDocuments({ isDemo: this.isDemo }).subscribe(documents => {
       this.documents = documents
       this.selectedDocument = this.documents[0]
       this.loading = false
@@ -31,12 +37,18 @@ export class AppComponent {
   fileChange(event: Event): void {
     this.uploading = true
     this.files = (event.target as HTMLInputElement).files
-    this.api.upload(this.files).subscribe(result => {
-      console.log(result.message)
-
-      // this.load(this.files)
-      this.getAnnotatedDocuments()
+    this.api.uploadDocuments(this.files).subscribe(result => {
       this.uploading = false
+      this.dialog.open(DialogComponent, {
+        width: '500px',
+        data: {
+          title: 'Subida finalizada',
+          content: `Se han subido correctamente ${result.documentCount} documentos.`,
+          cancelButton: '',
+          acceptButton: 'Vale',
+          buttonColor: 'primary',
+        }
+      })
     })
   }
 

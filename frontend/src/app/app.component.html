@@ -27,26 +27,26 @@
     <span style="text-align: center; max-width: 250px;">
       Tipificador de informes de alta de pacientes relacionados con ictus
     </span>
-    <div fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="1rem">
+    <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="1rem">
+      <div style="height: 2rem;"></div>
       <input type="file" #fileInput accept="text/plain" (change)="fileChange($event)" multiple hidden>
-      <button mat-button color="accent" matTooltip="Solamente se aceptan ficheros de texto plano" [disabled]="uploading"
-        (click)="fileInput.click()">
+      <button mat-button color="primary" matTooltip="Solamente se aceptan ficheros de texto plano"
+        [disabled]="uploading" (click)="fileInput.click()">
         Subir informes de alta
         <mat-icon>publish</mat-icon>
       </button>
-      <button mat-raised-button color="accent" [disabled]="uploading" (click)="getAnnotatedDocuments()">
+      <div style="height: 4rem;"></div>
+      <mat-slide-toggle color="primary" [(ngModel)]="isDemo" [disabled]="uploading" fxFlexAlign="start">
+        Modo {{ isDemo ? 'demo' : 'producción' }}
+      </mat-slide-toggle>
+      <button mat-raised-button [color]="isDemo ? 'primary' : 'accent'" [disabled]="uploading" (click)="getDocuments()">
         Usar la herramienta ICTUSnet
-        <mat-icon>device_hub</mat-icon>
-      </button>
-      <button mat-button color="primary" [disabled]="uploading" (click)="getAnnotatedDocuments(true)">
-        o probar la demo con informes de ejemplo
-        <mat-icon>developer_board_off</mat-icon>
+        <mat-icon>
+          {{ isDemo ? 'science' : 'developer_board' }}
+        </mat-icon>
       </button>
       <mat-spinner *ngIf="uploading" color="accent"></mat-spinner>
     </div>
   </div>
-  <app-form *ngIf="selectedDocument" [document]="selectedDocument"></app-form>
+  <app-form *ngIf="selectedDocument" [document]="selectedDocument" [isDemo]="isDemo"></app-form>
 </main>
-<div *ngIf="loading" fxLayout fxLayoutAlign="center center" class="fullheight" style="margin-top: 3em;">
-  <mat-progress-bar mode="indeterminate" style="width: 50%"></mat-progress-bar>
-</div>

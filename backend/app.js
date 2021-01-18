@@ -1,7 +1,6 @@
-// uploads direcory must be a relative path so it can work with multer
-const demoDir = './documents/demo'
-const uploadsDir = './documents/uploads'
-const productionDir = './documents/production'
+const uploadsDir = './uploads'  // uploads direcory must be a relative path so it can work with multer middleware
+const demoDir = './brat_demo'
+const productionDir = './brat_production'
 const runDockerScript = './ictusnet-ctakes/run-docker.sh'
 
 const express = require('express')
@@ -10,8 +9,8 @@ const app = express()
 const cors = require('cors')
 app.use(cors())
 
-const { generateAnnFilesSync, getParsedBratDirArray } = require('./io')
-const { insertMultipleDocuments } = require('./mongodb')
+const { generateAnnFilesSync, parseBratDirectory } = require('./io')
+const { Document } = require('./mongoose')
 const { moveFiles } = require('./helpers')
 
 const multer = require('multer')
@@ -25,13 +24,17 @@ app.get('/', (req, res) => {
   res.send('hello from ictusnet backend in node.js using express')
 })
 
-app.post('/upload', upload.array('files[]'), async (req, res) => {
+app.post('/documents', upload.array('files[]'), async (req, res) => {
   generateAnnFilesSync(runDockerScript, uploadsDir, uploadsDir)
-  const annotatedDocuments = await getParsedBratDirArray(uploadsDir)
-  // await insertMultipleDocuments(annotatedDocuments).catch(console.dir)
+  const parsedDocuments = await parseBratDirectory(uploadsDir)
+  // add the `completed` key to each document
+  const newDocuments = parsedDocuments.map(d => ({ ...d, completed: false }))
+  const insertedDocuments = await Document.create(newDocuments)
   moveFiles(uploadsDir, productionDir)
   res.json({
-    message: `Medical document files have been:
+    documentCount: insertedDocuments.length,
+    documents: insertedDocuments,
+    message: `Finished! Medical document files have been:
   (1) uploaded successfully to '${uploadsDir}' directory,
   (2) generated '.ann' files from uploaded '.txt' files,
   (3) converted to JSON and inserted into local MongoDB instance, and
@@ -41,15 +44,13 @@ app.post('/upload', upload.array('files[]'), async (req, res) => {
 
 app.get('/documents', async (req, res) => {
   const isDemo = JSON.parse(req.query.isDemo.toLowerCase())
-  let annotatedDocuments
+  let pendingDocuments
   if (isDemo) {
-    // replace by mongo find
-    annotatedDocuments = await getParsedBratDirArray(demoDir)
+    pendingDocuments = await parseBratDirectory(demoDir)
   } else {
-    // replace by mongo find
-    annotatedDocuments = await getParsedBratDirArray(productionDir)
+    pendingDocuments = await Document.find({ completed: false }).sort('filename')
   }
-  res.json(annotatedDocuments)
+  res.json(pendingDocuments)
 })
 
 const port = 3000

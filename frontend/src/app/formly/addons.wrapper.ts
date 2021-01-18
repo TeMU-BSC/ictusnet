@@ -57,24 +57,13 @@ import { FieldWrapper } from '@ngx-formly/core'
 })
 export class FormlyWrapperAddons extends FieldWrapper implements AfterViewInit {
 
-  // @ViewChild('matPrefix') matPrefix: TemplateRef<any>
   @ViewChild('matSuffix') matSuffix: TemplateRef<any>
 
   ngAfterViewInit() {
-    // if (this.matPrefix) {
-    //   Promise.resolve().then(() => this.to.prefix = this.matPrefix)
-    // }
-
     if (this.matSuffix) {
       Promise.resolve().then(() => this.to.suffix = this.matSuffix)
     }
   }
-
-  // addonLeftClick($event: any) {
-  //   if (this.to.addonLeft.onClick) {
-  //     this.to.addonLeft.onClick(this.to, this, $event)
-  //   }
-  // }
 
   addonRightHintButtonClick($event: any) {
     this.to.addonRight?.hintButton?.onClick(this.to, this, $event)

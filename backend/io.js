@@ -1,9 +1,8 @@
-// const child_process = require('child_process')
-const { spawn, exec, execFileSync } = require("child_process")
+const { execFileSync } = require("child_process")
 const path = require('path')
 
 const { parse } = require('./brat')
-const { moveFiles, walk } = require('./helpers')
+const { walk } = require('./helpers')
 
 /**
  * Generate annotation (.ann) files by calling the CTAKES docker container https://github.com/TeMU-BSC/ictusnet-ctakes.
@@ -27,7 +26,7 @@ const generateAnnFilesSync = (runDockerScript, txtDir, annDir) => {
  *   file2.ann
  * @param {string} bratDir Relative path to the directory that contains txt and ann files.
  */
-const getParsedBratDirArray = async (bratDir) => {
+const parseBratDirectory = async (bratDir) => {
   const parsedBratDirArray = []
   const uniqueBasenames = new Set()
   for await (const file of walk(bratDir)) {
@@ -45,5 +44,5 @@ const getParsedBratDirArray = async (bratDir) => {
 
 module.exports = {
   generateAnnFilesSync,
-  getParsedBratDirArray,
+  parseBratDirectory,
 }

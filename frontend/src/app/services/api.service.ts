@@ -13,14 +13,14 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  getAnnotatedDocuments({ isDemo = false }): Observable<Document[]> {
+  getDocuments({ isDemo = false }): Observable<Document[]> {
     const params = new HttpParams().append('isDemo', isDemo.toString())
     return this.http.get<Document[]>(`${this.url}/documents`, { params })
   }
 
-  upload(files: FileList): Observable<any> {
+  uploadDocuments(files: FileList): Observable<any> {
     const formData = new FormData()
     Array.from(files).forEach(file => formData.append('files[]', file))
-    return this.http.post<any>(`${this.url}/upload`, formData)
+    return this.http.post<any>(`${this.url}/documents`, formData)
   }
 }
