@@ -29,10 +29,14 @@ import { FieldType } from '@ngx-formly/core'
   `,
   styles: [`
     .auxiliar-hint-button {
+      font-size: 1.25rem;
       background-color: #283593;
+      background-clip: content-box;
       border-radius: 50%;
-      padding: 0.2rem;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   `]
 })
