@@ -2,6 +2,10 @@
   background-color: $lightblue;
 }
 
+.mat-tooltip {
+  font-size: 0.8rem;
+}
+
 // https://github.com/angular/components/issues/12779#issuecomment-462241207
 .mat-select-panel mat-option.mat-option {
   margin: 0;

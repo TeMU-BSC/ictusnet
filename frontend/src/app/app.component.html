@@ -1,6 +1,7 @@
 <mat-toolbar fxLayout fxLayoutAlign="space-between center">
-  <img src="assets/ictusnet-horizontal-logo-removebg.png" alt="ICTUSnet" class="logo"
-    (click)="selectedDocument = null" />
+  <img fxHide.gt-sm src="assets/ictusnet_isotipo.png" alt="ICTUSnet" class="logo" (click)="selectedDocument = null">
+  <img fxHide fxShow.gt-sm src="assets/ictusnet-horizontal-logo-removebg.png" alt="ICTUSnet" class="logo"
+    (click)="selectedDocument = null">
   <div *ngIf="selectedDocument" fxLayout fxLayoutAlign="space-between center" fxLayoutGap="1em">
     <mat-form-field appearance="fill" style="font-size: small;">
       <mat-label>
