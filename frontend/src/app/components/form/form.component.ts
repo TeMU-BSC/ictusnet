@@ -19,7 +19,6 @@ import { getVariableAnnotations, autofill, getPanels, PanelType } from 'src/app/
 export class FieldComponent implements OnChanges {
 
   @Input() document: Document
-  @Input() isDemo: boolean = false
   variables: Variable[]
   focusedField: any
   downloadFilename: string

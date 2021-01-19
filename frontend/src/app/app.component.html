@@ -23,17 +23,19 @@
 <main *ngIf="!loading" style="height: calc(100% - 4rem - 1px);">
   <div *ngIf="!selectedDocument" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem"
     style="padding-top: 5rem;">
-    <img src="assets/ictusnet_imagotipo.png" alt="imagotipo ictusnet">
-    <span style="text-align: center; max-width: 250px;">
+    <!-- <img src="assets/ictusnet_imagotipo.png" alt="imagotipo ictusnet"> -->
+    <h1 class="mat-display-2 heading">
       Tipificador de informes de alta de pacientes relacionados con ictus
-    </span>
-    <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="1rem">
+    </h1>
+    <div fxLayout="column" fxLayoutGap="1rem">
+
       <div style="height: 2rem;"></div>
+
       <input type="file" #fileInput accept="text/plain" (change)="fileChange($event)" multiple hidden>
-      <button *ngIf="!uploading" mat-button color="primary" matTooltip="Solamente se aceptan ficheros de texto plano"
+      <button mat-stroked-button color="primary" matTooltip="Solamente se aceptan ficheros de texto plano"
         [disabled]="uploading" (click)="fileInput.click()">
+        <mat-icon class="inner-icon">publish</mat-icon>
         Subir informes de alta
-        <mat-icon>publish</mat-icon>
       </button>
       <div *ngIf="uploading" fxLayout="column" fxLayoutAlign="center center">
         <mat-spinner color="accent" style="margin-bottom: 1rem;"></mat-spinner>
@@ -43,20 +45,21 @@
           Extrayendo sugerencias automáticas para el formulario...
         </p>
       </div>
+
       <div style="height: 4rem;"></div>
-      <div *ngIf="!uploading" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1rem">
-        <mat-slide-toggle color="primary" [(ngModel)]="isDemo" [disabled]="uploading" fxFlexAlign="start">
-          Modo {{ isDemo ? 'demo' : 'producción' }}
-        </mat-slide-toggle>
-        <button mat-raised-button [color]="isDemo ? 'primary' : 'accent'" [disabled]="uploading"
-          (click)="getDocuments()">
-          Usar la herramienta ICTUSnet
-          <mat-icon>
-            {{ isDemo ? 'science' : 'developer_board' }}
-          </mat-icon>
-        </button>
-      </div>
+
+      <button mat-raised-button color="primary" (click)="getDemo()" matTooltip="Con informes anotados por humanos">
+        <mat-icon class="inner-icon">science</mat-icon>
+        Probar la demo
+      </button>
+
+      <button mat-raised-button color="accent" (click)="getDocuments()"
+        matTooltip="Con generación automática de sugerencias">
+        <mat-icon class="inner-icon">developer_board</mat-icon>
+        Usar la herramienta ICTUSnet
+      </button>
+
     </div>
   </div>
-  <app-form *ngIf="selectedDocument" [document]="selectedDocument" [isDemo]="isDemo"></app-form>
+  <app-form *ngIf="selectedDocument" [document]="selectedDocument"></app-form>
 </main>

@@ -28,6 +28,7 @@ const documentSchema = new Schema({
   filename: String,
   text: String,
   annotations: [annotationSchema],
+  isDemo: Boolean,
   completed: Boolean,
 })
 const Document = mongoose.model('Document', documentSchema)

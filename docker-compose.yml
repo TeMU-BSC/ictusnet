@@ -8,10 +8,6 @@ services:
     volumes:
       - ./database/mongodb:/data/db
 
-  # ictusnet-ctakes:
-  #   image: bsctemu/ictusnet
-  #   container_name: ictusnet_ctakes
-
   node:
     container_name: ictusnet_node
     build: ./backend
@@ -19,6 +15,7 @@ services:
       - 3000:3000
     volumes:
       - ./backend:/app
+      - /tmp/uploads:/tmp/uploads
       - /var/run/docker.sock:/var/run/docker.sock
     privileged: true
     environment:

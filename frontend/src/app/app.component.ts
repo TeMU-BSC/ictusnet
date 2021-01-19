@@ -16,7 +16,6 @@ export class AppComponent {
   files: FileList
   documents: Document[]
   selectedDocument: Document
-  isDemo = false
   loading = false
   uploading = false
 
@@ -25,10 +24,19 @@ export class AppComponent {
     public dialog: MatDialog,
   ) { }
 
+  getDemo(): void {
+    this.loading = true
+    this.api.getDemo().subscribe(response => {
+      this.documents = response['documents']
+      this.selectedDocument = this.documents[0]
+      this.loading = false
+    })
+  }
+
   getDocuments(): void {
     this.loading = true
-    this.api.getDocuments({ isDemo: this.isDemo }).subscribe(documents => {
-      this.documents = documents
+    this.api.getDocuments().subscribe(response => {
+      this.documents = response['documents']
       this.selectedDocument = this.documents[0]
       this.loading = false
     })

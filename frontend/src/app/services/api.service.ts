@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core"
-import { HttpClient, HttpParams } from "@angular/common/http"
+import { HttpClient } from "@angular/common/http"
 import { Observable } from 'rxjs'
 import { environment } from 'src/environments/environment'
 import { Document } from "../interfaces/interfaces"
@@ -13,9 +13,12 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  getDocuments({ isDemo = false }): Observable<Document[]> {
-    const params = new HttpParams().append('isDemo', isDemo.toString())
-    return this.http.get<Document[]>(`${this.url}/documents`, { params })
+  getDemo(): Observable<Document[]> {
+    return this.http.get<Document[]>(`${this.url}/demo`)
+  }
+
+  getDocuments(): Observable<Document[]> {
+    return this.http.get<Document[]>(`${this.url}/documents`)
   }
 
   uploadDocuments(files: FileList): Observable<any> {

@@ -23,7 +23,7 @@ npm install
 npm run dev
 ```
 
-### Method B: Using three different terminal windows
+### Method B: Using docker compose
 
 ```bash
 docker-compose up --build
