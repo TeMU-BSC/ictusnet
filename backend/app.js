@@ -26,14 +26,15 @@ app.get('/', (req, res) => {
 
 app.get('/demo', async (req, res) => {
   // check if demo documents are already in mongodb
-  let demoDocuments = await Document.find({ isDemo: true })
+  let demoDocuments = await Document.find({ isDemo: true }).sort('filename')
   if (demoDocuments.length === 0) {
     // parse brat demo directory
     const parsedBrat = await parseBratDirectory(demoDir)
     // add the `isDemo` key to each document
     const newDocumentsToBeInserted = parsedBrat.map(d => ({ ...d, isDemo: true }))
     // insert new documents into mongodb
-    demoDocuments = await Document.create(newDocumentsToBeInserted)
+    await Document.create(newDocumentsToBeInserted)
+    demoDocuments = Document.find({ isDemo: true }).sort('filename')
   }
   res.send({
     documentCount: demoDocuments.length,
@@ -44,7 +45,7 @@ app.get('/demo', async (req, res) => {
 
 app.post('/documents', upload.array('files[]'), async (req, res) => {
   generateAnnFilesSync(runDockerScript, uploadsDir, uploadsDir)
-  const parsedBrat = await parseBratDirectory(uploadsDirRelativePath)
+  const parsedBrat = await parseBratDirectory(uploadsDir)
   // add the `completed` key to each document
   const newDocuments = parsedBrat.map(d => ({ ...d, completed: false }))
   const insertedDocuments = await Document.create(newDocuments)

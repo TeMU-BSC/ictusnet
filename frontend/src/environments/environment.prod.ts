@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  APP_API_URL: 'http://localhost:3000'
-};
+  apiUrl: 'http://localhost:3000'  // testing production environment in local
+  // apiUrl: 'http://temu.bsc.es:81/api'  // deployment in real server
+}

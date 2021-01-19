@@ -40,7 +40,7 @@
       <div *ngIf="uploading" fxLayout="column" fxLayoutAlign="center center">
         <mat-spinner color="accent" style="margin-bottom: 1rem;"></mat-spinner>
         <p>
-          Subiendo informes a la base da datos...
+          Subiendo informes a la base de datos...
           <br>
           Extrayendo sugerencias automáticas para el formulario...
         </p>
@@ -48,13 +48,14 @@
 
       <div style="height: 4rem;"></div>
 
-      <button mat-raised-button color="primary" (click)="getDemo()" matTooltip="Con informes anotados por humanos">
+      <button mat-raised-button color="primary" (click)="getDemo()" matTooltip="Con informes anotados por humanos"
+        [disabled]="uploading">
         <mat-icon class="inner-icon">science</mat-icon>
         Probar la demo
       </button>
 
       <button mat-raised-button color="accent" (click)="getDocuments()"
-        matTooltip="Con generación automática de sugerencias">
+        matTooltip="Con generación automática de sugerencias" [disabled]="uploading">
         <mat-icon class="inner-icon">developer_board</mat-icon>
         Usar la herramienta ICTUSnet
       </button>

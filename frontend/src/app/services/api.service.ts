@@ -8,22 +8,23 @@ import { Document } from "../interfaces/interfaces"
   providedIn: "root",
 })
 export class ApiService {
-  // url = environment.APP_API_URL
-  url = 'http://localhost:3000'
+
+  apiUrl = environment.apiUrl
 
   constructor(private http: HttpClient) { }
 
   getDemo(): Observable<Document[]> {
-    return this.http.get<Document[]>(`${this.url}/demo`)
+    return this.http.get<Document[]>(`${this.apiUrl}/demo`)
   }
 
   getDocuments(): Observable<Document[]> {
-    return this.http.get<Document[]>(`${this.url}/documents`)
+    return this.http.get<Document[]>(`${this.apiUrl}/documents`)
   }
 
   uploadDocuments(files: FileList): Observable<any> {
     const formData = new FormData()
     Array.from(files).forEach(file => formData.append('files[]', file))
-    return this.http.post<any>(`${this.url}/documents`, formData)
+    return this.http.post<any>(`${this.apiUrl}/documents`, formData)
   }
+
 }

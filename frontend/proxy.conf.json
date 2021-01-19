@@ -1,10 +1,10 @@
 {
   "/api/*": {
-    "target": "http://ictusnet_express:3000/",
+    "target": "http://ictusnet_node:3000/",
     "secure": false,
     "changeOrigin": true,
     "pathRewrite": {
-      "^/api": "http://ictusnet_express:3000/"
+      "^/api": "http://ictusnet_node:3000/"
     }
   }
 }

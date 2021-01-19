@@ -1,3 +1,3 @@
-FROM node:alpine
+FROM node:14.15.4-alpine
 WORKDIR /app
-RUN npm i -g @angular/cli
+CMD npm run dev

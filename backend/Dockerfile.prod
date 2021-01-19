@@ -1,8 +1,7 @@
 FROM node:14.15.4-alpine
-
-# Install docker upon Alpine image
 RUN apk add --update docker
 
+# Steps for production-ready
 COPY package.json package-lock.json ./
 
 # Storing node modules on a separate layer will prevent unnecessary npm installs at each build
