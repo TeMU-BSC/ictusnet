@@ -1,0 +1,13 @@
+T0	FECHA 98 108	01.01.1970
+#0	AnnotatorNotes T0	1970-01-01
+T1	HORA 109 114	00:00
+#1	AnnotatorNotes T1	00:00
+T2	_SUG_TAC_craneal 190 201	tac craneal
+T3	FECHA 202 212	02.01.1970
+#3	AnnotatorNotes T3	1970-01-02
+T4	HORA 213 218	14:21
+#4	AnnotatorNotes T4	14:21
+T5	_SUG_ASPECTS 249 258	aspects 0
+T6	_SUG_NIHSS 259 264	nihss
+T7	_SUG_mRankin 275 282	mrankin
+T8	_SUG_mRankin 283 288	mrs 3

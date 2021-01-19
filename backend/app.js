@@ -47,6 +47,7 @@ app.get('/documents', async (req, res) => {
   let pendingDocuments
   if (isDemo) {
     pendingDocuments = await parseBratDirectory(demoDir)
+    // pendingDocuments = await Document.find({ isDemo: true }).sort('filename')
   } else {
     pendingDocuments = await Document.find({ completed: false }).sort('filename')
   }

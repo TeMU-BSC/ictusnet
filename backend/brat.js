@@ -1,7 +1,3 @@
-const fs = require('fs')
-const path = require('path')
-const csvParse = require('csv-parse/lib/sync')
-
 const getLinesStartingWith = (annArray, startingText) => annArray.filter((line) => line[0].startsWith(startingText))
 const getAnnotationLines = (annArray) => getLinesStartingWith(annArray, 'T')
 const getCommentLines = (annArray) => getLinesStartingWith(annArray, '#')
@@ -29,15 +25,6 @@ const getAnnotations = (annArray) => {
   return annotations
 }
 
-const parse = (txt, ann) => {
-  const filename = path.parse(txt).name
-  const text = fs.readFileSync(txt, 'utf8')
-  const annString = fs.readFileSync(ann, 'utf8')
-  const annArray = csvParse(annString, { delimiter: '\t' })
-  const annotations = getAnnotations(annArray)
-  return { filename, text, annotations }
-}
-
 module.exports = {
-  parse
+  getAnnotations
 }

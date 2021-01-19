@@ -1,7 +1,10 @@
-const { execFileSync } = require("child_process")
+const fs = require('fs')
 const path = require('path')
+const { execFileSync } = require("child_process")
 
-const { parse } = require('./brat')
+const csvParse = require('csv-parse/lib/sync')
+
+const { getAnnotations } = require('./brat')
 const { walk } = require('./helpers')
 
 /**
@@ -15,6 +18,21 @@ const generateAnnFilesSync = (runDockerScript, txtDir, annDir) => {
   const txtDirAbsolutePath = path.resolve(txtDir)
   const annDirAbsolutePath = path.resolve(annDir)
   execFileSync('sh', [runDockerScriptAbsolutePath, txtDirAbsolutePath, annDirAbsolutePath], { stdio: 'inherit' })
+}
+
+/**
+ * Build an annotated document object.
+ * @param {string} txtFile 
+ * @param {string} annFile 
+ */
+const parseBratFilePair = (txtFile, annFile) => {
+  const filename = path.parse(annFile).name
+  const annString = fs.readFileSync(annFile, 'utf8')
+  const annArray = csvParse(annString, { delimiter: '\t' })
+  const annotations = getAnnotations(annArray)
+  const text = fs.readFileSync(txtFile, 'utf8')
+  const annotatedDocument = { filename, text, annotations }
+  return annotatedDocument
 }
 
 /**
@@ -36,7 +54,7 @@ const parseBratDirectory = async (bratDir) => {
   uniqueBasenames.forEach(basename => {
     const txt = path.join(bratDir, `${basename}.txt`)
     const ann = path.join(bratDir, `${basename}.ann`)
-    const parsedBrat = parse(txt, ann)
+    const parsedBrat = parseBratFilePair(txt, ann)
     parsedBratDirArray.push(parsedBrat)
   })
   return parsedBratDirArray
