@@ -52,9 +52,7 @@ export class AppComponent {
         data: {
           title: 'Subida finalizada',
           content: `Se han subido correctamente ${result.documentCount} documentos.`,
-          cancelButton: '',
-          acceptButton: 'Vale',
-          buttonColor: 'primary',
+          acceptButton: { text: 'Vale' }
         }
       })
     })

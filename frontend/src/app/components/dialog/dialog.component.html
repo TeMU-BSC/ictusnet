@@ -7,10 +7,11 @@
   </p>
 </div>
 <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
-  <button mat-button mat-dialog-close cdkFocusInitial>
-    {{ data.cancelButton }}
+  <button *ngIf="data.cancelButton" mat-button [color]="data.cancelButton.color || ''" mat-dialog-close>
+    {{ data.cancelButton.text }}
   </button>
-  <button mat-button [color]="data.buttonColor" [mat-dialog-close]="data">
-    {{ data.acceptButton | titlecase }}
+  <button *ngIf="data.acceptButton" mat-flat-button [color]="data.acceptButton.color || 'primary'"
+    [mat-dialog-close]="data">
+    {{ data.acceptButton.text }}
   </button>
 </div>

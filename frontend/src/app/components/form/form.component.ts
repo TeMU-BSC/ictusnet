@@ -93,9 +93,8 @@ export class FieldComponent implements OnChanges {
       data: {
         title: 'Restablecer formulario',
         content: '¿Quieres volver al estado inicial de este formulario? Perderás los cambios que has realizado sobre este documento.',
-        cancelButton: 'Atrás',
-        acceptButton: 'Restablecer',
-        buttonColor: 'warn',
+        cancelButton: { text: 'Atrás' },
+        acceptButton: { text: 'Restablecer', color: 'warn' },
       }
     })
     dialogRef.afterClosed().subscribe(confirmation => {
