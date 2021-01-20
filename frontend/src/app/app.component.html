@@ -8,7 +8,8 @@
         Documento actual
       </mat-label>
       <mat-select [(value)]="currentDocument">
-        <mat-option *ngFor="let document of documents; let i = index" [value]="document" (click)="setCurrentDocument()">
+        <mat-option *ngFor="let document of documents; let i = index" [value]="document"
+          (click)="saveCurrentDocumentToLocalStorage()">
           ({{ i + 1 }}) {{ document.filename }}
         </mat-option>
       </mat-select>
