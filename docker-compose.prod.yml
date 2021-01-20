@@ -1,7 +1,12 @@
 services:
 
   mongo:
+    image: mongo
     container_name: ictusnet_mongo_production
+    ports:
+      - 27017-27019:27017-27019
+    volumes:
+      - ./database/mongodb:/data/db
     restart: always
 
   node:
@@ -9,6 +14,11 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.prod
+    ports:
+      - 3000:3000
+    privileged: true
+    environment:
+      - MONGODB_HOST=mongo
     volumes:
       - /tmp/uploads:/tmp/uploads
       - /var/run/docker.sock:/var/run/docker.sock

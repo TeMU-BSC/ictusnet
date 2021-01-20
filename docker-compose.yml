@@ -13,13 +13,13 @@ services:
     build: ./backend
     ports:
       - 3000:3000
+    privileged: true
+    environment:
+      - MONGODB_HOST=mongo
     volumes:
       - ./backend:/app
       - /tmp/uploads:/tmp/uploads
       - /var/run/docker.sock:/var/run/docker.sock
-    privileged: true
-    environment:
-      - MONGODB_HOST=mongo
     command: npm run dev
 
   angular:
