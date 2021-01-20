@@ -27,10 +27,10 @@ const generateAnnFilesSync = (runDockerScript, txtDir, annDir) => {
  */
 const parseBratFilePair = (txtFile, annFile) => {
   const filename = path.parse(annFile).name
+  const text = fs.readFileSync(txtFile, 'utf8')
   const annString = fs.readFileSync(annFile, 'utf8')
   const annArray = csvParse(annString, { delimiter: '\t' })
   const annotations = getAnnotations(annArray)
-  const text = fs.readFileSync(txtFile, 'utf8')
   const annotatedDocument = { filename, text, annotations }
   return annotatedDocument
 }
@@ -60,7 +60,20 @@ const parseBratDirectory = async (bratDir) => {
   return parsedBratDirArray
 }
 
+const parseGenericTsv = (tsvFile) => {
+  const tsvString = fs.readFileSync(tsvFile, 'utf8')
+  const objectArary = csvParse(tsvString, {
+    delimiter: '\t',
+    columns: true,
+    relaxColumnCount: true,
+    quote: '\'',
+    skipEmptyLines: true,
+  })
+  return objectArary
+}
+
 module.exports = {
   generateAnnFilesSync,
   parseBratDirectory,
+  parseGenericTsv,
 }

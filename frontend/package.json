@@ -27,7 +27,6 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.2",
     "@ngx-formly/material": "^5.10.11",
     "mark.js": "^8.11.1",
-    "ngx-papaparse": "^5.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

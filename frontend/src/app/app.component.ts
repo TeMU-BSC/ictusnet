@@ -12,10 +12,10 @@ import { DialogComponent } from './components/dialog/dialog.component'
 })
 export class AppComponent {
 
-  faGithub = faGithub;
+  faGithub = faGithub
   files: FileList
-  documents: Document[]
-  selectedDocument: Document
+  documents: Document[] = []
+  currentDocument: Document
   loading = false
   uploading = false
 
@@ -24,25 +24,12 @@ export class AppComponent {
     public dialog: MatDialog,
   ) { }
 
-  getDemo(): void {
-    this.loading = true
-    this.api.getDemo().subscribe(response => {
-      this.documents = response['documents']
-      this.selectedDocument = this.documents[0]
-      this.loading = false
-    })
+  loadDemo(): void {
+    this.documents = this.api.demo
+    this.currentDocument = this.getCurrentDocument() || this.documents[0]
   }
 
-  getDocuments(): void {
-    this.loading = true
-    this.api.getDocuments().subscribe(response => {
-      this.documents = response['documents']
-      this.selectedDocument = this.documents[0]
-      this.loading = false
-    })
-  }
-
-  fileChange(event: Event): void {
+  uploadDocuments(event: Event): void {
     this.uploading = true
     this.files = (event.target as HTMLInputElement).files
     this.api.uploadDocuments(this.files).subscribe(result => {
@@ -58,22 +45,24 @@ export class AppComponent {
     })
   }
 
-  load(files: FileList): void {
-    Array.from(files).forEach(file => {
-      const reader = new FileReader()
-      reader.readAsText(file)
-      reader.onload = () => {
-        const content = reader.result.toString()
-        localStorage.setItem(file.name, content)
-      }
+  getDocuments(): void {
+    this.loading = true
+    this.api.getDocuments().subscribe(response => {
+      this.documents = response['documents']
+      this.currentDocument = this.getCurrentDocument() || this.documents[0]
+      this.loading = false
     })
-    // localStorage.clear();
   }
 
-  readFromLocalStorage() {
-    const filenames = Array.from(localStorage)
-    console.log(filenames)
-
+  /**
+   * Store in LocalStorage the current working document filename;
+   * and then read from LocalStorage to come back where the user left.
+   */
+  setCurrentDocument(): void {
+    localStorage.setItem('currentDocument', this.currentDocument.filename)
+  }
+  getCurrentDocument(): Document {
+    return this.documents.find(d => d.filename === localStorage.getItem('currentDocument'))
   }
 
 }

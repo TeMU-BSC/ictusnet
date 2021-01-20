@@ -1,14 +1,14 @@
 <mat-toolbar fxLayout fxLayoutAlign="space-between center">
-  <img fxHide.gt-sm src="assets/ictusnet_isotipo.png" alt="ICTUSnet" class="logo" (click)="selectedDocument = null">
+  <img fxHide.gt-sm src="assets/ictusnet_isotipo.png" alt="ICTUSnet" class="logo" (click)="currentDocument = null">
   <img fxHide fxShow.gt-sm src="assets/ictusnet-horizontal-logo-removebg.png" alt="ICTUSnet" class="logo"
-    (click)="selectedDocument = null">
-  <div *ngIf="selectedDocument" fxLayout fxLayoutAlign="space-between center" fxLayoutGap="1em">
+    (click)="currentDocument = null">
+  <div *ngIf="currentDocument" fxLayout fxLayoutAlign="space-between center" fxLayoutGap="1em">
     <mat-form-field appearance="fill" style="font-size: small;">
       <mat-label>
         Documento actual
       </mat-label>
-      <mat-select [(value)]="selectedDocument">
-        <mat-option *ngFor="let document of documents; let i = index" [value]="document">
+      <mat-select [(value)]="currentDocument">
+        <mat-option *ngFor="let document of documents; let i = index" [value]="document" (click)="setCurrentDocument()">
           ({{ i + 1 }}) {{ document.filename }}
         </mat-option>
       </mat-select>
@@ -21,17 +21,13 @@
 </mat-toolbar>
 <mat-divider></mat-divider>
 <main *ngIf="!loading" style="height: calc(100% - 4rem - 1px);">
-  <div *ngIf="!selectedDocument" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem"
+  <div *ngIf="!currentDocument" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem"
     style="padding-top: 5rem;">
-    <!-- <img src="assets/ictusnet_imagotipo.png" alt="imagotipo ictusnet"> -->
     <h1 class="mat-display-2 heading">
       Tipificador de informes de alta de pacientes relacionados con ictus
     </h1>
     <div fxLayout="column" fxLayoutGap="1rem">
-
-      <div style="height: 2rem;"></div>
-
-      <input type="file" #fileInput accept="text/plain" (change)="fileChange($event)" multiple hidden>
+      <input type="file" #fileInput accept="text/plain" (change)="uploadDocuments($event)" multiple hidden>
       <button mat-stroked-button color="primary" matTooltip="Solamente se aceptan ficheros de texto plano"
         [disabled]="uploading" (click)="fileInput.click()">
         <mat-icon class="inner-icon">publish</mat-icon>
@@ -45,22 +41,17 @@
           Extrayendo sugerencias automáticas para el formulario...
         </p>
       </div>
-
-      <div style="height: 4rem;"></div>
-
-      <button mat-raised-button color="primary" (click)="getDemo()" matTooltip="Con informes anotados por humanos"
+      <button mat-raised-button color="primary" (click)="loadDemo()" matTooltip="Con informes anotados por humanos"
         [disabled]="uploading">
         <mat-icon class="inner-icon">science</mat-icon>
         Probar la demo
       </button>
-
       <button mat-raised-button color="accent" (click)="getDocuments()"
         matTooltip="Con generación automática de sugerencias" [disabled]="uploading">
         <mat-icon class="inner-icon">developer_board</mat-icon>
         Usar la herramienta ICTUSnet
       </button>
-
     </div>
   </div>
-  <app-form *ngIf="selectedDocument" [document]="selectedDocument"></app-form>
+  <app-form *ngIf="currentDocument" [document]="currentDocument"></app-form>
 </main>

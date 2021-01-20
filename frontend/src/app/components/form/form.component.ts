@@ -1,15 +1,13 @@
 import { Component, OnChanges, ViewChild, Input } from '@angular/core'
 import { FormArray, FormGroup } from '@angular/forms'
-import { MatAccordion } from '@angular/material/expansion'
-
-import { FormlyFormOptions } from '@ngx-formly/core'
-import { Papa } from 'ngx-papaparse'
-
-import { Document, Variable } from 'src/app/interfaces/interfaces'
-import { downloadObjectAsJson } from 'src/app/helpers/json'
 import { MatDialog } from '@angular/material/dialog'
-import { DialogComponent } from '../dialog/dialog.component'
+import { MatAccordion } from '@angular/material/expansion'
+import { FormlyFormOptions } from '@ngx-formly/core'
 import { getVariableAnnotations, autofill, getPanels, PanelType } from 'src/app/formly/formly'
+import { ApiService } from 'src/app/services/api.service'
+import { DialogComponent } from 'src/app/components/dialog/dialog.component'
+import { downloadObjectAsJson } from 'src/app/helpers/json'
+import { Document, Option, Variable } from 'src/app/interfaces/interfaces'
 
 @Component({
   selector: 'app-form',
@@ -19,9 +17,6 @@ import { getVariableAnnotations, autofill, getPanels, PanelType } from 'src/app/
 export class FieldComponent implements OnChanges {
 
   @Input() document: Document
-  variables: Variable[]
-  focusedField: any
-  downloadFilename: string
   loading = true
 
   // formly
@@ -38,7 +33,7 @@ export class FieldComponent implements OnChanges {
   prevStep() { this.step-- }
 
   constructor(
-    private papa: Papa,
+    private api: ApiService,
     public dialog: MatDialog,
   ) { }
 
@@ -48,40 +43,22 @@ export class FieldComponent implements OnChanges {
   }
 
   /**
-   * Load the form with the ictus Input() document property.
+   * Load the form reading the Input() document property, alongside the variables and options for ictusnet entities.
    */
   loadForm() {
     this.loading = true
     this.model = {}
     this.panels = []
-    this.downloadFilename = `${this.document.filename}.json`
-
-    // TODO await new Promises in papa-parse's to avoid the "callback hell"
-
-    this.papa.parse(`assets/variables.tsv`, {
-      download: true,
-      header: true,
-      skipEmptyLines: true,
-      complete: parsedVariables => {
-        this.variables = parsedVariables.data
-        const variables: Variable[] = this.variables
-        this.papa.parse('assets/options.tsv', {
-          download: true,
-          header: true,
-          skipEmptyLines: true,
-          complete: parsedOptions => {
-            const options: any[] = parsedOptions.data
-            variables.forEach(variable => {
-              variable.options = options.filter(a => variable.entity.startsWith(a.entity)).map(a => ({ value: a.value, comment: a.comment }))
-              const annotations = getVariableAnnotations(variable, this.document.annotations)
-              this.model = { ...this.model, [variable.key]: autofill(variable, annotations) }
-            })
-            this.panels = [...this.panels, ...getPanels(variables, this.document.annotations)]
-            this.loading = false
-          }
-        })
-      }
+    const variables: Variable[] = this.api.variables
+    const options: Option[] = this.api.options
+    const allAnnotations = this.document.annotations
+    variables.forEach(variable => {
+      variable.options = options.filter(o => variable.entity.startsWith(o.entity))
+      const variableAnnotations = getVariableAnnotations(variable, allAnnotations)
+      this.model = { ...this.model, [variable.key]: autofill(variable, variableAnnotations) }
     })
+    this.panels = [...this.panels, ...getPanels(variables, allAnnotations)]
+    this.loading = false
   }
 
   /**
@@ -105,15 +82,10 @@ export class FieldComponent implements OnChanges {
   }
 
   /**
-   * Download the form completed so far in the given format.
-   *
-   * Accepted formats:
-   *  - json
+   * Download the form completed so far in JSON format.
    */
-  download(format: string) {
-    if (format === 'json') {
-      downloadObjectAsJson(this.model, this.downloadFilename)
-    }
+  downloadFormAsJson() {
+    downloadObjectAsJson(this.model, `${this.document.filename}.json`)
   }
 
 }

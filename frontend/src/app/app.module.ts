@@ -20,7 +20,7 @@ import { FlexLayoutModule } from '@angular/flex-layout'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 // highlighting
-// import { NgxMarkjsModule } from 'ngx-markjs';
+// npm install mark.js
 
 // app
 import { AppRoutingModule } from './app-routing.module'
@@ -64,7 +64,6 @@ import { DialogComponent } from './components/dialog/dialog.component'
       ],
     }),
     FormlyMaterialModule,
-    // NgxMarkjsModule,
     FontAwesomeModule,
   ],
   providers: [

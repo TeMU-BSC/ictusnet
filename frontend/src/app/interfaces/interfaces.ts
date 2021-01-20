@@ -25,6 +25,12 @@ export interface Variable {
   comments?: string
 }
 
+export interface Option {
+  entity: string
+  value: string
+  comment?: string
+}
+
 export interface Document {
   filename: string,
   text: string,

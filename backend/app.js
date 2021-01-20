@@ -9,9 +9,12 @@ const app = express()
 const cors = require('cors')
 app.use(cors())
 
-const { generateAnnFilesSync, parseBratDirectory } = require('./io')
+const {
+  generateAnnFilesSync,
+  parseBratDirectory,
+  parseGenericTsv,
+} = require('./io')
 const { Document } = require('./mongoose')
-const { moveFiles } = require('./helpers')
 
 const multer = require('multer')
 const storage = multer.diskStorage({
@@ -22,6 +25,16 @@ const upload = multer({ storage: storage })
 
 app.get('/', (req, res) => {
   res.send('hello from ictusnet backend in node.js using express')
+})
+
+app.get('/variables', (req, res) => {
+  const variables = parseGenericTsv('./variables/variables.tsv')
+  res.send(variables)
+})
+
+app.get('/options', (req, res) => {
+  const options = parseGenericTsv('./variables/options.tsv')
+  res.send(options)
 })
 
 app.get('/demo', async (req, res) => {
