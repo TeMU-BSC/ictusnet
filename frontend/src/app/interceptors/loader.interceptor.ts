@@ -26,7 +26,7 @@ export class LoaderInterceptor implements HttpInterceptor {
             }
           },
           err => {
-            alert('Borra la caché de la herramienta web pulsando Ctrl + F5. Si continúas viendo este aviso, por favor, envíame un email a: alejandro.asensio@bsc.es')
+            console.error('Borra la caché de la herramienta web pulsando Ctrl + F5. Si continúas viendo este aviso, por favor, envíame un email a: alejandro.asensio@bsc.es')
             this.removeRequest(req)
             observer.error(err)
           },

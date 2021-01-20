@@ -1,6 +1,21 @@
 const fs = require('fs')
 const path = require('path')
 
+const createPublicDirIfNotExists = (path) => {
+  if (!fs.existsSync(path)) {
+    fs.mkdirSync(path)
+  }
+  fs.chmodSync(path, 0777)
+}
+
+const copyFiles = (sourceDirectory, destinationDirectory) => {
+  fs.readdirSync(sourceDirectory).forEach(file => {
+    const oldFile = path.join(sourceDirectory, file)
+    const newFile = path.join(destinationDirectory, path.parse(file).base)
+    fs.copyFileSync(oldFile, newFile)
+  })
+}
+
 const moveFiles = (sourceDirectory, destinationDirectory) => {
   fs.readdirSync(sourceDirectory).forEach(file => {
     const oldFile = path.join(sourceDirectory, file)
@@ -19,6 +34,8 @@ async function* walk(dir) {
 }
 
 module.exports = {
+  createPublicDirIfNotExists,
+  copyFiles,
   moveFiles,
   walk,
 }

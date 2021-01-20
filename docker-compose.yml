@@ -1,12 +1,13 @@
 services:
 
   mongo:
-    image: mongo
+    image: mongo:4.4.3-bionic
     container_name: ictusnet_mongo
     ports:
       - 27017-27019:27017-27019
     volumes:
       - ./database/mongodb:/data/db
+    restart: always
 
   node:
     container_name: ictusnet_node
@@ -17,15 +18,14 @@ services:
     environment:
       - MONGODB_HOST=mongo
     volumes:
-      - ./backend:/app
-      - /tmp/uploads:/tmp/uploads
+      - /tmp/ctakes:/tmp/ctakes
       - /var/run/docker.sock:/var/run/docker.sock
-    command: npm run dev
+    command: node app.js
+    restart: always
 
   angular:
     container_name: ictusnet_angular
     build: ./frontend
     ports:
-      - 4200:4200
-    volumes:
-      - ./frontend:/app
+      - 81:80
+    restart: always

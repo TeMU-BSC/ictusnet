@@ -6,7 +6,7 @@ This is a webapp that allows to upload medical documents and displays a categori
 
 ## Development
 
-### Method A: Using three different terminal windows
+In order to run the database, the backend and the frontend, we are using three different terminal sessions:
 
 ```bash
 # terminal 1
@@ -23,14 +23,8 @@ npm install
 npm run dev
 ```
 
-### Method B: Using docker compose
-
-```bash
-docker-compose up --build
-```
-
 ## Production
 
 ```bash
-docker-compose -f docker-compose.prod.yml up --build -d
+docker-compose up --build -d
 ```

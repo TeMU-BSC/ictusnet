@@ -50,7 +50,7 @@ export class AppComponent {
     this.loading = true
     this.api.getDocuments().subscribe(response => {
       this.documents = response['documents']
-      this.currentDocument = this.getCurrentDocumentFromLocalStorage()
+      this.currentDocument = this.documents[0]
       this.loading = false
     })
   }
@@ -60,10 +60,7 @@ export class AppComponent {
    * and then read from LocalStorage to come back where the user left.
    */
   saveCurrentDocumentToLocalStorage(): void {
-    localStorage.setItem('currentDocument', this.currentDocument.filename)
-  }
-  getCurrentDocumentFromLocalStorage(): Document | undefined {
-    return this.documents.find(d => d.filename === localStorage.getItem('currentDocument'))
+    localStorage.setItem('currentDocument', this.currentDocument?.filename)
   }
 
 }

@@ -4,7 +4,7 @@
   "description": "Backend for ICTUSnet webapp",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
+    "dev": "nodemon --trace-warnings app.js",
     "start": "node app.js"
   },
   "author": "Alejandro Asensio",
