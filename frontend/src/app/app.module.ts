@@ -11,8 +11,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { FormlyModule } from '@ngx-formly/core'
 import { FormlyMaterialModule } from '@ngx-formly/material'
 import { FormlyWrapperAddons } from './formly/addons.wrapper'
-import { addonsExtension } from './formly/addons.extension'
 import { FlexLayoutType } from './formly/flex-layout.type'
+import { addonsExtension } from './formly/addons.extension'
 
 // styling
 import { MaterialModule } from './material/material.module'
@@ -45,11 +45,13 @@ import { DialogComponent } from './components/dialog/dialog.component'
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    MaterialModule,
-    FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
+    FlexLayoutModule,
+    MaterialModule,
+    FontAwesomeModule,
     FormlyModule.forRoot({
+      extras: { lazyRender: true },
       validationMessages: [
         { name: 'required', message: 'This field is required' },
       ],
@@ -64,7 +66,6 @@ import { DialogComponent } from './components/dialog/dialog.component'
       ],
     }),
     FormlyMaterialModule,
-    FontAwesomeModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
