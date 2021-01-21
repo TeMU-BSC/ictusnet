@@ -27,7 +27,6 @@ import { FieldWrapper } from '@ngx-formly/core'
           color="{{ to.addonRight.hintButton.color }}"
           matTooltip="{{ to.addonRight.hintButton.tooltip }}"
           matTooltipPosition="{{ to.addonRight.hintButton.tooltipPosition || 'below' }}"
-          matTooltipClass="{{ to.addonRight.hintButton.tooltipClass }}"
           *ngIf="!to.addonRight.hintButton.hidden"
           (click)="addonRightHintButtonClick($event)"
         >
@@ -42,7 +41,6 @@ import { FieldWrapper } from '@ngx-formly/core'
           color="{{ to.addonRight.evidenceButton.color }}"
           matTooltip="{{ to.addonRight.evidenceButton.tooltip }}"
           matTooltipPosition="{{ to.addonRight.evidenceButton.tooltipPosition || 'below' }}"
-          matTooltipClass="{{ to.addonRight.evidenceButton.tooltipClass }}"
           *ngIf="!to.addonRight.evidenceButton.hidden"
           (click)="addonRightEvidenceButtonClick($event)"
         >

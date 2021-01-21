@@ -1,0 +1,151 @@
+// mat-select options are partly hidden if text is too long
+// https://github.com/angular/components/issues/12779#issuecomment-419467778
+.mat-select-panel mat-option.mat-option {
+  line-height: initial;
+}
+.mat-option-text.mat-option-text {
+  white-space: normal;
+}
+
+.mat-toolbar {
+  background-color: transparent;
+
+  .logo {
+    transform: scale(1.5);
+  }
+
+  .logo,
+  .title {
+    cursor: pointer;
+  }
+}
+
+// .mat-icon,
+// .mat-icon-button {
+//   color: #666666;
+
+//   &:hover {
+//     color: inherit;
+//     background-color: $skyblue;
+//   }
+// }
+
+.mat-tooltip {
+  font-size: 0.8rem;
+  font-weight: 500;
+  background-color: #808080;
+  white-space: pre-line;
+}
+
+.search-bar {
+  &.mat-form-field {
+    width: 37%;
+    font-size: initial;
+  }
+
+  .mat-form-field-outline-start {
+    display: none;
+  }
+
+  .mat-form-field-outline-end {
+    border: none !important;
+    border-radius: 0.5rem !important;
+    background-color: $skyblue;
+  }
+
+  .mat-form-field-wrapper {
+    padding: 0;
+    width: 100%;
+  }
+
+  .mat-form-field-prefix {
+    margin-right: 0.5rem;
+  }
+
+  .mat-form-field-infix {
+    border: 0;
+  }
+}
+
+.mat-drawer-container {
+  // mat-toolbar is 4rem tall
+  // mat-divider is 1px tall
+  height: calc(100% - 4rem - 1px);
+  background-color: transparent;
+
+  .mat-drawer {
+    width: 241px;
+    border-right: none;
+    padding-right: 0.5rem;
+    background-color: $lightblue;
+  }
+}
+
+.mat-list-option {
+  height: min-content;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+
+  .mat-list-text {
+    font-size: 0.9rem;
+  }
+}
+
+.mat-table {
+  width: 100%;
+
+  .mat-row {
+    background: none;
+    @include mat-elevation-transition;
+
+    .state-chip {
+      display: inline-block;
+      margin-right: 0.3rem;
+    }
+
+    width: 100%;
+    height: 3rem;
+    position: relative;
+
+    .shy-date {
+      text-align: right;
+      position: relative;
+    }
+
+    .actions {
+      width: max-content;
+      position: absolute;
+      top: 0.2rem;
+      right: 0;
+      z-index: 1;
+      text-align: right;
+      display: none;
+
+      .quick-chip {
+        font-size: 0.8rem;
+        font-weight: 500;
+        background-color: inherit;
+        border: 1px solid #666666;
+
+        &:hover {
+          background-color: initial;
+        }
+      }
+    }
+
+    &:hover {
+      @include mat-elevation(2);
+      cursor: pointer;
+
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      .shy-date {
+        display: none;
+      }
+    }
+  }
+}

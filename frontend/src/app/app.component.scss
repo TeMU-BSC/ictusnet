@@ -1,10 +1,25 @@
-.logo {
+.ictusnet-logo {
   display: inline-block;
   max-height: 100%;
   cursor: pointer;
 }
 
-.heading {
-  font-weight: 700;
-  padding: 2rem 10vw;
+.ictusnet-form {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.cta-upload {
+  margin: 1rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 2rem;
+
+  .add-icon {
+    margin-right: 0.5rem;
+    color: inherit;
+
+    &:hover {
+      color: inherit;
+      background-color: inherit;
+    }
+  }
 }

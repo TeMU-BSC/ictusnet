@@ -1,62 +1,45 @@
-<div *ngIf="loading" fxLayout fxLayoutAlign="center center" class="fullheight">
-  <mat-progress-bar mode="indeterminate" style="width: 50%"></mat-progress-bar>
-</div>
-<div [fxHide]="loading" fxLayout="column" fxLayoutGap="0.5em" fxLayout.gt-sm="row" fxLayoutAlign="space-between"
-  fxLayoutAlign.gt-sm="space-between center" fxLayoutGap.gt-sm="0rem" class="fullheight">
-  <section id="wrapper" class="fullheight scroll context" fxFlex="45%" fxFlexOrder.gt-sm="2">
-    <pre class="plaintext wrap">{{ document.text }}</pre>
+<form [formGroup]="form">
+  <section fxLayout class="actions">
+    <button type="button" mat-icon-button matTooltip="Descargar" (click)="downloadFormAsJson()">
+      <mat-icon>save_alt</mat-icon>
+    </button>
+    <button type="button" mat-icon-button matTooltip="Restablecer" (click)="confirmReset()">
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <span class="spacer"></span>
+    <button type="button" mat-icon-button matTooltip="Contraer paneles" (click)="accordion.closeAll()">
+      <mat-icon>unfold_less</mat-icon>
+    </button>
+    <button type="button" mat-icon-button matTooltip="Expandir paneles" (click)="accordion.openAll()">
+      <mat-icon>unfold_more</mat-icon>
+    </button>
   </section>
-  <mat-divider fxHide.gt-sm></mat-divider>
-  <section ngClass="scroll" ngClass.gt-sm="fullheight scroll" style="padding: 0 0.5rem;"
-    ngStyle.gt-sm="padding: 0 1rem;" ngStyle.gt-md="padding: 0 5rem;" fxFlex="55%" fxFlexOrder.gt-sm="1">
-    <form [formGroup]="form">
-      <header fxLayout fxLayoutAlign="space-between">
-        <button type="button" mat-icon-button color="primary" class="unfold-icon" matTooltip="Contraer paneles"
-          (click)="accordion.closeAll()">
-          <mat-icon>unfold_less</mat-icon>
+  <mat-accordion multi>
+    <mat-expansion-panel *ngFor="let panel of panels; let index = index; let first = first; let last = last;"
+      [expanded]="step === index" (opened)="setStep(index)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon class="panel-icon">
+            {{ panel.icon }}
+          </mat-icon>
+          <span class="panel-title">
+            {{ panel.title }}
+          </span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <formly-form [form]="form.at(index)" [model]="model" [fields]="panel.groups" [options]="options[index]">
+      </formly-form>
+      <mat-action-row>
+        <button *ngIf="!first" type="button" mat-button color="secondary" (click)="prevStep()">
+          Anterior
         </button>
-        <button type="button" mat-icon-button color="primary" class="unfold-icon" matTooltip="Expandir paneles"
-          (click)="accordion.openAll()">
-          <mat-icon>unfold_more</mat-icon>
+        <button *ngIf="!last" type="button" mat-button color="primary" (click)="nextStep()">
+          Siguiente
         </button>
-      </header>
-      <mat-accordion multi>
-        <mat-expansion-panel *ngFor="let panel of panels; let index = index; let first = first; let last = last;"
-          [expanded]="step === index" (opened)="setStep(index)">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon class="panel-icon">
-                {{ panel.icon }}
-              </mat-icon>
-              <span class="panel-title">
-                {{ panel.title }}
-              </span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <formly-form [form]="form.at(index)" [model]="model" [fields]="panel.groups" [options]="options[index]">
-          </formly-form>
-          <mat-action-row>
-            <button *ngIf="!first" type="button" mat-button color="secondary" (click)="prevStep()">
-              Anterior
-            </button>
-            <button *ngIf="!last" type="button" mat-button color="primary" (click)="nextStep()">
-              Siguiente
-            </button>
-            <button *ngIf="last" type="button" mat-button color="primary" (click)="accordion.closeAll()">
-              Finalizar
-            </button>
-          </mat-action-row>
-        </mat-expansion-panel>
-      </mat-accordion>
-      <footer fxLayout="column" fxLayoutAlign="space-evenly" fxLayoutGap="0.5em" style="margin: 2em 0;">
-        <button type="button" mat-raised-button color="accent" (click)="downloadFormAsJson()">
-          <mat-icon class="inner-icon">save_alt</mat-icon>
-          Descargar las respuestas en formato JSON
+        <button *ngIf="last" type="button" mat-button color="primary" (click)="accordion.closeAll()">
+          Finalizar
         </button>
-        <button type="button" mat-button color="primary" (click)="confirmReset()">
-          o empezar de nuevo
-        </button>
-      </footer>
-    </form>
-  </section>
-</div>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+</form>

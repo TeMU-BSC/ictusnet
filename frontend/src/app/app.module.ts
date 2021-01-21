@@ -25,9 +25,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 // app
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
-import { FieldComponent } from './components/form/form.component'
-import { LoaderInterceptor } from './interceptors/loader.interceptor'
-import { LoaderComponent } from './components/loader/loader.component'
+import { FormComponent } from './components/form/form.component'
 import { DialogComponent } from './components/dialog/dialog.component'
 
 @NgModule({
@@ -35,8 +33,7 @@ import { DialogComponent } from './components/dialog/dialog.component'
     AppComponent,
     FormlyWrapperAddons,
     FlexLayoutType,
-    FieldComponent,
-    LoaderComponent,
+    FormComponent,
     DialogComponent,
   ],
   imports: [
@@ -67,9 +64,7 @@ import { DialogComponent } from './components/dialog/dialog.component'
     }),
     FormlyMaterialModule,
   ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

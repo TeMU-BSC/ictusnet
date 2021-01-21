@@ -8,7 +8,7 @@ import {
   admissibleEvidences,
 } from "../constants/constants"
 import { highlight } from "src/styles/markjs"
-import { Annotation, Variable } from "../interfaces/interfaces"
+import { Annotation, Variable } from "../models/models"
 
 export interface PanelType {
   icon?: string
@@ -72,7 +72,6 @@ export function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnno
           auxiliaryHintButton: shouldHide ? null : {
             icon: 'emoji_objects',
             tooltip: tooltip,
-            tooltipClass: 'multiline-tooltip',
             onClick: () => highlight(auxiliaryHints, 'auxiliar'),
           },
         },
@@ -154,7 +153,6 @@ export function getField(variable: Variable, annotations: Annotation[],
           icon: 'gps_not_fixed',
           color: 'primary',
           tooltip: hintTooltip,
-          tooltipClass: 'multiline-tooltip',
           hidden: hints.length === 0 || annotations.length > 0,
           onClick: (to, addon, event) => highlight(to.hints, 'hint'),
         },
@@ -162,7 +160,6 @@ export function getField(variable: Variable, annotations: Annotation[],
           icon: 'gps_fixed',
           color: 'accent',
           tooltip: evidenceTooltip,
-          tooltipClass: 'multiline-tooltip',
           hidden: annotations.length === 0,
           onClick: (to, addon, event) => highlight(to.annotations, 'evidence'),
         },

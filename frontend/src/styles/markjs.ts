@@ -1,6 +1,6 @@
 import Mark from 'mark.js'
 
-import { Annotation } from "src/app/interfaces/interfaces"
+import { Annotation } from "src/app/models/models"
 
 
 /**

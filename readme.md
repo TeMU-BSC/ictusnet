@@ -10,7 +10,7 @@ In order to run the database, the backend and the frontend, we are using three d
 
 ```bash
 # terminal 1
-docker run --name ictusnet_mongo --rm -p 27017:27017 -v "$(realpath ./database/mongodb)":/data/db mongo
+docker run --name ictusnet_mongo --rm -p 27017:27017 -v "$(realpath ./database/mongodb)":/data/db mongo:4.4.3-bionic
 
 # terminal 2
 cd backend

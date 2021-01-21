@@ -19,7 +19,6 @@ import { FieldType } from '@ngx-formly/core'
         color="terciary"
         class="auxiliar-hint-button"
         matTooltip="{{ to.auxiliaryHintButton?.tooltip }}"
-        matTooltipClass="{{ to.auxiliaryHintButton?.tooltipClass }}"
         matTooltipPosition="{{ to.auxiliaryHintButton?.tooltipPosition || 'below' }}"
         (click)="to.auxiliaryHintButton?.onClick()"
       >

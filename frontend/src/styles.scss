@@ -1,9 +1,8 @@
-@import "./styles/ictusnet-theme.scss";
-@import "./styles/mat-colors-additional.scss";
-@import "./styles/mat-components-hacks.scss";
-@import "./styles/markjs.scss";
-
 /* You can add global styles to this file, and also import other style files */
+@import "./styles/ictusnet-theme.scss";
+@import "./styles/additional-material-colors.scss";
+@import "./styles/custom-material-components.scss";
+@import "./styles/markjs.scss";
 
 html,
 body {
@@ -15,9 +14,41 @@ body {
   background-color: $lightblue;
 }
 
-// https://stackblitz.com/edit/angular-xrrwqb?file=styles.css
-.multiline-tooltip {
-  white-space: pre-line;
+.spacer {
+  flex: 1 1 auto;
+}
+
+.larger {
+  transform: scale(1.5);
+}
+
+// .items-centered {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+.fullheight {
+  height: 100%;
+}
+
+.scroll {
+  overflow-y: scroll;
+}
+
+.plaintext {
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.8rem;
+  padding: 1.5rem 1.5rem;
+}
+
+.wrap {
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
 }
 
 .group-title {

@@ -1,58 +1,64 @@
-<mat-toolbar fxLayout fxLayoutAlign="space-between center">
-  <img fxHide.gt-sm src="assets/ictusnet_isotipo.png" alt="ICTUSnet" class="logo" (click)="currentDocument = null">
-  <img fxHide fxShow.gt-sm src="assets/ictusnet-horizontal-logo-removebg.png" alt="ICTUSnet" class="logo"
+<router-outlet></router-outlet>
+<mat-toolbar fxLayout fxLayoutAlign="space-evenly center" fxLayoutGap="1rem">
+  <button mat-icon-button (click)="drawer.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <img fxHide.gt-sm src="assets/ictusnet_isotipo.png" alt="ICTUSnet" class="ictusnet-logo" (click)="currentDocument = null">
+  <img fxHide fxShow.gt-sm src="assets/ictusnet-horizontal-logo-removebg.png" alt="ICTUSnet" class="ictusnet-logo"
     (click)="currentDocument = null">
-  <div *ngIf="currentDocument" fxLayout fxLayoutAlign="space-between center" fxLayoutGap="1em">
-    <mat-form-field appearance="fill" style="font-size: small;">
-      <mat-label>
-        Documento actual
-      </mat-label>
-      <mat-select [(value)]="currentDocument">
-        <mat-option *ngFor="let document of documents; let i = index" [value]="document"
-          (click)="saveCurrentDocumentToLocalStorage()">
-          ({{ i + 1 }}) {{ document.filename }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <a mat-icon-button href="https://github.com/TeMU-BSC/ictusnet" matTooltip="Github repository"
-      style="font-size: x-large; margin-right: 0.5rem;">
-      <fa-icon [icon]="faGithub"></fa-icon>
-    </a>
-  </div>
+  <span class="spacer"></span>
+  <button mat-icon-button color="primary" [matMenuTriggerFor]="menu" aria-label="Application mode" matTooltip="Cambiar el modo">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="loadDemo()">
+      <mat-icon>science</mat-icon>
+      <span>Jugar con la demo</span>
+    </button>
+    <button mat-menu-item (click)="getDocuments()">
+      <mat-icon>developer_board</mat-icon>
+      <span>Trabajar en producción</span>
+    </button>
+  </mat-menu>
+  <fa-icon [icon]="faGithub" class="larger" style="margin-right: 1rem;" (click)="goToThisGithubRepo()"></fa-icon>
 </mat-toolbar>
 <mat-divider></mat-divider>
-<main *ngIf="!loading" style="height: calc(100% - 4rem - 1px);">
-  <div *ngIf="!currentDocument" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem"
-    style="padding-top: 5rem;">
-    <h1 class="mat-display-2 heading">
-      Tipificador de informes de alta de pacientes relacionados con ictus
-    </h1>
-    <div fxLayout="column" fxLayoutGap="1rem">
-      <input type="file" #fileInput accept="text/plain" (change)="uploadDocuments($event)" multiple hidden>
-      <button mat-stroked-button color="primary" matTooltip="Solamente se aceptan ficheros de texto plano"
-        [disabled]="uploading" (click)="fileInput.click()">
-        <mat-icon class="inner-icon">publish</mat-icon>
-        Subir informes de alta
-      </button>
-      <div *ngIf="uploading" fxLayout="column" fxLayoutAlign="center center">
-        <mat-spinner color="accent" style="margin-bottom: 1rem;"></mat-spinner>
-        <p>
-          Subiendo informes a la base de datos...
-          <br>
-          Extrayendo sugerencias automáticas para el formulario...
-        </p>
-      </div>
-      <button mat-raised-button color="primary" (click)="loadDemo()" matTooltip="Con informes anotados por humanos"
-        [disabled]="uploading">
-        <mat-icon class="inner-icon">science</mat-icon>
-        Probar la demo
-      </button>
-      <button mat-raised-button color="accent" (click)="getDocuments()"
-        matTooltip="Con generación automática de sugerencias" [disabled]="uploading">
-        <mat-icon class="inner-icon">developer_board</mat-icon>
-        Usar la herramienta ICTUSnet
-      </button>
-    </div>
+<mat-drawer-container autosize class="available-height">
+  <mat-drawer #drawer mode="side" opened="true">
+    <input #fileInput hidden type="file" multiple accept="text/plain" (change)="uploadDocuments($event)">
+    <button mat-raised-button color="primary" class="cta-upload"
+      matTooltip="Solamente se aceptan ficheros de texto plano"
+      [disabled]="uploading"
+      (click)="fileInput.click()"
+    >
+      <mat-icon class="add-icon larger" >add</mat-icon>
+      Cargar informes
+    </button>
+    <mat-selection-list #documentList [multiple]="false" disableRipple>
+      <mat-list-option *ngFor="let document of documents; let first = first"
+        [value]="document" [selected]="first"
+        [matTooltip]="document.filename" matTooltipPosition="right"
+        (click)="currentDocument = document">
+        <mat-icon mat-list-icon>description</mat-icon>
+        {{ document.filename }}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-drawer>
+  <!-- <mat-paginator [length]="resultsLength" pageSize="10" hidePageSize></mat-paginator> -->
+  <div *ngIf="uploading" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem" style="margin-top: 3rem;">
+    <mat-spinner></mat-spinner>
+    <p>
+      Subiendo informes a la base de datos...
+      <br>
+      Extrayendo sugerencias automáticas para el formulario...
+    </p>
   </div>
-  <app-form *ngIf="currentDocument" [document]="currentDocument"></app-form>
-</main>
+  <article *ngIf="currentDocument && !uploading" fxLayout class="fullheight">
+    <section fxFlex="50%" class="ictusnet-form scroll">
+      <app-form *ngIf="currentDocument" [document]="currentDocument"></app-form>
+    </section>
+    <section fxFlex="50%" id="wrapper" class="fullheight scroll context">
+      <pre class="plaintext wrap">{{ currentDocument?.text }}</pre>
+    </section>
+  </article>
+</mat-drawer-container>

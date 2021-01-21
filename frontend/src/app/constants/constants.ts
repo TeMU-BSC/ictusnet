@@ -1,7 +1,8 @@
 export const panelIcons = {
   'Entrada y salida del paciente': 'airport_shuttle',
   'Diagnóstico': 'local_hospital',
-  'Procedimientos': 'healing',
+  'Procedimientos I - trombólisis': 'masks',
+  'Procedimientos II - trombectomía': 'healing',
   'Tratamientos': 'local_pharmacy',
   'Pruebas y escalas de valoración': 'analytics',
 }

@@ -7,14 +7,14 @@ import { getVariableAnnotations, autofill, getPanels, PanelType } from 'src/app/
 import { ApiService } from 'src/app/services/api.service'
 import { DialogComponent } from 'src/app/components/dialog/dialog.component'
 import { downloadObjectAsJson } from 'src/app/helpers/json'
-import { Document, Option, Variable } from 'src/app/interfaces/interfaces'
+import { Document, Option, Variable } from 'src/app/models/models'
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FieldComponent implements OnChanges {
+export class FormComponent implements OnChanges {
 
   @Input() document: Document
   loading = true
@@ -49,8 +49,8 @@ export class FieldComponent implements OnChanges {
     this.loading = true
     this.model = {}
     this.panels = []
-    const variables: Variable[] = this.api.variables
-    const options: Option[] = this.api.options
+    const variables = this.api.variables
+    const options = this.api.options
     const allAnnotations = this.document.annotations
     variables.forEach(variable => {
       variable.options = options.filter(o => variable.entity.startsWith(o.entity))

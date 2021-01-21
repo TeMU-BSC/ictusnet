@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { ApiService } from './services/api.service'
-import { Document } from './interfaces/interfaces'
+import { Document, Option, Variable } from './models/models'
 import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from './components/dialog/dialog.component'
 
@@ -13,21 +13,29 @@ import { DialogComponent } from './components/dialog/dialog.component'
 export class AppComponent {
 
   faGithub = faGithub
-  files: FileList
   documents: Document[] = []
   currentDocument: Document
+  files: FileList
   loading = false
   uploading = false
 
   constructor(
     private api: ApiService,
     public dialog: MatDialog,
-  ) { }
+  ) {
+    this.loadDemo()
+  }
+
+  goToThisGithubRepo() {
+    window.open('https://github.com/TeMU-BSC/ictusnet')
+  }
 
   loadDemo(): void {
-    this.documents = this.api.demo
-    this.currentDocument = this.documents[0]
-    this.saveCurrentDocumentToLocalStorage()
+    this.api.getDemo().subscribe(response => {
+      this.documents = response['documents']
+      this.currentDocument = this.documents[0]
+      this.saveCurrentDocumentToLocalStorage()
+    })
   }
 
   uploadDocuments(event: Event): void {
@@ -43,6 +51,7 @@ export class AppComponent {
           acceptButton: { text: 'Vale' }
         }
       })
+      this.getDocuments()
     })
   }
 
