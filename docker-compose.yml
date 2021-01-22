@@ -20,7 +20,7 @@ services:
     volumes:
       - /tmp/ctakes:/tmp/ctakes
       - /var/run/docker.sock:/var/run/docker.sock
-    command: node app.js
+    command: node src/app.js
     restart: always
 
   angular:

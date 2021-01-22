@@ -1,11 +1,40 @@
 const fs = require('fs')
 const path = require('path')
 const { execFileSync } = require("child_process")
-
 const csvParse = require('csv-parse/lib/sync')
-
 const { getAnnotations } = require('./brat')
-const { walk } = require('./helpers')
+
+const createPublicDirIfNotExists = (path) => {
+  if (!fs.existsSync(path)) {
+    fs.mkdirSync(path)
+  }
+  fs.chmodSync(path, 0777)
+}
+
+const copyFiles = (sourceDirectory, destinationDirectory) => {
+  fs.readdirSync(sourceDirectory).forEach(file => {
+    const oldFile = path.join(sourceDirectory, file)
+    const newFile = path.join(destinationDirectory, path.parse(file).base)
+    fs.copyFileSync(oldFile, newFile)
+  })
+}
+
+const moveFiles = (sourceDirectory, destinationDirectory) => {
+  fs.readdirSync(sourceDirectory).forEach(file => {
+    const oldFile = path.join(sourceDirectory, file)
+    const newFile = path.join(destinationDirectory, path.parse(file).base)
+    fs.renameSync(oldFile, newFile)
+  })
+}
+
+// https://gist.github.com/lovasoa/8691344
+async function* walk(dir) {
+  for await (const d of await fs.promises.opendir(dir)) {
+    const entry = path.join(dir, d.name)
+    if (d.isDirectory()) yield* walk(entry)
+    else if (d.isFile()) yield entry
+  }
+}
 
 /**
  * Generate annotation (.ann) files by calling the CTAKES docker container https://github.com/TeMU-BSC/ictusnet-ctakes.
@@ -21,7 +50,7 @@ const generateAnnFilesSync = (runDockerScript, txtDir, annDir) => {
 }
 
 /**
- * Build an annotated document object.
+ * Build an annotated report object.
  * @param {string} txtFile 
  * @param {string} annFile 
  */
@@ -31,8 +60,8 @@ const parseBratFilePair = (txtFile, annFile) => {
   const annString = fs.readFileSync(annFile, 'utf8')
   const annArray = csvParse(annString, { delimiter: '\t' })
   const annotations = getAnnotations(annArray)
-  const annotatedDocument = { filename, text, annotations }
-  return annotatedDocument
+  const annotatedReport = { filename, text, annotations }
+  return annotatedReport
 }
 
 /**
@@ -61,7 +90,8 @@ const parseBratDirectory = async (bratDir) => {
 }
 
 const parseGenericTsv = (tsvFile) => {
-  const tsvString = fs.readFileSync(tsvFile, 'utf8')
+  const tsvPath = path.resolve(path.join(__dirname, tsvFile))
+  const tsvString = fs.readFileSync(tsvPath, 'utf8')
   const objectArary = csvParse(tsvString, {
     delimiter: '\t',
     columns: true,
@@ -73,6 +103,10 @@ const parseGenericTsv = (tsvFile) => {
 }
 
 module.exports = {
+  createPublicDirIfNotExists,
+  copyFiles,
+  moveFiles,
+  walk,
   generateAnnFilesSync,
   parseBratDirectory,
   parseGenericTsv,

@@ -1,8 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@import "./styles/ictusnet-theme.scss";
-@import "./styles/additional-material-colors.scss";
+@import "./styles/custom-theme.scss";
+@import "./styles/custom-material-colors.scss";
 @import "./styles/custom-material-components.scss";
 @import "./styles/markjs.scss";
+@import "./styles/utilities";
 
 html,
 body {
@@ -12,49 +13,4 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: $lightblue;
-}
-
-.spacer {
-  flex: 1 1 auto;
-}
-
-.larger {
-  transform: scale(1.5);
-}
-
-// .items-centered {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-.fullheight {
-  height: 100%;
-}
-
-.scroll {
-  overflow-y: scroll;
-}
-
-.plaintext {
-  font-family: "Roboto Mono", monospace;
-  font-size: 0.8rem;
-  padding: 1.5rem 1.5rem;
-}
-
-.wrap {
-  overflow-x: auto;
-  white-space: pre-wrap;
-  white-space: -moz-pre-wrap;
-  white-space: -pre-wrap;
-  white-space: -o-pre-wrap;
-  word-wrap: break-word;
-}
-
-.group-title {
-  font-weight: 500 !important;
-}
-
-.inner-icon {
-  margin-right: 0.5rem;
 }

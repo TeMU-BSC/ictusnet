@@ -3,62 +3,75 @@
   <button mat-icon-button (click)="drawer.toggle()">
     <mat-icon>menu</mat-icon>
   </button>
-  <img fxHide.gt-sm src="assets/ictusnet_isotipo.png" alt="ICTUSnet" class="ictusnet-logo" (click)="currentDocument = null">
-  <img fxHide fxShow.gt-sm src="assets/ictusnet-horizontal-logo-removebg.png" alt="ICTUSnet" class="ictusnet-logo"
-    (click)="currentDocument = null">
+  <img fxHide.gt-sm src="assets/ictusnet_isotipo.png" alt="ICTUSnet" class="ictusnet-logo" (click)="currentReport = null">
+  <img fxHide fxShow.gt-sm src="assets/ictusnet-horizontal-logo-removebg.png" alt="ICTUSnet" class="ictusnet-logo" (click)="currentReport = null">
   <span class="spacer"></span>
-  <button mat-icon-button color="primary" [matMenuTriggerFor]="menu" aria-label="Application mode" matTooltip="Cambiar el modo">
+  <div *ngIf="uploading" fxLayout fxLayoutAlign="start center" fxLayoutGap="1rem">
+    <mat-spinner diameter="50"></mat-spinner>
+    <small>
+      Cargando informes a la base de datos...
+      <br>
+      Generando sugerencias automáticas para el formulario...
+    </small>
+  </div>
+  <span class="spacer"></span>
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Application mode" matTooltip="Cambiar el modo">
     <mat-icon>settings</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="loadDemo()">
-      <mat-icon>science</mat-icon>
-      <span>Jugar con la demo</span>
-    </button>
-    <button mat-menu-item (click)="getDocuments()">
-      <mat-icon>developer_board</mat-icon>
-      <span>Trabajar en producción</span>
+    <button mat-menu-item (click)="resetDatabase()">
+      <mat-icon>delete_forever</mat-icon>
+      Restablecer la base de datos
     </button>
   </mat-menu>
-  <fa-icon [icon]="faGithub" class="larger" style="margin-right: 1rem;" (click)="goToThisGithubRepo()"></fa-icon>
+  <fa-icon [icon]="faGithub" class="larger pointer" matTooltip="Repositorio del código" (click)="goToThisGithubRepo()"></fa-icon>
 </mat-toolbar>
 <mat-divider></mat-divider>
 <mat-drawer-container autosize class="available-height">
   <mat-drawer #drawer mode="side" opened="true">
-    <input #fileInput hidden type="file" multiple accept="text/plain" (change)="uploadDocuments($event)">
-    <button mat-raised-button color="primary" class="cta-upload"
+  <div>
+    <input #fileInput hidden type="file" multiple accept="text/plain" (change)="uploadReports($event)">
+    <button mat-raised-button color="primary" class="cta"
       matTooltip="Solamente se aceptan ficheros de texto plano"
       [disabled]="uploading"
       (click)="fileInput.click()"
     >
-      <mat-icon class="add-icon larger" >add</mat-icon>
+      <mat-icon class="add-icon" >upload</mat-icon>
       Cargar informes
     </button>
-    <mat-selection-list #documentList [multiple]="false" disableRipple>
-      <mat-list-option *ngFor="let document of documents; let first = first"
-        [value]="document" [selected]="first"
-        [matTooltip]="document.filename" matTooltipPosition="right"
-        (click)="currentDocument = document">
-        <mat-icon mat-list-icon>description</mat-icon>
-        {{ document.filename }}
+    <mat-selection-list #reportList [multiple]="false" disableRipple>
+      <mat-list-option #option *ngFor="let report of reports; let first = first"
+        [value]="report" [selected]="first"
+        [matTooltip]="report.filename.startsWith('demo-') ? 'Con sugerencias de anotadores humanos' : 'Con sugerencias del anotador automático CTAKES'"
+        matTooltipPosition="right"
+        (click)="currentReport = report">
+        <mat-icon mat-list-icon>
+          {{ report.completed ? 'done' : 'pending_actions' }}
+        </mat-icon>
+        <span [ngStyle]="{'font-weight': option.selected ? 'bolder' : 'normal' }">
+          {{ report.filename }}
+        </span>
       </mat-list-option>
     </mat-selection-list>
-  </mat-drawer>
-  <!-- <mat-paginator [length]="resultsLength" pageSize="10" hidePageSize></mat-paginator> -->
-  <div *ngIf="uploading" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="2rem" style="margin-top: 3rem;">
-    <mat-spinner></mat-spinner>
-    <p>
-      Subiendo informes a la base de datos...
-      <br>
-      Extrayendo sugerencias automáticas para el formulario...
-    </p>
   </div>
-  <article *ngIf="currentDocument && !uploading" fxLayout class="fullheight">
+  <div>
+    <!-- <mat-paginator [length]="resultsLength" pageSize="10" hidePageSize></mat-paginator> -->
+    <button mat-raised-button color="accent" class="cta"
+      matTooltip="Descarga los resultados tras completar todos los formularios"
+      [disabled]="uploading"
+      (click)="downloadResultsAsJson()"
+    >
+      <mat-icon class="add-icon" >download</mat-icon>
+      Descargar resultados
+    </button>
+  </div>
+  </mat-drawer>
+  <div #contentOutsideDrawer *ngIf="currentReport && !uploading" fxLayout class="fullheight">
     <section fxFlex="50%" class="ictusnet-form scroll">
-      <app-form *ngIf="currentDocument" [document]="currentDocument"></app-form>
+      <app-form *ngIf="currentReport" [report]="currentReport"></app-form>
     </section>
     <section fxFlex="50%" id="wrapper" class="fullheight scroll context">
-      <pre class="plaintext wrap">{{ currentDocument?.text }}</pre>
+      <pre class="plaintext wrap">{{ currentReport?.text }}</pre>
     </section>
-  </article>
+  </div>
 </mat-drawer-container>

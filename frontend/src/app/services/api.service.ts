@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
 import { Observable } from 'rxjs'
 import { environment } from 'src/environments/environment'
-import { Document, Option, Variable } from "../models/models"
+import { Report, Option, Variable } from "../interfaces/interfaces"
 
 @Injectable({
   providedIn: "root",
@@ -26,18 +26,30 @@ export class ApiService {
     return this.http.get<Option[]>(`${this.apiUrl}/options`)
   }
 
-  getDemo(): Observable<Document[]> {
-    return this.http.get<Document[]>(`${this.apiUrl}/demo`)
-  }
-
-  uploadDocuments(files: FileList): Observable<any> {
+  uploadReports(files: FileList): Observable<any> {
     const formData = new FormData()
     Array.from(files).forEach(file => formData.append('files[]', file))
-    return this.http.post<any>(`${this.apiUrl}/documents`, formData)
+    return this.http.post<any>(`${this.apiUrl}/reports`, formData)
   }
 
-  getDocuments(): Observable<Document[]> {
-    return this.http.get<Document[]>(`${this.apiUrl}/documents`)
+  getReports(): Observable<Report[]> {
+    return this.http.get<Report[]>(`${this.apiUrl}/reports`)
+  }
+
+  getReport(report: Report): Observable<Report> {
+    return this.http.get<Report>(`${this.apiUrl}/reports/${report.filename}`)
+  }
+
+  updateReport(report: Report): Observable<Report> {
+    return this.http.put<Report>(`${this.apiUrl}/reports/${report.filename}`, report)
+  }
+
+  deleteReport(report: Report): Observable<Report> {
+    return this.http.delete<Report>(`${this.apiUrl}/reports/${report.filename}`)
+  }
+
+  resetDatabase() {
+    return this.http.delete<Report>(`${this.apiUrl}/database`)
   }
 
 }

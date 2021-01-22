@@ -8,7 +8,7 @@ import {
   admissibleEvidences,
 } from "../constants/constants"
 import { highlight } from "src/styles/markjs"
-import { Annotation, Variable } from "../models/models"
+import { Annotation, Variable } from "../interfaces/interfaces"
 
 export interface PanelType {
   icon?: string

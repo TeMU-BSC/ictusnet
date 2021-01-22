@@ -31,10 +31,12 @@ export interface Option {
   comment?: string
 }
 
-export interface Document {
-  filename: string,
-  text: string,
-  annotations: Annotation[]
+export interface Report {
+  filename: string
+  text: string
+  annotations?: Annotation[]
+  results?: any[]
+  completed: boolean
 }
 
 // not used, it's just a possible nested json schema

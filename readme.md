@@ -1,8 +1,8 @@
 # ICTUSnet web application
 
-Typifier of medical documents written in Spanish of patients related to stroke (ictus).
+Typifier of medical reports written in Spanish of patients related to stroke (ictus).
 
-This is a webapp that allows to upload medical documents and displays a categorized interactive form in order to help medical stuff with the classifying task of the ictus medical documents.
+This is a webapp that allows to upload medical reports and displays a categorized interactive form in order to help medical stuff with the classifying task of the ictus medical reports.
 
 ## Development
 

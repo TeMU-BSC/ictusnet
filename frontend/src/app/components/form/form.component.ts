@@ -6,8 +6,7 @@ import { FormlyFormOptions } from '@ngx-formly/core'
 import { getVariableAnnotations, autofill, getPanels, PanelType } from 'src/app/formly/formly'
 import { ApiService } from 'src/app/services/api.service'
 import { DialogComponent } from 'src/app/components/dialog/dialog.component'
-import { downloadObjectAsJson } from 'src/app/helpers/json'
-import { Document, Option, Variable } from 'src/app/models/models'
+import { Report, Option, Variable } from 'src/app/interfaces/interfaces'
 
 @Component({
   selector: 'app-form',
@@ -16,8 +15,7 @@ import { Document, Option, Variable } from 'src/app/models/models'
 })
 export class FormComponent implements OnChanges {
 
-  @Input() document: Document
-  loading = true
+  @Input() report: Report
 
   // formly
   model: any = {}
@@ -25,7 +23,7 @@ export class FormComponent implements OnChanges {
   form: FormArray = new FormArray(this.panels.map(() => new FormGroup({})))
   options = this.panels.map(() => <FormlyFormOptions>{})
 
-  // expansion panel
+  // material expansion panels
   @ViewChild(MatAccordion) accordion: MatAccordion
   step: number = 0  // default open panel
   setStep(index: number) { this.step = index }
@@ -38,38 +36,47 @@ export class FormComponent implements OnChanges {
   ) { }
 
   ngOnChanges(): void {
-    this.loadForm()
-    document.getElementById('wrapper').scrollTop = 0
+    this.prefillForm()
   }
 
   /**
-   * Load the form reading the Input() document property, alongside the variables and options for ictusnet entities.
+   * Load the form reading the Input() `report` property, alongside the
+   * `variables` and `options` for the ictusnet entities. Also build the
+   * expansion panels and populate the formly model, which later will be saved
+   * as the report `results`.
    */
-  loadForm() {
-    this.loading = true
+  prefillForm() {
     this.model = {}
     this.panels = []
-    const variables = this.api.variables
-    const options = this.api.options
-    const allAnnotations = this.document.annotations
+    const variables: Variable[] = this.api.variables
+    const options: Option[] = this.api.options
+    const allAnnotations = this.report.annotations
     variables.forEach(variable => {
       variable.options = options.filter(o => variable.entity.startsWith(o.entity))
       const variableAnnotations = getVariableAnnotations(variable, allAnnotations)
       this.model = { ...this.model, [variable.key]: autofill(variable, variableAnnotations) }
     })
     this.panels = [...this.panels, ...getPanels(variables, allAnnotations)]
-    this.loading = false
+
+    // replace the formly model by the report results if fetched any from database
+    this.model = this.report.results ? this.report.results : this.model
+
+    // reset the scroll state on report text
+    document.getElementById('wrapper').scrollTop = 0
   }
 
-  /**
-   * Open a confirmation dialog before reseting the form.
-   */
-  confirmReset(): void {
+  confirmBeforeReset(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '500px',
       data: {
         title: 'Restablecer formulario',
-        content: '¿Quieres volver al estado inicial de este formulario? Perderás los cambios que has realizado sobre este documento.',
+        content: `
+          <p>
+            ¿Quieres volver al último punto de guardado de este formulario?
+            <br>
+            Perderás los cambios más recientes.
+          </p>
+        `,
         cancelButton: { text: 'Atrás' },
         acceptButton: { text: 'Restablecer', color: 'warn' },
       }
@@ -81,11 +88,10 @@ export class FormComponent implements OnChanges {
     })
   }
 
-  /**
-   * Download the form completed so far in JSON format.
-   */
-  downloadFormAsJson() {
-    downloadObjectAsJson(this.model, `${this.document.filename}.json`)
+  toggleComplete() {
+    this.report.completed = !this.report.completed
+    this.report.results = this.model
+    this.api.updateReport(this.report).subscribe()
   }
 
 }
