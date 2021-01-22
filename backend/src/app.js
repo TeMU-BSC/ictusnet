@@ -8,8 +8,8 @@ const {
   createPublicDirIfNotExists,
   parseGenericTsv,
 } = require('./io')
-const { db } = require('./database/mongodb')
-const { insertDemoReports } = require('./database/demo')
+const { db } = require('./db/mongodb')
+const { insertDemoReports } = require('./db/demo')
 const reportsRoute = require('./routes/reports.js')
 
 const app = express()
