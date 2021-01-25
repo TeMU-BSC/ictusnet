@@ -27,6 +27,7 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { FormComponent } from './components/form/form.component'
 import { DialogComponent } from './components/dialog/dialog.component'
+import { ReportDeletedComponent } from './components/report-deleted/report-deleted.component'
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { DialogComponent } from './components/dialog/dialog.component'
     FlexLayoutType,
     FormComponent,
     DialogComponent,
+    ReportDeletedComponent,
   ],
   imports: [
     CommonModule,

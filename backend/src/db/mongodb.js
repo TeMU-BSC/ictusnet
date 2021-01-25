@@ -7,6 +7,7 @@ const host = process.env.MONGODB_HOST || 'localhost'
 const port = 27017
 const database = 'ictusnet'
 const uri = `mongodb://${host}:${port}/${database}`
+mongoose.set('returnOriginal', false)
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

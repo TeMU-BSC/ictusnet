@@ -1,12 +1,14 @@
 <h1 mat-dialog-title>
   {{ data.title }}
 </h1>
-<div mat-dialog-content [innerHTML]="data.content"></div>
-<div mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
-  <button *ngIf="data.cancelButton" mat-button [color]="data.cancelButton.color || ''" mat-dialog-close>
-    {{ data.cancelButton.text }}
+<div mat-dialog-content>
+  {{ data.content }}
+</div>
+<div mat-dialog-actions fxLayout fxLayoutAlign="end">
+  <button mat-dialog-close mat-button [color]="data.actions.cancel?.color" *ngIf="data.actions.cancel">
+    {{ data.actions.cancel?.text || 'Cancelar' }}
   </button>
-  <button *ngIf="data.acceptButton" mat-flat-button [color]="data.acceptButton.color || 'primary'" [mat-dialog-close]="data">
-    {{ data.acceptButton.text }}
+  <button [mat-dialog-close]="true" mat-flat-button [color]="data.actions.accept.color || 'primary'">
+    {{ data.actions.accept.text || 'Aceptar' }}
   </button>
 </div>

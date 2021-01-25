@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 })
 const upload = multer({ storage: storage })
 
-// POST (create) multiple new reports, using the multer middleware to upload the files present in the request.
+// POST (create) one or many new reports, using the multer middleware to upload the files present in the request.
 router.post('/', upload.array('files[]'), async (req, res) => {
   copyFiles(uploadsDir, ctakesDir)
   generateAnnFilesSync(runDockerScript, ctakesDir, ctakesDir)

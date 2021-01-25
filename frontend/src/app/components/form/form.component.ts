@@ -7,6 +7,9 @@ import { getVariableAnnotations, autofill, getPanels, PanelType } from 'src/app/
 import { ApiService } from 'src/app/services/api.service'
 import { DialogComponent } from 'src/app/components/dialog/dialog.component'
 import { Report, Option, Variable } from 'src/app/interfaces/interfaces'
+import { downloadObjectAsJson } from 'src/app/helpers/json'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { ReportDeletedComponent } from '../report-deleted/report-deleted.component'
 
 @Component({
   selector: 'app-form',
@@ -33,6 +36,7 @@ export class FormComponent implements OnChanges {
   constructor(
     private api: ApiService,
     public dialog: MatDialog,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnChanges(): void {
@@ -59,32 +63,37 @@ export class FormComponent implements OnChanges {
     this.panels = [...this.panels, ...getPanels(variables, allAnnotations)]
 
     // replace the formly model by the report results if fetched any from database
-    this.model = this.report.results ? this.report.results : this.model
+    if (this.report.results) {
+      this.model = this.report.results
+    }
 
     // reset the scroll state on report text
     document.getElementById('wrapper').scrollTop = 0
   }
 
-  confirmBeforeReset(): void {
+  resetForm(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
-      width: '500px',
       data: {
         title: 'Restablecer formulario',
-        content: `
-          <p>
-            ¿Quieres volver al último punto de guardado de este formulario?
-            <br>
-            Perderás los cambios más recientes.
-          </p>
-        `,
-        cancelButton: { text: 'Atrás' },
-        acceptButton: { text: 'Restablecer', color: 'warn' },
+        content: `¿Quieres volver al último punto de guardado de este formulario? Perderás los cambios más recientes.`,
+        actions: {
+          accept: { text: 'Restablecer', color: 'warn' },
+        }
       }
     })
     dialogRef.afterClosed().subscribe(confirmation => {
       if (confirmation) {
-        this.ngOnChanges()
+        this.prefillForm()
+        this.snackBar.open('Formulario restablecido.')
       }
+    })
+  }
+
+  downloadFormAsJson() {
+    this.report.results = this.model
+    this.api.updateReport(this.report).subscribe(updatedReport => {
+      const timestamp = new Date().toISOString()
+      downloadObjectAsJson(updatedReport, `${updatedReport.filename}-${timestamp}.json`)
     })
   }
 
@@ -92,6 +101,33 @@ export class FormComponent implements OnChanges {
     this.report.completed = !this.report.completed
     this.report.results = this.model
     this.api.updateReport(this.report).subscribe()
+  }
+
+  deleteReport() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Borrar informe',
+        content: `¿Quieres borrar el informe ${this.report.filename}?`,
+        actions: {
+          accept: { text: 'Borrar', color: 'warn' },
+        }
+      }
+    })
+    dialogRef.afterClosed().subscribe(confirmation => {
+      if (confirmation) {
+        const snackBarRef = this.snackBar.openFromComponent(ReportDeletedComponent, {
+          data: { text: 'Informe borrado.', action: 'Deshacer', duration: 5000 }
+        })
+        snackBarRef.onAction().subscribe(() => {
+          this.snackBar.open('El informe no ha sido borrado.', 'Vale', { duration: 5000 })
+        })
+        snackBarRef.afterDismissed().subscribe(info => {
+          if (!info.dismissedByAction) {
+            this.api.deleteReport(this.report).subscribe()
+          }
+        })
+      }
+    })
   }
 
 }

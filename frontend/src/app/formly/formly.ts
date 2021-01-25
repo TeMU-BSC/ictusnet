@@ -123,7 +123,7 @@ export function getField(variable: Variable, annotations: Annotation[],
   const options = variable.options.map(o => ({ ...o, label: o.value }))
 
   // Locate FECHA and HORA unspecific variables
-  const hints = allAnnotations.filter(a => a.entity.toUpperCase().startsWith(variable.shortLabel.toUpperCase()))
+  const hints = allAnnotations.filter(a => a.entity.toUpperCase().startsWith(variable.label.toUpperCase()))
   const hintTitleSuffix = hints.length === 1 ? 'pista' : 'pistas'
   const hintTooltip = [`${hints.length} ${hintTitleSuffix}`].concat(hints.map(a => a.evidence)).join('\n')
   const evidenceTitleSuffix = annotations.length === 1 ? 'evidencia textual' : 'evidencias textuales'
@@ -131,11 +131,11 @@ export function getField(variable: Variable, annotations: Annotation[],
 
   const field: FormlyFieldConfig = {
     key: variable.key,
-    type: variable.fieldType,
+    type: variable.field_type,
     templateOptions: {
-      type: variable.inputType,
+      type: variable.input_type,
       appearance: 'outline',
-      label: variable.shortLabel,
+      label: variable.label,
       multiple: variable.cardinality === 'n',
       options: options,
 
@@ -237,8 +237,8 @@ export function getVariableAnnotations(variable: Variable, allAnnotations: Annot
  * Search for a suitable value (or values) to autofill a formly field.
  */
 export function autofill(variable: Variable, annotations: Annotation[]): string | string[] {
-  const isInput = variable.fieldType === 'input'
-  const isSelect = variable.fieldType === 'select'
+  const isInput = variable.field_type === 'input'
+  const isSelect = variable.field_type === 'select'
   const isSingle = variable.cardinality === '1'
   const isMulti = variable.cardinality === 'n'
   const isSingleSelect = isSelect && isSingle

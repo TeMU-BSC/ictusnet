@@ -7,20 +7,18 @@ export interface Annotation {
   }
   evidence: string
   note: string
-  nonSpecific?: boolean
 }
 
 export interface Variable {
   section: string
-  group?: string
-  longLabel: string
-  shortLabel: string
+  group: string
+  label: string
   info?: string
   entity: string
   key: string
   cardinality: string
-  fieldType: string
-  inputType?: string
+  field_type: string
+  input_type?: string
   options?: any[]
   comments?: string
 }

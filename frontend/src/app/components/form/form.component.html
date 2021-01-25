@@ -1,12 +1,18 @@
 <form [formGroup]="form">
   <section fxLayout fxLayoutGap="0.5rem" class="actions">
-    <button type="button" mat-icon-button matTooltip="Deshacer" (click)="confirmBeforeReset()">
-      <mat-icon>undo</mat-icon>
+    <button type="button" mat-icon-button matTooltip="Recargar formulario" (click)="resetForm()">
+      <mat-icon>refresh</mat-icon>
     </button>
     <button type="button" mat-icon-button matTooltip="Marcar como {{ report.completed ? ' no ' : '' }}completado" (click)="toggleComplete()">
       <mat-icon>
         {{ report.completed ? 'unpublished' : 'check_circle' }}
       </mat-icon>
+    </button>
+    <button type="button" mat-icon-button matTooltip="Descargar" (click)="downloadFormAsJson()">
+      <mat-icon>save_alt</mat-icon>
+    </button>
+    <button type="button" mat-icon-button matTooltip="Borrar" (click)="deleteReport()">
+      <mat-icon>delete</mat-icon>
     </button>
     <span class="spacer"></span>
     <button type="button" mat-icon-button matTooltip="Contraer paneles" (click)="accordion.closeAll()">

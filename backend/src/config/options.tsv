@@ -1,54 +1,54 @@
 entity	value	comment
-Diagnostico_principal	ictus isquémico
-Diagnostico_principal	ataque isquémico transitorio
-Diagnostico_principal	hemorragia cerebral
-Arteria_afectada	arteria carótida común (ACC) o primitiva
-Arteria_afectada	arteria carótida interna (ACI)
-Arteria_afectada	arteria carótida interna segmento cervical (C1)
-Arteria_afectada	arteria carótida interna segmento petroso (C2)
-Arteria_afectada	arteria carótida interna segmento lacerum (C3)
-Arteria_afectada	arteria carótida interna segmento cavernoso (C4)
-Arteria_afectada	arteria carótida interna segmento clinoideo (C5)
-Arteria_afectada	arteria carótida interna segmento oftálmico (C6)
-Arteria_afectada	arteria carótida interna segmento comunicante (C7)
-Arteria_afectada	arteria carótida interna terminal (ACI-T / TICA)
-Arteria_afectada	arteria cerebral media (ACM)
-Arteria_afectada	arteria cerebral media segmento M1
-Arteria_afectada	arteria cerebral media segmento M2
-Arteria_afectada	arteria cerebral media segmento M3
-Arteria_afectada	arteria cerebral media segmento M4
-Arteria_afectada	arteria cerebral media segmento M5
-Arteria_afectada	arteria cerebral media segmento M6
-Arteria_afectada	arteria cerebral anterior (ACA)
-Arteria_afectada	arteria cerebral anterior segmento A1
-Arteria_afectada	arteria cerebral anterior segmento A2
-Arteria_afectada	arteria cerebral anterior segmento A3
-Arteria_afectada	arteria cerebral posterior (ACP)
-Arteria_afectada	arteria cerebral posterior segmento P1
-Arteria_afectada	arteria cerebral posterior segmento P2
-Arteria_afectada	arteria cerebral posterior segmento P3
-Arteria_afectada	arteria cerebral posterior segmento P4
-Arteria_afectada	arteria lenticuloestriada
-Arteria_afectada	arteria coroidea anterior
-Arteria_afectada	arteria coroidea posterior
-Arteria_afectada	arteria cerebelosa superior (ACS)
-Arteria_afectada	arteria cerebelosa anteroinferior (AICA)
-Arteria_afectada	arteria cerebelosa posteroinferior (PICA)
-Arteria_afectada	arteria vertebral (AV)
-Arteria_afectada	arteria vertebral segmento V1
-Arteria_afectada	arteria vertebral segmento V2
-Arteria_afectada	arteria vertebral segmento V3
-Arteria_afectada	arteria vertebral segmento V4
-Arteria_afectada	arteria basilar (AB)
-Arteria_afectada	indeterminada
-Localizacion	infarto total de circulación anterior (TACI)
-Localizacion	infarto parcial de circulación anterior (PACI)
-Localizacion	infarto lacunar (LACI) o síndrome lacunar
-Localizacion	infarto de circulación posterior (POCI)
-Lateralizacion	izquierda
-Lateralizacion	derecha
-Lateralizacion	ambas
-Lateralizacion	indeterminada
+Diagnostico_principal	ictus isquémico	
+Diagnostico_principal	ataque isquémico transitorio	
+Diagnostico_principal	hemorragia cerebral	
+Arteria_afectada	arteria carótida común (ACC) o primitiva	
+Arteria_afectada	arteria carótida interna (ACI)	
+Arteria_afectada	arteria carótida interna segmento cervical (C1)	
+Arteria_afectada	arteria carótida interna segmento petroso (C2)	
+Arteria_afectada	arteria carótida interna segmento lacerum (C3)	
+Arteria_afectada	arteria carótida interna segmento cavernoso (C4)	
+Arteria_afectada	arteria carótida interna segmento clinoideo (C5)	
+Arteria_afectada	arteria carótida interna segmento oftálmico (C6)	
+Arteria_afectada	arteria carótida interna segmento comunicante (C7)	
+Arteria_afectada	arteria carótida interna terminal (ACI-T / TICA)	
+Arteria_afectada	arteria cerebral media (ACM)	
+Arteria_afectada	arteria cerebral media segmento M1	
+Arteria_afectada	arteria cerebral media segmento M2	
+Arteria_afectada	arteria cerebral media segmento M3	
+Arteria_afectada	arteria cerebral media segmento M4	
+Arteria_afectada	arteria cerebral media segmento M5	
+Arteria_afectada	arteria cerebral media segmento M6	
+Arteria_afectada	arteria cerebral anterior (ACA)	
+Arteria_afectada	arteria cerebral anterior segmento A1	
+Arteria_afectada	arteria cerebral anterior segmento A2	
+Arteria_afectada	arteria cerebral anterior segmento A3	
+Arteria_afectada	arteria cerebral posterior (ACP)	
+Arteria_afectada	arteria cerebral posterior segmento P1	
+Arteria_afectada	arteria cerebral posterior segmento P2	
+Arteria_afectada	arteria cerebral posterior segmento P3	
+Arteria_afectada	arteria cerebral posterior segmento P4	
+Arteria_afectada	arteria lenticuloestriada	
+Arteria_afectada	arteria coroidea anterior	
+Arteria_afectada	arteria coroidea posterior	
+Arteria_afectada	arteria cerebelosa superior (ACS)	
+Arteria_afectada	arteria cerebelosa anteroinferior (AICA)	
+Arteria_afectada	arteria cerebelosa posteroinferior (PICA)	
+Arteria_afectada	arteria vertebral (AV)	
+Arteria_afectada	arteria vertebral segmento V1	
+Arteria_afectada	arteria vertebral segmento V2	
+Arteria_afectada	arteria vertebral segmento V3	
+Arteria_afectada	arteria vertebral segmento V4	
+Arteria_afectada	arteria basilar (AB)	
+Arteria_afectada	indeterminada	
+Localizacion	infarto total de circulación anterior (TACI)	
+Localizacion	infarto parcial de circulación anterior (PACI)	
+Localizacion	infarto lacunar (LACI) o síndrome lacunar	
+Localizacion	infarto de circulación posterior (POCI)	
+Lateralizacion	izquierda	
+Lateralizacion	derecha	
+Lateralizacion	ambas	
+Lateralizacion	indeterminada	
 Etiologia	aterotrombótico / aterosclerótico	isquémico
 Etiologia	cardioembólico (CE)	isquémico
 Etiologia	lacunar	isquémico
@@ -67,8 +67,8 @@ Tratamiento_anticoagulante	heparin	heparina
 Tratamiento_anticoagulante	dalteparin	fragmin
 Tratamiento_anticoagulante	enoxaparin	clexane
 Tratamiento_anticoagulante	nadroparin	fraxiparina
-Tratamiento_anticoagulante	parnaparin
-Tratamiento_anticoagulante	reviparin
+Tratamiento_anticoagulante	parnaparin	
+Tratamiento_anticoagulante	reviparin	
 Tratamiento_anticoagulante	bemiparin	hibor
 Tratamiento_anticoagulante	dabigatran etexilate	pradaxa
 Tratamiento_anticoagulante	rivaroxaban	xarelto
@@ -83,7 +83,7 @@ Tratamiento_antiagregante	tirofiban	agrastat
 Tratamiento_antiagregante	triflusal	disgren
 Tratamiento_antiagregante	cilostazol	ekistol, pletal
 Tratamiento_antiagregante	ticagrelor	brilique
-Tratamiento_antiagregante	cangrelor
-Tratamiento_antiagregante	prasugler
-Tratamiento_antiagregante	combinations
-Tratamiento_antiagregante	acetylsalicylic acid in combination with proton pump inhibitors
+Tratamiento_antiagregante	cangrelor	
+Tratamiento_antiagregante	prasugler	
+Tratamiento_antiagregante	combinations	
+Tratamiento_antiagregante	acetylsalicylic acid in combination with proton pump inhibitors	

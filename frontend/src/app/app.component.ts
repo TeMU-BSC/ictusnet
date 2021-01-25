@@ -82,7 +82,9 @@ export class AppComponent implements OnInit {
           data: {
             title: 'Database has been reset successfully',
             content: `${response['message']}`,
-            acceptButton: { text: 'OK' }
+            actions: {
+              accept: { text: 'OK' }
+            }
           }
         })
         this.ngOnInit()

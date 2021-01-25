@@ -1,0 +1,13 @@
+.spinner {
+  &__container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: inherit;
+  }
+
+  &__text {
+    position: absolute;
+    padding: 0.9rem;
+  }
+}

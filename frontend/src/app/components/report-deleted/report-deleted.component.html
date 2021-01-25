@@ -1,0 +1,21 @@
+<div fxLayout fxLayoutAlign="space-between center">
+  <span>
+    {{ data.text }}
+  </span>
+  <div fxLayout fxLayoutAlign="space-between center">
+    <span class="spinner__container">
+      <mat-progress-spinner
+        color="accent"
+        diameter="37"
+        mode="determinate"
+        [value]="percentage"
+      ></mat-progress-spinner>
+      <span class="spinner__text">
+        {{ remainingTime }}
+      </span>
+    </span>
+    <button mat-button color="accent" (click)="snackBarRef.dismissWithAction()">
+      {{ data.action }}
+    </button>
+  </div>
+</div>
