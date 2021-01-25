@@ -1,6 +1,6 @@
 <form [formGroup]="form">
   <section fxLayout fxLayoutGap="0.5rem" class="actions">
-    <button type="button" mat-icon-button matTooltip="Recargar formulario" (click)="resetForm()">
+    <button type="button" mat-icon-button matTooltip="Restablecer con sugerencias iniciales" (click)="resetForm()">
       <mat-icon>refresh</mat-icon>
     </button>
     <button type="button" mat-icon-button matTooltip="Marcar como {{ report.completed ? ' no ' : '' }}completado" (click)="toggleComplete()">

@@ -3,10 +3,10 @@ const { parseBratDirectory } = require('../io')
 const demoDir = './demo'
 
 const insertDemoReports = async () => {
-  const currentDemoReports = await Report.find({ filename: /^demo-/ })
+  const currentDemoReports = await Report.find({ filename: /\.utf8\./ })
   if (currentDemoReports.length === 0) {
-    const parsedBrat = await parseBratDirectory(demoDir)
-    const newReports = parsedBrat.map(d => ({ ...d, completed: false, results: {} }))
+    const parsedBratDirectory = await parseBratDirectory(demoDir)
+    const newReports = parsedBratDirectory.map(d => ({ ...d, completed: false, results: {} }))
     await Report.create(newReports)
   }
 }

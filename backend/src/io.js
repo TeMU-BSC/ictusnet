@@ -89,17 +89,10 @@ const parseBratDirectory = async (bratDir) => {
   return parsedBratDirArray
 }
 
-const parseGenericTsv = (tsvFile) => {
-  const tsvPath = path.resolve(path.join(__dirname, tsvFile))
-  const tsvString = fs.readFileSync(tsvPath, 'utf8')
-  const objectArary = csvParse(tsvString, {
-    delimiter: '\t',
-    columns: true,
-    relaxColumnCount: true,
-    quote: '\'',
-    skipEmptyLines: true,
-  })
-  return objectArary
+const getFileContent = (file) => {
+  const absolutePath = path.resolve(path.join(__dirname, file))
+  const contentString = fs.readFileSync(absolutePath, 'utf8')
+  return contentString
 }
 
 module.exports = {
@@ -109,5 +102,5 @@ module.exports = {
   walk,
   generateAnnFilesSync,
   parseBratDirectory,
-  parseGenericTsv,
+  getFileContent,
 }

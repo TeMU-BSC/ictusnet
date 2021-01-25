@@ -17,8 +17,8 @@ const upload = multer({ storage: storage })
 router.post('/', upload.array('files[]'), async (req, res) => {
   copyFiles(uploadsDir, ctakesDir)
   generateAnnFilesSync(runDockerScript, ctakesDir, ctakesDir)
-  const parsedBrat = await parseBratDirectory(ctakesDir)
-  const newReports = parsedBrat.map(d => ({ ...d, completed: false, results: {} }))
+  const parsedBratDirectory = await parseBratDirectory(ctakesDir)
+  const newReports = parsedBratDirectory.map(d => ({ ...d, completed: false, results: {} }))
   const createdReports = await Report.create(newReports)
   res.send({
     reportCount: createdReports.length,

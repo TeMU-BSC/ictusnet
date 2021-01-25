@@ -3,7 +3,7 @@ import { FormArray, FormGroup } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatAccordion } from '@angular/material/expansion'
 import { FormlyFormOptions } from '@ngx-formly/core'
-import { getVariableAnnotations, autofill, getPanels, PanelType } from 'src/app/formly/formly'
+import { getVariableAnnotations, getPanels, PanelType, autofillField } from 'src/app/formly/formly'
 import { ApiService } from 'src/app/services/api.service'
 import { DialogComponent } from 'src/app/components/dialog/dialog.component'
 import { Report, Option, Variable } from 'src/app/interfaces/interfaces'
@@ -40,7 +40,7 @@ export class FormComponent implements OnChanges {
   ) { }
 
   ngOnChanges(): void {
-    this.prefillForm()
+    this.autofillForm()
   }
 
   /**
@@ -49,7 +49,7 @@ export class FormComponent implements OnChanges {
    * expansion panels and populate the formly model, which later will be saved
    * as the report `results`.
    */
-  prefillForm() {
+  autofillForm() {
     this.model = {}
     this.panels = []
     const variables: Variable[] = this.api.variables
@@ -58,7 +58,7 @@ export class FormComponent implements OnChanges {
     variables.forEach(variable => {
       variable.options = options.filter(o => variable.entity.startsWith(o.entity))
       const variableAnnotations = getVariableAnnotations(variable, allAnnotations)
-      this.model = { ...this.model, [variable.key]: autofill(variable, variableAnnotations) }
+      this.model = { ...this.model, [variable.key]: autofillField(variable, variableAnnotations) }
     })
     this.panels = [...this.panels, ...getPanels(variables, allAnnotations)]
 
@@ -83,7 +83,7 @@ export class FormComponent implements OnChanges {
     })
     dialogRef.afterClosed().subscribe(confirmation => {
       if (confirmation) {
-        this.prefillForm()
+        this.autofillForm()
         this.snackBar.open('Formulario restablecido.')
       }
     })

@@ -6,8 +6,9 @@ const {
 } = require('./constants')
 const {
   createPublicDirIfNotExists,
-  parseGenericTsv,
+  getFileContent,
 } = require('./io')
+const csvParse = require('csv-parse/lib/sync')
 const { db } = require('./db/mongodb')
 const { insertDemoReports } = require('./db/demo')
 const reportsRoute = require('./routes/reports.js')
@@ -31,12 +32,36 @@ app.get('/', (req, res) => {
   res.send('hello from ictusnet backend in node.js using express')
 })
 app.get('/variables', (req, res) => {
-  const variables = parseGenericTsv('./config/variables.tsv')
+  const fileContent = getFileContent('./config/variables.tsv')
+  const variables = csvParse(fileContent, {
+    delimiter: '\t',
+    columns: true,
+    relaxColumnCount: true,
+    quote: '\'',
+    skipEmptyLines: true,
+  })
   res.send(variables)
 })
 app.get('/options', (req, res) => {
-  const options = parseGenericTsv('./config/options.tsv')
+  const fileContent = getFileContent('./config/options.tsv')
+  const options = csvParse(fileContent, {
+    delimiter: '\t',
+    columns: true,
+    relaxColumnCount: true,
+    quote: '\'',
+    skipEmptyLines: true,
+  })
   res.send(options)
+})
+app.get('/admissibles', (req, res) => {
+  const fileContent = getFileContent('./config/IctusnetDict.bsv')
+  const admissibles = csvParse(fileContent, {
+    delimiter: '|',
+    columns: true,
+    relaxColumnCount: true,
+    skipEmptyLines: true,
+  })
+  res.send(admissibles)
 })
 app.delete('/database', async (req, res) => {
   await db.dropDatabase()

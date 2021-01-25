@@ -236,7 +236,7 @@ export function getVariableAnnotations(variable: Variable, allAnnotations: Annot
 /**
  * Search for a suitable value (or values) to autofill a formly field.
  */
-export function autofill(variable: Variable, annotations: Annotation[]): string | string[] {
+export function autofillField(variable: Variable, annotations: Annotation[]): string | string[] {
   const isInput = variable.field_type === 'input'
   const isSelect = variable.field_type === 'select'
   const isSingle = variable.cardinality === '1'
