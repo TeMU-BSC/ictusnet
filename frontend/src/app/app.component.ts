@@ -15,10 +15,16 @@ export class AppComponent implements OnInit {
 
   faGithub = faGithub
   reports: Report[] = []
-  currentReport: Report
   files: FileList
   loading = false
   uploading = false
+  filters = [
+    { name: 'Bandeja de entrada', icon: 'inbox' },
+    { name: 'Completados', icon: 'assignment_turned_in' },
+    { name: 'Todos', icon: 'all_inbox' },
+  ]
+  currentReport: Report
+  currentFilter: any
 
   constructor(
     private api: ApiService,
@@ -29,8 +35,14 @@ export class AppComponent implements OnInit {
     this.getReports()
   }
 
-  goToThisGithubRepo() {
+  goToThisGithubRepo(): void {
     window.open('https://github.com/TeMU-BSC/ictusnet')
+  }
+
+  setFilter(filter: any): void {
+    this.currentFilter = filter
+    console.log(this.currentFilter)
+
   }
 
   uploadReports(event: Event): void {
@@ -63,11 +75,11 @@ export class AppComponent implements OnInit {
    * Store in LocalStorage the current working report filename;
    * and then read from LocalStorage to come back where the user left.
    */
-  saveCurrentReportToLocalStorage(): void {
-    localStorage.setItem('currentReport', this.currentReport?.filename)
-  }
+  // saveCurrentReportToLocalStorage(): void {
+  //   localStorage.setItem('currentReport', this.currentReport?.filename)
+  // }
 
-  downloadAllReports() {
+  downloadAllReports(): void {
     this.api.getReports().subscribe(response => {
       const results = response
       const timestamp = new Date().toISOString()
@@ -75,7 +87,7 @@ export class AppComponent implements OnInit {
     })
   }
 
-  resetDatabase() {
+  resetDatabase(): void {
     const confirmed = confirm('Esta es una funcionalidad de desarrollo para testear la herramienta web. ¿Seguro que quieres borrar los datos actuales en MongoDB?')
     if (confirmed) {
       this.api.resetDatabase().subscribe(response => {
@@ -89,7 +101,7 @@ export class AppComponent implements OnInit {
             }
           }
         })
-        this.ngOnInit()
+        this.getReports()
       })
     }
   }

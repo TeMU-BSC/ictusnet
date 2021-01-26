@@ -42,7 +42,7 @@ export class FormComponent implements OnChanges {
    * expansion panels and populate the formly model, which later will be saved
    * as the report `results`.
    */
-  autofillForm() {
+  autofillForm(): void {
     this.model = {}
     this.panels = []
     const variables: Variable[] = this.api.variables

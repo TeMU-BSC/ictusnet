@@ -25,22 +25,22 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 // app
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
+import { ReportComponent } from './components/report/report.component'
 import { FormComponent } from './components/form/form.component'
+import { ActionsComponent } from './components/actions/actions.component'
 import { DialogComponent } from './components/dialog/dialog.component'
 import { ReportDeletedComponent } from './components/report-deleted/report-deleted.component'
-import { ActionsComponent } from './components/actions/actions.component';
-import { ReportComponent } from './components/report/report.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     FormlyWrapperAddons,
     FlexLayoutType,
+    ReportComponent,
     FormComponent,
+    ActionsComponent,
     DialogComponent,
     ReportDeletedComponent,
-    ActionsComponent,
-    ReportComponent,
   ],
   imports: [
     CommonModule,
