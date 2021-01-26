@@ -1,0 +1,6 @@
+services:
+
+  angular:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.stage

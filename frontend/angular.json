@@ -84,6 +84,14 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "staging": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.stage.ts"
+                }
+              ]
             }
           }
         },
@@ -95,6 +103,9 @@
           "configurations": {
             "production": {
               "browserTarget": "ictusnet:build:production"
+            },
+            "staging": {
+              "browserTarget": "ictusnet:build:staging"
             }
           }
         },
