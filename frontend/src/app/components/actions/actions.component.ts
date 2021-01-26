@@ -48,7 +48,7 @@ export class ActionsComponent implements OnInit {
 
   downloadFormAsJson() {
     this.report.form.final = this.form.model
-    this.api.updateReport(this.report).subscribe(updatedReport => {
+    this.api.updateReport(this.report.filename, this.report).subscribe(updatedReport => {
       const timestamp = new Date().toISOString()
       downloadObjectAsJson(updatedReport, `${updatedReport.filename}-${timestamp}.json`)
     })
@@ -57,7 +57,7 @@ export class ActionsComponent implements OnInit {
   toggleComplete() {
     this.report.completed = !this.report.completed
     this.report.form.final = this.form.model
-    this.api.updateReport(this.report).subscribe()
+    this.api.updateReport(this.report.filename, this.report).subscribe()
   }
 
   deleteReport() {
@@ -81,7 +81,7 @@ export class ActionsComponent implements OnInit {
         })
         snackBarRef.afterDismissed().subscribe(info => {
           if (!info.dismissedByAction) {
-            this.api.deleteReport(this.report).subscribe()
+            this.api.deleteReport(this.report.filename).subscribe()
           }
         })
       }

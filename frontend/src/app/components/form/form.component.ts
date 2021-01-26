@@ -1,8 +1,6 @@
 import { Component, OnChanges, ViewChild, Input } from '@angular/core'
 import { FormArray, FormGroup } from '@angular/forms'
 import { MatAccordion } from '@angular/material/expansion'
-import { MatDialog } from '@angular/material/dialog'
-import { MatSnackBar } from '@angular/material/snack-bar'
 import { FormlyFormOptions } from '@ngx-formly/core'
 import { ApiService } from 'src/app/services/api.service'
 import { Report, Option, Variable } from 'src/app/interfaces/interfaces'
@@ -32,8 +30,6 @@ export class FormComponent implements OnChanges {
 
   constructor(
     private api: ApiService,
-    public dialog: MatDialog,
-    private snackBar: MatSnackBar,
   ) { }
 
   ngOnChanges(): void {
@@ -51,7 +47,7 @@ export class FormComponent implements OnChanges {
     this.panels = []
     const variables: Variable[] = this.api.variables
     const options: Option[] = this.api.options
-    const allAnnotations = this.report.annotations
+    const allAnnotations = this.report?.annotations || []
     variables.forEach(variable => {
       variable.options = options.filter(o => variable.entity.startsWith(o.entity))
       const variableAnnotations = getVariableAnnotations(variable, allAnnotations)
@@ -60,7 +56,7 @@ export class FormComponent implements OnChanges {
     this.panels = [...this.panels, ...getPanels(variables, allAnnotations)]
 
     // replace the formly model by the report results if fetched any from database
-    if (this.report.completed) {
+    if (this.report?.completed) {
       this.model = this.report.form.final
     }
 

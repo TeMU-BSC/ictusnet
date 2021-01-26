@@ -43,7 +43,9 @@ export class AppComponent implements OnInit {
         data: {
           title: 'Subida finalizada',
           content: `Se han subido correctamente ${result.reportCount} informes.`,
-          acceptButton: { text: 'Vale' }
+          actions: {
+            accept: { text: 'Vale' }
+          }
         }
       })
       this.getReports()

@@ -1,0 +1,8 @@
+<div #contentOutsideDrawer fxLayout class="fullheight">
+  <section fxFlex="50%" class="some-padding scroll">
+    <app-form [report]="report"></app-form>
+  </section>
+  <section fxFlex="50%" id="wrapper" class="fullheight scroll context">
+    <pre class="plaintext wrap">{{ report?.text }}</pre>
+  </section>
+</div>

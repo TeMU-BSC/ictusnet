@@ -36,16 +36,16 @@ export class ApiService {
     return this.http.get<Report[]>(`${this.apiUrl}/reports`)
   }
 
-  getReport(report: Report): Observable<Report> {
-    return this.http.get<Report>(`${this.apiUrl}/reports/${report.filename}`)
+  getReport(filename: string): Observable<Report> {
+    return this.http.get<Report>(`${this.apiUrl}/reports/${filename}`)
   }
 
-  updateReport(report: Report): Observable<Report> {
-    return this.http.put<Report>(`${this.apiUrl}/reports/${report.filename}`, report)
+  updateReport(filename: string, report: Report): Observable<Report> {
+    return this.http.put<Report>(`${this.apiUrl}/reports/${filename}`, report)
   }
 
-  deleteReport(report: Report): Observable<Report> {
-    return this.http.delete<Report>(`${this.apiUrl}/reports/${report.filename}`)
+  deleteReport(filename: string): Observable<Report> {
+    return this.http.delete<Report>(`${this.apiUrl}/reports/${filename}`)
   }
 
   resetDatabase() {

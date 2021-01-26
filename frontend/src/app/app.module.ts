@@ -28,7 +28,8 @@ import { AppComponent } from './app.component'
 import { FormComponent } from './components/form/form.component'
 import { DialogComponent } from './components/dialog/dialog.component'
 import { ReportDeletedComponent } from './components/report-deleted/report-deleted.component'
-import { ActionsComponent } from './components/actions/actions.component'
+import { ActionsComponent } from './components/actions/actions.component';
+import { ReportComponent } from './components/report/report.component'
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ActionsComponent } from './components/actions/actions.component'
     DialogComponent,
     ReportDeletedComponent,
     ActionsComponent,
+    ReportComponent,
   ],
   imports: [
     CommonModule,
