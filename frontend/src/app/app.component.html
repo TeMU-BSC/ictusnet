@@ -19,6 +19,10 @@
     <mat-icon>settings</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="downloadAllReports()">
+      <mat-icon>download</mat-icon>
+      Descargar la base de datos
+    </button>
     <button mat-menu-item (click)="resetDatabase()">
       <mat-icon>delete_forever</mat-icon>
       Restablecer la base de datos
@@ -31,18 +35,19 @@
   <mat-drawer #drawer mode="side" opened="true">
   <div>
     <input #fileInput hidden type="file" multiple accept="text/plain" (change)="uploadReports($event)">
-    <button mat-raised-button color="primary" class="cta"
+    <button mat-raised-button class="cta"
       matTooltip="Solamente se aceptan ficheros de texto plano"
       [disabled]="uploading"
       (click)="fileInput.click()"
     >
-      <mat-icon class="add-icon" >upload</mat-icon>
+      <mat-icon color="primary" class="add-icon larger">add</mat-icon>
       Cargar informes
     </button>
     <mat-selection-list #reportList [multiple]="false" disableRipple>
       <mat-list-option #option *ngFor="let report of reports; let first = first"
         [value]="report" [selected]="first"
-        [matTooltip]="report.filename.startsWith('demo-') ? 'Con sugerencias de anotadores humanos' : 'Con sugerencias del anotador automático CTAKES'"
+        [matTooltip]="report.filename"
+        [matTooltipShowDelay]="500"
         matTooltipPosition="right"
         (click)="currentReport = report">
         <mat-icon mat-list-icon>
@@ -54,17 +59,16 @@
       </mat-list-option>
     </mat-selection-list>
   </div>
-  <div>
-    <!-- <mat-paginator [length]="resultsLength" pageSize="10" hidePageSize></mat-paginator> -->
-    <button mat-raised-button color="accent" class="cta"
+  <!-- <div>
+    <button mat-raised-button color="primary" class="cta"
       matTooltip="Descarga los resultados tras completar todos los formularios"
       [disabled]="uploading"
-      (click)="downloadResultsAsJson()"
+      (click)="downloadAllReports()"
     >
       <mat-icon class="add-icon" >download</mat-icon>
       Descargar resultados
     </button>
-  </div>
+  </div> -->
   </mat-drawer>
   <div #contentOutsideDrawer *ngIf="currentReport && !uploading" fxLayout class="fullheight">
     <section fxFlex="50%" class="ictusnet-form scroll">

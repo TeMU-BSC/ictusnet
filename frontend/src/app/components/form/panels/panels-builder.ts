@@ -1,14 +1,13 @@
 import { FormlyFieldConfig } from "@ngx-formly/core"
-
 import {
   panelIcons,
   nonSpecificEntities,
   diagnosticoSectionGroupNames,
   diagnosticoPrincipalEntities,
   admissibleEvidences,
-} from "../constants/constants"
+} from "src/app/constants/constants"
+import { Annotation, Variable } from "src/app/interfaces/interfaces"
 import { highlight } from "src/styles/markjs"
-import { Annotation, Variable } from "../interfaces/interfaces"
 
 export interface PanelType {
   icon?: string
@@ -38,7 +37,7 @@ export function getPanels(variables: Variable[], allAnnotations: Annotation[]): 
   return panels
 }
 
-export function getPanel(sectionName: string, groups: FormlyFieldConfig[]): PanelType {
+function getPanel(sectionName: string, groups: FormlyFieldConfig[]): PanelType {
   const panel: PanelType = {
     icon: panelIcons[sectionName],
     title: sectionName,
@@ -47,7 +46,7 @@ export function getPanel(sectionName: string, groups: FormlyFieldConfig[]): Pane
   return panel
 }
 
-export function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnnotations: Annotation[]): FormlyFieldConfig {
+function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnnotations: Annotation[]): FormlyFieldConfig {
   const auxiliaryHints = allAnnotations.filter(a => a.entity.startsWith(nonSpecificEntities[groupName]))
   const shouldHide = auxiliaryHints.length === 0
   const suffix = auxiliaryHints.length === 1 ? 'pista auxiliar' : 'pistas auxiliares'
@@ -117,7 +116,7 @@ export function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnno
 /**
  * Build the form field with all needed attributes, considering some special cases.
  */
-export function getField(variable: Variable, annotations: Annotation[],
+function getField(variable: Variable, annotations: Annotation[],
   allVariables: Variable[], allAnnotations: Annotation[]): FormlyFieldConfig {
 
   const options = variable.options.map(o => ({ ...o, label: o.value }))

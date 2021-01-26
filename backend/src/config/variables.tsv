@@ -7,7 +7,7 @@ Entrada y salida del paciente	Ingreso	Fecha	Fecha de ingreso		Fecha_de_ingreso	f
 Entrada y salida del paciente	Alta	Fecha	Fecha de alta		Fecha_de_alta	fecha_de_alta	1	input	date		
 Entrada y salida del paciente	Alta	Hora	Hora de alta		Hora_de_alta	hora_de_alta	1	input	time		
 Diagnóstico	Diagnóstico principal	Diagnóstico principal	Diagnóstico principal		Diagnostico_principal	diagnostico_principal	1	select			
-Diagnóstico	Arterias afectadas	Arterias afectadas	Arterias afectadas	Aplicable sólo cuando el diagnóstico principal es "ictus isquémico".	Arteria_afectada	arteria_afectada	n	select			aplicable sólo para dianóstico = ictus isquémico
+Diagnóstico	Arterias afectadas	Arterias afectadas	Arterias afectadas	Aplicable sólo cuando el diagnóstico principal es "ictus isquémico".	Arteria_afectada	arterias_afectadas	n	select			aplicable sólo para dianóstico = ictus isquémico
 Diagnóstico	Localizaciones	Localizaciones	Localizaciones		Localizacion	localizacion	n	select			
 Diagnóstico	Lateralización	Lateralización	Lateralización		Lateralizacion	lateralizacion	1	select			
 Diagnóstico	Etiología	Etiología	Etiología	Las opciones pueden variar según el diagnóstico principal seleccionado.	Etiologia	etiologia	1	select			las opciones a mostrar deben variar según si el diagnóstico contiene la palabra "isquémico" o "hemorragia" (ver hoja "admissibles")

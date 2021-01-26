@@ -1,15 +1,12 @@
 import { Component, OnChanges, ViewChild, Input } from '@angular/core'
 import { FormArray, FormGroup } from '@angular/forms'
-import { MatDialog } from '@angular/material/dialog'
 import { MatAccordion } from '@angular/material/expansion'
-import { FormlyFormOptions } from '@ngx-formly/core'
-import { getVariableAnnotations, getPanels, PanelType, autofillField } from 'src/app/formly/formly'
-import { ApiService } from 'src/app/services/api.service'
-import { DialogComponent } from 'src/app/components/dialog/dialog.component'
-import { Report, Option, Variable } from 'src/app/interfaces/interfaces'
-import { downloadObjectAsJson } from 'src/app/helpers/json'
+import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { ReportDeletedComponent } from '../report-deleted/report-deleted.component'
+import { FormlyFormOptions } from '@ngx-formly/core'
+import { ApiService } from 'src/app/services/api.service'
+import { Report, Option, Variable } from 'src/app/interfaces/interfaces'
+import { getVariableAnnotations, getPanels, PanelType, autofillField } from './panels/panels-builder'
 
 @Component({
   selector: 'app-form',
@@ -63,71 +60,12 @@ export class FormComponent implements OnChanges {
     this.panels = [...this.panels, ...getPanels(variables, allAnnotations)]
 
     // replace the formly model by the report results if fetched any from database
-    if (this.report.results) {
-      this.model = this.report.results
+    if (this.report.completed) {
+      this.model = this.report.form.final
     }
 
     // reset the scroll state on report text
     document.getElementById('wrapper').scrollTop = 0
-  }
-
-  resetForm(): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      data: {
-        title: 'Restablecer formulario',
-        content: `¿Quieres volver al último punto de guardado de este formulario? Perderás los cambios más recientes.`,
-        actions: {
-          accept: { text: 'Restablecer', color: 'warn' },
-        }
-      }
-    })
-    dialogRef.afterClosed().subscribe(confirmation => {
-      if (confirmation) {
-        this.autofillForm()
-        this.snackBar.open('Formulario restablecido.')
-      }
-    })
-  }
-
-  downloadFormAsJson() {
-    this.report.results = this.model
-    this.api.updateReport(this.report).subscribe(updatedReport => {
-      const timestamp = new Date().toISOString()
-      downloadObjectAsJson(updatedReport, `${updatedReport.filename}-${timestamp}.json`)
-    })
-  }
-
-  toggleComplete() {
-    this.report.completed = !this.report.completed
-    this.report.results = this.model
-    this.api.updateReport(this.report).subscribe()
-  }
-
-  deleteReport() {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      data: {
-        title: 'Borrar informe',
-        content: `¿Quieres borrar el informe ${this.report.filename}?`,
-        actions: {
-          accept: { text: 'Borrar', color: 'warn' },
-        }
-      }
-    })
-    dialogRef.afterClosed().subscribe(confirmation => {
-      if (confirmation) {
-        const snackBarRef = this.snackBar.openFromComponent(ReportDeletedComponent, {
-          data: { text: 'Informe borrado.', action: 'Deshacer', duration: 5000 }
-        })
-        snackBarRef.onAction().subscribe(() => {
-          this.snackBar.open('El informe no ha sido borrado.', 'Vale', { duration: 5000 })
-        })
-        snackBarRef.afterDismissed().subscribe(info => {
-          if (!info.dismissedByAction) {
-            this.api.deleteReport(this.report).subscribe()
-          }
-        })
-      }
-    })
   }
 
 }

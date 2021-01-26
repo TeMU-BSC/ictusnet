@@ -18,7 +18,7 @@ router.post('/', upload.array('files[]'), async (req, res) => {
   copyFiles(uploadsDir, ctakesDir)
   generateAnnFilesSync(runDockerScript, ctakesDir, ctakesDir)
   const parsedBratDirectory = await parseBratDirectory(ctakesDir)
-  const newReports = parsedBratDirectory.map(d => ({ ...d, completed: false, results: {} }))
+  const newReports = parsedBratDirectory.map(d => ({ ...d, completed: false, form: { initial: {}, final: {} } }))
   const createdReports = await Report.create(newReports)
   res.send({
     reportCount: createdReports.length,

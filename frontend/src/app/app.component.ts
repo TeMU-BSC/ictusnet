@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem('currentReport', this.currentReport?.filename)
   }
 
-  downloadResultsAsJson() {
+  downloadAllReports() {
     this.api.getReports().subscribe(response => {
       const results = response
       const timestamp = new Date().toISOString()

@@ -1,27 +1,5 @@
 <form [formGroup]="form">
-  <section fxLayout fxLayoutGap="0.5rem" class="actions">
-    <button type="button" mat-icon-button matTooltip="Restablecer con sugerencias iniciales" (click)="resetForm()">
-      <mat-icon>refresh</mat-icon>
-    </button>
-    <button type="button" mat-icon-button matTooltip="Marcar como {{ report.completed ? ' no ' : '' }}completado" (click)="toggleComplete()">
-      <mat-icon>
-        {{ report.completed ? 'unpublished' : 'check_circle' }}
-      </mat-icon>
-    </button>
-    <button type="button" mat-icon-button matTooltip="Descargar" (click)="downloadFormAsJson()">
-      <mat-icon>save_alt</mat-icon>
-    </button>
-    <button type="button" mat-icon-button matTooltip="Borrar" (click)="deleteReport()">
-      <mat-icon>delete</mat-icon>
-    </button>
-    <span class="spacer"></span>
-    <button type="button" mat-icon-button matTooltip="Contraer paneles" (click)="accordion.closeAll()">
-      <mat-icon>unfold_less</mat-icon>
-    </button>
-    <button type="button" mat-icon-button matTooltip="Expandir paneles" (click)="accordion.openAll()">
-      <mat-icon>unfold_more</mat-icon>
-    </button>
-  </section>
+  <app-actions [report]="report" [form]="this"></app-actions>
   <mat-accordion multi>
     <mat-expansion-panel *ngFor="let panel of panels; let index = index; let first = first; let last = last;"
       [expanded]="step === index" (opened)="setStep(index)">

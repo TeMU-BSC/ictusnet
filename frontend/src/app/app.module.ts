@@ -5,17 +5,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 // http
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http'
 
 // formly
 import { FormlyModule } from '@ngx-formly/core'
 import { FormlyMaterialModule } from '@ngx-formly/material'
-import { FormlyWrapperAddons } from './formly/addons.wrapper'
-import { FlexLayoutType } from './formly/flex-layout.type'
-import { addonsExtension } from './formly/addons.extension'
+import { FormlyWrapperAddons } from './components/form/formly/addons.wrapper'
+import { FlexLayoutType } from './components/form/formly/flex-layout.type'
+import { addonsExtension } from './components/form/formly/addons.extension'
 
 // styling
-import { MaterialModule } from './material/material.module'
+import { MaterialModule } from './modules/material.module'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
@@ -28,6 +28,7 @@ import { AppComponent } from './app.component'
 import { FormComponent } from './components/form/form.component'
 import { DialogComponent } from './components/dialog/dialog.component'
 import { ReportDeletedComponent } from './components/report-deleted/report-deleted.component'
+import { ActionsComponent } from './components/actions/actions.component'
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ReportDeletedComponent } from './components/report-deleted/report-delet
     FormComponent,
     DialogComponent,
     ReportDeletedComponent,
+    ActionsComponent,
   ],
   imports: [
     CommonModule,

@@ -5,8 +5,8 @@
   {{ data.content }}
 </div>
 <div mat-dialog-actions fxLayout fxLayoutAlign="end">
-  <button mat-dialog-close mat-button [color]="data.actions.cancel?.color" *ngIf="data.actions.cancel">
-    {{ data.actions.cancel?.text || 'Cancelar' }}
+  <button mat-dialog-close mat-button [color]="data.actions.cancel.color" *ngIf="data.actions.cancel">
+    {{ data.actions.cancel.text || 'Cancelar' }}
   </button>
   <button [mat-dialog-close]="true" mat-flat-button [color]="data.actions.accept.color || 'primary'">
     {{ data.actions.accept.text || 'Aceptar' }}
