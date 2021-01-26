@@ -32,42 +32,48 @@
 <mat-divider></mat-divider>
 <mat-drawer-container autosize class="available-height">
   <mat-drawer #drawer mode="side" opened="true">
-    <div>
-      <input #fileInput hidden type="file" multiple accept="text/plain" (change)="uploadReports($event)">
-      <button mat-raised-button class="cta"
-        matTooltip="Solamente se aceptan ficheros de texto plano"
-        [disabled]="uploading"
-        (click)="fileInput.click()"
+    <input #fileInput hidden type="file" multiple accept="text/plain" (change)="uploadReports($event)">
+    <button mat-raised-button class="cta"
+      matTooltip="Solamente se aceptan ficheros de texto plano"
+      [disabled]="uploading"
+      (click)="fileInput.click()"
+    >
+      <mat-icon color="primary" class="add-icon larger">add</mat-icon>
+      Cargar informes
+    </button>
+    <mat-selection-list #reportList [multiple]="false" disableRipple>
+      <mat-list-option #option *ngFor="let report of reports; let first = first"
+        [value]="report" [selected]="first"
+        [matTooltip]="report.filename"
+        [matTooltipShowDelay]="500"
+        matTooltipPosition="right"
+        (click)="currentReport = report"
       >
-        <mat-icon color="primary" class="add-icon larger">add</mat-icon>
-        Cargar informes
-      </button>
-      <mat-selection-list #reportList [multiple]="false" disableRipple>
-        <mat-list-option #option *ngFor="let report of reports; let first = first"
-          [value]="report" [selected]="first"
-          [matTooltip]="report.filename"
-          [matTooltipShowDelay]="500"
-          matTooltipPosition="right"
-          (click)="currentReport = report"
-        >
-          <mat-icon mat-list-icon>
-            {{ report.completed ? 'done' : 'pending_actions' }}
-          </mat-icon>
-          <span [ngStyle]="{'font-weight': option.selected ? 'bolder' : 'normal' }">
-            {{ report.filename }}
-          </span>
-        </mat-list-option>
-      </mat-selection-list>
-    </div>
+        <mat-icon mat-list-icon>
+          {{ report.completed ? 'done' : 'pending_actions' }}
+        </mat-icon>
+        <span [ngStyle]="{'font-weight': option.selected ? 'bolder' : 'normal' }">
+          {{ report.filename }}
+        </span>
+      </mat-list-option>
+    </mat-selection-list>
+    <!-- <mat-selection-list #filterList [multiple]="false" disableRipple>
+      <mat-list-option #option *ngFor="let filter of filters; let first = first"
+        [value]="filter" [selected]="first"
+        [matTooltip]="filter.name"
+        [matTooltipShowDelay]="500"
+        matTooltipPosition="right"
+        (click)="setFilter(filter)"
+      >
+        <mat-icon mat-list-icon>
+          {{ filter.icon }}
+        </mat-icon>
+        <span [ngStyle]="{'font-weight': option.selected ? 'bolder' : 'normal' }">
+          {{ filter.name }}
+        </span>
+      </mat-list-option>
+    </mat-selection-list> -->
   </mat-drawer>
-  <!-- <router-outlet name="report"></router-outlet> -->
+  <!-- <router-outlet #contentOutsideDrawer *ngIf="!uploading" name="report"></router-outlet> -->
   <app-report #contentOutsideDrawer *ngIf="currentReport && !uploading" [report]="currentReport"></app-report>
-  <!-- <div #contentOutsideDrawer *ngIf="currentReport && !uploading" fxLayout class="fullheight">
-    <section fxFlex="50%" class="ictusnet-form scroll">
-      <app-form *ngIf="currentReport" [report]="currentReport"></app-form>
-    </section>
-    <section fxFlex="50%" id="wrapper" class="fullheight scroll context">
-      <pre class="plaintext wrap">{{ currentReport?.text }}</pre>
-    </section>
-  </div> -->
 </mat-drawer-container>

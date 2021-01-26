@@ -21,7 +21,7 @@ export class ReportComponent implements OnInit {
     // this.fetchReport()
   }
 
-  fetchReport() {
+  fetchReport(): void {
     this.route.paramMap.subscribe((paramsAsMap: ParamMap) => {
       const filename = paramsAsMap.get('filename')
       console.log(filename)
