@@ -87,12 +87,16 @@
   }
 }
 
-.mat-list-option {
-  height: min-content;
-  border-top-right-radius: 2rem;
-  border-bottom-right-radius: 2rem;
+.mat-selection-list {
+  width: 100%;
 
-  .mat-list-text {
-    font-size: 0.9rem;
+  .mat-list-option {
+    height: 2.5rem !important;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+
+    .mat-list-text {
+      font-size: 0.9rem;
+    }
   }
 }

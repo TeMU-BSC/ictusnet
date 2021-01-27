@@ -23,7 +23,7 @@
       Descargar la base de datos
     </button>
     <button mat-menu-item (click)="resetDatabase()">
-      <mat-icon>delete_forever</mat-icon>
+      <mat-icon>restore_page</mat-icon>
       Restablecer la base de datos
     </button>
   </mat-menu>
@@ -35,35 +35,24 @@
     <input #fileInput hidden type="file" multiple accept="text/plain" (change)="uploadReports($event)">
     <button mat-raised-button class="cta"
       matTooltip="Solamente se aceptan ficheros de texto plano"
+      matTooltipPosition="after"
+      matTooltipShowDelay="500"
       [disabled]="uploading"
       (click)="fileInput.click()"
     >
-      <mat-icon color="primary" class="add-icon larger">add</mat-icon>
+      <mat-icon color="primary" class="add-icon">upload</mat-icon>
       Cargar informes
     </button>
-    <mat-selection-list #reportList [multiple]="false" disableRipple>
-      <mat-list-option #option *ngFor="let report of reports; let first = first"
-        [value]="report" [selected]="first"
-        [matTooltip]="report.filename"
-        [matTooltipShowDelay]="500"
-        matTooltipPosition="right"
-        (click)="currentReport = report"
-      >
-        <mat-icon mat-list-icon>
-          {{ report.completed ? 'done' : 'pending_actions' }}
-        </mat-icon>
-        <span [ngStyle]="{'font-weight': option.selected ? 'bolder' : 'normal' }">
-          {{ report.filename }}
-        </span>
-      </mat-list-option>
-    </mat-selection-list>
-    <!-- <mat-selection-list #filterList [multiple]="false" disableRipple>
+
+    <mat-selection-list #filterList [multiple]="false" disableRipple>
       <mat-list-option #option *ngFor="let filter of filters; let first = first"
-        [value]="filter" [selected]="first"
+        [value]="filter"
+        [selected]="first"
         [matTooltip]="filter.name"
-        [matTooltipShowDelay]="500"
-        matTooltipPosition="right"
-        (click)="setFilter(filter)"
+        matTooltipPosition="after"
+        matTooltipShowDelay="500"
+        [ngStyle]="{'color': option.selected ? filter.color : 'inherit' }"
+        (click)="getReports(filter)"
       >
         <mat-icon mat-list-icon>
           {{ filter.icon }}
@@ -72,7 +61,35 @@
           {{ filter.name }}
         </span>
       </mat-list-option>
-    </mat-selection-list> -->
+    </mat-selection-list>
+    <mat-divider style="margin-top: 0.5rem; width: 100%;"></mat-divider>
+    <mat-selection-list #reportList [multiple]="false" disableRipple>
+      <mat-list-option #option *ngFor="let report of reports; let first = first"
+        [value]="report"
+        [selected]="first"
+        [matTooltip]="report.filename"
+        [matTooltipShowDelay]="500"
+        matTooltipPosition="right"
+        (click)="currentReport = report"
+      >
+        <mat-icon mat-list-icon class="material-icons-outlined" style="color: green;">
+          {{ report.completed ? 'done' : '' }}
+        </mat-icon>
+        <span [ngStyle]="{'font-weight': option.selected ? 'bolder' : 'normal' }">
+          {{ report.filename }}
+        </span>
+      </mat-list-option>
+    </mat-selection-list>
+    <button mat-raised-button color="accent" class="cta"
+      matTooltip="Descargar todos los informes completados"
+      matTooltipPosition="after"
+      matTooltipShowDelay="500"
+      (click)="downloadAllReports()"
+      *ngIf="isEveryReportCompleted()"
+    >
+      <mat-icon class="add-icon">download</mat-icon>
+      Descargar resultados
+    </button>
   </mat-drawer>
   <!-- <router-outlet #contentOutsideDrawer *ngIf="!uploading" name="report"></router-outlet> -->
   <app-report #contentOutsideDrawer *ngIf="currentReport && !uploading" [report]="currentReport"></app-report>

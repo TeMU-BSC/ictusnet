@@ -32,8 +32,8 @@ export class ApiService {
     return this.http.post<any>(`${this.apiUrl}/reports`, formData)
   }
 
-  getReports(): Observable<Report[]> {
-    return this.http.get<Report[]>(`${this.apiUrl}/reports`)
+  getReports(completed: boolean | null = null): Observable<Report[]> {
+    return this.http.get<Report[]>(`${this.apiUrl}/reports/completed/${completed}`)
   }
 
   getReport(filename: string): Observable<Report> {

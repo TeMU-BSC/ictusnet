@@ -27,9 +27,13 @@ router.post('/', upload.array('files[]'), async (req, res) => {
   })
 })
 
-// GET (read) all reports.
-router.get('/', async (req, res) => {
-  const reports = await Report.find().sort('filename')
+// GET (read) multiple reports by its status.
+router.get('/completed/:completed', async (req, res) => {
+  const completed = req.params.completed
+  let reports
+  if (completed === 'null') reports = await Report.find().sort('filename')
+  if (completed === 'false') reports = await Report.find({ completed: false }).sort('filename')
+  if (completed === 'true') reports = await Report.find({ completed: true }).sort('filename')
   res.send(reports)
 })
 

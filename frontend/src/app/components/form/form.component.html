@@ -1,5 +1,7 @@
 <form [formGroup]="form">
-  <app-actions [report]="report" [form]="this"></app-actions>
+  <section class="actions">
+    <app-actions [report]="report" [form]="this"></app-actions>
+  </section>
   <mat-accordion multi>
     <mat-expansion-panel *ngFor="let panel of panels; let index = index; let first = first; let last = last;"
       [expanded]="step === index" (opened)="setStep(index)">

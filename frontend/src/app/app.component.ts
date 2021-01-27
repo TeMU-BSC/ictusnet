@@ -6,6 +6,13 @@ import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from './components/dialog/dialog.component'
 import { downloadObjectAsJson } from './helpers/json'
 
+export interface Filter {
+  name: string
+  icon: string
+  color: string
+  completed?: boolean | null
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,17 +21,17 @@ import { downloadObjectAsJson } from './helpers/json'
 export class AppComponent implements OnInit {
 
   faGithub = faGithub
-  reports: Report[] = []
   files: FileList
   loading = false
   uploading = false
-  filters = [
-    { name: 'Bandeja de entrada', icon: 'inbox' },
-    { name: 'Completados', icon: 'assignment_turned_in' },
-    { name: 'Todos', icon: 'all_inbox' },
-  ]
+  reports: Report[] = []
   currentReport: Report
-  currentFilter: any
+  filters: Filter[] = [
+    { name: 'Bandeja de entrada', icon: 'inbox', color: 'firebrick', completed: false },
+    { name: 'Completados', icon: 'assignment_turned_in', color: 'green', completed: true },
+    { name: 'Todos', icon: 'all_inbox', color: 'blue', completed: null },
+  ]
+  currentFilter: Filter = this.filters[0]
 
   constructor(
     private api: ApiService,
@@ -32,17 +39,11 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getReports()
+    this.getReports(this.currentFilter)
   }
 
   goToThisGithubRepo(): void {
     window.open('https://github.com/TeMU-BSC/ictusnet')
-  }
-
-  setFilter(filter: any): void {
-    this.currentFilter = filter
-    console.log(this.currentFilter)
-
   }
 
   uploadReports(event: Event): void {
@@ -60,24 +61,16 @@ export class AppComponent implements OnInit {
           }
         }
       })
-      this.getReports()
+      this.getReports(this.currentFilter)
     })
   }
 
-  getReports(): void {
-    this.api.getReports().subscribe(response => {
+  getReports(filter?: Filter): void {
+    this.api.getReports(filter.completed).subscribe(response => {
       this.reports = response
       this.currentReport = this.reports[0]
     })
   }
-
-  /**
-   * Store in LocalStorage the current working report filename;
-   * and then read from LocalStorage to come back where the user left.
-   */
-  // saveCurrentReportToLocalStorage(): void {
-  //   localStorage.setItem('currentReport', this.currentReport?.filename)
-  // }
 
   downloadAllReports(): void {
     this.api.getReports().subscribe(response => {
@@ -101,9 +94,13 @@ export class AppComponent implements OnInit {
             }
           }
         })
-        this.getReports()
+        this.getReports(this.currentFilter)
       })
     }
+  }
+
+  isEveryReportCompleted(): boolean {
+    return this.reports.every(report => report.completed)
   }
 
 }

@@ -1,17 +1,17 @@
 <section fxLayout fxLayoutGap="0.5rem">
-  <button type="button" mat-icon-button matTooltip="Restaurar" (click)="restoreInitialForm()">
-    <mat-icon>restore</mat-icon>
-  </button>
-  <button type="button" mat-icon-button matTooltip="Marcar como {{ report.completed ? ' no ' : '' }}completado" (click)="toggleComplete()">
-    <mat-icon>
-      {{ report.completed ? 'unpublished' : 'check_circle' }}
+  <button type="button" mat-icon-button matTooltip="Marcar como{{ report.completed ? ' no ' : ' ' }}completado" (click)="toggleComplete()">
+    <mat-icon [ngClass]="report.completed ? '' : 'material-icons-outlined'" [ngStyle]="{'color': report.completed ? 'green' : 'inherit'}">
+      assignment_turned_in
     </mat-icon>
   </button>
   <button type="button" mat-icon-button matTooltip="Descargar" (click)="downloadFormAsJson()">
-    <mat-icon>download</mat-icon>
+    <mat-icon>save_alt</mat-icon>
+  </button>
+  <button type="button" mat-icon-button matTooltip="Restaurar" (click)="restoreInitialForm()">
+    <mat-icon>restore</mat-icon>
   </button>
   <button type="button" mat-icon-button matTooltip="Borrar" (click)="deleteReport()">
-    <mat-icon>delete</mat-icon>
+    <mat-icon class="material-icons-outlined">delete</mat-icon>
   </button>
   <span class="spacer"></span>
   <button type="button" mat-icon-button matTooltip="Contraer paneles" (click)="form.accordion.closeAll()">
