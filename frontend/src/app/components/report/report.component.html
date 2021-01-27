@@ -1,8 +1,18 @@
-<div #contentOutsideDrawer fxLayout class="fullheight">
-  <section fxFlex="50%" class="some-padding scroll">
+<div #contentOutsideDrawer class="fullheight"
+  fxLayout="column"
+  fxLayout.gt-sm="row"
+>
+  <section class="some-padding scroll"
+    fxFlex="50%" fxFlexOrder="3"
+    fxFlexOrder.gt-sm="1"
+  >
     <app-form [report]="report"></app-form>
   </section>
-  <section fxFlex="50%" id="wrapper" class="fullheight scroll context">
+  <mat-divider fxFlexOrder="2"></mat-divider>
+  <section id="wrapper" class="fullheight scroll context"
+    fxFlex="50%" fxFlexOrder="1"
+    fxFlexOrder.gt-sm="3  "
+  >
     <pre class="plaintext wrap">{{ report.text }}</pre>
   </section>
 </div>

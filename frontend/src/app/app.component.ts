@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core'
+import { MatDialog } from '@angular/material/dialog'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { ApiService } from './services/api.service'
 import { Report } from './interfaces/interfaces'
-import { MatDialog } from '@angular/material/dialog'
 import { DialogComponent } from './components/dialog/dialog.component'
 import { downloadObjectAsJson } from './helpers/json'
+import { MediaObserver } from '@angular/flex-layout'
 
 export interface Filter {
   name: string
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
   constructor(
     private api: ApiService,
     public dialog: MatDialog,
+    public mediaObserver: MediaObserver,
   ) { }
 
   ngOnInit() {

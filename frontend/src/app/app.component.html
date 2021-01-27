@@ -31,7 +31,10 @@
 </mat-toolbar>
 <mat-divider></mat-divider>
 <mat-drawer-container autosize class="available-height">
-  <mat-drawer #drawer mode="side" opened="true">
+  <mat-drawer #drawer
+    [mode]="mediaObserver.isActive('gt-sm') ? 'side' : 'over'"
+    [opened]="mediaObserver.isActive('gt-sm')"
+  >
     <div>
       <input #fileInput hidden type="file" multiple accept="text/plain" (change)="uploadReports($event)">
       <button mat-raised-button class="cta"
