@@ -1,11 +1,15 @@
 import { Component, OnChanges, ViewChild, Input } from '@angular/core'
 import { FormArray, FormGroup } from '@angular/forms'
 import { MatAccordion } from '@angular/material/expansion'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { FormlyFormOptions } from '@ngx-formly/core'
 import { ApiService } from 'src/app/services/api.service'
 import { Report } from 'src/app/interfaces/interfaces'
 import { getPanels, PanelType } from './panels/panels-builder'
-import { ActionsComponent } from '../actions/actions.component'
+import { downloadObjectAsJson } from 'src/app/helpers/json'
+import { DialogComponent } from '../dialog/dialog.component'
+import { ReportDeletedComponent } from '../report-deleted/report-deleted.component'
 
 @Component({
   selector: 'app-form',
@@ -15,7 +19,6 @@ import { ActionsComponent } from '../actions/actions.component'
 export class FormComponent implements OnChanges {
 
   @Input() report: Report
-  @ViewChild(ActionsComponent) actions: ActionsComponent
 
   // formly (dynamic form builder)
   model: any = {}
@@ -30,11 +33,17 @@ export class FormComponent implements OnChanges {
   nextStep(): void { this.step++ }
   prevStep(): void { this.step-- }
 
-  constructor(private api: ApiService) {
+  constructor(
+    private api: ApiService,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar,
+  ) {
     this.buildPanels()
   }
 
   ngOnChanges(): void {
+    console.log('ng on changed!')
+
     this.autofillForm()
     this.resetScrollState()
   }
@@ -47,11 +56,79 @@ export class FormComponent implements OnChanges {
   }
 
   autofillForm(): void {
-    this.model = this.report?.completed ? this.report?.form.final : this.report?.form.initial
+    this.model = this.report?.completed ? this.report?.result.final : this.report?.result.initial
   }
 
   resetScrollState(): void {
     document.getElementById('wrapper').scrollTop = 0
+  }
+
+  // restoreInitialForm(): void {
+  //   const dialogRef = this.dialog.open(DialogComponent, {
+  //     data: {
+  //       title: 'Restaurar',
+  //       content: `¿Quieres volver al estado inicial de este formulario con las sugerencias automáticas? Se borrarán los cambios realizados.`,
+  //       actions: {
+  //         cancel: { text: 'Cancelar' },
+  //         accept: { text: 'Restaurar', color: 'warn' },
+  //       }
+  //     }
+  //   })
+  //   dialogRef.afterClosed().subscribe(confirmation => {
+  //     if (confirmation) {
+  //       this.report.completed = false
+  //       this.report.result.final = this.report.result.initial
+  //       this.snackBar.open('Formulario restaurado.')
+  //     }
+  //   })
+  // }
+
+  downloadFormAsJson() {
+    this.report.result.final = this.model
+    this.api.updateReport(this.report.filename, this.report).subscribe(updatedReport => {
+      const timestamp = new Date().toISOString()
+      downloadObjectAsJson(updatedReport, `${updatedReport.filename}-${timestamp}.json`)
+    })
+  }
+
+  markAsCompleted() {
+    this.report.completed = true
+    this.report.result.final = this.model
+    this.api.updateReport(this.report.filename, this.report).subscribe()
+  }
+
+  toggleCompleted() {
+    this.report.completed = !this.report.completed
+    this.report.result.final = this.model
+    this.api.updateReport(this.report.filename, this.report).subscribe()
+  }
+
+  deleteReport() {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Borrar informe',
+        content: `¿Quieres borrar el informe ${this.report.filename}?`,
+        actions: {
+          cancel: { text: 'Cancelar' },
+          accept: { text: 'Borrar', color: 'warn' },
+        }
+      }
+    })
+    dialogRef.afterClosed().subscribe(confirmation => {
+      if (confirmation) {
+        const snackBarRef = this.snackBar.openFromComponent(ReportDeletedComponent, {
+          data: { text: 'Informe borrado.', action: 'Deshacer', duration: 5000 }
+        })
+        snackBarRef.onAction().subscribe(() => {
+          this.snackBar.open('El informe no ha sido borrado.', 'Vale', { duration: 5000 })
+        })
+        snackBarRef.afterDismissed().subscribe(info => {
+          if (!info.dismissedByAction) {
+            this.api.deleteReport(this.report.filename).subscribe()
+          }
+        })
+      }
+    })
   }
 
 }

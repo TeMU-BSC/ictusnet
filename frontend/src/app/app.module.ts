@@ -27,7 +27,6 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { ReportComponent } from './components/report/report.component'
 import { FormComponent } from './components/form/form.component'
-import { ActionsComponent } from './components/actions/actions.component'
 import { DialogComponent } from './components/dialog/dialog.component'
 import { ReportDeletedComponent } from './components/report-deleted/report-deleted.component'
 
@@ -38,7 +37,6 @@ import { ReportDeletedComponent } from './components/report-deleted/report-delet
     FlexLayoutType,
     ReportComponent,
     FormComponent,
-    ActionsComponent,
     DialogComponent,
     ReportDeletedComponent,
   ],

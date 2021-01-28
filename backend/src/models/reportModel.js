@@ -57,7 +57,7 @@ const reportSchema = new Schema({
   filename: String,
   text: String,
   annotations: [annotationSchema],
-  form: {
+  result: {
     initial: { type: formSchema, default: {} },
     final: { type: formSchema, default: {} },
   },

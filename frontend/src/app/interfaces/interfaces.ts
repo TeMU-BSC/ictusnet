@@ -72,7 +72,7 @@ export interface Report {
   filename: string
   text: string
   annotations?: Annotation[]
-  form: {
+  result: {
     initial: IctusnetForm,
     final: IctusnetForm,
   }
