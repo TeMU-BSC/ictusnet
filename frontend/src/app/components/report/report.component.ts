@@ -21,13 +21,11 @@ export class ReportComponent implements OnInit {
     // this.fetchReport()
   }
 
-  fetchReport(): void {
-    this.route.paramMap.subscribe((paramsAsMap: ParamMap) => {
-      const filename = paramsAsMap.get('filename')
-      console.log(filename)
-
-      this.api.getReport(filename).subscribe(response => this.report = response)
-    })
-  }
+  // fetchReport(): void {
+  //   this.route.paramMap.subscribe((paramsAsMap: ParamMap) => {
+  //     const filename = paramsAsMap.get('filename')
+  //     this.api.getReport(filename).subscribe(response => this.report = response)
+  //   })
+  // }
 
 }

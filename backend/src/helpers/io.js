@@ -27,6 +27,12 @@ const moveFiles = (sourceDirectory, destinationDirectory) => {
   })
 }
 
+const getFileContent = (file) => {
+  const absolutePath = path.resolve(path.join(__dirname, file))
+  const contentString = fs.readFileSync(absolutePath, 'utf8')
+  return contentString
+}
+
 // https://gist.github.com/lovasoa/8691344
 async function* walk(dir) {
   for await (const d of await fs.promises.opendir(dir)) {
@@ -89,10 +95,43 @@ const parseBratDirectory = async (bratDir) => {
   return parsedBratDirArray
 }
 
-const getFileContent = (file) => {
-  const absolutePath = path.resolve(path.join(__dirname, file))
-  const contentString = fs.readFileSync(absolutePath, 'utf8')
-  return contentString
+const parseVariableFile = (variablesFile, optionsFile) => {
+  const variablesFileContent = getFileContent(variablesFile)
+  const optionsFileContent = getFileContent(optionsFile)
+  const variables = csvParse(variablesFileContent, { delimiter: '\t', columns: true, relaxColumnCount: true, quote: '\'', skipEmptyLines: true })
+  const options = csvParse(optionsFileContent, { delimiter: '\t', columns: true, relaxColumnCount: true, quote: '\'', skipEmptyLines: true })
+  variables.forEach(variable => {
+
+    // Use of startsWith method due to these entities:
+    // Tratamiento_anticoagulante_[hab|alta], Tratamiento_antiagregante_[hab|alta]
+    const optionsForVariable = options.filter(option => variable.entity.startsWith(option.entity))
+    variable.options = optionsForVariable
+  })
+  return variables
+}
+
+const parseIctusnetDictFile = (ictusnetDictFile) => {
+  const fileContent = getFileContent(ictusnetDictFile)
+  const parsedArray = csvParse(fileContent, {
+    delimiter: '|',
+    columns: true,
+    relaxColumnCount: true,
+    skipEmptyLines: true,
+  })
+
+  // remove _SUG_ prefixes from each entity
+  parsedArray.forEach(obj => obj.entity = obj.entity.replace('_SUG_', ''))
+
+  const entities = [...new Set(parsedArray.map(obj => obj.entity))]
+  const tidyAdmissibles = entities.map(entity => {
+    return {
+      entity: entity,
+      snomedct: parsedArray.find(obj => obj.entity === entity).snomedct,
+      evidences: parsedArray.filter(obj => obj.entity === entity).map(obj => obj.evidence)
+    }
+  })
+
+  return tidyAdmissibles
 }
 
 module.exports = {
@@ -101,6 +140,8 @@ module.exports = {
   moveFiles,
   walk,
   generateAnnFilesSync,
-  parseBratDirectory,
   getFileContent,
+  parseBratDirectory,
+  parseVariableFile,
+  parseIctusnetDictFile,
 }

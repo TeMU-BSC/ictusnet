@@ -20,7 +20,7 @@ export interface Variable {
   field_type: string
   input_type?: string
   options?: any[]
-  comments?: string
+  comment?: string
 }
 
 export interface Option {

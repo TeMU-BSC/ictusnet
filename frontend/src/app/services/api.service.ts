@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
 import { Observable } from 'rxjs'
 import { environment } from 'src/environments/environment'
-import { Report, Option, Variable } from "../interfaces/interfaces"
+import { Report, Variable } from "src/app/interfaces/interfaces"
 
 @Injectable({
   providedIn: "root",
@@ -10,20 +10,11 @@ import { Report, Option, Variable } from "../interfaces/interfaces"
 export class ApiService {
 
   apiUrl = environment.apiUrl
-  public variables: Variable[]
-  public options: Option[]
 
-  constructor(private http: HttpClient) {
-    this.getVariables().subscribe(response => this.variables = response)
-    this.getOptions().subscribe(response => this.options = response)
-  }
+  constructor(private http: HttpClient) { }
 
   getVariables(): Observable<Variable[]> {
     return this.http.get<Variable[]>(`${this.apiUrl}/variables`)
-  }
-
-  getOptions(): Observable<Option[]> {
-    return this.http.get<Option[]>(`${this.apiUrl}/options`)
   }
 
   uploadReports(files: FileList): Observable<any> {

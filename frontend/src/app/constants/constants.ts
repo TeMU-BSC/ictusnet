@@ -51,13 +51,13 @@ export const nonSpecificEntities = {
   'NIHSS': 'NIHSS',
 }
 
-export const diagnosticoPrincipalEntities = [
+export const entitiesForDiagnosticoPrincipal = [
   'Ictus_isquemico',
   'Ataque_isquemico_transitorio',
   'Hemorragia_cerebral'
 ]
 
-export const diagnosticoSectionGroupNames = [
+export const groupNamesForDiagnosticoSection = [
   'Diagnóstico principal',
   'Arterias afectadas',
   'Localizaciones',

@@ -2,9 +2,8 @@ import { FormlyFieldConfig } from "@ngx-formly/core"
 import {
   panelIcons,
   nonSpecificEntities,
-  diagnosticoSectionGroupNames,
-  diagnosticoPrincipalEntities,
-  admissibleEvidences,
+  groupNamesForDiagnosticoSection,
+  entitiesForDiagnosticoPrincipal,
 } from "src/app/constants/constants"
 import { Annotation, Variable } from "src/app/interfaces/interfaces"
 import { highlight } from "src/styles/markjs"
@@ -15,6 +14,26 @@ export interface PanelType {
   groups?: FormlyFieldConfig[]
 }
 
+/**
+ * Return the according annotations for the given variable, taking into account
+ * the entities for the special case `Diagnostico_principal`.
+ */
+const filterAnnotationsForVariable = (variable, annotations) => {
+  const filterCondition = (annotation) => variable.entity === 'Diagnostico_principal'
+    ? entitiesForDiagnosticoPrincipal.includes(annotation.entity)
+    : variable.entity === annotation.entity
+  return annotations.filter(annotation => filterCondition(annotation))
+}
+
+/**
+ * Build the material expansible panels, that act as a form, in 3 steps:
+ *   1st. Build each form field.
+ *   2nd. Build each group of form fields.
+ *   3rd. Build each panel, which contains grouped fields.
+ *   4th. Gather all the panels.
+ *
+ * Return an array of panels.
+ */
 export function getPanels(variables: Variable[], allAnnotations: Annotation[]): PanelType[] {
   const panels: PanelType[] = []
   new Set(variables.map(v => v.section)).forEach(sectionName => {
@@ -24,7 +43,7 @@ export function getPanels(variables: Variable[], allAnnotations: Annotation[]): 
       const groupVariables = variables.filter(v => v.group === groupName)
       const fields: FormlyFieldConfig[] = []
       groupVariables.filter(v => v.group === groupName).forEach(variable => {
-        const annotations = getVariableAnnotations(variable, allAnnotations)
+        const annotations = filterAnnotationsForVariable(variable, allAnnotations)
         const field = getField(variable, annotations, variables, allAnnotations)
         fields.push(field)
       })
@@ -103,7 +122,7 @@ function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnnotations
   }
 
   // special cases
-  if (diagnosticoSectionGroupNames.includes(groupName)) {
+  if (groupNamesForDiagnosticoSection.includes(groupName)) {
     group.fieldGroup[1].templateOptions.fxFlex = '100%'
   }
 
@@ -121,7 +140,7 @@ function getField(variable: Variable, annotations: Annotation[],
 
   const options = variable.options.map(o => ({ ...o, label: o.value }))
 
-  // Locate FECHA and HORA unspecific variables
+  // locate FECHA and HORA unspecific variables
   const hints = allAnnotations.filter(a => a.entity.toUpperCase().startsWith(variable.label.toUpperCase()))
   const hintTitleSuffix = hints.length === 1 ? 'pista' : 'pistas'
   const hintTooltip = [`${hints.length} ${hintTitleSuffix}`].concat(hints.map(a => a.evidence)).join('\n')
@@ -220,69 +239,4 @@ function getField(variable: Variable, annotations: Annotation[],
   }
 
   return field
-}
-
-/**
- * Return the according annotations for the given variable, taking into accound some special cases.
- */
-export function getVariableAnnotations(variable: Variable, allAnnotations: Annotation[]): Annotation[] {
-  if (variable.entity === 'Diagnostico_principal') {
-    return allAnnotations.filter(a => diagnosticoPrincipalEntities.includes(a.entity))
-  }
-  return allAnnotations.filter(a => variable.entity === a.entity)
-}
-
-/**
- * Search for a suitable value (or values) to autofill a formly field.
- */
-export function autofillField(variable: Variable, annotations: Annotation[]): string | string[] {
-  const isInput = variable.field_type === 'input'
-  const isSelect = variable.field_type === 'select'
-  const isSingle = variable.cardinality === '1'
-  const isMulti = variable.cardinality === 'n'
-  const isSingleSelect = isSelect && isSingle
-  const isMultiSelect = isSelect && isMulti
-
-  // 'input' is the most common field type in the form: horas, fechas
-  if (isInput) {
-    const firstFoundAnnotation = annotations.find(a => a.note)
-    const normalizedValue = firstFoundAnnotation?.note
-    const evidence = firstFoundAnnotation?.evidence
-    return normalizedValue || evidence
-  }
-
-  // single-option select needs some rule-based criteria to be autofilled
-  if (isSingleSelect) {
-
-    // check special field
-    if (variable.entity === 'Diagnostico_principal') {
-      const annotation = annotations.find(a => diagnosticoPrincipalEntities.includes(a.entity))
-      return variable.options.find(o => o.value.toLowerCase().startsWith(annotation?.entity.toLowerCase().split('_')[0]))?.value
-    }
-
-    // rest of the fields: lateralizacion, etiologia
-    return variable.options.find(o =>
-
-      // 1. if that includes the first evidence as a substring
-      o.value.toLowerCase().includes(annotations[0]?.evidence.toLowerCase())
-
-      // 2. or if any of the predefined admissible values includes the first evidence
-      || admissibleEvidences[variable.key][o.value]?.includes(annotations[0]?.evidence)
-
-      // 3. or if evidence starts with the first letter of that option
-      || annotations[0]?.evidence.toLowerCase().startsWith(o.value.toLowerCase()[0])
-    )?.value
-  }
-
-  // multiple-option select needs array of strings
-  if (isMultiSelect) {
-    const data: string[] = annotations
-      .map(a => variable.options
-        .find(o => o.value.toLowerCase()
-          .concat(' ', o.comment)
-          .includes(a?.evidence.toLowerCase())
-        )?.value
-      )
-    return [...new Set(data)]
-  }
 }

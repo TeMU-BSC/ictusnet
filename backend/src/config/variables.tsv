@@ -1,4 +1,4 @@
-section	group	label	original_label	info	entity	key	cardinality	field_type	input_type	options	[comments]
+section	group	label	long_label	info	entity	key	cardinality	field_type	input_type	options	[comments]
 Entrada y salida del paciente	Inicio de los síntomas	Fecha	Fecha inicio síntomas o última vez visto asintomático/a	También es válida la última vez que el paciente estuvo asintomático.	Fecha_inicio_sintomas	fecha_inicio_sintomas	1	input	date		
 Entrada y salida del paciente	Inicio de los síntomas	Hora	Hora inicio síntomas o última vez visto asintomático/a	También es válida la última vez que el paciente estuvo asintomático.	Hora_inicio_sintomas	hora_inicio_sintomas	1	input	time		
 Entrada y salida del paciente	Llegada al hospital	Fecha	Fecha de llegada al hospital receptor		Fecha_llegada_hospital	fecha_llegada_hospital	1	input	date		

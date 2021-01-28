@@ -24,7 +24,7 @@
         <button *ngIf="!last" type="button" mat-button color="primary" (click)="nextStep()">
           Siguiente
         </button>
-        <button *ngIf="last" type="button" mat-button color="primary" (click)="accordion.closeAll()">
+        <button *ngIf="last" type="button" mat-button color="primary" (click)="accordion.closeAll(); actions.markAsCompleted()">
           Finalizar
         </button>
       </mat-action-row>

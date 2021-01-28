@@ -11,7 +11,7 @@ const annotationSchema = new Schema({
     end: Number
   },
   evidence: String,
-  note: String,
+  note: { type: String, default: '' },
 }, { _id: false })
 
 const formSchema = new Schema({
@@ -58,10 +58,10 @@ const reportSchema = new Schema({
   text: String,
   annotations: [annotationSchema],
   form: {
-    initial: formSchema,
-    final: formSchema,
+    initial: { type: formSchema, default: {} },
+    final: { type: formSchema, default: {} },
   },
-  completed: Boolean,
+  completed: { type: Boolean, default: false },
 })
 
 const Report = mongoose.model('Report', reportSchema)

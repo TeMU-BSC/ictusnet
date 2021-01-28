@@ -1,5 +1,5 @@
 <section fxLayout fxLayoutGap="0.5rem">
-  <button type="button" mat-icon-button matTooltip="Marcar como{{ report.completed ? ' no ' : ' ' }}completado" (click)="toggleComplete()">
+  <button type="button" mat-icon-button matTooltip="Marcar como{{ report.completed ? ' no ' : ' ' }}completado" (click)="toggleCompleted()">
     <mat-icon [ngClass]="report.completed ? '' : 'material-icons-outlined'" [ngStyle]="{'color': report.completed ? 'green' : 'inherit'}">
       assignment_turned_in
     </mat-icon>

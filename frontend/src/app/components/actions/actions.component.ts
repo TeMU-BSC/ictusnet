@@ -40,7 +40,8 @@ export class ActionsComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(confirmation => {
       if (confirmation) {
-        this.form.model = this.report.form.initial
+        this.report.completed = false
+        this.report.form.final = this.report.form.initial
         this.snackBar.open('Formulario restaurado.')
       }
     })
@@ -54,7 +55,13 @@ export class ActionsComponent implements OnInit {
     })
   }
 
-  toggleComplete() {
+  markAsCompleted() {
+    this.report.completed = true
+    this.report.form.final = this.form.model
+    this.api.updateReport(this.report.filename, this.report).subscribe()
+  }
+
+  toggleCompleted() {
     this.report.completed = !this.report.completed
     this.report.form.final = this.form.model
     this.api.updateReport(this.report.filename, this.report).subscribe()

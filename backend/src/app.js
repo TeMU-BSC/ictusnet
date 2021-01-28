@@ -1,17 +1,11 @@
 const express = require('express')
 const cors = require('cors')
-const {
-  uploadsDir,
-  ctakesDir,
-} = require('./constants')
-const {
-  createPublicDirIfNotExists,
-  getFileContent,
-} = require('./io')
 const csvParse = require('csv-parse/lib/sync')
-const { db } = require('./db/mongodb')
-const { insertDemoReports } = require('./db/demo')
 const reportsRoute = require('./routes/reports.js')
+const { db } = require('./db/mongodb')
+const { initDatabase } = require('./db/init')
+const { demoDir, uploadsDir, ctakesDir, variablesFile, optionsFile, ictusnetDictFile } = require('./constants')
+const { createPublicDirIfNotExists, getFileContent, parseVariableFile } = require('./helpers/io')
 
 const app = express()
 
@@ -32,18 +26,13 @@ app.get('/', (req, res) => {
   res.send('hello from ictusnet backend in node.js using express')
 })
 app.get('/variables', (req, res) => {
-  const fileContent = getFileContent('./config/variables.tsv')
-  const variables = csvParse(fileContent, {
-    delimiter: '\t',
-    columns: true,
-    relaxColumnCount: true,
-    quote: '\'',
-    skipEmptyLines: true,
-  })
+  const variables = parseVariableFile(variablesFile, optionsFile)
   res.send(variables)
 })
+
+// to be removed
 app.get('/options', (req, res) => {
-  const fileContent = getFileContent('./config/options.tsv')
+  const fileContent = getFileContent(optionsFile)
   const options = csvParse(fileContent, {
     delimiter: '\t',
     columns: true,
@@ -54,7 +43,7 @@ app.get('/options', (req, res) => {
   res.send(options)
 })
 app.get('/admissibles', (req, res) => {
-  const fileContent = getFileContent('./config/IctusnetDict.bsv')
+  const fileContent = getFileContent(ictusnetDictFile)
   const admissibles = csvParse(fileContent, {
     delimiter: '|',
     columns: true,
@@ -65,7 +54,9 @@ app.get('/admissibles', (req, res) => {
 })
 app.delete('/database', async (req, res) => {
   await db.dropDatabase()
-  await insertDemoReports()
+  await initDatabase(variablesFile, optionsFile, demoDir)
+  // await insertVariables(variablesFile, optionsFile)
+  // await insertDemoReports(demoDir)
   res.send({ message: 'MongoDB `ictusnet` database has been deleted and then freshly recerated with the demo reports.' })
 })
 

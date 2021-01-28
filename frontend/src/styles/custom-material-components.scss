@@ -20,12 +20,10 @@
   }
 }
 
+// https://github.com/angular/components/blob/2f61895659776f3be2734de0df70966e0754d984/src/material/button/button.scss#L17
 .mat-icon-button {
-  color: #666666;
-
-  &:hover {
-    color: inherit;
-    background-color: #eeeeee;
+  &:hover:not(.mat-button-disabled) .mat-button-focus-overlay {
+    opacity: 0.04;
   }
 }
 

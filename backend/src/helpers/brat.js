@@ -4,10 +4,13 @@ const getCommentLines = (annArray) => getLinesStartingWith(annArray, '#')
 
 const findId = (line) => line[0]
 const findEntity = (line) => line[1].split(' ')[0].replace('_SUG_', '')
-const findOffset = (line) => ({ start: Number(line[1].split(' ')[1]), end: Number(line[1].split(' ')[2]) })
+const findOffset = (line) => ({
+  start: Number(line[1].split(' ')[1]),
+  end: Number(line[1].split(' ')[2])
+})
 const findEvidence = (line) => line[2]
 const findNote = (annotationLine, commentLines) => {
-  const foundNoteLine = commentLines.find((noteLine) => noteLine[1].split(' ')[1] === annotationLine[0])
+  const foundNoteLine = commentLines.find(noteLine => noteLine[1].split(' ')[1] === annotationLine[0])
   const note = foundNoteLine ? foundNoteLine[2] : ''
   return note
 }
