@@ -1,34 +1,3 @@
-export interface Annotation {
-  id: string
-  entity: string
-  offset: {
-    start: number
-    end: number
-  }
-  evidence: string
-  note: string
-}
-
-export interface Variable {
-  section: string
-  group: string
-  label: string
-  info?: string
-  entity: string
-  key: string
-  cardinality: string
-  field_type: string
-  input_type?: string
-  options?: any[]
-  comment?: string
-}
-
-export interface Option {
-  entity: string
-  value: string
-  comment?: string
-}
-
 export interface IctusnetForm {
   fecha_inicio_sintomas: string
   hora_inicio_sintomas: string
@@ -77,6 +46,37 @@ export interface Report {
     final: IctusnetForm,
   }
   completed: boolean
+}
+
+export interface Annotation {
+  id: string
+  entity: string
+  offset: {
+    start: number
+    end: number
+  }
+  evidence: string
+  note: string
+}
+
+export interface Variable {
+  section: string
+  group: string
+  label: string
+  info?: string
+  entity: string
+  key: string
+  cardinality: string
+  field_type: string
+  input_type?: string
+  options?: Option[]
+  comment?: string
+}
+
+export interface Option {
+  entity: string
+  value: string
+  comment?: string
 }
 
 // not used, it's just a possible nested json schema

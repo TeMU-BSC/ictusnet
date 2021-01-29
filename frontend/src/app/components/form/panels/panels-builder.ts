@@ -156,12 +156,15 @@ function getField(
     hints = allAnnotations.filter(({ entity }) => entity.toUpperCase().startsWith('HORA'))
   }
   else {
-    hints = allAnnotations.filter(({ entity }) => variable.entity.toUpperCase().startsWith(entity.toUpperCase()))
+    hints = allAnnotations.filter(({ entity }) => variable.entity.startsWith(entity))
   }
   const hintTitleSuffix = hints.length === 1 ? 'pista' : 'pistas'
   const evidenceTitleSuffix = annotations.length === 1 ? 'evidencia textual' : 'evidencias textuales'
   const hintTooltip = [`${hints.length} ${hintTitleSuffix}`].concat(hints.map(a => a.evidence)).join('\n')
   const evidenceTooltip = [`${annotations.length} ${evidenceTitleSuffix}`].concat(annotations.map(a => a.evidence)).join('\n')
+
+  // Add `label` key to options object.
+  const options = variable.options.map(o => ({ ...o, label: o.value }))
 
   const field: FormlyFieldConfig = {
     key: variable.key,
@@ -171,7 +174,7 @@ function getField(
       appearance: 'outline',
       label: variable.label,
       multiple: variable.cardinality === 'n',
-      options: variable.options,
+      options: options,
 
       // custom properties
       hints: hints,
@@ -243,10 +246,9 @@ function getField(
 
   // append the comment of tratameinto fields that have commercial name
   if (isTratamiento) {
-    field.templateOptions.options = variable.options.map(({ value, comment }) => {
-      const label = comment ? `${value} (${comment})` : value
-      return { value: value, label: label }
-    })
+    field.templateOptions.options = options.map(({ value, comment, label }) =>
+      ({ value: value, label: comment ? `${label} (${comment})` : label })
+    )
   }
 
   // sort alphabetically the options of some fields
