@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   filters: Filter[] = [
     { name: 'Bandeja de entrada', icon: 'inbox', color: 'firebrick', completed: false },
     { name: 'Completados', icon: 'assignment_turned_in', color: 'green', completed: true },
-    { name: 'Todos', icon: 'all_inbox', color: 'blue', completed: null },
+    { name: 'Todos los informes', icon: 'all_inbox', color: 'dodgerblue', completed: null },
   ]
   currentFilter: Filter = this.filters[0]
 

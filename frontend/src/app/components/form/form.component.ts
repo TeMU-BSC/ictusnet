@@ -25,6 +25,7 @@ export class FormComponent implements OnChanges {
   panels: PanelType[] = []
   form: FormArray = new FormArray(this.panels.map(() => new FormGroup({})))
   options = this.panels.map(() => <FormlyFormOptions>{})
+  private updateFinalResult() { this.report.result.final = { ...this.model } }
 
   // material expansion panels
   @ViewChild(MatAccordion) accordion: MatAccordion
@@ -37,13 +38,10 @@ export class FormComponent implements OnChanges {
     private api: ApiService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
-  ) {
-    this.buildPanels()
-  }
+  ) { }
 
   ngOnChanges(): void {
-    console.log('ng on changed!')
-
+    this.buildPanels()
     this.autofillForm()
     this.resetScrollState()
   }
@@ -56,35 +54,35 @@ export class FormComponent implements OnChanges {
   }
 
   autofillForm(): void {
-    this.model = this.report?.completed ? this.report?.result.final : this.report?.result.initial
+    this.model = this.report?.completed ? { ...this.report?.result.final } : { ...this.report.result.initial }
   }
 
   resetScrollState(): void {
     document.getElementById('wrapper').scrollTop = 0
   }
 
-  // restoreInitialForm(): void {
-  //   const dialogRef = this.dialog.open(DialogComponent, {
-  //     data: {
-  //       title: 'Restaurar',
-  //       content: `¿Quieres volver al estado inicial de este formulario con las sugerencias automáticas? Se borrarán los cambios realizados.`,
-  //       actions: {
-  //         cancel: { text: 'Cancelar' },
-  //         accept: { text: 'Restaurar', color: 'warn' },
-  //       }
-  //     }
-  //   })
-  //   dialogRef.afterClosed().subscribe(confirmation => {
-  //     if (confirmation) {
-  //       this.report.completed = false
-  //       this.report.result.final = this.report.result.initial
-  //       this.snackBar.open('Formulario restaurado.')
-  //     }
-  //   })
-  // }
+  restoreInitialForm(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Restaurar',
+        content: `¿Quieres volver al estado inicial de este formulario con las sugerencias automáticas? Se borrarán los cambios realizados.`,
+        actions: {
+          cancel: { text: 'Cancelar' },
+          accept: { text: 'Restaurar', color: 'warn' },
+        }
+      }
+    })
+    dialogRef.afterClosed().subscribe(confirmation => {
+      if (confirmation) {
+        this.report.completed = false
+        this.model = { ...this.report.result.initial }
+        this.snackBar.open('Formulario restaurado.')
+      }
+    })
+  }
 
   downloadFormAsJson() {
-    this.report.result.final = this.model
+    this.updateFinalResult()
     this.api.updateReport(this.report.filename, this.report).subscribe(updatedReport => {
       const timestamp = new Date().toISOString()
       downloadObjectAsJson(updatedReport, `${updatedReport.filename}-${timestamp}.json`)
@@ -93,13 +91,13 @@ export class FormComponent implements OnChanges {
 
   markAsCompleted() {
     this.report.completed = true
-    this.report.result.final = this.model
+    this.updateFinalResult()
     this.api.updateReport(this.report.filename, this.report).subscribe()
   }
 
   toggleCompleted() {
     this.report.completed = !this.report.completed
-    this.report.result.final = this.model
+    this.updateFinalResult()
     this.api.updateReport(this.report.filename, this.report).subscribe()
   }
 
