@@ -3,7 +3,8 @@
 const router = require('express').Router()
 const { Report } = require('../models/reportModel')
 const { Variable } = require('../models/variableModel')
-const { copyFiles, generateAnnFilesSync, parseBratDirectory } = require('../helpers/io')
+const { createReports } = require('../db/init')
+const { copyFiles, generateAnnFilesSync } = require('../helpers/io')
 const { uploadsDir, ctakesDir, runDockerScript } = require('../constants')
 
 // Add middleware to upload files to the server.
@@ -18,19 +19,12 @@ const upload = multer({ storage: storage })
 router.post('/', upload.array('files[]'), async (req, res) => {
   copyFiles(uploadsDir, ctakesDir)
   generateAnnFilesSync(runDockerScript, ctakesDir, ctakesDir)
-  const reports = await parseBratDirectory(ctakesDir)
   const variables = await Variable.find()
-  const reportsWithInitialResults = reports.map(report => ({ ...report, result: { initial: {}, final: {} } }))
-  reportsWithInitialResults.forEach(report => {
-    variables.forEach(variable => {
-      report.result.initial = { ...report.result.initial, [variable.key]: autofillField(variable, report.annotations) }
-    })
-  })
-  const createdReports = await Report.create(reportsWithInitialResults)
+  const reports = await createReports(ctakesDir, variables)
   res.send({
-    reportCount: createdReports.length,
-    reports: createdReports,
-    message: `${createdReports.length}' reports have been loaded.`
+    reportCount: reports.length,
+    reports: reports,
+    message: `${reports.length}' reports have been loaded.`
   })
 })
 

@@ -41,8 +41,6 @@ export class FormComponent implements OnChanges {
   ) { }
 
   ngOnChanges(): void {
-    console.log(this.report.filename)
-
     this.buildPanels()
     this.autofillForm()
     this.resetScrollState()
@@ -56,7 +54,7 @@ export class FormComponent implements OnChanges {
   }
 
   autofillForm(): void {
-    this.model = this.report?.completed ? { ...this.report?.result.final } : { ...this.report.result.initial }
+    this.model = this.report?.completed ? { ...this.report?.result.final } : { ...this.report?.result.initial }
   }
 
   resetScrollState(): void {

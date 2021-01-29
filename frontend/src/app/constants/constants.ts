@@ -7,39 +7,6 @@ export const panelIcons = {
   'Pruebas y escalas de valoración': 'analytics',
 }
 
-// Similar behaviour as the admissible values for entitites in CTAKES:
-// https://github.com/TeMU-BSC/spactes/blob/master/ctakes-SpaCTeS-res/src/main/resources/org/apache/ctakes/examples/dictionary/lookup/fuzzy/IctusnetDict.bsv
-export const admissibleEvidences = {
-  diagnosticoPrincipal: {},
-  lateralizacion: {
-    izquierda: [
-      'i',
-      'izq',
-      'izdo',
-      'esquerre',
-      'esquerra',
-      'esq',
-    ],
-    derecha: [
-      'd',
-      'der',
-      'dcho',
-      'derecho',
-      'dret',
-      'dreta',
-    ],
-    ambas: [
-      'bilateral',
-      'ambdues',
-      'bihemisferico',
-    ],
-    indeterminada: [
-      ''
-    ]
-  },
-  etiologia: {},
-}
-
 export const nonSpecificEntities = {
   'Trombólisis intravenosa': 'Trombolisis_intravenosa',
   'Trombólisis intraarterial': 'Trombolisis_intraarterial',

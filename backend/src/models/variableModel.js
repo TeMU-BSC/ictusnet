@@ -6,6 +6,7 @@ const ObjectId = Schema.ObjectId
 const optionSchema = new Schema({
   value: String,
   comment: String,
+  admissible_evidences: [String],
 }, { _id: false })
 
 const variableSchema = new Schema({
@@ -20,6 +21,7 @@ const variableSchema = new Schema({
   field_type: String,
   input_type: String,
   options: [optionSchema],
+  admissible_evidences: [String],
   comment: String,
 })
 

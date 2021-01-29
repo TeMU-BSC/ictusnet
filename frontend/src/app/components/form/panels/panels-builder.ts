@@ -44,7 +44,7 @@ export function getPanels(variables: Variable[], allAnnotations: Annotation[]): 
       const fields: FormlyFieldConfig[] = []
       groupVariables.filter(v => v.group === groupName).forEach(variable => {
         const annotations = filterAnnotationsForVariable(variable, allAnnotations)
-        const field = getField(variable, annotations, variables, allAnnotations)
+        const field = getField(variable, annotations, allAnnotations)
         fields.push(field)
       })
       const group = getGroup(groupName, fields, allAnnotations)
@@ -66,6 +66,7 @@ function getPanel(sectionName: string, groups: FormlyFieldConfig[]): PanelType {
 }
 
 function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnnotations: Annotation[]): FormlyFieldConfig {
+  const MAXIMUM_FIELDS_PER_ROW = 2
   const auxiliaryHints = allAnnotations.filter(a => a.entity.startsWith(nonSpecificEntities[groupName]))
   const shouldHide = auxiliaryHints.length === 0
   const suffix = auxiliaryHints.length === 1 ? 'pista auxiliar' : 'pistas auxiliares'
@@ -86,7 +87,7 @@ function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnnotations
           fxLayoutAlign: 'start end',
           fxLayoutGap: '1rem',
 
-          // custom property
+          // Custom property.
           auxiliaryHintButton: shouldHide ? null : {
             icon: 'emoji_objects',
             tooltip: tooltip,
@@ -109,25 +110,21 @@ function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnnotations
           fxLayoutGap: '1rem',
           fxFlex: '45%',
         },
-
-        // Populated below
-        fieldGroup: []
+        fieldGroup: fields
       }
     ]
   }
+  const fieldsOfGroup = group.fieldGroup[1]
 
-  // row wrap layout when more than two fields per group (avoiding too many fields per line)
-  if (fields.length > 2) {
-    group.fieldGroup[1].templateOptions.fxLayout = 'row wrap'
+  // Avoid displaying too many fields per row.
+  if (fields.length > MAXIMUM_FIELDS_PER_ROW) {
+    fieldsOfGroup.templateOptions.fxLayout = 'row wrap'
   }
 
-  // special cases
+  // Force groups of Diagnostico section to occupy all the available space in the row.
   if (groupNamesForDiagnosticoSection.includes(groupName)) {
-    group.fieldGroup[1].templateOptions.fxFlex = '100%'
+    fieldsOfGroup.templateOptions.fxFlex = '100%'
   }
-
-  // populate the group with the actual fields
-  group.fieldGroup[1].fieldGroup.push(...fields)
 
   return group
 }
@@ -135,20 +132,15 @@ function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnnotations
 /**
  * Build the form field with all needed attributes, considering some special cases.
  */
-function getField(
-  variable: Variable,
-  annotations: Annotation[],
-  allVariables: Variable[],
-  allAnnotations: Annotation[],
-): FormlyFieldConfig {
+function getField(variable: Variable, annotations: Annotation[], allAnnotations: Annotation[],): FormlyFieldConfig {
 
-  // Match non-specific annotations (FECHA, HORA, Tratamiento_antiagregante, Tratamiento_anticoagulate, mRankin, NIHSS)
+  // Match non-specific annotations (FECHA, HORA, Tratamiento_antiagregante, Tratamiento_anticoagulate, mRankin, NIHSS).
   // Example:
-  // variable.entity = Tratamiento_antiagregante_hab (specific)
-  // annotation.entity = Tratamiento_antiagregante (non-specific)
+  //   variable.entity = Tratamiento_antiagregante_hab (specific)
+  //   annotation.entity = Tratamiento_antiagregante (non-specific)
   const isFecha = variable.entity.toUpperCase().startsWith('FECHA')
   const isHora = variable.entity.toUpperCase().startsWith('HORA')
-  let hints
+  let hints: Annotation[]
   if (isFecha) {
     hints = allAnnotations.filter(({ entity }) => entity.toUpperCase().startsWith('FECHA'))
   }
@@ -165,7 +157,6 @@ function getField(
 
   // Add `label` key to options object.
   const options = variable.options.map(o => ({ ...o, label: o.value }))
-
   const field: FormlyFieldConfig = {
     key: variable.key,
     type: variable.field_type,
@@ -176,7 +167,7 @@ function getField(
       multiple: variable.cardinality === 'n',
       options: options,
 
-      // custom properties
+      // Custom properties.
       hints: hints,
       annotations: annotations,
       addonRight: {
@@ -204,57 +195,23 @@ function getField(
     },
   }
 
-  // special cases
+  // Special cases.
   const isDiagnosticoPrincipal = variable.entity === 'Diagnostico_principal'
-  const isEtiologia = variable.entity === 'Etiologia'
   const isArteriaAfectada = variable.entity === 'Arteria_afectada'
+  const isLocalizacion = variable.entity === 'Localizacion'
+  const isEtiologia = variable.entity === 'Etiologia'
   const isTratamiento = variable.entity.startsWith('Tratamiento')
 
-  // const containsIsquemico = (object) => object.model.diagnosticoPrincipal.includes('isquémico')
-  // const containsHemorragia = (object) => object.model.diagnosticoPrincipal.includes('hemorragia')
-  // const getFilteredOptions = (entity: string, criteria: string) => {
-  //   return allVariables
-  //     .find(v => v.entity === entity).options
-  //     .filter(o => o.comment === criteria)
-  //     .map(o => ({ ...o, label: o.value }))
-  // }
-
-  // // listen to disgnostico field's changes to dynamically toggle etiologia's available options
-  // if (isDiagnosticoPrincipal) {
-  //   field.templateOptions.change = (changedField) => {
-  //     let criteria: string
-  //     if (containsIsquemico(changedField)) criteria = 'isquémico'
-  //     if (containsHemorragia(changedField)) criteria = 'hemorragia'
-  //     const etiologiaField = this.panels[1].groups[4].fieldGroup[1].fieldGroup[0]
-  //     etiologiaField.templateOptions.options = getFilteredOptions('Etiologia', criteria)
-  //     this.model.etiologia = ''
-  //   }
-  // }
-
-  // disable arteria afectada field if diagnostico principal is other than 'ictus isquémico'
-  if (isArteriaAfectada) {
-    // field.expressionProperties = { 'templateOptions.disabled': 'this.model.diagnosticoPrincipal !== "ictus isquémico"' }
-  }
-
-  // set initial available options of etiologia depending on the initial autofilled value of diagnostico principal
-  if (isEtiologia) {
-    // let criteria: string
-    // if (containsIsquemico(this)) criteria = 'isquémico'
-    // if (containsHemorragia(this)) criteria = 'hemorragia'
-    // field.templateOptions.options = getFilteredOptions('Etiologia', criteria)
-  }
-
-  // append the comment of tratameinto fields that have commercial name
+  // Append commercial names to Tratameinto_* fields.
   if (isTratamiento) {
     field.templateOptions.options = options.map(({ value, comment, label }) =>
       ({ value: value, label: comment ? `${label} (${comment})` : label })
     )
   }
 
-  // sort alphabetically the options of some fields
-  const sortOptions = () => (field.templateOptions.options as any[]).sort((a, b) => a.value?.localeCompare(b.value))
+  // Sort alphabetically the options of some fields.
   if (isEtiologia || isTratamiento) {
-    sortOptions()
+    (field.templateOptions.options as any[]).sort((a, b) => a.value?.localeCompare(b.value))
   }
 
   return field

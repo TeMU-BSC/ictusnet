@@ -5,6 +5,11 @@ const runDockerScript = './ictusnet-ctakes/run-docker.sh'
 const variablesFile = '../config/variables.tsv'
 const optionsFile = '../config/options.tsv'
 const ictusnetDictFile = '../config/IctusnetDict.bsv'
+const entitiesForDiagnosticoPrincipal = [
+  'Ictus_isquemico',
+  'Ataque_isquemico_transitorio',
+  'Hemorragia_cerebral'
+]
 
 module.exports = {
   demoDir,
@@ -14,4 +19,5 @@ module.exports = {
   variablesFile,
   optionsFile,
   ictusnetDictFile,
+  entitiesForDiagnosticoPrincipal,
 }
