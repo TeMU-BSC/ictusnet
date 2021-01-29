@@ -135,16 +135,32 @@ function getGroup(groupName: string, fields: FormlyFieldConfig[], allAnnotations
 /**
  * Build the form field with all needed attributes, considering some special cases.
  */
-function getField(variable: Variable, annotations: Annotation[],
-  allVariables: Variable[], allAnnotations: Annotation[]): FormlyFieldConfig {
+function getField(
+  variable: Variable,
+  annotations: Annotation[],
+  allVariables: Variable[],
+  allAnnotations: Annotation[],
+): FormlyFieldConfig {
 
-  const options = variable.options.map(o => ({ ...o, label: o.value }))
-
-  // locate FECHA and HORA unspecific variables
-  const hints = allAnnotations.filter(a => a.entity.toUpperCase().startsWith(variable.label.toUpperCase()))
+  // Match non-specific annotations (FECHA, HORA, Tratamiento_antiagregante, Tratamiento_anticoagulate, mRankin, NIHSS)
+  // Example:
+  // variable.entity = Tratamiento_antiagregante_hab (specific)
+  // annotation.entity = Tratamiento_antiagregante (non-specific)
+  const isFecha = variable.entity.toUpperCase().startsWith('FECHA')
+  const isHora = variable.entity.toUpperCase().startsWith('HORA')
+  let hints
+  if (isFecha) {
+    hints = allAnnotations.filter(({ entity }) => entity.toUpperCase().startsWith('FECHA'))
+  }
+  else if (isHora) {
+    hints = allAnnotations.filter(({ entity }) => entity.toUpperCase().startsWith('HORA'))
+  }
+  else {
+    hints = allAnnotations.filter(({ entity }) => variable.entity.toUpperCase().startsWith(entity.toUpperCase()))
+  }
   const hintTitleSuffix = hints.length === 1 ? 'pista' : 'pistas'
-  const hintTooltip = [`${hints.length} ${hintTitleSuffix}`].concat(hints.map(a => a.evidence)).join('\n')
   const evidenceTitleSuffix = annotations.length === 1 ? 'evidencia textual' : 'evidencias textuales'
+  const hintTooltip = [`${hints.length} ${hintTitleSuffix}`].concat(hints.map(a => a.evidence)).join('\n')
   const evidenceTooltip = [`${annotations.length} ${evidenceTitleSuffix}`].concat(annotations.map(a => a.evidence)).join('\n')
 
   const field: FormlyFieldConfig = {
@@ -155,7 +171,7 @@ function getField(variable: Variable, annotations: Annotation[],
       appearance: 'outline',
       label: variable.label,
       multiple: variable.cardinality === 'n',
-      options: options,
+      options: variable.options,
 
       // custom properties
       hints: hints,
@@ -227,9 +243,10 @@ function getField(variable: Variable, annotations: Annotation[],
 
   // append the comment of tratameinto fields that have commercial name
   if (isTratamiento) {
-    field.templateOptions.options = variable.options.map(o => o.comment ?
-      ({ value: o.value, label: `${o.value} (${o.comment})` }) :
-      ({ value: o.value, label: o.value }))
+    field.templateOptions.options = variable.options.map(({ value, comment }) => {
+      const label = comment ? `${value} (${comment})` : value
+      return { value: value, label: label }
+    })
   }
 
   // sort alphabetically the options of some fields
