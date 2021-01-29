@@ -41,6 +41,8 @@ export class FormComponent implements OnChanges {
   ) { }
 
   ngOnChanges(): void {
+    console.log(this.report.filename)
+
     this.buildPanels()
     this.autofillForm()
     this.resetScrollState()
@@ -49,7 +51,7 @@ export class FormComponent implements OnChanges {
   buildPanels(): void {
     this.api.getVariables().subscribe(response => {
       const variables = response
-      this.panels = [...this.panels, ...getPanels(variables, this.report?.annotations || [])]
+      this.panels = [...getPanels(variables, this.report?.annotations || [])]
     })
   }
 
