@@ -54,10 +54,9 @@ export class AppComponent implements OnInit {
     this.api.uploadReports(this.files).subscribe(result => {
       this.uploading = false
       this.dialog.open(DialogComponent, {
-        width: '500px',
         data: {
           title: 'Subida finalizada',
-          content: `Se han subido correctamente ${result.reportCount} informes.`,
+          content: `Se han procesado ${result.report_count} informes correctamente.`,
           actions: {
             accept: { text: 'Vale' }
           }
@@ -87,7 +86,6 @@ export class AppComponent implements OnInit {
     if (confirmed) {
       this.api.resetDatabase().subscribe(response => {
         this.dialog.open(DialogComponent, {
-          width: '500px',
           data: {
             title: 'Database has been reset successfully',
             content: `${response['message']}`,

@@ -24,9 +24,9 @@ router.post('/', upload.array('files[]'), async (req, res) => {
   const variables = await Variable.find()
   const reports = await createReports(ctakesDir, variables)
   res.send({
-    reportCount: reports.length,
+    report_count: reports.length,
     reports: reports,
-    message: `${reports.length} reports have been loaded.`
+    message: `Reports have been processed successfully.`
   })
 })
 

@@ -10,6 +10,16 @@ const entitiesForDiagnosticoPrincipal = [
   'Ataque_isquemico_transitorio',
   'Hemorragia_cerebral'
 ]
+const nonSpecificEntities = [
+  'Trombolisis_intravenosa',
+  'Trombolisis_intraarterial',
+  'Trombectomia_mecanica',
+  'Tratamiento_anticoagulante',
+  'Tratamiento_antiagregante',
+  'TAC_craneal',
+  'mRankin',
+  'NIHSS',
+]
 
 module.exports = {
   demoDir,
@@ -20,4 +30,5 @@ module.exports = {
   optionsFile,
   ictusnetDictFile,
   entitiesForDiagnosticoPrincipal,
+  nonSpecificEntities,
 }

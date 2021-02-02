@@ -1,14 +1,26 @@
 const { entitiesForDiagnosticoPrincipal } = require('../constants')
 
 /**
- * Return the according annotations for the given variable, taking into account
- * the entities for the special case `Diagnostico_principal`.
+ * Define the rules for matching entities, 
+ * prioritizing the entities for the special case `Diagnostico_principal`, 
+ * matching regularly exact coincidences between variable and annotation entities, and 
+ * matching as last resort the non-specific entities like `Tratamiento_anticoagulante` (without `_alta` or `_hab` suffixes). 
+ */
+const filterCondition = (variable, annotation) => {
+  if (variable.entity === 'Diagnostico_principal') {
+    return entitiesForDiagnosticoPrincipal.includes(annotation.entity)
+  } else if (variable.entity === annotation.entity) {
+    return variable.entity === annotation.entity
+  } else {
+    return variable.entity.includes(annotation.entity)
+  }
+}
+
+/**
+ * Return the according annotations for the given variable.
  */
 const filterAnnotationsForVariable = (variable, annotations) => {
-  const filterCondition = (annotation) => variable.entity === 'Diagnostico_principal'
-    ? entitiesForDiagnosticoPrincipal.includes(annotation.entity)
-    : variable.entity === annotation.entity
-  return annotations.filter(annotation => filterCondition(annotation))
+  return annotations.filter(annotation => filterCondition(variable, annotation))
 }
 
 /**
@@ -38,12 +50,12 @@ const autofillField = (variable, reportAnnotations) => {
   const isFirstEvidenceSubstringOfOption = (option) => option.value.toLowerCase().includes(firstEvidence?.toLowerCase())
   const isOptionSubstringOfFirstEvidence = (option) => firstEvidence?.toLowerCase().includes(option.value.toLowerCase())
   const isFirstEvidenceInAdmissibleEvidencesOfOption = (option) => option.admissible_evidences.includes(firstEvidence?.toLowerCase())
-  const isFirstEvidenceInAdmissibleEvidencesOfVariable = (variable) => variable.admissible_evidences.includes(firstEvidence?.toLowerCase())
+  const isFirstEvidenceInAdmissibleEvidencesOfVariable = () => variable.admissible_evidences.includes(firstEvidence?.toLowerCase())
   const isFirstEvidenceStartingWithFirstLetterOfOption = (option) => firstEvidence?.toLowerCase().startsWith(option.value[0])
   const shouldMatch = (option) => isFirstEvidenceSubstringOfOption(option)
     || isOptionSubstringOfFirstEvidence(option)
     || isFirstEvidenceInAdmissibleEvidencesOfOption(option)
-    || isFirstEvidenceInAdmissibleEvidencesOfVariable(option)
+    || isFirstEvidenceInAdmissibleEvidencesOfVariable()
     || isFirstEvidenceStartingWithFirstLetterOfOption(option)
 
   // Should return a string.
