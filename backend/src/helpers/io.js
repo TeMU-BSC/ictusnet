@@ -1,6 +1,6 @@
 const fs = require('fs')
+const child_process = require("child_process")
 const path = require('path')
-const { execFileSync } = require("child_process")
 const csvParse = require('csv-parse/lib/sync')
 const { getAnnotations } = require('./brat')
 
@@ -25,6 +25,10 @@ const moveFiles = (sourceDirectory, destinationDirectory) => {
     const newFile = path.join(destinationDirectory, path.parse(file).base)
     fs.renameSync(oldFile, newFile)
   })
+}
+
+const removeFiles = (directory) => {
+  fs.readdirSync(directory).forEach(file => fs.rmSync(path.join(directory, file)))
 }
 
 const getFileContent = (file) => {
@@ -52,7 +56,7 @@ const generateAnnFilesSync = (runDockerScript, txtDir, annDir) => {
   const runDockerScriptAbsolutePath = path.resolve(runDockerScript)
   const txtDirAbsolutePath = path.resolve(txtDir)
   const annDirAbsolutePath = path.resolve(annDir)
-  execFileSync('sh', [runDockerScriptAbsolutePath, txtDirAbsolutePath, annDirAbsolutePath], { stdio: 'inherit' })
+  child_process.execFileSync('sh', [runDockerScriptAbsolutePath, txtDirAbsolutePath, annDirAbsolutePath], { stdio: 'inherit' })
 }
 
 /**
@@ -138,6 +142,7 @@ module.exports = {
   createPublicDirIfNotExists,
   copyFiles,
   moveFiles,
+  removeFiles,
   walk,
   generateAnnFilesSync,
   getFileContent,

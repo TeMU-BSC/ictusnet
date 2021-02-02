@@ -33,10 +33,11 @@ const createReports = async (reportsDir, variables) => {
 
 const initDatabase = async (variablesFile, optionsFile, demoDir) => {
   const variables = await createVariables(variablesFile, optionsFile)
-  const reports = await createReports(demoDir, variables)
+  await createReports(demoDir, variables)
 }
 
 module.exports = {
+  createVariables,
   createReports,
   initDatabase,
 }

@@ -36,10 +36,12 @@ const autofillField = (variable, reportAnnotations) => {
 
   // Some hand-crafted strategies to get the maximum possible matches in select form fields.
   const isFirstEvidenceSubstringOfOption = (option) => option.value.toLowerCase().includes(firstEvidence?.toLowerCase())
+  const isOptionSubstringOfFirstEvidence = (option) => firstEvidence?.toLowerCase().includes(option.value.toLowerCase())
   const isFirstEvidenceInAdmissibleEvidencesOfOption = (option) => option.admissible_evidences.includes(firstEvidence?.toLowerCase())
   const isFirstEvidenceInAdmissibleEvidencesOfVariable = (variable) => variable.admissible_evidences.includes(firstEvidence?.toLowerCase())
   const isFirstEvidenceStartingWithFirstLetterOfOption = (option) => firstEvidence?.toLowerCase().startsWith(option.value[0])
   const shouldMatch = (option) => isFirstEvidenceSubstringOfOption(option)
+    || isOptionSubstringOfFirstEvidence(option)
     || isFirstEvidenceInAdmissibleEvidencesOfOption(option)
     || isFirstEvidenceInAdmissibleEvidencesOfVariable(option)
     || isFirstEvidenceStartingWithFirstLetterOfOption(option)
