@@ -2,6 +2,7 @@ entity	value	comment
 Diagnostico_principal	ictus isquémico	
 Diagnostico_principal	ataque isquémico transitorio	
 Diagnostico_principal	hemorragia cerebral	
+Diagnostico_principal	otros	
 Arteria_afectada	arteria carótida común (ACC) o primitiva	
 Arteria_afectada	arteria carótida interna (ACI)	
 Arteria_afectada	arteria carótida interna segmento cervical (C1)	
