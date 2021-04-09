@@ -36,9 +36,14 @@
     [opened]="mediaObserver.isActive('gt-sm')"
   >
     <div>
-      <input #fileInput hidden type="file" multiple accept="text/plain" (change)="uploadReports($event)">
+      <input #fileInput type="file" accept="text/plain"
+        multiple
+        hidden
+        disabled
+        (change)="uploadReports($event)"
+      >
       <button mat-raised-button class="cta"
-        matTooltip="Solamente se aceptan ficheros de texto plano"
+        matTooltip="Solamente se aceptan ficheros de texto plano. Actualmente la carga de informes está deshabilitada."
         matTooltipPosition="after"
         matTooltipShowDelay="500"
         [disabled]="uploading"
