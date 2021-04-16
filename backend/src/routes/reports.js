@@ -1,11 +1,12 @@
 // Report route module.
 
 const router = require('express').Router()
+const path = require('path')
 const { Report } = require('../models/reportModel')
 const { Variable } = require('../models/variableModel')
 const { createReports } = require('../db/init')
-const { copyFiles, removeFiles, generateAnnFilesSync } = require('../helpers/io')
-const { uploadsDir, ctakesDir, runDockerScript } = require('../constants')
+const { removeFilesInDirectory, generateAnnFilesSync } = require('../helpers/io')
+const { uploadsDir, preannotationsDir, bratDir, runDockerScript, modelDir } = require('../constants')
 
 // Add middleware to upload files to the server.
 const multer = require('multer')
@@ -17,12 +18,11 @@ const upload = multer({ storage: storage })
 
 // POST (create) one or many new reports, using the multer middleware to upload the files present in the request.
 router.post('/', upload.array('files[]'), async (req, res) => {
-  removeFiles(ctakesDir)
-  copyFiles(uploadsDir, ctakesDir)
-  removeFiles(uploadsDir)
-  generateAnnFilesSync(runDockerScript, ctakesDir, ctakesDir)
+  removeFilesInDirectory(bratDir)
+  generateAnnFilesSync(runDockerScript, uploadsDir, preannotationsDir, modelDir)
   const variables = await Variable.find()
-  const reports = await createReports(ctakesDir, variables)
+  const reports = await createReports(bratDir, variables)
+  removeFilesInDirectory(uploadsDir)
   res.send({
     report_count: reports.length,
     reports: reports,

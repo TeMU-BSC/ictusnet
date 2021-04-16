@@ -11,7 +11,7 @@ const createPublicDirIfNotExists = (path) => {
   fs.chmodSync(path, 0777)
 }
 
-const copyFiles = (sourceDirectory, destinationDirectory) => {
+const copyDirectory = (sourceDirectory, destinationDirectory) => {
   fs.readdirSync(sourceDirectory).forEach(file => {
     const oldFile = path.join(sourceDirectory, file)
     const newFile = path.join(destinationDirectory, path.parse(file).base)
@@ -19,7 +19,7 @@ const copyFiles = (sourceDirectory, destinationDirectory) => {
   })
 }
 
-const moveFiles = (sourceDirectory, destinationDirectory) => {
+const moveFilesInDirectory = (sourceDirectory, destinationDirectory) => {
   fs.readdirSync(sourceDirectory).forEach(file => {
     const oldFile = path.join(sourceDirectory, file)
     const newFile = path.join(destinationDirectory, path.parse(file).base)
@@ -27,7 +27,7 @@ const moveFiles = (sourceDirectory, destinationDirectory) => {
   })
 }
 
-const removeFiles = (directory) => {
+const removeFilesInDirectory = (directory) => {
   fs.readdirSync(directory).forEach(file => fs.rmSync(path.join(directory, file)))
 }
 
@@ -49,14 +49,15 @@ async function* walk(dir) {
 /**
  * Generate annotation (.ann) files by calling the CTAKES docker container https://github.com/TeMU-BSC/ictusnet-ctakes.
  * @param {string} runDockerScript Path to the downloaded script: https://github.com/TeMU-BSC/ictusnet-ctakes/blob/master/run-docker.sh
- * @param {string} txtDir Directory where the INPUT `.txt` files are sotred. It must be an absolute path so it can work with docker call.
- * @param {string} annDir Directory where the OUTPUT `.ann` files are sotred. It must be an absolute path so it can work with docker call.
+ * @param {string} inputDir Directory where the INPUT `.txt` files are stored. It must be an absolute path so it can work with docker call.
+ * @param {string} outputDir Directory where the OUTPUT `.ann` files are stored. It must be an absolute path so it can work with docker call.
  */
-const generateAnnFilesSync = (runDockerScript, txtDir, annDir) => {
+const generateAnnFilesSync = (runDockerScript, inputDir, outputDir, modelDir) => {
   const runDockerScriptAbsolutePath = path.resolve(runDockerScript)
-  const txtDirAbsolutePath = path.resolve(txtDir)
-  const annDirAbsolutePath = path.resolve(annDir)
-  child_process.execFileSync('sh', [runDockerScriptAbsolutePath, txtDirAbsolutePath, annDirAbsolutePath], { stdio: 'inherit' })
+  const inputDirAbsolutePath = path.resolve(inputDir)
+  const outputDirAbsolutePath = path.resolve(outputDir)
+  const modelDirAbsolutePath = path.resolve(modelDir)
+  child_process.execFileSync('sh', [runDockerScriptAbsolutePath, inputDirAbsolutePath, outputDirAbsolutePath, modelDirAbsolutePath], { stdio: 'inherit' })
 }
 
 /**
@@ -140,9 +141,9 @@ const parseIctusnetDictFile = (ictusnetDictFile) => {
 
 module.exports = {
   createPublicDirIfNotExists,
-  copyFiles,
-  moveFiles,
-  removeFiles,
+  copyDirectory,
+  moveFilesInDirectory,
+  removeFilesInDirectory,
   walk,
   generateAnnFilesSync,
   getFileContent,

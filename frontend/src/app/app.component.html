@@ -39,11 +39,10 @@
       <input #fileInput type="file" accept="text/plain"
         multiple
         hidden
-        disabled
         (change)="uploadReports($event)"
       >
       <button mat-raised-button class="cta"
-        matTooltip="Solamente se aceptan ficheros de texto plano. Actualmente la carga de informes está deshabilitada."
+        matTooltip="Los ficheros deben ser de texto plano"
         matTooltipPosition="after"
         matTooltipShowDelay="500"
         [disabled]="uploading"

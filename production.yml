@@ -7,6 +7,7 @@ services:
       - 27017-27019:27017-27019
     volumes:
       - ./database/mongodb:/data/db
+    restart: always
 
   node:
     container_name: ictusnet_node
@@ -16,18 +17,19 @@ services:
     privileged: true
     environment:
       - MONGODB_HOST=mongo
-      - ICTUSNET_NER_DIR=/ictusnet-ner
+      - ICTUSNET_NER_DIR=/var/www/html/ictusnet-ner
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./backend:/app
-      - ../ictusnet-ner:/ictusnet-ner
-    command: npm run dev
+      - ./backend/preannotations/brat:/app/preannotations/brat
+      - /var/www/html/ictusnet-ner:/ictusnet-ner
+    command: node src/app.js
+    restart: always
 
   angular:
     container_name: ictusnet_angular
-    build: ./frontend
-    volumes:
-      - ./frontend:/app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
     ports:
-      - 4200:4200
-    command: npm run dev
+      - 81:80
+    restart: always

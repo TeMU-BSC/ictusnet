@@ -1,6 +1,9 @@
 # Pre-annotation Dockerized Pipeline for the ICTUSnet Project
 
-https://github.com/TeMU-BSC/ictusnet-ctakes/
+This repository contains two different pipelines (tags):
+
+1. bsctemu/ictusnet:ctakes - Initial version based on the Apache cTAKES.
+2. bsctemu/ictusnet:deeplearning - Deep Learning version based on transformers.
 
 ## Previous considerations
 

@@ -5,7 +5,7 @@ const reportsRoute = require('./routes/reports.js')
 const variablesRoute = require('./routes/variables.js')
 const { db } = require('./db/mongodb')
 const { initDatabase } = require('./db/init')
-const { demoDir, uploadsDir, ctakesDir, variablesFile, optionsFile, ictusnetDictFile } = require('./constants')
+const { demoDir, uploadsDir, preannotationsDir, bratDir, variablesFile, optionsFile, ictusnetDictFile } = require('./constants')
 const { createPublicDirIfNotExists, getFileContent, parseVariableFile } = require('./helpers/io')
 
 const app = express()
@@ -18,9 +18,11 @@ app.use(cors())
 app.use(express.json()) // For parsing application/json.
 app.use(express.urlencoded({ extended: true })) // For parsing application/x-www-form-urlencoded.
 
-// Make sure that directories for uploads and ctakes exist.
+// Make sure that directories for uploads and preannotations exist.
+// BRAT directory must have 777 permissions so NER model can write ".ann" files inside it.
 createPublicDirIfNotExists(uploadsDir)
-createPublicDirIfNotExists(ctakesDir)
+createPublicDirIfNotExists(preannotationsDir)
+createPublicDirIfNotExists(bratDir)
 
 // Specific endpoints.
 app.get('/', (req, res) => {

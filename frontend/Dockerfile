@@ -1,31 +1,4 @@
-# https://dev.to/avatsaev/create-efficient-angular-docker-images-with-multi-stage-builds-1f3n
-
-### STAGE 1: Build ###
-
-# We label our stage as 'builder'
-FROM node:14.15.4-alpine as builder
+FROM node:14.16.1-alpine
 WORKDIR /app
 COPY package*.json ./
-
-# Storing node modules on a separate layer will prevent unnecessary npm installs at each build
-RUN npm ci
-COPY . .
-
-# Build the angular app and store the artifacts in dist folder
-RUN npm run build -- --prod --output-path=dist
-
-
-### STAGE 2: Setup ###
-
-FROM nginx:1.19-alpine
-
-# Remove the default.conf and copy your nginx.conf
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d/
-
-# Remove default nginx website
-RUN rm -rf /usr/share/nginx/html/*
-
-# From 'builder' stage copy over the artifacts in dist folder to default nginx public folder
-COPY --from=builder /app/dist /usr/share/nginx/html
-CMD ["nginx", "-g", "daemon off;"]
+RUN npm install

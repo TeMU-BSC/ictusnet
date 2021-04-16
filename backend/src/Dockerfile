@@ -1,4 +1,4 @@
-FROM node:14.15.4-alpine
+FROM node:14.16.1-alpine
 RUN apk add --update docker
 WORKDIR /app
 COPY package.json package-lock.json ./

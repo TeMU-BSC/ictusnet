@@ -12,7 +12,7 @@ RUN npm ci
 COPY . .
 
 # Build the angular app and store the artifacts in dist folder
-RUN npm run build -- --configuration=staging --output-path=dist
+RUN npm run build -- --prod --output-path=dist
 
 
 ### STAGE 2: Setup ###

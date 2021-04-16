@@ -1,10 +1,18 @@
-const demoDir = './demo'
+const path = require('path')
+
+const demoDir = './ner/deeplearning/demo/brat'
+
 const uploadsDir = './uploads'
-const ctakesDir = '/tmp/ctakes'  // must have 777 permissions so ctakes can write ann files inside it
-const runDockerScript = './ictusnet-ctakes/run-docker.sh'
+const preannotationsDir = './preannotations'
+const bratDir = path.join(preannotationsDir, 'brat')
+const nerDir = process.env.ICTUSNET_NER_DIR || '../../ictusnet-ner'
+const modelDir = path.join(nerDir, 'model')
+const runDockerScript = path.join(nerDir, 'run-docker.sh')
+
 const variablesFile = '../config/variables.tsv'
 const optionsFile = '../config/options.tsv'
 const ictusnetDictFile = '../config/IctusnetDict.bsv'
+
 const entitiesForDiagnosticoPrincipal = [
   'Ictus_isquemico',
   'Ataque_isquemico_transitorio',
@@ -24,7 +32,9 @@ const nonSpecificEntities = [
 module.exports = {
   demoDir,
   uploadsDir,
-  ctakesDir,
+  modelDir,
+  preannotationsDir,
+  bratDir,
   runDockerScript,
   variablesFile,
   optionsFile,
