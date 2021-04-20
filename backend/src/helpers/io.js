@@ -3,6 +3,12 @@ const child_process = require("child_process")
 const path = require('path')
 const csvParse = require('csv-parse/lib/sync')
 const { getAnnotations } = require('./brat')
+const {
+  HOST_NER_SCRIPT_DOCKER_RUN,
+  HOST_NER_INPUT_DIR,
+  HOST_NER_OUTPUT_DIR,
+  HOST_NER_MODEL_DIR,
+} = require('./constants')
 
 const createPublicDirIfNotExists = (path) => {
   if (!fs.existsSync(path)) {
@@ -47,17 +53,10 @@ async function* walk(dir) {
 }
 
 /**
- * Generate annotation (.ann) files by calling the CTAKES docker container https://github.com/TeMU-BSC/ictusnet-ctakes.
- * @param {string} runDockerScript Path to the downloaded script: https://github.com/TeMU-BSC/ictusnet-ctakes/blob/master/run-docker.sh
- * @param {string} inputDir Directory where the INPUT `.txt` files are stored. It must be an absolute path so it can work with docker call.
- * @param {string} outputDir Directory where the OUTPUT `.ann` files are stored. It must be an absolute path so it can work with docker call.
+ * Generate annotation (.ann) files by calling the NER docker container https://hub.docker.com/r/bsctemu/ictusnet.
  */
-const generateAnnFilesSync = (runDockerScript, inputDir, outputDir, modelDir) => {
-  const runDockerScriptAbsolutePath = path.resolve(runDockerScript)
-  const inputDirAbsolutePath = path.resolve(inputDir)
-  const outputDirAbsolutePath = path.resolve(outputDir)
-  const modelDirAbsolutePath = path.resolve(modelDir)
-  child_process.execFileSync('sh', [runDockerScriptAbsolutePath, inputDirAbsolutePath, outputDirAbsolutePath, modelDirAbsolutePath], { stdio: 'inherit' })
+const generateAnnFilesSync = () => {
+  child_process.execFileSync('sh', [HOST_NER_SCRIPT_DOCKER_RUN, HOST_NER_INPUT_DIR, HOST_NER_OUTPUT_DIR, HOST_NER_MODEL_DIR], { stdio: 'inherit' })
 }
 
 /**

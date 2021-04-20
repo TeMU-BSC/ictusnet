@@ -6,7 +6,7 @@ const { Report } = require('../models/reportModel')
 const { Variable } = require('../models/variableModel')
 const { createReports } = require('../db/init')
 const { removeFilesInDirectory, generateAnnFilesSync } = require('../helpers/io')
-const { uploadsDir, preannotationsDir, bratDir, runDockerScript, modelDir } = require('../constants')
+const { uploadsDir, bratDir } = require('../constants')
 
 // Add middleware to upload files to the server.
 const multer = require('multer')
@@ -19,7 +19,7 @@ const upload = multer({ storage: storage })
 // POST (create) one or many new reports, using the multer middleware to upload the files present in the request.
 router.post('/', upload.array('files[]'), async (req, res) => {
   removeFilesInDirectory(bratDir)
-  generateAnnFilesSync(runDockerScript, uploadsDir, preannotationsDir, modelDir)
+  generateAnnFilesSync()
   const variables = await Variable.find()
   const reports = await createReports(bratDir, variables)
   removeFilesInDirectory(uploadsDir)

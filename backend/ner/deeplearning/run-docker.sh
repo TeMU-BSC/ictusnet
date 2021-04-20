@@ -13,6 +13,12 @@ else
   export MODEL_DIR=$3
 
   # In order to work from node.js backend call, docker run command must be without "-it".
-  docker run --rm -v $INPUT_DIR:/ictusnet-dl/data -v $OUTPUT_DIR:/ictusnet-dl/output -v $MODEL_DIR:/ictusnet-dl/model bsctemu/ictusnet:latest run.sh data output model
+  docker run \
+    -v $INPUT_DIR:/ictusnet-dl/data \
+    -v $OUTPUT_DIR:/ictusnet-dl/output \
+    -v $MODEL_DIR:/ictusnet-dl/model \
+    bsctemu/ictusnet:latest \
+    run.sh data output model
+
   printf "Output can be found in %s/brat\n" $OUTPUT_DIR
 fi
