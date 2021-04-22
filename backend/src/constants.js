@@ -1,17 +1,14 @@
 const path = require('path')
 
 const demoDir = './ner/deeplearning/demo/brat'
-
 const uploadsDir = './uploads'
 const preannotationsDir = './preannotations'
 const bratDir = path.join(preannotationsDir, 'brat')
-const modelDir = process.env.HOST_NER_MODEL_DIR || '/var/www/html/ictusnet-ner/model'
 
-const runDockerScript = process.env.HOST_NER_SCRIPT || '/var/www/html/ictusnet-ner/run-docker.sh'
-const HOST_NER_SCRIPT_DOCKER_RUN = process.env.HOST_NER_SCRIPT || '/var/www/html/ictusnet-ner/run-docker.sh'
-const HOST_NER_INPUT_DIR = process.env.HOST_NER_INPUT_DIR || '/var/www/html/ictusnet-webapp/backend/uploads'
-const HOST_NER_OUTPUT_DIR = process.env.HOST_NER_OUTPUT_DIR || '/var/www/html/ictusnet-webapp/backend/preannotations'
-const HOST_NER_MODEL_DIR = process.env.HOST_NER_MODEL_DIR || '/var/www/html/ictusnet-ner/model'
+const NER_SCRIPT_CONTAINER_PATH = process.env.NER_SCRIPT_CONTAINER_PATH || '/ictusnet-ner/run-docker.sh'
+const NER_INPUT_DIR_HOST_PATH = process.env.NER_INPUT_DIR_HOST_PATH || '/var/www/html/ictusnet-webapp/backend/uploads'
+const NER_OUTPUT_DIR_HOST_PATH = process.env.NER_OUTPUT_DIR_HOST_PATH || '/var/www/html/ictusnet-webapp/backend/preannotations'
+const NER_MODEL_DIR_CONTAINER_PATH = process.env.NER_MODEL_DIR_CONTAINER_PATH || '/ictusnet-ner/model'
 
 const variablesFile = '../config/variables.tsv'
 const optionsFile = '../config/options.tsv'
@@ -36,14 +33,12 @@ const nonSpecificEntities = [
 module.exports = {
   demoDir,
   uploadsDir,
-  modelDir,
   preannotationsDir,
   bratDir,
-  runDockerScript,
-  HOST_NER_SCRIPT_DOCKER_RUN,
-  HOST_NER_INPUT_DIR,
-  HOST_NER_OUTPUT_DIR,
-  HOST_NER_MODEL_DIR,
+  NER_SCRIPT_CONTAINER_PATH,
+  NER_INPUT_DIR_HOST_PATH,
+  NER_OUTPUT_DIR_HOST_PATH,
+  NER_MODEL_DIR_CONTAINER_PATH,
   variablesFile,
   optionsFile,
   ictusnetDictFile,

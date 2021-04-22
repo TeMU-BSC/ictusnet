@@ -16,10 +16,10 @@ services:
     privileged: true
     environment:
       - MONGODB_HOST=mongo
-      - HOST_NER_SCRIPT=/home/alejandro/code/ictusnet-ner/run-docker.sh
-      - HOST_NER_INPUT_DIR=/home/alejandro/code/ictusnet-webapp/backend/uploads
-      - HOST_NER_OUTPUT_DIR=/home/alejandro/code/ictusnet-webapp/backend/preannotations
-      - HOST_NER_MODEL_DIR=/home/alejandro/code/ictusnet-ner/model
+      - NER_SCRIPT_CONTAINER_PATH=/ictusnet-ner/run-docker.sh
+      - NER_INPUT_DIR_HOST_PATH=/home/alejandro/code/ictusnet-webapp/backend/uploads
+      - NER_OUTPUT_DIR_HOST_PATH=/home/alejandro/code/ictusnet-webapp/backend/preannotations
+      - NER_MODEL_DIR_CONTAINER_PATH=/ictusnet-ner/model
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./backend:/app

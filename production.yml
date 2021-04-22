@@ -17,10 +17,13 @@ services:
     privileged: true
     environment:
       - MONGODB_HOST=mongo
-      - ICTUSNET_NER_DIR=/var/www/html/ictusnet-ner
+      - NER_SCRIPT_CONTAINER_PATH=/ictusnet-ner/run-docker.sh
+      - NER_INPUT_DIR_HOST_PATH=/var/www/html/ictusnet-webapp/backend/uploads
+      - NER_OUTPUT_DIR_HOST_PATH=/var/www/html/ictusnet-webapp/backend/preannotations
+      - NER_MODEL_DIR_CONTAINER_PATH=/ictusnet-ner/model
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./backend/preannotations/brat:/app/preannotations/brat
+      - ./backend:/app
       - /var/www/html/ictusnet-ner:/ictusnet-ner
     command: node src/app.js
     restart: always

@@ -4,11 +4,11 @@ const path = require('path')
 const csvParse = require('csv-parse/lib/sync')
 const { getAnnotations } = require('./brat')
 const {
-  HOST_NER_SCRIPT_DOCKER_RUN,
-  HOST_NER_INPUT_DIR,
-  HOST_NER_OUTPUT_DIR,
-  HOST_NER_MODEL_DIR,
-} = require('./constants')
+  NER_SCRIPT_CONTAINER_PATH,
+  NER_INPUT_DIR_HOST_PATH,
+  NER_OUTPUT_DIR_HOST_PATH,
+  NER_MODEL_DIR_CONTAINER_PATH,
+} = require('../constants')
 
 const createPublicDirIfNotExists = (path) => {
   if (!fs.existsSync(path)) {
@@ -56,7 +56,12 @@ async function* walk(dir) {
  * Generate annotation (.ann) files by calling the NER docker container https://hub.docker.com/r/bsctemu/ictusnet.
  */
 const generateAnnFilesSync = () => {
-  child_process.execFileSync('sh', [HOST_NER_SCRIPT_DOCKER_RUN, HOST_NER_INPUT_DIR, HOST_NER_OUTPUT_DIR, HOST_NER_MODEL_DIR], { stdio: 'inherit' })
+  child_process.execFileSync('sh', [
+    NER_SCRIPT_CONTAINER_PATH,
+    NER_INPUT_DIR_HOST_PATH,
+    NER_OUTPUT_DIR_HOST_PATH,
+    NER_MODEL_DIR_CONTAINER_PATH,
+  ], { stdio: 'inherit' })
 }
 
 /**
