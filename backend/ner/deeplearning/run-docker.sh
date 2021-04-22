@@ -13,7 +13,7 @@ else
   export MODEL_DIR=$3
 
   # In order to work from node.js backend call, docker run command must be without "-it".
-  docker run \
+  docker run --rm --name ictusnet_deeplearning_ner \
     -v $INPUT_DIR:/ictusnet-dl/data \
     -v $OUTPUT_DIR:/ictusnet-dl/output \
     -v $MODEL_DIR:/ictusnet-dl/model \
