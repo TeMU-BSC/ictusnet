@@ -23,7 +23,7 @@ services:
       - NER_MODEL_DIR_CONTAINER_PATH=/ictusnet-ner/model
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./backend:/app
+      - ./backend/preannotations:/app/preannotations
       - /var/www/html/ictusnet-ner:/ictusnet-ner
     command: node src/app.js
     restart: always

@@ -15,5 +15,5 @@ docker-compose up --build
 
 ```bash
 docker-compose -f production.yml down
-docker-compose -f production.yml up --build
+docker-compose -f production.yml up --build -d
 ```
