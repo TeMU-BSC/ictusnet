@@ -44,6 +44,10 @@ export class AppComponent implements OnInit {
     this.getReports(this.currentFilter)
   }
 
+  openVideoTutorial(){
+    window.open('https://youtu.be/uXfAtjK_MqA');
+  }
+
   goToThisGithubRepo(): void {
     window.open('https://github.com/TeMU-BSC/ictusnet')
   }

@@ -14,7 +14,10 @@
     </small>
   </div>
   <span class="spacer"></span>
-  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Application mode" matTooltip="Configuración">
+  <button mat-icon-button aria-label="Video" matTooltip="Video tutorial" (click)="openVideoTutorial()">
+    <mat-icon class="material-icons-outlined">ondemand_video</mat-icon>
+  </button>
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Settings" matTooltip="Configuración">
     <mat-icon class="material-icons-outlined">settings</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
