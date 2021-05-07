@@ -16,10 +16,12 @@ services:
     privileged: true
     environment:
       - MONGODB_HOST=mongo
-      - NER_SCRIPT_CONTAINER_PATH=/ictusnet-ner/run-docker.sh
+      - NER_DEEPLEARNING_SCRIPT_CONTAINER_PATH=/app/ner/deeplearning/run-docker.sh
+      - NER_CTAKES_SCRIPT_CONTAINER_PATH=/app/ner/ctakes/run-docker.sh
       - NER_INPUT_DIR_HOST_PATH=/home/alejandro/code/ictusnet-webapp/backend/uploads
-      - NER_OUTPUT_DIR_HOST_PATH=/home/alejandro/code/ictusnet-webapp/backend/preannotations
-      - NER_MODEL_DIR_CONTAINER_PATH=/ictusnet-ner/model
+      - NER_DEEPLEARNING_OUTPUT_DIR_HOST_PATH=/home/alejandro/code/ictusnet-webapp/backend/preannotations
+      - NER_CTAKES_OUTPUT_DIR_HOST_PATH=/home/alejandro/code/ictusnet-webapp/backend/preannotations/ctakes
+      - NER_MODEL_DIR_CONTAINER_PATH=/home/alejandro/code/ictusnet-webapp/backend/ner/deeplearning/model
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./backend:/app

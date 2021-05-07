@@ -8,5 +8,5 @@ if [ -z "$1" ] || [ -z "$2" ]
 else
   export INPUT_DIR=$1 #TXT Directory
   export OUTPUT_DIR=$2 #OUTPUT Directory (HOME Diretory is highly recommended)
-  docker run --rm -v $INPUT_DIR:/ICTUSnet/data/TXT -v $OUTPUT_DIR:$OUTPUT_DIR/ANN_FINAL/ bsctemu/ictusnet process.sh $OUTPUT_DIR #without -it
+  docker run --rm -v $INPUT_DIR:/ICTUSnet/data/TXT -v $OUTPUT_DIR:$OUTPUT_DIR/ANN_FINAL/ bsctemu/ictusnet:ctakes process.sh $OUTPUT_DIR #without -it
 fi

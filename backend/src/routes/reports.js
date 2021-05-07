@@ -5,7 +5,11 @@ const path = require('path')
 const { Report } = require('../models/reportModel')
 const { Variable } = require('../models/variableModel')
 const { createReports } = require('../db/init')
-const { removeFilesInDirectory, generateAnnFilesSync } = require('../helpers/io')
+const {
+  removeFilesInDirectory,
+  generateAnnFilesDeeplearningSync,
+  generateAnnFilesCtakesSync,
+} = require('../helpers/io')
 const { uploadsDir, bratDir } = require('../constants')
 
 // Add middleware to upload files to the server.
@@ -19,10 +23,14 @@ const upload = multer({ storage: storage })
 // POST (create) one or many new reports, using the multer middleware to upload the files present in the request.
 router.post('/', upload.array('files[]'), async (req, res) => {
   removeFilesInDirectory(bratDir)
-  generateAnnFilesSync()
+
+  // It is important the order of the functions that generate annotations. First, the CTAKES one; then, the DEEPLEARNING one.
+  // generateAnnFilesCtakesSync()
+  generateAnnFilesDeeplearningSync()
+
   const variables = await Variable.find()
   const reports = await createReports(bratDir, variables)
-  removeFilesInDirectory(uploadsDir)
+  // removeFilesInDirectory(uploadsDir)
   res.send({
     report_count: reports.length,
     reports: reports,

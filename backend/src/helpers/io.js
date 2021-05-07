@@ -4,9 +4,11 @@ const path = require('path')
 const csvParse = require('csv-parse/lib/sync')
 const { getAnnotations } = require('./brat')
 const {
-  NER_SCRIPT_CONTAINER_PATH,
+  NER_DEEPLEARNING_SCRIPT_CONTAINER_PATH,
+  NER_CTAKES_SCRIPT_CONTAINER_PATH,
   NER_INPUT_DIR_HOST_PATH,
-  NER_OUTPUT_DIR_HOST_PATH,
+  NER_DEEPLEARNING_OUTPUT_DIR_HOST_PATH,
+  NER_CTAKES_OUTPUT_DIR_HOST_PATH,
   NER_MODEL_DIR_CONTAINER_PATH,
 } = require('../constants')
 
@@ -54,13 +56,26 @@ async function* walk(dir) {
 
 /**
  * Generate annotation (.ann) files by calling the NER docker container https://hub.docker.com/r/bsctemu/ictusnet.
+ * docker pull bsctemu/ictusnet:latest 
  */
-const generateAnnFilesSync = () => {
+const generateAnnFilesDeeplearningSync = () => {
   child_process.execFileSync('sh', [
-    NER_SCRIPT_CONTAINER_PATH,
+    NER_DEEPLEARNING_SCRIPT_CONTAINER_PATH,
     NER_INPUT_DIR_HOST_PATH,
-    NER_OUTPUT_DIR_HOST_PATH,
+    NER_DEEPLEARNING_OUTPUT_DIR_HOST_PATH,
     NER_MODEL_DIR_CONTAINER_PATH,
+  ], { stdio: 'inherit' })
+}
+
+/**
+ * Generate annotation (.ann) files by calling the NER docker container https://hub.docker.com/r/bsctemu/ictusnet.
+ * docker pull bsctemu/ictusnet:ctakes 
+ */
+ const generateAnnFilesCtakesSync = () => {
+  child_process.execFileSync('sh', [
+    NER_CTAKES_SCRIPT_CONTAINER_PATH,
+    NER_INPUT_DIR_HOST_PATH,
+    NER_CTAKES_OUTPUT_DIR_HOST_PATH,
   ], { stdio: 'inherit' })
 }
 
@@ -149,7 +164,8 @@ module.exports = {
   moveFilesInDirectory,
   removeFilesInDirectory,
   walk,
-  generateAnnFilesSync,
+  generateAnnFilesDeeplearningSync,
+  generateAnnFilesCtakesSync,
   getFileContent,
   parseBratDirectory,
   parseVariableFile,

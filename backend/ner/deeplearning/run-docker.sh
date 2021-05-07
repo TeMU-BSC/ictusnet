@@ -2,23 +2,17 @@
 
 if [ -z "$1" ] || [ -z "$2" ]
   then
-    echo "No arguments supplied."
-    echo "First argument should be the input directory (txt files)."
-    echo "Second argument should be the output directory (txt files will be copied into here and new ann files will be generated)."
-    echo "Third argument should be the model directory (all files needed to run the NER model)."
-    echo "For example: bash run-docker.sh $HOME/ictusnet/data $HOME/ictusnet/output $HOME/ictusnet/model"
+    echo "No arguments supplied"
+    echo "Enter one path for TXT directory as an input, one path for brat files as an output. Another path for the model is optiona (default: script path + 'model'"
+    echo "For example: bash run-docker.sh $HOME/data/TXT $HOME/data/output $HOME/model "
 else
-  export INPUT_DIR=$1
-  export OUTPUT_DIR=$2
-  export MODEL_DIR=$3
-
-  # In order to work from node.js backend call, docker run command must be without "-it".
-  docker run --rm --name ictusnet_deeplearning_ner \
-    -v $INPUT_DIR:/ictusnet-dl/data \
-    -v $OUTPUT_DIR:/ictusnet-dl/output \
-    -v $MODEL_DIR:/ictusnet-dl/model \
-    bsctemu/ictusnet:latest \
-    run.sh data output model
-
-  printf "Output can be found in %s/brat\n" $OUTPUT_DIR
+  export INPUT_DIR=$1 #TXT Directory
+  export OUTPUT_DIR=$2 #OUTPUT Directory (HOME Diretory is highly recommended)
+  if [ -z "$3" ]
+    then
+      export MODEL="$(dirname "$(realpath $0)")/model"
+  else
+    export MODEL=$3 # model path
+  fi
+  docker run --rm -v $INPUT_DIR:/ictusnet-dl/data -v $OUTPUT_DIR:/ictusnet-dl/output -v $MODEL:/ictusnet-dl/model bsctemu/ictusnet:latest run.sh data output model
 fi
