@@ -10,7 +10,7 @@ const {
   generateAnnFilesDeeplearningSync,
   generateAnnFilesCtakesSync,
 } = require('../helpers/io')
-const { uploadsDir, bratDir } = require('../constants')
+const { uploadsDir, NER_JOINT_DIR, NER_CTAKES_DIR, NER_DEEPLEARNING_DIR } = require('../constants')
 
 // Add middleware to upload files to the server.
 const multer = require('multer')
@@ -22,15 +22,18 @@ const upload = multer({ storage: storage })
 
 // POST (create) one or many new reports, using the multer middleware to upload the files present in the request.
 router.post('/', upload.array('files[]'), async (req, res) => {
-  removeFilesInDirectory(bratDir)
+  removeFilesInDirectory(NER_JOINT_DIR)
+  removeFilesInDirectory(NER_CTAKES_DIR)
+  removeFilesInDirectory(NER_DEEPLEARNING_DIR)
 
-  // It is important the order of the functions that generate annotations. First, the CTAKES one; then, the DEEPLEARNING one.
-  // generateAnnFilesCtakesSync()
+  // It is important the order of annotations generation. First, the CTAKES pipeline; then, the DEEPLEARNING pipeline.
+  generateAnnFilesCtakesSync()
   generateAnnFilesDeeplearningSync()
 
   const variables = await Variable.find()
-  const reports = await createReports(bratDir, variables)
-  // removeFilesInDirectory(uploadsDir)
+  const reports = await createReports(NER_JOINT_DIR, variables)
+
+  removeFilesInDirectory(uploadsDir)
   res.send({
     report_count: reports.length,
     reports: reports,
