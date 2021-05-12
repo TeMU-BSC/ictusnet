@@ -1,4 +1,4 @@
-const { entitiesForDiagnosticoPrincipal } = require('../constants')
+const { ENTITIES_FOR_DIAGNOSTICO_PRINCIPAL } = require('../constants')
 
 /**
  * Define the rules for matching entities, 
@@ -8,7 +8,7 @@ const { entitiesForDiagnosticoPrincipal } = require('../constants')
  */
 const filterCondition = (variable, annotation) => {
   if (variable.entity === 'Diagnostico_principal') {
-    return entitiesForDiagnosticoPrincipal.includes(annotation.entity)
+    return ENTITIES_FOR_DIAGNOSTICO_PRINCIPAL.includes(annotation.entity)
   } else if (variable.entity === annotation.entity) {
     return variable.entity === annotation.entity
   } else {
@@ -62,7 +62,7 @@ const autofillField = (variable, reportAnnotations) => {
   if (isSingleSelect) {
     let matchedOption
     if (isDiagnosticoPrincipal) {
-      const firstAnnotationForDiagnosticoPrincipal = annotations.find(annotation => entitiesForDiagnosticoPrincipal.includes(annotation.entity))
+      const firstAnnotationForDiagnosticoPrincipal = annotations.find(annotation => ENTITIES_FOR_DIAGNOSTICO_PRINCIPAL.includes(annotation.entity))
       const shouldMatchEntityWithOption = (option) => option.value.toLowerCase().startsWith(firstAnnotationForDiagnosticoPrincipal?.entity.toLowerCase().split('_')[0])
       matchedOption = variable.options.find(option => shouldMatchEntityWithOption(option))?.value
       return matchedOption

@@ -5,8 +5,19 @@ const reportsRoute = require('./routes/reports.js')
 const variablesRoute = require('./routes/variables.js')
 const { db } = require('./db/mongodb')
 const { initDatabase } = require('./db/init')
-const { demoDir, uploadsDir, annotationsDir, NER_JOINT_DIR, variablesFile, optionsFile, ictusnetDictFile } = require('./constants')
-const { createPublicDirIfNotExists, getFileContent, parseVariableFile } = require('./helpers/io')
+const {
+  DEEPLEARNING_BRAT_DEMO_DIR,
+  UPLOADS_DIR,
+  ANNOTATIONS_DIR,
+  NER_JOINT_DIR,
+  ICTUSNET_VARIABLES_TSV,
+  ICTUSNET_OPTIONS_TSV,
+  ICTUSNET_CTAKES_DICT_BSV,
+} = require('./constants')
+const {
+  createPublicDirIfNotExists,
+  getFileContent,
+} = require('./helpers/io')
 
 const app = express()
 
@@ -20,8 +31,8 @@ app.use(express.urlencoded({ extended: true })) // For parsing application/x-www
 
 // Make sure that directories for uploads and annotations exist.
 // BRAT directory must have 777 permissions so NER model can write ".ann" files inside it.
-createPublicDirIfNotExists(uploadsDir)
-createPublicDirIfNotExists(annotationsDir)
+createPublicDirIfNotExists(UPLOADS_DIR)
+createPublicDirIfNotExists(ANNOTATIONS_DIR)
 createPublicDirIfNotExists(NER_JOINT_DIR)
 
 // Specific endpoints.
@@ -29,7 +40,7 @@ app.get('/', (req, res) => {
   res.send('hello from ictusnet backend in node.js using express')
 })
 app.get('/admissibles', (req, res) => {
-  const fileContent = getFileContent(ictusnetDictFile)
+  const fileContent = getFileContent(ICTUSNET_CTAKES_DICT_BSV)
   const admissibles = csvParse(fileContent, {
     delimiter: '|',
     columns: true,
@@ -40,7 +51,7 @@ app.get('/admissibles', (req, res) => {
 })
 app.delete('/database', async (req, res) => {
   await db.dropDatabase()
-  await initDatabase(variablesFile, optionsFile, demoDir)
+  await initDatabase(ICTUSNET_VARIABLES_TSV, ICTUSNET_OPTIONS_TSV, DEEPLEARNING_BRAT_DEMO_DIR)
   res.send({ message: 'MongoDB `ictusnet` database has been deleted and then freshly recerated with the demo reports.' })
 })
 

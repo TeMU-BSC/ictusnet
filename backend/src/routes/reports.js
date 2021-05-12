@@ -1,7 +1,6 @@
-// Report route module.
+// Route module for ICTUSnet medical reports.
 
 const router = require('express').Router()
-const path = require('path')
 const { Report } = require('../models/reportModel')
 const { Variable } = require('../models/variableModel')
 const { createReports } = require('../db/init')
@@ -10,12 +9,17 @@ const {
   generateAnnFilesDeeplearningSync,
   generateAnnFilesCtakesSync,
 } = require('../helpers/io')
-const { uploadsDir, NER_JOINT_DIR, NER_CTAKES_DIR, NER_DEEPLEARNING_DIR } = require('../constants')
+const {
+  UPLOADS_DIR,
+  NER_JOINT_DIR,
+  NER_CTAKES_DIR,
+  NER_DEEPLEARNING_DIR
+} = require('../constants')
 
 // Add middleware to upload files to the server.
 const multer = require('multer')
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadsDir),
+  destination: (req, file, cb) => cb(null, UPLOADS_DIR),
   filename: (req, file, cb) => cb(null, file.originalname)
 })
 const upload = multer({ storage: storage })
@@ -33,7 +37,7 @@ router.post('/', upload.array('files[]'), async (req, res) => {
   const variables = await Variable.find()
   const reports = await createReports(NER_JOINT_DIR, variables)
 
-  removeFilesInDirectory(uploadsDir)
+  removeFilesInDirectory(UPLOADS_DIR)
   res.send({
     report_count: reports.length,
     reports: reports,

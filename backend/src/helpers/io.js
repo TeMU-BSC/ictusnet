@@ -9,7 +9,7 @@ const {
   NER_INPUT_DIR_HOST_PATH,
   NER_DEEPLEARNING_OUTPUT_DIR_HOST_PATH,
   NER_CTAKES_OUTPUT_DIR_HOST_PATH,
-  NER_MODEL_DIR_CONTAINER_PATH,
+  NER_DEEPLEARNING_MODEL_DIR_CONTAINER_PATH,
 } = require('../constants')
 
 const createPublicDirIfNotExists = (path) => {
@@ -63,7 +63,7 @@ const generateAnnFilesDeeplearningSync = () => {
     NER_DEEPLEARNING_SCRIPT_CONTAINER_PATH,
     NER_INPUT_DIR_HOST_PATH,
     NER_DEEPLEARNING_OUTPUT_DIR_HOST_PATH,
-    NER_MODEL_DIR_CONTAINER_PATH,
+    NER_DEEPLEARNING_MODEL_DIR_CONTAINER_PATH,
   ], { stdio: 'inherit' })
 }
 
@@ -119,11 +119,11 @@ const parseBratDirectory = async (bratDir) => {
   return parsedBratDirArray
 }
 
-const parseVariableFile = (variablesFile, optionsFile) => {
-  const variablesFileContent = getFileContent(variablesFile)
-  const optionsFileContent = getFileContent(optionsFile)
-  const variables = csvParse(variablesFileContent, { delimiter: '\t', columns: true, relaxColumnCount: true, quote: '\'', skipEmptyLines: true })
-  const options = csvParse(optionsFileContent, { delimiter: '\t', columns: true, relaxColumnCount: true, quote: '\'', skipEmptyLines: true })
+const parseVariablesTsv = (ictusnetVariablesTsv, ictusnetOptionsTsv) => {
+  const ictusnetVariablesTsvContent = getFileContent(ictusnetVariablesTsv)
+  const ictusnetOptionsTsvContent = getFileContent(ictusnetOptionsTsv)
+  const variables = csvParse(ictusnetVariablesTsvContent, { delimiter: '\t', columns: true, relaxColumnCount: true, quote: '\'', skipEmptyLines: true })
+  const options = csvParse(ictusnetOptionsTsvContent, { delimiter: '\t', columns: true, relaxColumnCount: true, quote: '\'', skipEmptyLines: true })
   variables.forEach(variable => {
 
     // Use of startsWith method due to these entities:
@@ -134,8 +134,8 @@ const parseVariableFile = (variablesFile, optionsFile) => {
   return variables
 }
 
-const parseIctusnetDictFile = (ictusnetDictFile) => {
-  const fileContent = getFileContent(ictusnetDictFile)
+const parseIctusnetDictFile = (ictusnetCtakesDictBsv) => {
+  const fileContent = getFileContent(ictusnetCtakesDictBsv)
   const parsedArray = csvParse(fileContent, {
     delimiter: '|',
     columns: true,
@@ -168,6 +168,6 @@ module.exports = {
   generateAnnFilesCtakesSync,
   getFileContent,
   parseBratDirectory,
-  parseVariableFile,
+  parseVariablesTsv,
   parseIctusnetDictFile,
 }
