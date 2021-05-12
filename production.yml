@@ -29,11 +29,20 @@ services:
     command: node src/app.js
     restart: always
 
+  # angular:
+  #   container_name: ictusnet_angular
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile.prod
+  #   ports:
+  #     - 81:80
+  #   restart: always
+
   angular:
     container_name: ictusnet_angular
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.prod
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
     ports:
-      - 81:80
-    restart: always
+      - 81:4200
+    command: npm run dev
