@@ -12,6 +12,7 @@ RUN npm ci
 COPY . .
 
 # Build the angular app and store the artifacts in dist folder
+RUN npm install -g @angular/cli
 RUN npm run build -- --prod --output-path=dist
 
 
