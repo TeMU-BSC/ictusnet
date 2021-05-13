@@ -1,18 +1,17 @@
 const path = require('path')
 
-const UPLOADS_DIR = './uploads'
-const ANNOTATIONS_DIR = './annotations'
-const NER_JOINT_DIR = path.join(ANNOTATIONS_DIR, 'joint')
-const NER_CTAKES_DIR = path.join(ANNOTATIONS_DIR, 'ctakes')
-const NER_DEEPLEARNING_DIR = path.join(ANNOTATIONS_DIR, 'deeplearning')
-const NER_DEEPLEARNING_SCRIPT_CONTAINER_PATH = '/app/ner/deeplearning/run-docker.sh'
-const NER_CTAKES_SCRIPT_CONTAINER_PATH = '/app/ner/ctakes/run-docker.sh'
+const BACKEND_ABSOLUTE_PATH_IN_HOST = process.env.BACKEND_ABSOLUTE_PATH_IN_HOST
+const RUN_DOCKER_SCRIPT_DEEPLEARNING = process.env.RUN_DOCKER_SCRIPT_DEEPLEARNING
+const RUN_DOCKER_SCRIPT_CTAKES = process.env.RUN_DOCKER_SCRIPT_CTAKES
+const UPLOADS_DIR = process.env.UPLOADS_DIR
+const BRAT_DEMO_DIR = process.env.BRAT_DEMO_DIR
+const ANNOTATIONS_DIR = process.env.ANNOTATIONS_DIR
 
-const DEEPLEARNING_BRAT_DEMO_DIR = '/var/www/html/ictusnet-webapp/backend/ner/deeplearning/demo/brat'
-const NER_INPUT_DIR_HOST_PATH = process.env.NER_INPUT_DIR_HOST_PATH || '/var/www/html/ictusnet-webapp/backend/uploads'
-const NER_DEEPLEARNING_OUTPUT_DIR_HOST_PATH = process.env.NER_DEEPLEARNING_OUTPUT_DIR_HOST_PATH || '/var/www/html/ictusnet-webapp/backend/annotations'
-const NER_CTAKES_OUTPUT_DIR_HOST_PATH = process.env.NER_CTAKES_OUTPUT_DIR_HOST_PATH || '/var/www/html/ictusnet-webapp/backend/annotations/ctakes'
-const NER_DEEPLEARNING_MODEL_DIR_CONTAINER_PATH = process.env.NER_DEEPLEARNING_MODEL_DIR_CONTAINER_PATH || '/var/www/html/ictusnet-webapp/backend/ner/deeplearning/model'
+// The following constants must be absolute paths from the host perspective.
+const MODEL_DIR = process.env.MODEL_DIR
+const CTAKES_DIR = process.env.CTAKES_DIR
+const DEEPLEARNING_DIR = process.env.DEEPLEARNING_DIR
+const JOINT_DIR = process.env.JOINT_DIR
 
 const ICTUSNET_VARIABLES_TSV = '../config/variables.tsv'
 const ICTUSNET_OPTIONS_TSV = '../config/options.tsv'
@@ -35,18 +34,16 @@ const NON_SPECIFIC_ENTITIES = [
 ]
 
 module.exports = {
-  DEEPLEARNING_BRAT_DEMO_DIR,
+  BACKEND_ABSOLUTE_PATH_IN_HOST,
+  RUN_DOCKER_SCRIPT_DEEPLEARNING,
+  RUN_DOCKER_SCRIPT_CTAKES,
+  BRAT_DEMO_DIR,
   UPLOADS_DIR,
   ANNOTATIONS_DIR,
-  NER_JOINT_DIR,
-  NER_CTAKES_DIR,
-  NER_DEEPLEARNING_DIR,
-  NER_DEEPLEARNING_SCRIPT_CONTAINER_PATH,
-  NER_CTAKES_SCRIPT_CONTAINER_PATH,
-  NER_INPUT_DIR_HOST_PATH,
-  NER_DEEPLEARNING_OUTPUT_DIR_HOST_PATH,
-  NER_CTAKES_OUTPUT_DIR_HOST_PATH,
-  NER_DEEPLEARNING_MODEL_DIR_CONTAINER_PATH,
+  JOINT_DIR,
+  CTAKES_DIR,
+  DEEPLEARNING_DIR,
+  MODEL_DIR,
   ICTUSNET_VARIABLES_TSV,
   ICTUSNET_OPTIONS_TSV,
   ICTUSNET_CTAKES_DICT_BSV,

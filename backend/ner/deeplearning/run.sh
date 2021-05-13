@@ -25,7 +25,7 @@ done
 TMP_DIR=$output_dir/tmp
 mkdir -p $TMP_DIR
 # dt=$(date +"%m-%d-%y_%H-%M")
-# output_dir=$OUTPUT_DIR/results_$dt
+# output_dir=$ANNOTATIONS_DIR/results_$dt
 # mkdir -p $output_dir
 
 # text to conll

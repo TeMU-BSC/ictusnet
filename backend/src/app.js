@@ -6,10 +6,10 @@ const variablesRoute = require('./routes/variables.js')
 const { db } = require('./db/mongodb')
 const { initDatabase } = require('./db/init')
 const {
-  DEEPLEARNING_BRAT_DEMO_DIR,
+  BRAT_DEMO_DIR,
   UPLOADS_DIR,
   ANNOTATIONS_DIR,
-  NER_JOINT_DIR,
+  JOINT_DIR,
   ICTUSNET_VARIABLES_TSV,
   ICTUSNET_OPTIONS_TSV,
   ICTUSNET_CTAKES_DICT_BSV,
@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended: true })) // For parsing application/x-www
 // BRAT directory must have 777 permissions so NER model can write ".ann" files inside it.
 createPublicDirIfNotExists(UPLOADS_DIR)
 createPublicDirIfNotExists(ANNOTATIONS_DIR)
-createPublicDirIfNotExists(NER_JOINT_DIR)
+createPublicDirIfNotExists(JOINT_DIR)
 
 // Specific endpoints.
 app.get('/', (req, res) => {
@@ -51,7 +51,7 @@ app.get('/admissibles', (req, res) => {
 })
 app.delete('/database', async (req, res) => {
   await db.dropDatabase()
-  await initDatabase(ICTUSNET_VARIABLES_TSV, ICTUSNET_OPTIONS_TSV, DEEPLEARNING_BRAT_DEMO_DIR)
+  await initDatabase(ICTUSNET_VARIABLES_TSV, ICTUSNET_OPTIONS_TSV, BRAT_DEMO_DIR)
   res.send({ message: 'MongoDB `ictusnet` database has been deleted and then freshly recerated with the demo reports.' })
 })
 

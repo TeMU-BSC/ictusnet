@@ -15,34 +15,21 @@ services:
     ports:
       - 3000:3000
     privileged: true
+    env_file:
+      - backend/paths.env
     environment:
-      - MONGODB_HOST=mongo
-      - DEEPLEARNING_BRAT_DEMO_DIR=/var/www/html/ictusnet-webapp/backend/ner/deeplearning/demo/brat
-      - NER_INPUT_DIR_HOST_PATH=/var/www/html/ictusnet-webapp/backend/uploads
-      - NER_DEEPLEARNING_OUTPUT_DIR_HOST_PATH=/var/www/html/ictusnet-webapp/backend/annotations
-      - NER_CTAKES_OUTPUT_DIR_HOST_PATH=/var/www/html/ictusnet-webapp/backend/annotations/ctakes
-      - NER_DEEPLEARNING_MODEL_DIR_CONTAINER_PATH=/var/www/html/ictusnet-ner/model
+      - BACKEND_ABSOLUTE_PATH_IN_HOST=/var/www/html/ictusnet-webapp/backend
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./backend/annotations:/app/annotations
-      - /var/www/html/ictusnet-ner:/ictusnet-ner
+      - ./backend:/app
     command: node src/app.js
     restart: always
 
-  # angular:
-  #   container_name: ictusnet_angular
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile.prod
-  #   ports:
-  #     - 81:80
-  #   restart: always
-
   angular:
     container_name: ictusnet_angular
-    build: ./frontend
-    volumes:
-      - ./frontend:/app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
     ports:
-      - 81:4200
-    command: npm run dev
+      - 81:80
+    restart: always

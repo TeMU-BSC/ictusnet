@@ -4,12 +4,13 @@ const path = require('path')
 const csvParse = require('csv-parse/lib/sync')
 const { getAnnotations } = require('./brat')
 const {
-  NER_DEEPLEARNING_SCRIPT_CONTAINER_PATH,
-  NER_CTAKES_SCRIPT_CONTAINER_PATH,
-  NER_INPUT_DIR_HOST_PATH,
-  NER_DEEPLEARNING_OUTPUT_DIR_HOST_PATH,
-  NER_CTAKES_OUTPUT_DIR_HOST_PATH,
-  NER_DEEPLEARNING_MODEL_DIR_CONTAINER_PATH,
+  RUN_DOCKER_SCRIPT_DEEPLEARNING,
+  RUN_DOCKER_SCRIPT_CTAKES,
+  UPLOADS_DIR,
+  ANNOTATIONS_DIR,
+  CTAKES_DIR,
+  MODEL_DIR,
+  BACKEND_ABSOLUTE_PATH_IN_HOST,
 } = require('../constants')
 
 const createPublicDirIfNotExists = (path) => {
@@ -36,7 +37,7 @@ const moveFilesInDirectory = (sourceDirectory, destinationDirectory) => {
 }
 
 const removeFilesInDirectory = (directory) => {
-  fs.readdirSync(directory).forEach(file => fs.rmSync(path.join(directory, file)))
+  fs.readdirSync(path.resolve(directory)).forEach(file => fs.rmSync(path.join(directory, file)))
 }
 
 const getFileContent = (file) => {
@@ -56,26 +57,26 @@ async function* walk(dir) {
 
 /**
  * Generate annotation (.ann) files by calling the NER docker container https://hub.docker.com/r/bsctemu/ictusnet.
- * docker pull bsctemu/ictusnet:latest 
+ * docker pull bsctemu/ictusnet:ctakes 
  */
-const generateAnnFilesDeeplearningSync = () => {
+ const generateAnnFilesCtakesSync = () => {
   child_process.execFileSync('sh', [
-    NER_DEEPLEARNING_SCRIPT_CONTAINER_PATH,
-    NER_INPUT_DIR_HOST_PATH,
-    NER_DEEPLEARNING_OUTPUT_DIR_HOST_PATH,
-    NER_DEEPLEARNING_MODEL_DIR_CONTAINER_PATH,
+    RUN_DOCKER_SCRIPT_CTAKES,
+    path.join(BACKEND_ABSOLUTE_PATH_IN_HOST, UPLOADS_DIR),
+    path.join(BACKEND_ABSOLUTE_PATH_IN_HOST, CTAKES_DIR),
   ], { stdio: 'inherit' })
 }
 
 /**
  * Generate annotation (.ann) files by calling the NER docker container https://hub.docker.com/r/bsctemu/ictusnet.
- * docker pull bsctemu/ictusnet:ctakes 
+ * docker pull bsctemu/ictusnet:latest 
  */
- const generateAnnFilesCtakesSync = () => {
+const generateAnnFilesDeeplearningSync = () => {
   child_process.execFileSync('sh', [
-    NER_CTAKES_SCRIPT_CONTAINER_PATH,
-    NER_INPUT_DIR_HOST_PATH,
-    NER_CTAKES_OUTPUT_DIR_HOST_PATH,
+    RUN_DOCKER_SCRIPT_DEEPLEARNING,
+    path.join(BACKEND_ABSOLUTE_PATH_IN_HOST, UPLOADS_DIR),
+    path.join(BACKEND_ABSOLUTE_PATH_IN_HOST, ANNOTATIONS_DIR),
+    path.join(BACKEND_ABSOLUTE_PATH_IN_HOST, MODEL_DIR),
   ], { stdio: 'inherit' })
 }
 
