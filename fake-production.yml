@@ -7,7 +7,6 @@ services:
       - 27017-27019:27017-27019
     volumes:
       - ./database/mongodb:/data/db
-    restart: always
 
   node:
     container_name: ictusnet_node
@@ -27,13 +26,12 @@ services:
       - ./backend/ner/deeplearning/model:/app/ner/deeplearning/model
       - ./backend/uploads:/app/uploads
     command: npm run dev
-    restart: always
 
   angular:
     container_name: ictusnet_angular
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.prod
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
     ports:
-      - 81:80
-    restart: always
+      - 81:4200
+    command: npm run dev

@@ -26,18 +26,20 @@ const upload = multer({ storage: storage })
 
 // POST (create) one or many new reports, using the multer middleware to upload the files present in the request.
 router.post('/', upload.array('files[]'), async (req, res) => {
-  removeFilesInDirectory(JOINT_DIR)
-  removeFilesInDirectory(CTAKES_DIR)
-  removeFilesInDirectory(DEEPLEARNING_DIR)
 
   // It is important the order of annotations generation. First, the CTAKES pipeline; then, the DEEPLEARNING pipeline.
   generateAnnFilesCtakesSync()
   generateAnnFilesDeeplearningSync()
 
+  // Transform the .ann and .txt files into a .json format to store them in database.
   const variables = await Variable.find()
   const reports = await createReports(JOINT_DIR, variables)
 
   removeFilesInDirectory(UPLOADS_DIR)
+  removeFilesInDirectory(CTAKES_DIR)
+  removeFilesInDirectory(DEEPLEARNING_DIR)
+  removeFilesInDirectory(JOINT_DIR)
+
   res.send({
     report_count: reports.length,
     reports: reports,
