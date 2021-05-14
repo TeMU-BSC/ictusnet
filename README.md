@@ -9,9 +9,10 @@ This is a webapp that allows to upload medical reports and displays a categorize
 ## Development
 
 ```bash
-docker-compose down
 cd frontend && npm install && cd .. && cd backend && npm install && cd ..
-docker-compose up --build
+docker-compose up
+Ctrl+C
+docker-compose down
 ```
 
 Visit http://localhost:4200.
@@ -19,9 +20,9 @@ Visit http://localhost:4200.
 ## Fake-production (temporal)
 
 ```bash
-docker-compose -f fake-production.yml down
 cd frontend && npm install && cd .. && cd backend && npm install && cd ..
 docker-compose -f fake-production.yml up --build -d
+docker-compose -f fake-production.yml down
 ```
 
 Visit http://yourdomain:81.
@@ -29,8 +30,8 @@ Visit http://yourdomain:81.
 ## Production (not ready yet)
 
 ```bash
-docker-compose -f production.yml down
 docker-compose -f production.yml up --build -d
+docker-compose -f production.yml down
 ```
 
 Visit http://yourdomain:81.

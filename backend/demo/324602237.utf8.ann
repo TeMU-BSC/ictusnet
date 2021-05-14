@@ -1,0 +1,45 @@
+T1	SECCION_TIPO_DE_INGRESO 272 278	/Tipus
+T2	SECCION_TIPO_DE_INGRESO 403 428	Tipo ingreso/Tipus ingrés
+T3	SECCION_MOTIVO_DEL_ALTA 437 454	Motivo/Motiu alta
+T4	SECCION_DIAGNOSTICOS 470 475	Diag.
+T5	Arteria_afectada 514 536	ARTERIA CEREBRAL MEDIA
+T6	Lateralizacion 537 546	IZQUIERDA
+T7	SECCION_PROCEDIMIENTOS 556 561	Proc.
+T8	TAC_craneal 563 565	TC
+T9	Trombectomia_mecanica 579 600	TROMBECTOMÍA MECÁNICA
+T10	SECCION_MOTIVO_DE_INGRESO 652 690	Motivo de consulta / Motiu de consulta
+T11	SECCION_ANTECEDENTES 717 747	Antecedentes e historia previa
+T12	SECCION_ANTECEDENTES 762 779	i història prèvia
+T13	SECCION_ANTECEDENTES_PATOLOGICOS 875 899	Antecedentes patológicos
+T14	SECCION_TRATAMIENTO_HABITUAL 956 974	Tratamiento actual
+T15	SECCION_PROCESO_ACTUAL 1001 1031	Proceso actual / Procés actual
+T16	SECCION_EXPLORACION_FISICA 1178 1216	Exploración física / Exploració física
+T17	NIHSS 1854 1859	NIHSS
+T18	TAC_craneal 2239 2249	TC CRANEAL
+T19	TAC_craneal 2264 2274	TC CRANEAL
+T20	ASPECTS 2389 2399	ASPECTS 10
+T21	TAC_craneal 2403 2405	TC
+T22	TAC_craneal 3154 3164	TC CRANEAL
+T23	TAC_craneal 3411 3421	TC CRANEAL
+T24	SECCION_ANTECEDENTES_QUIRURGICOS 3515 3541	Intervenciones quirúrgicas
+T26	Hora_inicio_trombectomia 3621 3648	punción femoral a las 17:59
+#0 T26	NormalizingTimesNotes T26	17:59
+T28	Trombectomia_mecanica 3808 3820	trombectomía
+T29	Hora_recanalizacion 3896 3907	a las 19:24
+#1 T29	NormalizingTimesNotes T29	19:24
+T30	Hora_fin_trombectomia 3910 3927	Serie final 19:29
+#2 T30	NormalizingTimesNotes T30	19:29
+T31	SECCION_EVOLUCION 3930 3950	Evolución / Evolució
+T32	NIHSS 4274 4282	NIHSS 11
+T33	TAC_craneal 4300 4318	inicial(TC craneal
+T34	Trombolisis_intravenosa 4474 4499	tratamiento fibrinolítico
+T35	Trombectomia_mecanica 4517 4541	tratamiento endovascular
+T36	TAC_craneal 4630 4632	TC
+T37	TAC_craneal 4787 4789	TC
+T38	Trombectomia_mecanica 5046 5070	tratamiento endovascular
+T39	Trombolisis_intravenosa 5073 5086	fibrinolítico
+T40	Tratamiento_anticoagulante 5243 5251	Apixaban
+T41	NIHSS 5529 5536	NIHSS:0
+T42	mRankin 5561 5566	mRS:1
+T43	SECCION_TRATAMIENTO_AL_ALTA 5568 5601	Plan terapéutico / Pla terapèutic
+T44	Tratamiento_anticoagulante 5605 5612	Eliquis
