@@ -25,9 +25,9 @@ services:
 
   angular:
     container_name: ictusnet_angular
-    build: ./frontend
-    volumes:
-      - ./frontend:/app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
     ports:
-      - 81:4200
-    command: npm run dev
+      - 81:80
+    restart: always
