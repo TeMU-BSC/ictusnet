@@ -20,11 +20,7 @@ services:
       - BACKEND_ABSOLUTE_PATH_IN_HOST=/var/www/html/ictusnet-webapp/backend
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./backend/annotations/ctakes:/app/annotations/ctakes
-      - ./backend/annotations/deeplearning:/app/annotations/deeplearning
-      - ./backend/annotations/demo:/app/annotations/demo
-      - ./backend/ner/deeplearning/model:/app/ner/deeplearning/model
-      - ./backend/uploads:/app/uploads
+      - ./backend:/app
     command: npm run dev
 
   angular:
