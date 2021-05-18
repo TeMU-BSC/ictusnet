@@ -24,7 +24,7 @@ T13	SECCION_TRATAMIENTO_HABITUAL 1564 1583	Medicación habitual
 T14	mRankin_previa 2090 2105	Rankin previo 1
 #9	NormalizingmRankinNotes T14	1
 T15	SECCION_EXPLORACION_FISICA 2177 2183	física
-T16	NIHSS_previa 2474 2483	NIHSS 24	
+T16	NIHSS_previa 2474 2483	NIHSS 24
 #10	NormalizingNIHSSNotes T16	24
 T17	Test_de_disfagia 2485 2501	Test de disfagia
 T18	TAC_craneal 2586 2596	TC craneal
