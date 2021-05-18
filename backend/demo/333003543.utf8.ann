@@ -43,7 +43,7 @@ T26	Trombolisis_intravenosa 5121 5134	trombolisi ev
 T27	Trombectomia_mecanica 5151 5171	terapia endovascular
 T28	TAC_craneal 5227 5237	TC craneal
 T29	SECCION_DESTINO_AL_ALTA 6180 6195	Destino al alta
-T30	NIHSS_alta 6226 6242	NIHSS (alta):	22
+T30	NIHSS_alta 6226 6242	NIHSS (alta): 22
 #15	NormalizingNIHSSNotes T30	22
 T31	Ictus_isquemico 6284 6291	Infarto
 T32	Arteria_afectada 6304 6326	arteria cerebral media
