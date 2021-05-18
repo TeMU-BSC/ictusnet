@@ -1,0 +1,72 @@
+T0	SECCION_MOTIVO_DE_INGRESO 391 408	Motivo de Ingreso
+T1	FECHA 233 243	03.03.2017
+#0	AnnotatorNotes T1	2017-03-03
+T2	SECCION_ANTECEDENTES_PATOLOGICOS 472 496	ANTECEDENTES PATOLÓGICOS
+T3	HORA 246 251	16:45
+#1	AnnotatorNotes T3	16:45
+T4	SECCION_ANTECEDENTES_FAMILIARES 990 1013	Antecedentes familiares
+T5	FECHA 305 315	03.03.2017
+#2	AnnotatorNotes T5	2017-03-03
+T6	SECCION_SITUACION_FUNCIONAL 1070 1090	Situación  funcional
+T7	HORA 318 323	16:11
+#3	AnnotatorNotes T7	16:11
+T8	mRankin_previa 1133 1143	mRS  de  0
+#4	NormalizingmRankinNotes T8	0
+T9	SECCION_EXPLORACION_FISICA 1791 1809	EXPLORACIÓN FÍSICA
+T10	NIHSS 2098 2139	NIHSS: 0.2.2.1.2/2(4.0)(4.0)/0.1.3.0.0=21
+#5	NormalizingNIHSSNotes T10	21
+T11	Trombectomia_mecanica 2158 2182	tratamiento endovascular
+T12	NIHSS 2184 2245	NIHSS de 3 por paresia facial, disartria y leve afasia motora
+#6	NormalizingNIHSSNotes T12	3
+T13	SECCION_EXPLORACION_FISICA_DURANTE_HOSPITALIZACION 2272 2293	en la unidad de ictus
+T14	NIHSS 2928 2963	NIHSS= 0.0.0.0.0/ 1.0.0/1.0.1.1.0=4
+#7	NormalizingNIHSSNotes T14	4
+T15	NIHSS 3874 3918	NIHSS: 0.0.0.0.0/0.(0.0).(1.0)/1.0.0.0.0 = 2
+#8	NormalizingNIHSSNotes T15	2
+T16	HORA 1488 1493	15:15
+#9	AnnotatorNotes T16	15:15
+T17	SECCION_EXPLORACIONES_COMPLEMENTARIAS 3922 3951	EXPLORACIONES COMPLEMENTARIAS
+T18	TAC_craneal 4507 4518	-TC craneal
+T19	ASPECTS 4646 4658	ASPECTS 10-9
+#10	NormalizingASPECTSNotes T19	10
+T20	Trombectomia_mecanica 5163 5185	-Trombectomia mecánica
+T21	Trombectomia_mecanica 5587 5599	trombectomía
+T22	Trombectomia_mecanica 6078 6099	Trombectomía mecánica
+T23	TAC_craneal 6122 6132	TC craneal
+T24	SECCION_EVOLUCION 9273 9282	EVOLUCIÓN
+T25	NIHSS 9448 9457	NIHSS= 21
+#11	NormalizingNIHSSNotes T25	21
+T26	TAC_craneal 9469 9479	TC craneal
+T27	ASPECTS 9545 9555	ASPECTS 10
+#12	NormalizingASPECTSNotes T27	10
+T28	HORA 4520 4525	16.23
+#13	AnnotatorNotes T28	16:23
+T29	Trombolisis_intravenosa 9663 9688	trombolisis ev (4mg bolus
+T30	Tiempo_puerta_aguja 9732 9744	puerta aguja
+T31	HORA 5212 5217	16:52
+#14	AnnotatorNotes T31	16:52
+T32	Trombectomia_mecanica 9817 9838	trombectomia mecánica
+T33	HORA 5257 5262	17:06
+#15	AnnotatorNotes T33	17:06
+T34	Trombectomia_mecanica 9964 9969	TREVO
+T35	HORA 5277 5282	17:29
+#16	AnnotatorNotes T35	17:29
+T36	TAC_craneal 10150 10160	TC craneal
+T37	Test_de_disfagia 10352 10368	test de disfagia
+T38	Tratamiento_anticoagulante_hab 11751 11758	sintrom
+T39	mRankin_alta 12086 12091	mRs=3
+#17	NormalizingmRankinNotes T39	3
+T40	NIHSS_alta 12094 12101	NIHSS=2
+#18	NormalizingNIHSSNotes T40	2
+T41	SECCION_PROCEDIMIENTOS 12103 12117	PROCEDIMIENTOS
+T42	TAC_craneal 12138 12148	TC cranial
+T43	Trombolisis_intravenosa 12159 12172	-Fibrinolisis
+T44	Trombectomia_mecanica 12187 12207	Trombectomiamecánica
+T45	SECCION_DIAGNOSTICOS 12268 12280	DIAGNÓSTICOS
+T46	Ictus_isquemico 12283 12290	Infarto
+T47	Arteria_afectada 12327 12330	ACM
+T48	Etiologia 12384 12408	etiología cardioembólica
+T49	Trombolisis_intravenosa 12460 12464	rtpa
+T50	Tratamiento_anticoagulante_alta 12648 12657	Aldocumar
+T51	HORA 9310 9315	16:11
+#19	AnnotatorNotes T51	16:11

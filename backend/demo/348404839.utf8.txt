@@ -1,0 +1,216 @@
+
+
+
+
+
+Informe d'Alta Hospitalària	Cognoms i nom:
+_NAME_	NHC:
+_ID_
+	ABS:
+_SS_	CIP:
+_ID_	DNI:
+_ID_
+	Data de naixement:
+_DATE_	Sexe:
+Dona	Edat:
+86a	Telèfon:
+_CONTACT_
+	Finançament:
+CatSalut - _LOCATION_	Procedència:
+URGÈNCIES
+	Admissió:
+03.03.2017 - 16:45	Servei:
+NEURO - UNITAT ICTUS HOSP	Data entrada urg.:
+03.03.2017 - 16:11
+Adreça:
+_LOCATION_	Població:
+_LOCATION_	Codi Postal:
+_LOCATION_
+
+
+
+Motivo de Ingreso:
+Paciente de 86 años de edad que ingresa por Ictus isquémico
+
+
+ANTECEDENTES PATOLÓGICOS
+1.	Sin alergias conocidas
+2.	Hábitos tóxicos: no refiere
+3.	FRV:
+-	Hipertensión arterial en tratamiento farmacológico. Refiere cifras de TAS 140-160 últimamente.
+-	Hiperuricemia asintomática
+-	No dislipemia ni diabetes conocidas
+4.	Hipotiroidismo
+5.	Reflujo gastroesofágico
+6.	Artrosis
+7.	Niega cardiopatia, nunca dolor torácico o palpitaciones.
+8.	No antecedentes de evento neurovascular. Niega clínica de SAOS/SAHS. No antecedentes de migraña, epilepsia u otros antecedentes neurológicos.
+-	Antecedentes familiares: No antecedentes de enfermedad vascular en la familia.
+
+Situación  funcional:  independiente  para  todas  las  ABVD.  mRS  de  0.  Vive  con  su  marido.  Trabajó inicialmente como peluquera. Después se dedicó a labores del hogar. Estudió hasta los 9 años. Diestra.
+
+Medicación:
+Bisprolol 2.5mg cada 24h, eutirox 50mcg cada 24h, omeprazol 20mg cada 24h, stilnox 10mg cada 24h, torasemida 10mg cada 24h, valsartan/hidroclorotiazida 160/25mg cada 24h
+
+ENFERMEDA ACTUAL
+A las 15:15h la encuentran con un cuadro de debilidad de extremidades derechas e imposiblidad para emitir palabras. Niega cefalea u otra clínica acompañante. Refiere que los días previos, al tomarse las constantes había tenido FC en torno a 100, pero sin palpitaciones acompañantes.
+Se activa código ictus.
+
+
+EXPLORACIÓN FÍSICA
+A su llegada a urgencias:
+TA: 167/70mmHg, Fc: 65lpm, Fr: 20, T: 36º, sat 97%, INR 1.0
+
+
+Vigil, no obedece ni una orden, emite sonidos ininteligibles, HHD, preferencia ocular a la izq que rebasa linea media, facial central derecho, hemiplejia derecha, hemihpoestesia derecha, Babinski D.
+
+NIHSS: 0.2.2.1.2/2(4.0)(4.0)/0.1.3.0.0=21
+
+Exploración tras tratamiento endovascular:
+NIHSS de 3 por paresia facial, disartria y leve afasia motora.
+
+Exploración neurológica en la unidad de ictus:
+-	Vigil
+-	Orientada en espacio y parcialmente en tiempo.
+-DIsartria leve. Alguna parafasia, pero nomina, repite, obecede órdenes y evoca.
+-	MOE correcta, nistagmus horizontal hacia la derecha, campimetría por confrontación normal
+-	Mínima paresia facial central derecha
+-	Pares bajos normales
+-	Balance motor: destaca leve pronación a la maniobra de Barré de ESD. Miembro inferior derecho no valorado completamente por inmovilización por procedimiento endovascular (pero no impresiona de asimetrías)
+-	Sensibilidad conservada
+-	RCP flexor bilateral
+-	Dismetría en extremidad superior derecha, que no parece proporcional a la paresia NIHSS= 0.0.0.0.0/ 1.0.0/1.0.1.1.0=4
+
+Exploración en sala neurológica y al alta:
+153/58 mmHg (varias mediciones con TAS >140 mmHg), 36'2ºC, 77 lpm, sat O2 98%.
+Vigil, orientada en tres esferas, atenta y colaboradora. Ánimo reactivo (se ríe, hace bromas...).
+Nomina 5/5, repite frases largas, obedece órdenes de 3 comandos. Falla algunos gestos en la exploración de praxias por imitación.
+Lenguaje fluido, sin rasgos disfásicos ni disártricos.
+PICNR. MOEs no limitados. Campimetría sin alteraciones. Sin nistagmus.
+Sin asimetrías faciales. Trigémino sensitivo-motor sin alteraciones. Pares bajos sin alteraciones. Motor: pronación ESD con MF, paresia crural derecha 4/5.
+Sin alteraciones en la sensibilidad táctil, algésica o propioceptiva. Dismetría ESD posiblemente desproporcionada a la paresia.
+Marcha con aumento de la base de sustentación, arrastra pierna derecha, algo inestable. En los primeros días retropulsión que ha ido desapareciendo.
+NIHSS: 0.0.0.0.0/0.(0.0).(1.0)/1.0.0.0.0 = 2.
+
+
+EXPLORACIONES COMPLEMENTARIAS
+-Analítica:
+
+
+Bioquímica: Sodi 141   mmol/L Potassi 3,95   mmol/L Glucosa 8,6 mmol/LUrea 9,9 mmol/L Creatinina 83
+µmol/L
+ Hemograma: Hemoglobina 112 g/LHematòcrit 0,35 L/L Hematies 3,84 ? x10E12/L Plaquetes 189 x10E9/L Leucòcits 8,66 x10E9/L Fórmula leucocitària: Neutròfils 70,3  %
+Hemostasia: Temps de tromboplastina 1,04 RATIO Temps de protrombina 1,11 INR Temps de trombina 21,80 s
+
+-	ECG: RS a 72 lpm, PR 190ms, QRS estrecho, AQRS a 60º, no alteraciones de la repolarización.
+
+-	Rx de tórax: no cardiomegalia, no pinzamiento de senos costofrénicos.
+
+-TC craneal (16.23h): Mínima desdiferencaicón c´rotico-subcortical en la regióntémporo-parietal I que sugiere afectación isquèmica aguda ( ASPECTS 10-9).
+
+-Angio-TC (TSA e intracraneal):
+Oclusión vascular en la región terminal de la carótida interna intracraneal/segmento M1 de ACM I. Disminución de la repleción vascular de la ACI I posiblemente en relación con enlentecimiento del flujo por trombo oclusivo distal. Se observa reconstitución distal del flujo de ACM I en ramas silvianas sobre todo de la división anterior por colaterales.
+Ligera ateromatosis del cayado de la aorta , origen del troncos y bulbos carotídeos pero sin estenosis relevantes.
+
+-Trombectomia mecánica:
+TIEMPOS: Entrada a sala: 16:52 Punción femoral: 17: 03 Primera serie: 17:06 Ultima serie: 17:29 (vaso abierto)
+PROCEDIMIENTO: Se realiza punción femoral derecha. Se realiza cateterización selectiva y la primera serie angiográfica confirma la presencia de una oclusión a nivel de TICA izquierda. Se procede al microcateterismo selectivo de arteria ocluida logrando una adecuada posición para realizar trombectomía realizando 2 pases (1 pase solumbra con sofia 5F en TICA # 2ª pase retriever en rama inferior M2). En la serie de comprobación final se confirma recanalización TICI 3 . No se detectan incidencias durante ni inmediatamente tras el procedimiento. Se realiza cierre del punto de punción femoral derecho mediante cierre mecánico tipo Proglide y vendaje compresivo el cual deberá permanecer por 24 horas, debiendo el paciente mantener inmóvil el miembro inferior derecho.
+CONCLUSIÓN:Trombectomía mecánica sin complicaciones
+
+-	TC craneal de control a las 24 horas: No se observan signos de sangrado intracraneal. Lesión isquémica de aspecto agudo en el caudado I y posiblemente lenticular, en territorio profundo de la ACM I. No se observan claras lesiones con extensión cortical en la exploración actual.
+
+-	Analítica de control:
+
+*	Bioquímica: sodio 140 mmol/l, potasio 4,16 mmol/l, calcio 1,95 mmol/l, fosfato 0,95 mmol/l, glucosa 4,9 mmol/l, urea 6,7 mmol/l,  creatinina 74 µmol/l, relación Ur:Cr 90, FGe MDRD-4 > 60,0 ml/min/1,73m2, osmolalidad plasmática (estimada) 291 mOsm/Kg, bilirrubina total 14 µmol/l, AST 27 U/l, ALT 23 U/l, fosfatasa alcalina 107 U/l, GGT 102 U/l, triacilglicéridos 0,99 mmol/l, colesterol 2,34 mmol/l,
+*	Hemograma: hemoglobina 91 g/l, hematocrito 0,27 l/l, hematíes 3,07 T/l, VCM 89,3 fl, CHCM 332 g/l, HCM 29,6 pg, RDW 14,1 %, VSG 96 mm/h, leucocitos 10,94 G/l, neutrófilos 9,32 G/l, monocitos 0,60 G/l, basófilos 0,02 G/l, eosinófilos 0,30 G/l, plaquetas 172 G/l, VPM 9,7 fl, plaquetocrito 0,20 % (fracción de baja intensidad 88,10 %, fracción de media intensidad 8,80 %, fracción de alta intensidad 3,10 %)
+*	Hb glicosilada (HbA1c) 5,5 %
+*	Estudio de lípidos:
+*	Estudio de anemia
+
+-	Estudio líquido sinovial:
+*	Bioquímica: Proteïna total líquids varis 24,9 g/L Glucosa líquids varis 6,5 mmol/L ADA LV 19,6 U/L LDH líquids varis 1712 U/L
+*	Hematología: Número de cèl·lules 8276 /mm3 Anàlisi morfològic 82% neutròfils, 1% limfòcits, 17% monòcits-macròfags
+*	Estudio microbiológico: negativo
+*	Estudio a microscopio: cristales con birrefringencia positiva.
+
+-	Ecocardiografía TT: Ventrículo izquierdo no dilatado con ligera hipertrofia de sus paredes. Función sistólica global conservada, sin alteraciones segmentarias. FEVI 74 % por eco3D. Aurícula izquierda significativamente dilatada (44 ml/m²). V. Mitral de aspecto normal con ligera insuficiencia. Raíz aórtica no dilatada. V. Aórtica con mínima esclerosis y mínima regurgitación. Cavidades derechas sin alteraciones significativas. Ligera regurgitación funcional tricúspide que descarta HTAP en reposo. Vena cava inferior no dilatada. Ausencia de derrame pericárdico.
+
+-	RM cerebral: Lesión isquémica de aspecto reciente en territorio profundo de la ACM I con afectación del caudado y del lenticular con escaso efecto de masa sobre el ventrículo lateral I sin desviación de la línea media. No se identifican focos de sangrado intracraneal. No se observan otras lesiones de aspecto isquémico agudo o reciente ni crónicas con extensión cortical ni otras alteraciones relevantes de la señal en el parénquima cerebral, tronco del encéfalo ni cerebelo. Sistema ventricular por lo demás es de tamaño y morfología normal. Línea media centrada. Se identifica ligero descenso de ambas amígdalas cerebelosas a través del agujero magno sugestivo de malformación de Chiari tipo 1. El estudio angio-RM 3D-TOF intracraneal no muestra signos de oclusión vascular ni estenosis significas.
+Conclusión: Lesión isquémica de aspecto reciente en territorio profundo de la ACM I. Estudio angio-RM 3D-TOF intracraneal no muestra alteraciones relevantes.
+
+-	Estudio holter (SRA): se detecta fibrilación auricular
+EVOLUCIÓN
+A su llegada a UCIAS a las 16:11h, paciente hemodinámicamente estable. A la exploración neurológica destaca presencia de un síndrome hemisférico izquierdo puntuando NIHSS= 21
+Se realiza TC craneal urgente en el que no se aprecian signos incipientes de isquemia (ASPECTS 10). Se objetiva hiperdensidad de ACM izquierda y en el angioTC oclusión de ACI izquierda terminal.
+Se indica trombolisis ev (4mg bolus y 41 mg perfusión 1h) a las 16.34h (23 min puerta aguja). Constantes pre bolus TA 140/64mmHg, afebril. Se indica inmediatamente trombectomia mecánica. La arteriografia basal muestra una oclusión de carótida interna izquierda distal (TICA). Se realizan 2 pases de dispositivo TREVO consiguiendo recanalización completa (TICI III).
+Posteriormente ingresa en unidad de ictus con un NIHSS de 3 por facial, disartria y leve afasia motora.
+A las 24 horas, se realiza TC craneal de control que no muestra pequeña lesión isquémica en caudado y lenticular izquierdo, sin signos de sangrado, por lo que se inicia prevención secundaria con AAS y atorvastatina. Tras superar test de disfagia se inicia dieta oral con bueno tolencia.
+Igualmente, se inició deambulación y rehabilitación.
+Como incidencia médica, presenta edema, eritema y aumento de temperatura en rodilla derecha con dolor a la movilización. Es valorado por Reumatología quienes realizan estudio de líquido sinovial  (se realiza artrocentesis de 45ml de líquido de aspecto seroso sugestivo de líquido inflamatorio), orientándose como artritis por pirofosfato tras comprobar presencia de cristales con birrefringencia positiva. Se inicia tratamiento con AINES y colchicina, con mejoría progresiva hasta resolución del cuadro. Presenta cuadro autolimitado de diarreas secundarias a colchicina.
+Se traslada a sala convencional de neurología para continuar estudio y optmizar tratamiento.
+A nivel de estudio etiológico, se solicita RM cerebral que objetiva infarto isquémico en caudado y del lenticular izquierdos. Se mantiene monitorizada con SRA, donde se objetiva fibrilación auricular no conocida previamente.
+Como incidencia, presenta sd miccional, por lo que se estudia sedimento de orina que muestra infección por E. Coli (pendiente de sensibilidad en el momento del alta). Se inicia tratamiento con fosfomicina.
+Se orienta, por tanto, como infarto isquémico en territorio de ACM I de mecanismo embólico y etiología cardioembólica.
+A nivel terapéutico, se inicia anticoagulación con hibor y posteriormente sintrom (CHADS2-VASc=6). En estudio de anemia con resultados parciales sugiere anemia ferropénica y también déficit de B12, por lo que se remite a Medicina interna para estudio.
+Dada la estabilidad clínica, tras valoración conjunta con rehabilitación  y trabajo social, se decide alta a domiclio con fisioterapia a domicilio. Al alta, mRs=3 y NIHSS=2
+
+PROCEDIMIENTOS
+-	Analítica
+-	ECG
+-	TC cranial
+-	AngioTC
+-Fibrinolisis intravenosa
+- Trombectomiamecánica
+-RM
+-Ecocardiografía transtorácica
+-Holter
+-Artrocentesis
+
+
+DIAGNÓSTICOS
+-	Infarto isquémico de territorio profundo de ACM Izquierda (caudado, putamen) de mecanismo embólico y etiología cardioembólica
+-	Fibrilación auricular de debut
+-	Tratamiento con rtpa y endovascular
+-	Artritis por pirofosfato
+-	Hipertensión arterial
+-	Dislipemia
+-Anemia a estudio
+
+
+TRATAMIENTO AL ALTA
+Levotiroxina 50 mcg 1 comp al día Omeprazol 20 mg 1 comp al día Aldocumar 1mg según pauta Paracetamol 1 g si precisa Bisoprolol 2.5mg cada 24h
+Stilnox 10mg cada 24h Torasemida 10mg cada 24h,
+Valsartan/hidroclorotiazida 160/25mg 1 comp al día Fosfomicina 1 sobre durante 2 días
+
+Visita en 3 meses en CEX NRL según cita adjunta Visita en Medicina Interna para estudio de anemia. Visita hemostasia para control sintrom
+
+Recomendaciones generales
+1.	Tratamiento de la  hipertensión arterial, manteniendo cifras  por debajo de 140/90; en caso  de ser diabético, cifras por debajo de 130/85.
+2.	Abandono completo del hábito tabáquico.
+3.	Control  y tratamiento de las enfermedades cardiacas (cardiopatía  isquémica,  insuficiencia  cardiaca, arritmias y valvulopatías).
+4.	Evitar consumo excesivo de alcohol (se permite una o dos bebidas al día).
+5.	Vigilancia y tratamiento del perfil lipídico:
+Dieta pobre en grasas, actividad física apropiada.
+Tratamiento farmacológico si precisa para mantener niveles de LDL<100mg/dl.
+6.	Control de la glucemia, que debe ser <126mg/dl en ayunas, con dieta, antidiabéticos orales o insulina si precisa.
+7.	Realizar actividad física, 30 a 60 minutos, de tres a cuatro veces a la semana.
+8.	Continuar el tratamiento antiagregante o a las dosis recomendadas, siguiendo los controles necesarios.
+
+
+
+
+
+
+
+
+Responsable clínic: Dr. _NAME_ (NºCol. _ID_)
+Equip mèdic: Dra. _NAME_ (NºCol.  _ID_), Dr. _NAME_  (NºCol.  _ID_), _NAME_ (NºCol. _ID_)
+
+Servei que ha donat d'alta:
+NEURO - UNITAT ICTUS HOSP	Data d'alta:
+14.03.2017	Nom del metge que informa de l'alta:
+Dra. _NAME_ (NºCol. _ID_)
+
+
+_LOCATION_, 14.03.2017
+Pàg. 1 de   7
