@@ -45,7 +45,7 @@ T32	TAC_craneal 7301 7311	TC craneal
 T33	Trombolisis_intravenosa 7348 7373	tratamiento fibrinolítico
 T34	Tratamiento_antiagregante_hab 7477 7480	AAS
 T35	SECCION_DIAGNOSTICOS 8458 8469	DIAGNÒSTICS
-T36	Ictus_isquemico 8476 8491	Ictus	isquémico
+T36	Ictus_isquemico 8476 8491	Ictus isquémico
 T37	Arteria_afectada 8492 8495	ACM
 T38	Lateralizacion 8496 8503	derecha
 T39	FECHA 4691 4701	28/08/2017
