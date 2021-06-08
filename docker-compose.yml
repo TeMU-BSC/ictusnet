@@ -1,3 +1,4 @@
+version: "3"
 services:
 
   mongo:
@@ -17,7 +18,7 @@ services:
     env_file:
       - backend/paths.env
     environment:
-      - BACKEND_ABSOLUTE_PATH_IN_HOST=/home/alejandro/code/ictusnet-webapp/backend
+      - BACKEND_ABSOLUTE_PATH_IN_HOST=/home/andrei/bsc/dev/ictusnet-webapp/backend
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./backend:/app

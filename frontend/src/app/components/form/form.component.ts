@@ -10,6 +10,7 @@ import { getPanels, PanelType } from './panels/panels-builder'
 import { downloadObjectAsJson } from 'src/app/helpers/json'
 import { DialogComponent } from '../dialog/dialog.component'
 import { ReportDeletedComponent } from '../report-deleted/report-deleted.component'
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-form',
@@ -19,6 +20,7 @@ import { ReportDeletedComponent } from '../report-deleted/report-deleted.compone
 export class FormComponent implements OnChanges {
 
   @Input() report: Report
+  @Output() emitToChildDeleteReportEvent: EventEmitter<void> = new EventEmitter<void>();
 
   // formly (dynamic form builder)
   model: any = {}
@@ -123,6 +125,7 @@ export class FormComponent implements OnChanges {
         snackBarRef.afterDismissed().subscribe(info => {
           if (!info.dismissedByAction) {
             this.api.deleteReport(this.report.filename).subscribe()
+            this.emitToChildDeleteReportEvent.emit()
           }
         })
       }

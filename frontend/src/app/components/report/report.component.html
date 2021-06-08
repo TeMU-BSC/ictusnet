@@ -6,7 +6,7 @@
     fxFlex="50%" fxFlexOrder="3"
     fxFlexOrder.gt-sm="1"
   >
-    <app-form [report]="report"></app-form>
+    <app-form [report]="report" (emitToChildDeleteReportEvent)="emitDeleteReportToParent.emit()"></app-form>
   </section>
   <mat-divider fxFlexOrder="2"></mat-divider>
   <section id="wrapper" class="fullheight scroll context"

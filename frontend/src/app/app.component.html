@@ -104,5 +104,5 @@
     </div>
   </mat-drawer>
   <!-- <router-outlet #contentOutsideDrawer *ngIf="!uploading" name="report"></router-outlet> -->
-  <app-report #contentOutsideDrawer *ngIf="currentReport && !uploading" [report]="currentReport"></app-report>
+  <app-report #contentOutsideDrawer *ngIf="currentReport && !uploading" [report]="currentReport" (emitDeleteReportToParent)="deleteReportRefresh()"></app-report>
 </mat-drawer-container>

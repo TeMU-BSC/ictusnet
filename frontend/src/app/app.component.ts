@@ -103,6 +103,10 @@ export class AppComponent implements OnInit {
     }
   }
 
+  deleteReportRefresh(){
+    this.getReports(this.currentFilter)
+  }
+  
   isEveryReportCompleted(): boolean {
     return this.reports.every(report => report.completed)
   }

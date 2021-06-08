@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core'
 import { ActivatedRoute, ParamMap } from '@angular/router'
 import { Report } from 'src/app/interfaces/interfaces'
 import { ApiService } from 'src/app/services/api.service'
+import { Output, EventEmitter } from '@angular/core'
 
 @Component({
   selector: 'app-report',
@@ -11,6 +12,8 @@ import { ApiService } from 'src/app/services/api.service'
 export class ReportComponent implements OnInit {
 
   @Input() report: Report
+  @Output() emitDeleteReportToParent: EventEmitter<void> = new EventEmitter<void>()
+  
 
   constructor(
     private api: ApiService,
