@@ -7,7 +7,7 @@ const { createReports } = require('../db/init')
 const {
   removeFilesInDirectory,
   generateAnnFilesDeeplearningSync,
-  generateAnnFilesCtakesSync,
+  //generateAnnFilesCtakesSync,
 } = require('../helpers/io')
 const {
   UPLOADS_DIR,
@@ -35,10 +35,10 @@ router.post('/', upload.array('files[]'), async (req, res) => {
   const variables = await Variable.find()
   const reports = await createReports(JOINT_DIR, variables)
 
-  //removeFilesInDirectory(UPLOADS_DIR)
+  removeFilesInDirectory(UPLOADS_DIR)
   //removeFilesInDirectory(CTAKES_DIR)
-  //removeFilesInDirectory(DEEPLEARNING_DIR)
-  //removeFilesInDirectory(JOINT_DIR)
+  removeFilesInDirectory(DEEPLEARNING_DIR)
+  removeFilesInDirectory(JOINT_DIR)
 
   res.send({
     report_count: reports.length,
