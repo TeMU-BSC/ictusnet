@@ -34,6 +34,7 @@ const formSchema = new Schema({
   fecha_inicio_trombectomia: { type: String, default: null },
   hora_inicio_trombectomia: { type: String, default: null },
   tiempo_puerta_puncion: { type: String, default: null },
+  tiempo_puerta_aguja: {type: String, default: null},
   fecha_primera_serie_trombectomia: { type: String, default: null },
   hora_primera_serie_trombectomia: { type: String, default: null },
   fecha_recanalizacion: { type: String, default: null },
@@ -51,6 +52,7 @@ const formSchema = new Schema({
   mrankin_alta: { type: Number, default: null },
   nihss_previa: { type: Number, default: null },
   nihss_alta: { type: Number, default: null },
+  test_de_disfagia: { type: String, default: null },
 }, { _id: false })
 
 const reportSchema = new Schema({

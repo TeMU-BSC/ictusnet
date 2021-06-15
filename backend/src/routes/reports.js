@@ -28,7 +28,7 @@ const upload = multer({ storage: storage })
 router.post('/', upload.array('files[]'), async (req, res) => {
 
   // It is important the order of annotations generation. First, the CTAKES pipeline; then, the DEEPLEARNING pipeline.
-  //generateAnnFilesCtakesSync()
+  //generateAnnFilesCtakesSync()  
   generateAnnFilesDeeplearningSync()
 
   // Transform the .ann and .txt files into a .json format to store them in database.

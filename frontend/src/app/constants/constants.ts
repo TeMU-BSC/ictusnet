@@ -1,4 +1,5 @@
 export const panelIcons = {
+  'Secciones': 'summarize',
   'Entrada y salida del paciente': 'airport_shuttle',
   'Diagnóstico': 'local_hospital',
   'Procedimientos I - trombólisis': 'masks',
