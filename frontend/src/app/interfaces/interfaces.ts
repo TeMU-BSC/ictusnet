@@ -18,6 +18,7 @@ export interface IctusnetForm {
   fecha_inicio_trombectomia: string
   hora_inicio_trombectomia: string
   tiempo_puerta_puncion: string
+  tiempo_puerta_aguja: string
   fecha_primera_serie_trombectomia: string
   hora_primera_serie_trombectomia: string
   fecha_recanalizacion: string
@@ -35,6 +36,7 @@ export interface IctusnetForm {
   mrankin_alta: number
   nihss_previa: number
   nihss_alta: number
+  test_de_disfagia: string
 }
 
 export interface Report {

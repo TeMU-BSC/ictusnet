@@ -1,4 +1,32 @@
 section	group	label	long_label	info	entity	key	cardinality	field_type	input_type	options	[comment]
+Secciones	Antecedentes	Antecedentes	Antecedentes 		SECCION_ANTECEDENTES	seccion_antecedentes	1	select			
+Secciones	Antecedentes	Antecedentes familiares	Antecedentes familiares		SECCION_ANTECEDENTES_FAMILIARES	seccion_antecedentes_familiares	1	select			
+Secciones	Antecedentes	Antecedentes patológicos	Antecedentes patológicos		SECCION_ANTECEDENTES_PATOLOGICOS	seccion_antecedentes_patologicos	1	select			
+Secciones	Antecedentes	Antecedentes personales	Antecedentes personales		SECCION_ANTECEDENTES_PERSONALES	seccion_antecedentes_personales	1	select			
+Secciones	Antecedentes	Antecedentes quirúrgicos	Antecedentes quirúrgicos		SECCION_ANTECEDENTES_QUIRURGICOS	seccion_antecedentes_quirurgicos	1	select			
+Secciones	Control	Control	Control		SECCION_CONTROL	seccion_control	1	select			
+Secciones	Destino al alta	Destino al alta	Destino al alta		SECCION_DESTINO_AL_ALTA	seccion_destino_al_alta	1	select			
+Secciones	Diagnósticos	Diagnósticos	Diagnósticos		SECCION_DIAGNOSTICOS	seccion_diagnosticos	1	select			
+Secciones	Diagnósticos	Diagnósticos secundarios	Diagnósticos secundarios		SECCION_DIAGNOSTICOS_SECUNDARIOS	seccion_diagnosticos_secundarios	1	select			
+Secciones	Diagnósticos	Diagnóstico principal	Diagnóstico principal		SECCION_DIAGNOSTICO_PRINCIPAL	seccion_diagnostico_principal	1	select			
+Secciones	Evolución 	Evolución 	Evolución 		SECCION_EVOLUCION	seccion_evolucion	1	select			
+Secciones	Exploraciones complementarias	Exploraciones complementarias	Exploraciones complementarias		SECCION_EXPLORACIONES_COMPLEMENTARIAS	seccion_exploraciones_complementarias	1	select			
+Secciones	Exploraciones complementarias	Exploraciones complementarias en planta de neurología	Exploraciones complementarias en planta de neurología		SECCION_EXPLORACIONES_COMPLEMENTARIAS_EN_PLANTA_DE_NEUROLOGIA	seccion_exploraciones_complementarias_en_planta_de_neurologia	1	select			
+Secciones	Exploraciones complementarias	Exploraciones complementarias en urgencias	Exploraciones complementarias en urgencias		SECCION_EXPLORACIONES_COMPLEMENTARIAS_EN_URGENCIAS	seccion_exploraciones_complementarias_en_urgencias	1	select			
+Secciones	Exploración física 	Exploración física 	Exploración física 		SECCION_EXPLORACION_FISICA	seccion_exploracion_fisica	1	select			
+Secciones	Exploración física 	Exploración física al alta	Exploración física al alta		SECCION_EXPLORACION_FISICA_AL_ALTA	seccion_exploracion_fisica_al_alta	1	select			
+Secciones	Exploración física 	Exploración física durante hospitalización	Exploración física durante hospitalización		SECCION_EXPLORACION_FISICA_DURANTE_HOSPITALIZACION	seccion_exploracion_fisica_durante_hospitalizacion	1	select			
+Secciones	Exploración física 	Exploración física en urgencias	Exploración física en urgencias		SECCION_EXPLORACION_FISICA_EN_URGENCIAS	seccion_exploracion_fisica_en_urgencias	1	select			
+Secciones	Motivo del alta	Motivo del alta	Motivo del alta		SECCION_MOTIVO_DEL_ALTA	seccion_motivo_del_alta	1	select			
+Secciones	Motivo de ingreso	Motivo de ingreso	Motivo de ingreso		SECCION_MOTIVO_DE_INGRESO	seccion_motivo_de_ingreso	1	select			
+Secciones	Procedimientos	Procedimientos	Procedimientos		SECCION_PROCEDIMIENTOS	seccion_procedimientos	1	select			
+Secciones	Proceso actual	Proceso actual	Proceso actual		SECCION_PROCESO_ACTUAL	seccion_proceso_actual	1	select			
+Secciones	Recomendaciones	Recomendaciones	Recomendaciones		SECCION_RECOMENDACIONES	seccion_recomendaciones	1	select			
+Secciones	Situación funcional	Situación funcional	Situación funcional		SECCION_SITUACION_FUNCIONAL	seccion_situacion_funcional	1	select			
+Secciones	Tipo de ingreso	Tipo de ingreso	Tipo de ingreso		SECCION_TIPO_DE_INGRESO	seccion_tipo_de_ingreso	1	select			
+Secciones	Tratamiento	Tratamiento al alta	Tratamiento al alta		SECCION_TRATAMIENTO_AL_ALTA	seccion_tratamiento_al_alta	1	select			
+Secciones	Tratamiento	Tratamiento habitual	Tratamiento habitual		SECCION_TRATAMIENTO_HABITUAL	seccion_tratamiento_habitual	1	select			
+Secciones	Tratamiento	Tratamiento y recomendaciones al alta	Tratamiento y recomendaciones al alta		SECCION_TRATAMIENTO_Y_RECOMENDACIONES_AL_ALTA	seccion_tratamiento_y_recomendaciones_al_alta	1	select			
 Entrada y salida del paciente	Inicio de los síntomas	Fecha	Fecha inicio síntomas o última vez visto asintomático/a	También es válida la última vez que el paciente estuvo asintomático.	Fecha_inicio_sintomas	fecha_inicio_sintomas	1	input	date		
 Entrada y salida del paciente	Inicio de los síntomas	Hora	Hora inicio síntomas o última vez visto asintomático/a	También es válida la última vez que el paciente estuvo asintomático.	Hora_inicio_sintomas	hora_inicio_sintomas	1	input	time		
 Entrada y salida del paciente	Llegada al hospital	Fecha	Fecha de llegada al hospital receptor		Fecha_llegada_hospital	fecha_llegada_hospital	1	input	date		
@@ -7,16 +35,16 @@ Entrada y salida del paciente	Ingreso	Fecha	Fecha de ingreso		Fecha_de_ingreso	f
 Entrada y salida del paciente	Alta	Fecha	Fecha de alta		Fecha_de_alta	fecha_de_alta	1	input	date		
 Entrada y salida del paciente	Alta	Hora	Hora de alta		Hora_de_alta	hora_de_alta	1	input	time		
 Diagnóstico	Diagnóstico principal	Diagnóstico principal	Diagnóstico principal		Diagnostico_principal	diagnostico_principal	1	select			
-Diagnóstico	Arterias afectadas	Arterias afectadas	Arterias afectadas	Aplicable sólo cuando el diagnóstico principal es "ictus isquémico".	Arteria_afectada	arterias_afectadas	n	select			aplicable sólo para dianóstico = ictus isquémico
+Diagnóstico	Arterias afectadas	Arterias afectadas	Arterias afectadas	"Aplicable sólo cuando el diagnóstico principal es ""ictus isquémico""."	Arteria_afectada	arterias_afectadas	n	select			aplicable sólo para dianóstico = ictus isquémico
 Diagnóstico	Localizaciones	Localizaciones	Localizaciones		Localizacion	localizaciones	n	select			
 Diagnóstico	Lateralización	Lateralización	Lateralización		Lateralizacion	lateralizacion	1	select			
-Diagnóstico	Etiología	Etiología	Etiología	Las opciones pueden variar según el diagnóstico principal seleccionado.	Etiologia	etiologia	1	select			las opciones a mostrar deben variar según si el diagnóstico contiene la palabra "isquémico" o "hemorragia" (ver hoja "admissibles")
+Diagnóstico	Etiología	Etiología	Etiología	Las opciones pueden variar según el diagnóstico principal seleccionado.	Etiologia	etiologia	1	select			"las opciones a mostrar deben variar según si el diagnóstico contiene la palabra ""isquémico"" o ""hemorragia"" (ver hoja ""admissibles"")"
 Procedimientos I - trombólisis	Trombólisis intravenosa	Fecha	Fecha trombólisis intravenosa		Fecha_trombolisis_rtPA	fecha_trombolisis_rtpa	1	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 Procedimientos I - trombólisis	Trombólisis intravenosa	Hora del primer bolus	Hora inicio primer bolus de la trombólisis rtPA	Hora del primer bolus de la trombólisis rtPA.	Hora_primer_bolus_trombolisis_rtPA	hora_primer_bolus_trombolisis_rtpa	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 Procedimientos I - trombólisis	Trombólisis intraarterial	Fecha	Fecha trombólisis intraarterial		Fecha_inicio_trombolisis_intraarterial	fecha_inicio_trombolisis_intraarterial	1	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 Procedimientos I - trombólisis	Trombólisis intraarterial	Hora	Hora trombólisis intraarterial		Hora_inicio_trombolisis_intraarterial	hora_inicio_trombolisis_intraarterial	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 Procedimientos II - trombectomía	Trombectomía mecánica	Fecha de inicio	Fecha inicio trombectomía mecánica		Fecha_inicio_trombectomia	fecha_inicio_trombectomia	1	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
-Procedimientos II - trombectomía	Trombectomía mecánica	Hora de la punción arterial	Hora punción arterial para la trombectomía mecánica (groin puncture)	También llamada "groin puncture".	Hora_inicio_trombectomia	hora_inicio_trombectomia	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos II - trombectomía	Trombectomía mecánica	Hora de la punción arterial	Hora punción arterial para la trombectomía mecánica (groin puncture)	"También llamada ""groin puncture""."	Hora_inicio_trombectomia	hora_inicio_trombectomia	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 Procedimientos II - trombectomía	Trombectomía mecánica	Regla tiempo puerta punción	Regla tiempo puerta punción		Tiempo_puerta_puncion	tiempo_puerta_puncion	1	input	text		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 Procedimientos II - trombectomía	Trombectomía mecánica	Fecha de la primera serie	Fecha primera serie para la trombectomía mecánica		Fecha_primera_serie_trombectomia	fecha_primera_serie_trombectomia	1	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 Procedimientos II - trombectomía	Trombectomía mecánica	Hora de la primera serie	Hora primera serie para la trombectomía mecánica		Hora_primera_serie_trombectomia	hora_primera_serie_trombectomia	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
@@ -24,6 +52,7 @@ Procedimientos II - trombectomía	Trombectomía mecánica	Fecha de recanalizaci�
 Procedimientos II - trombectomía	Trombectomía mecánica	Hora de recanalización	Hora recanalización para la trombectomía mecánica		Hora_recanalizacion	hora_recanalizacion	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 Procedimientos II - trombectomía	Trombectomía mecánica	Fecha de finalización	Fecha fin de la trombectomía mecánica		Fecha_fin_trombectomia	fecha_fin_trombectomia	1	input	date		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
 Procedimientos II - trombectomía	Trombectomía mecánica	Hora de finalización	Hora fin de la trombectomía mecánica		Hora_fin_trombectomia	hora_fin_trombectomia	1	input	time		sólo debemos identificar la primera fecha/hora, si hay más anotadas el usuario debe elegir cual es la correcta
+Procedimientos II - trombectomía	Trombectomía mecánica	Regla tiempo puerta aguja	Regla tiempo puerta aguja		Tiempo_puerta_aguja	tiempo_puerta_aguja	1	input	text		
 Tratamientos	Antiagregantes	Habitual	Tratamiento antiagregante habitual		Tratamiento_antiagregante_hab	tratamiento_antiagregante_hab	n	select			
 Tratamientos	Antiagregantes	Al alta	Tratamiento antiagregante al alta		Tratamiento_antiagregante_alta	tratamiento_antiagregante_alta	n	select			
 Tratamientos	Anticoagulantes	Habitual	Tratamiento anticoagulante habitual		Tratamiento_anticoagulante_hab	tratamiento_anticoagulante_hab	n	select			
@@ -35,3 +64,4 @@ Pruebas y escalas de valoración	mRankin	Previa	mRankin previa		mRankin_previa	m
 Pruebas y escalas de valoración	mRankin	Al alta	mRankin al alta		mRankin_alta	mrankin_alta	1	input	number		posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
 Pruebas y escalas de valoración	NIHSS	Previa	NIHSS previa		NIHSS_previa	nihss_previa	1	input	number		posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
 Pruebas y escalas de valoración	NIHSS	Al alta	NIHSS al alta		NIHSS_alta	nihss_alta	1	input	number		posiblemente haya varias anotaciones en texto y el usuario deba elegir la buena
+Pruebas y escalas de valoración	Test de disfagia	Test de disfagia	Test de disfagia		Test_de_disfagia	test_de_disfagia	1	input	text		
