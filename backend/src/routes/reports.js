@@ -34,8 +34,6 @@ router.post('/', upload.array('files[]'), async (req, res) => {
   //generateAnnFilesDeeplearningSync()
 
   const resultExec = await execGenerateAnnFiles()
-  console.log(resultExec)
-  console.log("finish")
 
   // Transform the .ann and .txt files into a .json format to store them in database.
   const variables = await Variable.find()
