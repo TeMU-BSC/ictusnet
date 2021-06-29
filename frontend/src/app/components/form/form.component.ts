@@ -5,12 +5,14 @@ import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { FormlyFormOptions } from '@ngx-formly/core'
 import { ApiService } from 'src/app/services/api.service'
-import { Report } from 'src/app/interfaces/interfaces'
+import { Annotation, Report } from 'src/app/interfaces/interfaces'
 import { getPanels, PanelType } from './panels/panels-builder'
 import { downloadObjectAsJson } from 'src/app/helpers/json'
 import { DialogComponent } from '../dialog/dialog.component'
 import { ReportDeletedComponent } from '../report-deleted/report-deleted.component'
 import { Output, EventEmitter } from '@angular/core';
+import { highlight } from "src/styles/markjs"
+
 
 @Component({
   selector: 'app-form',
@@ -27,6 +29,9 @@ export class FormComponent implements OnChanges {
   panels: PanelType[] = []
   form: FormArray = new FormArray(this.panels.map(() => new FormGroup({})))
   options = this.panels.map(() => <FormlyFormOptions>{})
+
+  sectionAnnotations: Annotation[]
+  tooltip: any
   private updateFinalResult() { this.report.result.final = { ...this.model } }
 
   // material expansion panels
@@ -44,6 +49,7 @@ export class FormComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.buildPanels()
+    this.prepareSectionAnnotation()
     this.autofillForm()
     this.resetScrollState()
   }
@@ -53,6 +59,16 @@ export class FormComponent implements OnChanges {
       const variables = response
       this.panels = [...getPanels(variables, this.report?.annotations || [])]
     })
+  }
+
+  showSectionHints(): void {
+    highlight(this.sectionAnnotations, "auxiliar")
+  }
+
+  prepareSectionAnnotation(): void {
+    this.sectionAnnotations = this.report.annotations.filter(annotation => annotation.entity.startsWith("SECCION_"))
+    this.tooltip = this.sectionAnnotations.map(annotation => annotation.evidence).join('\n')
+
   }
 
   autofillForm(): void {

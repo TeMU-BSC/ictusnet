@@ -59,26 +59,34 @@ async function* walk(dir) {
  * Generate annotation (.ann) files by calling the NER docker container https://hub.docker.com/r/bsctemu/ictusnet.
  * docker pull bsctemu/ictusnet:ctakes 
  */
- const generateAnnFilesCtakesSync = () => {
+
+ /**const generateAnnFilesCtakesSync = () => {
   child_process.execFileSync('sh', [
     RUN_DOCKER_SCRIPT_CTAKES,
     path.join(BACKEND_ABSOLUTE_PATH_IN_HOST, UPLOADS_DIR),
     path.join(BACKEND_ABSOLUTE_PATH_IN_HOST, CTAKES_DIR),
   ], { stdio: 'inherit' })
-}
+}/*
 
 /**
  * Generate annotation (.ann) files by calling the NER docker container https://hub.docker.com/r/bsctemu/ictusnet.
  * docker pull bsctemu/ictusnet:latest 
  */
-const generateAnnFilesDeeplearningSync = () => {
-  child_process.execFileSync('sh', [
+function execGenerateAnnFiles() {
+  return new Promise((resolve, reject) => {
+   child_process.execFile('sh', [
     RUN_DOCKER_SCRIPT_DEEPLEARNING,
     path.join(BACKEND_ABSOLUTE_PATH_IN_HOST, UPLOADS_DIR),
     path.join(BACKEND_ABSOLUTE_PATH_IN_HOST, ANNOTATIONS_DIR),
     path.join(BACKEND_ABSOLUTE_PATH_IN_HOST, MODEL_DIR),
-  ], { stdio: 'inherit' })
-}
+  ], (error, stdout, stderr) => {
+    if (error) {
+     console.warn(error);
+    }
+    resolve(stdout? stdout : stderr);
+   });
+  });
+ }
 
 /**
  * Build an annotated report object.
@@ -165,8 +173,8 @@ module.exports = {
   moveFilesInDirectory,
   removeFilesInDirectory,
   walk,
-  generateAnnFilesDeeplearningSync,
-  generateAnnFilesCtakesSync,
+  execGenerateAnnFiles,
+  //generateAnnFilesCtakesSync,
   getFileContent,
   parseBratDirectory,
   parseVariablesTsv,

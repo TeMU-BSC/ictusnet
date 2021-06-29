@@ -6,7 +6,8 @@ const { Variable } = require('../models/variableModel')
 const { createReports } = require('../db/init')
 const {
   removeFilesInDirectory,
-  generateAnnFilesDeeplearningSync,
+  execGenerateAnnFiles,
+  //generateAnnFilesDeeplearningSync,
   //generateAnnFilesCtakesSync,
 } = require('../helpers/io')
 const {
@@ -29,7 +30,12 @@ router.post('/', upload.array('files[]'), async (req, res) => {
 
   // It is important the order of annotations generation. First, the CTAKES pipeline; then, the DEEPLEARNING pipeline.
   //generateAnnFilesCtakesSync()  
-  generateAnnFilesDeeplearningSync()
+  
+  //generateAnnFilesDeeplearningSync()
+
+  const resultExec = await execGenerateAnnFiles()
+  console.log(resultExec)
+  console.log("finish")
 
   // Transform the .ann and .txt files into a .json format to store them in database.
   const variables = await Variable.find()

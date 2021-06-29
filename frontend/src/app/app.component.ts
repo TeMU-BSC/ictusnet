@@ -71,6 +71,7 @@ export class AppComponent implements OnInit {
   }
 
   getReports(filter?: Filter): void {
+    this.currentFilter = filter
     this.api.getReports(filter.completed).subscribe(response => {
       this.reports = response
       this.currentReport = this.reports[0]
@@ -104,7 +105,7 @@ export class AppComponent implements OnInit {
   }
 
   deleteReportRefresh(){
-    this.getReports(this.currentFilter)
+   this.getReports(this.currentFilter)
   }
   
   isEveryReportCompleted(): boolean {
