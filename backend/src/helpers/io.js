@@ -40,6 +40,18 @@ const removeFilesInDirectory = (directory) => {
   fs.readdirSync(path.resolve(directory)).forEach(file => fs.rmSync(path.join(directory, file)))
 }
 
+const removeFilesInDirectoryUpload = (directory, reqfiles) => {
+  
+  let files = []
+  let fileKeys = Object.keys(reqfiles)
+
+  fileKeys.forEach(function(key) {
+    files.push(reqfiles[key].filename);
+  });
+
+  fs.readdirSync(path.resolve(directory)).filter(element => files.includes(element)).forEach(file => fs.rmSync(path.join(directory, file)))
+}
+
 const getFileContent = (file) => {
   const absolutePath = path.resolve(path.join(__dirname, file))
   const contentString = fs.readFileSync(absolutePath, 'utf8')
@@ -47,9 +59,7 @@ const getFileContent = (file) => {
 }
 
 const getPathFilesCount = (path) => {
-  fs.readdir(path, (err, files) => {
-    return files.length
-  });
+  return fs.readdirSync(path).length
 }
 
 // https://gist.github.com/lovasoa/8691344
@@ -89,6 +99,7 @@ function execGenerateAnnFiles() {
     if (error) {
      console.warn(error);
     }
+    console.log(stdout)
     resolve(stdout? stdout : stderr);
    });
   });
@@ -178,6 +189,7 @@ module.exports = {
   copyDirectory,
   moveFilesInDirectory,
   removeFilesInDirectory,
+  removeFilesInDirectoryUpload,
   walk,
   execGenerateAnnFiles,
   //generateAnnFilesCtakesSync,

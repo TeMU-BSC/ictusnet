@@ -35,7 +35,8 @@ createPublicDirIfNotExists(UPLOADS_DIR)
 createPublicDirIfNotExists(ANNOTATIONS_DIR)
 createPublicDirIfNotExists(JOINT_DIR)
 
-const agenda = require('./helpers/scheduler.js')
+const cron = require('./helpers/scheduler.js')
+
 // Specific endpoints.
 app.get('/', (req, res) => {
 

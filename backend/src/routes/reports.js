@@ -6,6 +6,7 @@ const { Variable } = require('../models/variableModel')
 const { createReports } = require('../db/init')
 const {
   removeFilesInDirectory,
+  removeFilesInDirectoryUpload,
   execGenerateAnnFiles,
 } = require('../helpers/io')
 const {
@@ -26,20 +27,17 @@ const upload = multer({ storage: storage })
 // POST (create) one or many new reports, using the multer middleware to upload the files present in the request.
 router.post('/', upload.array('files[]'), async (req, res) => {
   
-  console.log(agenda.getJobRunnig())
-
-  if (agenda.getJobRunnig() === false){
+  if (!agenda.getJobRunnig()){
 
     agenda.setJobRunnig(true)
 
-    const resultExec = await execGenerateAnnFiles()
+    await execGenerateAnnFiles()
 
     // Transform the .ann and .txt files into a .json format to store them in database.
     const variables = await Variable.find()
     const reports = await createReports(JOINT_DIR, variables)
   
-    removeFilesInDirectory(UPLOADS_DIR)
-    //removeFilesInDirectory(CTAKES_DIR)
+    removeFilesInDirectoryUpload(UPLOADS_DIR, req.files)
     removeFilesInDirectory(DEEPLEARNING_DIR)
     removeFilesInDirectory(JOINT_DIR)
   
@@ -51,7 +49,8 @@ router.post('/', upload.array('files[]'), async (req, res) => {
       message: `Reports have been processed successfully.`
     })
 
-  } else if (agenda.getJobRunnig() === true){
+  } else if (agenda.getJobRunnig()){
+    console.log("report busy")
     res.send({
         message: `Reports is now busy, your report will be uploaded asap`
       })
