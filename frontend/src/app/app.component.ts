@@ -57,15 +57,29 @@ export class AppComponent implements OnInit {
     this.files = (event.target as HTMLInputElement).files
     this.api.uploadReports(this.files).subscribe(result => {
       this.uploading = false
-      this.dialog.open(DialogComponent, {
-        data: {
-          title: 'Subida finalizada',
-          content: `Se han procesado ${result.report_count} informes correctamente.`,
-          actions: {
-            accept: { text: 'Vale' }
+      
+      if (result.busy){
+        this.dialog.open(DialogComponent, {
+          data: {
+            title: 'Subida en proceso',
+            content: `Sus informes se han puesto en cola, estarán disponibles en unos minutos.`,
+            actions: {
+              accept: { text: 'Vale' }
+            }
           }
-        }
-      })
+        })
+      }else{
+        this.dialog.open(DialogComponent, {
+          data: {
+            title: 'Subida finalizada',
+            content: `Se han procesado ${result.report_count} informes correctamente.`,
+            actions: {
+              accept: { text: 'Vale' }
+            }
+          }
+        })
+      }
+  
       this.getReports(this.currentFilter)
     })
   }

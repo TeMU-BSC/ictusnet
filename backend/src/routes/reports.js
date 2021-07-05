@@ -27,7 +27,7 @@ const upload = multer({ storage: storage })
 // POST (create) one or many new reports, using the multer middleware to upload the files present in the request.
 router.post('/', upload.array('files[]'), async (req, res) => {
   
-  if (!agenda.getJobRunnig()){
+  if (!agenda.getJobRunnig()) {
 
     agenda.setJobRunnig(true)
 
@@ -49,10 +49,10 @@ router.post('/', upload.array('files[]'), async (req, res) => {
       message: `Reports have been processed successfully.`
     })
 
-  } else if (agenda.getJobRunnig()){
-    console.log("report busy")
+  } else if (agenda.getJobRunnig()) {
     res.send({
-        message: `Reports is now busy, your report will be uploaded asap`
+        message: `Your report will be uploaded in a few minuts.`,
+        busy: true
       })
   }
  
