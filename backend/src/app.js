@@ -35,8 +35,10 @@ createPublicDirIfNotExists(UPLOADS_DIR)
 createPublicDirIfNotExists(ANNOTATIONS_DIR)
 createPublicDirIfNotExists(JOINT_DIR)
 
+const agenda = require('./helpers/scheduler.js')
 // Specific endpoints.
 app.get('/', (req, res) => {
+
   res.send('hello from ictusnet backend in node.js using express')
 })
 app.get('/admissibles', (req, res) => {

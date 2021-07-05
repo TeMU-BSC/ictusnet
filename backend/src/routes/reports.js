@@ -7,18 +7,16 @@ const { createReports } = require('../db/init')
 const {
   removeFilesInDirectory,
   execGenerateAnnFiles,
-  //generateAnnFilesDeeplearningSync,
-  //generateAnnFilesCtakesSync,
 } = require('../helpers/io')
 const {
   UPLOADS_DIR,
   JOINT_DIR,
-  //CTAKES_DIR,
   DEEPLEARNING_DIR
 } = require('../constants')
 
 // Add middleware to upload files to the server.
 const multer = require('multer')
+const agenda = require('../helpers/scheduler')
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, UPLOADS_DIR),
   filename: (req, file, cb) => cb(null, file.originalname)
@@ -27,28 +25,38 @@ const upload = multer({ storage: storage })
 
 // POST (create) one or many new reports, using the multer middleware to upload the files present in the request.
 router.post('/', upload.array('files[]'), async (req, res) => {
-
-  // It is important the order of annotations generation. First, the CTAKES pipeline; then, the DEEPLEARNING pipeline.
-  //generateAnnFilesCtakesSync()  
   
-  //generateAnnFilesDeeplearningSync()
+  console.log(agenda.getJobRunnig())
 
-  const resultExec = await execGenerateAnnFiles()
+  if (agenda.getJobRunnig() === false){
 
-  // Transform the .ann and .txt files into a .json format to store them in database.
-  const variables = await Variable.find()
-  const reports = await createReports(JOINT_DIR, variables)
+    agenda.setJobRunnig(true)
 
-  removeFilesInDirectory(UPLOADS_DIR)
-  //removeFilesInDirectory(CTAKES_DIR)
-  removeFilesInDirectory(DEEPLEARNING_DIR)
-  removeFilesInDirectory(JOINT_DIR)
+    const resultExec = await execGenerateAnnFiles()
 
-  res.send({
-    report_count: reports.length,
-    reports: reports,
-    message: `Reports have been processed successfully.`
-  })
+    // Transform the .ann and .txt files into a .json format to store them in database.
+    const variables = await Variable.find()
+    const reports = await createReports(JOINT_DIR, variables)
+  
+    removeFilesInDirectory(UPLOADS_DIR)
+    //removeFilesInDirectory(CTAKES_DIR)
+    removeFilesInDirectory(DEEPLEARNING_DIR)
+    removeFilesInDirectory(JOINT_DIR)
+  
+    agenda.setJobRunnig(false)
+
+    res.send({
+      report_count: reports.length,
+      reports: reports,
+      message: `Reports have been processed successfully.`
+    })
+
+  } else if (agenda.getJobRunnig() === true){
+    res.send({
+        message: `Reports is now busy, your report will be uploaded asap`
+      })
+  }
+ 
 })
 
 // GET (read) multiple reports by its status.

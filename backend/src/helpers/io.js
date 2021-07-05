@@ -46,6 +46,12 @@ const getFileContent = (file) => {
   return contentString
 }
 
+const getPathFilesCount = (path) => {
+  fs.readdir(path, (err, files) => {
+    return files.length
+  });
+}
+
 // https://gist.github.com/lovasoa/8691344
 async function* walk(dir) {
   for await (const d of await fs.promises.opendir(dir)) {
@@ -176,6 +182,7 @@ module.exports = {
   execGenerateAnnFiles,
   //generateAnnFilesCtakesSync,
   getFileContent,
+  getPathFilesCount,
   parseBratDirectory,
   parseVariablesTsv,
   parseIctusnetDictFile,
