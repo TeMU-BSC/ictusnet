@@ -1,0 +1,180 @@
+_SS_
+Informe d'alta Mèdica Servei de Medicina Intensiva
+Full 1 de 4_NAME_
+Llit: 501 - 0501-A
+Data de naixement: _DATE_	Edat: 84 anys	Sexe: Home Nº Episodi: _ID_	Nº Història Clínica: _ID_
+Adreça: _LOCATION_
+Telèfon: _CONTACT_
+Al·lèrgies/ Intoleràncies
+Data d'identificació	Severitat	Registrat per
+
+ 	 	
+Penicil.lines	No registrat	_NAME_ (Enfermera registrada)
+Grup sanguini:
+Data d'ingrés SEMI: 09.01.2017 18:16	Data d'alta SEMI: 12.01.2017 19:06	Estada SEMI: 3 dies Procedència:  ALTRE CENTRE O	Destinació: NEUROLOGIA	Data Intervenció:
+INSTITUCIÓ
+Tipo d'admissió: Urgent
+Resultat SEMI: TRASLADO A PLANTA
+
+Telèfons contacte famílies:
+
+
+09.01.2017 18:16
+09.01.2017 18:16
+75
+170
+Pes actual
+Talla actual
+
+
+
+FC	72 /min	PNIs	174 mmHg	Pes	75,000 kg
+SpO2	98 %	PNId	82 mmHg		
+
+12.01.2017
+CONSTANTS A L´ALTA
+EVOLUCIÓ CLÍNICA
+MOTIU D'INGRÉS
+Paciente de 84 a. que ingresa en SEMI procedente del _SS_ al retornar tras terapia de rescate por código ictus.
+
+ANTECEDENTES PATOLÓGICOS:
+Exfumador desde el año 1992. Alérgico a la PENICILINA.
+Independiente ABVD. Barthel previo 100.
+
+
+1.	HIPERTENSION ARTERIAL en tratamiento farmacológico.
+2.	DISLIPEMIA
+3.	ENFERMEDAD DE PAGET diagnosticada el 2008.
+4.	ULCUS DUODENAL
+5.	ADENOCARCINOMA DE PROSTATA tratado mediante radioterapia (2007) con probable enteritis rádica detectada por colonoscopia con fulguración de las lesiones *Síndrome prostático en tractamiento.
+6.	HIPERURICEMIA en tratamiento con alopurinol.
+*IQ: prótesis de cadera izquierda 02/2013. Caída accidental desde 5 pisos en 1992.
+
+
+*MEDICACION HABITUAL: Artilog 200 mg 1c/24h, Spasmoctyl 40 mg 1c/12h, Omeprazol 20 mg 1c/24h, Atorvastatina 20 mg 1c/24h, Doxazosina 4 mg 1c/24h, Proscar (finasteride) 5 mg 1c/24h, Enalapril/hidroclorotiazida 20/12,5 mg 1c/24h,
+
+_NAME_
+Llit: _ID_
+EVOLUCIÓ CLÍNICA
+Calcium-Sandoz 500 mg 1c/24h, Zyloric (alopurinol) 100 mg 1c/24h.
+
+
+MALALTIA ACTUAL
+El 08/01/17 al despertarse a las 9H presenta debilidad de extremidades izquierdas, por lo que consulta en HUMT. Última   vez visto asintomático a las 3:30h. A su llegada NIHSS de 13. Se realiza TC craneal que no muestra alteraciones, por lo que se activa código ictus y se inicia fibrinolisis, activándose traslado posterior a Neurologia de HCP para valoración de tratamiento de rescate.
+
+EXPLORACIONES COMPLEMENTARIAS HCP
+* Analítica: PCR2, glucosa 125, HbA1c 5,8%, Colesterol total 139, LDL 90 mg/dl, HDL 39 mg/dl, k 4.7, plaq 112.000, Hto
+41%, K 4.7, Na 138, Quick 96.8%, TP 11.8, fibrinogeno 4.0, INR 1.01
+
+
+Radiología
+** TC MULTIMODAL (08/0172017): *BASAL: No se observa imágenes de sangrado agudo intra ni extra-axial. Se observa pérdida de diferenciación/borramiento del ribete insular y surcos temporales (M2) derechos.
+ASPECT:8. Lesión hipodensa cortico- subcortical frontal izquierda y otra pequeña en cabeza de núcleo caudado dereho, sugestivas de lesiones isquémicas crónicas, a correlacionar con antecedentes.
+*	TC PERFUSION: En hemisferio cerebral derecho se observa extensa área cortico- subcortical con TPP aumentado afectando la totalidad del territorio superficial del ACMD, sin disminución del CBV, con mistmach significativo.
+*	ANGIO-TC EXTRA E INTRACRANEAL Aorta y segmentos proximales de troncos supraaórticos permeables con marcados signos de ateromatosis calcificada, sin estenosis significativas. Origen y segmentos cervicales de las arterias carótidas internas permeables, con importante ateromatosis calcificada a nivel de ambas
+bifuraciones carotídeas, con estenosis significativa a nivel de ACI derecha posbifurcación ( de aprox 70-80%). También, se observa estenosis de aprox 50% de la luz vascular a nivel de ACI izquierda posbifurcación con
+placa mixta fibrocalcificada a ese nivel. Oclusión de ACMD a nivel de segmento M1, distal a la salida de temporal anterior, con circulación colateral presente.
+** ARTERIOGRAFÍA: Se confirma la presencia de una oclusión (TIMI grado 0) de cerebral media DERECHA ,distal a la salida de temporal anteriro (M1 distal). Se realiza extracción mecánica con 6 PASES DE sistema TREVO 6 X 25 obteniendo revascularización total del vaso a las 15:17 horas. Se da por concluido el procedimiento sin complicaciones confirmándose en la arteriografía un grado de reperfusión grado 2B TICI.
+Sin mejora mejora clínica post-procedimiento, presentando cuadro clínico similar a su llegada con mismo NIHSS 18.
+** TC DUAL (08/01/2017): Se observa una zona de hiperdensidad a nivel capsulo-ganglionar e insular derecho, en el interior de la zona infartada, que tras el postprocesado de las imágenes corresponde mayoritariamente a contraste extravasado, a excepción de algunos pequeños focos que corresponden a sangrado agudo (algunos de ellos más confluentes) y que no ejercen efecto de masa aparentemente significativo. Presencia de contraste extravasado en cisterna interpeduncular y lado derecho de cisternas perimesencefálicas. Se observa un borramiento de surcos con discreta pérdida de la diferenciación cortico-subcortical afectando a la mayor parte del hemisferio derecho, en relación a infarto isquémico agudo aunque probablemente parte de esta afectación corresponda a cierto grado de tumefacción cerebral.
+
+En resumen se trata de un ictus isquémico en territorio de arteria cerebral media derecha de etiología ateroembólica en contexto de ateromatosis carotídea con estenosis del 70-80% de la ICA derecha transformación hemorrágica + HSA objetivado en TC control, por lo que se decide no iniciar tratamiento antiagregante por el momento.
+
+_NAME_
+Llit: _ID_
+EVOLUCIÓ CLÍNICA
+Debido a la extensa afectación secundaria al ictus en este momento el paciente no es tributario de tratamiento de la estenosis carotídea.
+Retorna a nuestro centro por ser el suyo de referencia.
+
+
+EXPLORACIÓN FÍSICA EN SEMIS
+FC 75x' FR (rpm) 20x', PAS (mm Hg) 138, PAD (mm Hg) 94, Pulsioximetría (%) 97. bmtEST 104. Tª axilar (ºC) 36.9.
+CARDIO: tonos rítmicos sin soplos, no roce ni signos de ICD, buena perfusión periférica sin edemas ni signos de TVP en EEII.
+RESPI: MVC sin sonidos sobreañadidos.
+NRL: GSC 14 puntos. Consciente, desorientado. Desviación oculo-cefálica a la derecha, reflejo de amenza izquierdo abolido, Anosognosia. Disartria.  Paresia facio(mod)-braquio(0/5)-crural(0/5) izquierda. Babinski izdo. Extinción táctil. Dismetrías no valorables. NIHSS 18.
+
+
+
+EVOLUCIÓN
+El pacient es manté HDN estable, en RS a 75-80x'. TAS 130-140 i puntualment a la nit s'ha registrat 160 mmHg. Sense problemes de secrecions. Satura bé amb UN 2 lx'.
+NRL: desorientat, bradipsíquic. Hemiplègia esquerra. Parla una mica dificultosa d'entendre que semblaria disàrtria però NRL creu que es deu a la bradipsíquia. Paràlisi facial. Obeeix ordres senzilles, però amb retard.
+Afebril.
+Analítica: Hb=12.5 gr%, 107000 plaquetes, 5100 leucocits sense bandes, funció renal normal, Na=136, K hemolitzat. Coagulació normal.
+Valorat per Logopedia  que considera que de moment no és segura la via oral, així que només prendrà la pastilla antihipertensiva amb gelatina i compota i es mantenen sèrums. Es reavalua a les 24h, constatant milloria de la deglució, però el pacient no vol menjar. Se li dóna un dia de marge, per si col·labora més al menjar, abans d'instaurar SNG i nutrició enteral.
+Es sol·licita Ecodoppler TSA, ecocardiografia i RM, així com IC a Rehabilitació. Es traslladarà a UFI quan es disposi de llits.
+
+DIAGNÓSTICOS
+1.	ICTUS ISQUÉMICO EN EL TERRITORIO DE LA ARTERIA CEREBRAL MEDIA DERECHA. OCLUSIÓN M1 postbifuración.
+NIHSS:18 TOATS: Ateromatosis de gran vaso. mRs:5
+2.	ETIOLOGÍA ATEROTROMBÓTICA (ESTENOSIS CRÍTICA 70-80% ART. CAROTÍDEA DERECHA)
+3.	Transformación hemorrágica en ganglios basales derechos y pequeño foco de HSA temporal derecho
+
+Diagnòstics  ANTECEDENTS HIPERTENSION HIPERLIPIDEMIAS MIXTAS
+NEOPLASIA MALIGNA PROSTATA ULCERA DUODENAL
+Antecedents/Diagnòstics/Procediments
+
+
+_NAME_
+Llit: _ID_
+Antecedents/Diagnòstics/Procediments
+Diagnòstics
+DIAGNOSTIC PRINCIPAL (N.U.)
+ATEROSCLEROSI CEREBRAL; ATEROMA D'ARTERIES CEREBRALS OCLUSIO I ESTENOSI ARTERIA CAROTIDE
+EMBOLISME CEREBRAL, AMB INFART CEREBRAL
+
+
+Tractaments
+PROCEDIMENTS
+ALTRA TOMOGRAFIA DE CAP
+
+
+	
+Mitja	
+Primera	
+Máx	
+Min	
+La mès nova
+APACHE II	12,00	12	12	12	12
+Mort(APACHE)	0,15	0	0	0	0
+SAPS II	31,00	31	31	31	31
+Mort(SAPS)	0,12	0	0	0	0
+
+Puntuació (SCORES)
+Atès per:	_NAME_
+Autorizat per:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Impreso: 12.01.2017 19:07

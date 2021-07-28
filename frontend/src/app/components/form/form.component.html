@@ -26,7 +26,7 @@
     <mat-expansion-panel *ngFor="let panel of panels; let index = index; let first = first; let last = last;"
       [expanded]="step === index" (opened)="setStep(index)">
       <mat-expansion-panel-header>
-        <mat-panel-title *ngIf="panel.title === 'Secciones'; else notSecciones" >
+        <!-- <mat-panel-title *ngIf="panel.title === 'Secciones'; else notSecciones" >
           <mat-icon class="panel-icon">
             {{ panel.icon }}
           </mat-icon>
@@ -35,7 +35,7 @@
           </span>
               <mat-icon (click)="$event.stopPropagation(); showSectionHints();" [matTooltip]="this.tooltip" class="auxiliar-hint-button mat-terciary material-icons mat-icon-no-color"> emoji_objects </mat-icon>
         </mat-panel-title>
-        <ng-template #notSecciones>
+        <ng-template #notSecciones></ng-template>-->
         <mat-panel-title>
           <mat-icon class="panel-icon">
             {{ panel.icon }}
@@ -44,7 +44,6 @@
             {{ panel.title }}
           </span>
           </mat-panel-title>
-        </ng-template>
 
       </mat-expansion-panel-header>
       <formly-form [form]="form.at(index)" [model]="model" [fields]="panel.groups" [options]="options[index]">

@@ -1,0 +1,88 @@
+INFORME ALTA HOSPITALARIA
+_NAME_
+Núm. Episodi: _ID_ Núm. HC: _ID_
+_SS_ _LOCATION_
+_LOCATION_
+Tel. _CONTACT_
+
+
+INFORME ALTA HOSPITALARIA
+_NAME_
+Núm. Episodi: _ID_ Núm. HC: _ID_
+_SS_ _LOCATION_
+_LOCATION_
+Tel. _CONTACT_Adreça: _LOCATION_	C.A.P.: _SS_
+Població: _LOCATION_	Sexe: HOME  Data naixement: _DATE_  Edat: 76a
+Telèfon: _CONTACT_  C.P.: _LOCATION_	T.I.S.: _ID_  DNI/NIF: _ID_
+
+Procedència:	Data Ingrés Hospital: 02/01/2017
+Servei assistencial: NEUROLOGIA HOSP	Data Ingrés Servei: 02/01/2017
+Metge Responsable: _NAME_	Data Alta: 9/1/2017
+
+
+ANTECEDENTS PERSONALS:
+1.	Sin alergias ni tóxicos. Independiente para las ABVD.
+2.	Dislipemia en tratamiento farmacológico.
+3.	Hiperplasia benigna de próstata.
+-	Medicación habitual: simvastatina, toviaz (fesoteridona).
+-	Independiente para ABVD, cognitivamente preservado, Barthel 100, mRS0.
+
+MALALTIA ACTUAL:
+Paciente de 76 años que tras acostarse a dormir a la 1 am del día de hoy (01/01/17) asintomático, despierta a las 3 am, activación SEM 03:38 con hemiparesia izquierda y alteración del habla (NIHSS 16). Acude a nuestro centro, donde se ha realizado TC craneal basal sin mostrar alteraciones, se inicia fibrinolisis sin cambios en exploración clínica (llegada Mutua 04:14, bolus 04:45, TPA 31min, OTT 105min). Se contacta con _SS_ y se deriva al paciente para valorar rescate intraarterial. Realizan TC craneal que muestra hipodensidad en territorio cortical frontoparietal, caudado, cápsula interna derecha (ASPECTS 6), sin oclusiones ni estenosis en grandes vasos, y con retraso del TTP en el mismo territorio en que se ve la hipodensidad con caída del flujo y volumen y sin penumbra isquémica significativa.Se retorna al paciente desde dicho hospital tras descartar dicho procedimiento.
+A su llegada presenta estabilidad hemodinamica (PA: 134/90 mmHg, FC: 72 lpm, afebril, saturacion basal 100%. Continua con clínica neurológica inicial. Descansa y presenta movilización de secreciones. En la analítica destaca funcion renal deteriorada con Cr 1.3 no conocido.
+Iniciamos tratamineto de soporte y antiagregación ev así como ATB empírica por posible broncoaspiración. Se solicita TC craneal de control tras 24h de la fibrinolisis que no muestra imágenes de sangrado. Valoramos al paciente en urgencias y se decide ingreso en nuestra unidad.
+
+EXPLORACIÓ FÍSICA:
+Urgencias:
+AR: MVC sin ruidos sobreañadidos
+NRL: Consiente y orientado. Lenguaje hipofluente sin afasia. Disartria moderada. Mirada desviada hacia la derecha, sin sobrepasar linea media, con hemianopsia homónima izquierda. Paresia facio (leve) con plejia de extremidad superior izquierda, paresia en la inferior (4/5), con hipoestesia ipsilateral. Dismetrías no valorables. Anosognosia y asomatognosia. NIHSS 16.
+
+Planta:
+NRL: consciente y orientado. Leve disartria. PFC I, PPCC conservados. PPICNR. Desviación de la mirada a la derecha con hemianopsia homonima izquierda. Hemiparesia izquierda de predominio braquial con anosognosia asociada. BM EEII 4/5. NIHSS 14
+
+EXPLORACIONS COMPLEMENTÀRIES:
+Eco-döppler de troncs supra-aòrtics: ARTÈRIES VERTEBRALS: Flux de direcció cranial amb pics de velocitat sistòlicaasimètrics, 28 vs 40 cm/s.EIXOS CAROTIDIS:DRET:Engruiximent de l'íntima arterial, placa difusa hipoecogènica. IMT 1.9 mm.S'identifica en el bulb carotidi dret, engruiximent de l'íntima arterial i placa difusahipoecogènica lipídica a la paret posterior del bulb carotidi que es valora en <50%, és regular. Els registres espectrals no mostren signes d'alteracióhemodinàmica d'alt grau amb un pic sistòlic de velocitat màxima, concordant (PSV) CID de 87 cm/s i amb un quocient CPD-CID 1.4.Elongació del trajecte cervical de la CID.ESQUERRE:Engruiximent de l'íntima arterial.IMT 1.3 mm.S'identifica en el bulb carotidi esquerre, engruiximent de l'íntima arterial i placafocal calcificada amb ombra posterior a la paret posterior del bulb carotidi que es
+valora en un 30 %.Els registres espectrals no mostren signes d'alteració hemodinàmica d'alt grau
+amb un pic sistòlic de velocitat màxima, concordant ( PSV) CIE de 121 cm/s iamb un quocient CPE-CIE de 1.5.Elongació del trajecte cervical de la CIE.
+Rx tòrax: No signos de Ic ni condensaciones.
+TC craneal: Sobre-expresión de surcos de la convexidad de predominio supratentorial fronto-temporal,
+se  asocia  a  leve  dilatación  de  los  ventrículos  laterales  que  mantienen  una  morfología  conservada. Hipodensidad de la sustancia blanca subcortical hallazgo compatible con enfermedad de pequeño vaso (leucoaraiosis). No se observan alteraciones de aspecto agudo en el momento de la exploración en el parénquima cerebral. No signos de sangrado extra-intraxial. Cisternas basales libres. Estructuras de la línea media centradas. OD: Sin focalidad neurológica aguda TC actual. Signos de leucoaraiosis y atrofia cerebral.
+Analítica general:Temps de Protrombina (%) *82 , Glucosa basal *156.2 mg/dL, Urea *52.4 mg/dL, Creatinina *1.3 mg/dL, Potassi *4.2 (mEq/L) mmol/L, Volum eritrocitari mitja (VCM) *91.5 fL, Hemoglobina eritrocitari mitja (HCM) *30.2 pg/cel, Leucocits *5.16 x1E9/L, Sodi *145.0 (mEq/L) mmol/L, FG Home Crea alta *55.64 , Clorur *105.8 (mEq/L) mmol/L, Hematies *5.30 x1E12/L, Hemoglobina *16.0 g/dL, Hematocrit
+*48.5 %, Plaquetes *145 x1E9/L, Neutrofils en banda (man) *6 ,
+Ecocardio: Insuficiencia mitral ligera, con jet central, protomesosistólico de ligera intensidad doppler.Gradiente transvalvular aórtico dentro de la normalidad. Sin insuficiencia aórtica.Sin señal de IT que permita estimar la PAP. Sin signos indirectos de hipertensión pulmonar.Alteración diastólica tipo I.
+Holter 24h: RS con PR normal y QRS en rango normal.Extrasistolia ventricular poco frecuente.Ausencia de episodios documentados de fibrilación auricular.Sin pausas.
+RM crani: Estudi en els tres plans de l'espai en les seqüències potenciades en SE T1 / T2, FLAIR, GR i DW. No s'administra contrast paramagnètic.Estructures de la línia mitja centrades.
+Cisternes de la base i perimesencefàliques lliures.Correcta diferenciació entre la substància blanca i la substància	gris.Dilatació	del		sistema	ventricular	i	espais	aracnoïdals	concordant	a	l'edat	del pacient.Extenses	àrees		d'alteració		de	senyal	cortico-subcortical	fronto-parietal		i tambéperiventricular a cos del caudat, petit focus a nucli lenticular i càpsula interna a   l'hemisferi cerebral dret, presenten restricció de senyal en la difusió, compatible
+amb lesions isquèmiques agudes al territori ACM. Hi ha fenòmen de susceptibilitat magnètica a les seqüències GR a àrea M4 de la cerebral mitja dreta per dipòsit
+d'hemosiderina per sufusió hemorràgica.S'observen lesions a substància blancas ubcortical i periventricular fronto-parietal bilateralque no mostren restricció de senyal, compatible amb lesions isquèmiques cròniques depetit vas.Tronc i fossa posterior sense anomalies significatives.Unió crànio-cervical normal.Cos callós de mida, morfologia i senyal normals.No es detecten eixamplaments significatius de la sella turca.Engruiximent mucós del si maxil·lar esquerre.
+
+EVOLUCIÓ:
+Se realiza estudi neurovascular completo, objetivando presencia de AVC isquemico en territorio ACM D con SH2 de causa desconocida-ESUS. Paciente presenta leve mejoria incial, NRL: © y O en TEP, leve disartyria, HHI, PFC I minima, ESI 2/5, EII -5/5, BBK I, leve hipoestesia FBC I, no tiene ansoognosia, colabora en RHB; NIHSS 9. Paciente entra en el programa  PRI, mRS3, Barthel 70.
+
+
+JUDICI CLÍNIC:
+AVC isquemico en territorio ACM D con SH2 de causa desconocida-ESUS (PACI) 434.11
+
+
+TRACTAMENT:
+-	Protocolo: RESPECT-ESUS: Dabigatran: 1-0-1 vs. AAS: 0-1-0
+-	Atorvastatina 40mg/24 horas
+-	Tranxilium 15 mg/24 h , por la noche, via oral
+-	Crema de magnesia , 1 sobre/dia, via oral
+-	Paracetamol 1g/8 horas, via oral
+-	Citalopram 10 mg/24 horas
+-	Toviaz 8 mg/24 horas , via oral
+-	Cefuroxima 500mg/12h;
+-	
+Atentament,
+
+
+Signat:	
+Dr/a.: _NAME_	//	Dra. _NAME_
+Metge adjunt - Neurologia		Metge resident - Rehabilitació
+Número col·legiat: _ID_		Número col·legiat: _ID_
+
+
+Hospitalització
+Imprès: 18/01/2017 15:22
+Pàg.: 1 de  3

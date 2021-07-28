@@ -49,7 +49,7 @@ export class FormComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.buildPanels()
-    this.prepareSectionAnnotation()
+    //this.prepareSectionAnnotation()
     this.autofillForm()
     this.resetScrollState()
   }
@@ -61,15 +61,15 @@ export class FormComponent implements OnChanges {
     })
   }
 
-  showSectionHints(): void {
+  /*showSectionHints(): void {
     highlight(this.sectionAnnotations, "auxiliar")
-  }
+  }*/
 
-  prepareSectionAnnotation(): void {
+  /*prepareSectionAnnotation(): void {
     this.sectionAnnotations = this.report.annotations.filter(annotation => annotation.entity.startsWith("SECCION_"))
     this.tooltip = this.sectionAnnotations.map(annotation => annotation.evidence).join('\n')
 
-  }
+  }*/
 
   autofillForm(): void {
     this.model = this.report?.completed ? { ...this.report?.result.final } : { ...this.report?.result.initial }

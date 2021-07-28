@@ -1,32 +1,4 @@
 section	group	label	long_label	info	entity	key	cardinality	field_type	input_type	options	[comment]
-Secciones	Antecedentes	Antecedentes	Antecedentes 		SECCION_ANTECEDENTES	seccion_antecedentes	1	select			
-Secciones	Antecedentes	Antecedentes familiares	Antecedentes familiares		SECCION_ANTECEDENTES_FAMILIARES	seccion_antecedentes_familiares	1	select			
-Secciones	Antecedentes	Antecedentes patológicos	Antecedentes patológicos		SECCION_ANTECEDENTES_PATOLOGICOS	seccion_antecedentes_patologicos	1	select			
-Secciones	Antecedentes	Antecedentes personales	Antecedentes personales		SECCION_ANTECEDENTES_PERSONALES	seccion_antecedentes_personales	1	select			
-Secciones	Antecedentes	Antecedentes quirúrgicos	Antecedentes quirúrgicos		SECCION_ANTECEDENTES_QUIRURGICOS	seccion_antecedentes_quirurgicos	1	select			
-Secciones	Control	Control	Control		SECCION_CONTROL	seccion_control	1	select			
-Secciones	Destino al alta	Destino al alta	Destino al alta		SECCION_DESTINO_AL_ALTA	seccion_destino_al_alta	1	select			
-Secciones	Diagnósticos	Diagnósticos	Diagnósticos		SECCION_DIAGNOSTICOS	seccion_diagnosticos	1	select			
-Secciones	Diagnósticos	Diagnósticos secundarios	Diagnósticos secundarios		SECCION_DIAGNOSTICOS_SECUNDARIOS	seccion_diagnosticos_secundarios	1	select			
-Secciones	Diagnósticos	Diagnóstico principal	Diagnóstico principal		SECCION_DIAGNOSTICO_PRINCIPAL	seccion_diagnostico_principal	1	select			
-Secciones	Evolución 	Evolución 	Evolución 		SECCION_EVOLUCION	seccion_evolucion	1	select			
-Secciones	Exploraciones complementarias	Exploraciones complementarias	Exploraciones complementarias		SECCION_EXPLORACIONES_COMPLEMENTARIAS	seccion_exploraciones_complementarias	1	select			
-Secciones	Exploraciones complementarias	Exploraciones complementarias en planta de neurología	Exploraciones complementarias en planta de neurología		SECCION_EXPLORACIONES_COMPLEMENTARIAS_EN_PLANTA_DE_NEUROLOGIA	seccion_exploraciones_complementarias_en_planta_de_neurologia	1	select			
-Secciones	Exploraciones complementarias	Exploraciones complementarias en urgencias	Exploraciones complementarias en urgencias		SECCION_EXPLORACIONES_COMPLEMENTARIAS_EN_URGENCIAS	seccion_exploraciones_complementarias_en_urgencias	1	select			
-Secciones	Exploración física 	Exploración física 	Exploración física 		SECCION_EXPLORACION_FISICA	seccion_exploracion_fisica	1	select			
-Secciones	Exploración física 	Exploración física al alta	Exploración física al alta		SECCION_EXPLORACION_FISICA_AL_ALTA	seccion_exploracion_fisica_al_alta	1	select			
-Secciones	Exploración física 	Exploración física durante hospitalización	Exploración física durante hospitalización		SECCION_EXPLORACION_FISICA_DURANTE_HOSPITALIZACION	seccion_exploracion_fisica_durante_hospitalizacion	1	select			
-Secciones	Exploración física 	Exploración física en urgencias	Exploración física en urgencias		SECCION_EXPLORACION_FISICA_EN_URGENCIAS	seccion_exploracion_fisica_en_urgencias	1	select			
-Secciones	Motivo del alta	Motivo del alta	Motivo del alta		SECCION_MOTIVO_DEL_ALTA	seccion_motivo_del_alta	1	select			
-Secciones	Motivo de ingreso	Motivo de ingreso	Motivo de ingreso		SECCION_MOTIVO_DE_INGRESO	seccion_motivo_de_ingreso	1	select			
-Secciones	Procedimientos	Procedimientos	Procedimientos		SECCION_PROCEDIMIENTOS	seccion_procedimientos	1	select			
-Secciones	Proceso actual	Proceso actual	Proceso actual		SECCION_PROCESO_ACTUAL	seccion_proceso_actual	1	select			
-Secciones	Recomendaciones	Recomendaciones	Recomendaciones		SECCION_RECOMENDACIONES	seccion_recomendaciones	1	select			
-Secciones	Situación funcional	Situación funcional	Situación funcional		SECCION_SITUACION_FUNCIONAL	seccion_situacion_funcional	1	select			
-Secciones	Tipo de ingreso	Tipo de ingreso	Tipo de ingreso		SECCION_TIPO_DE_INGRESO	seccion_tipo_de_ingreso	1	select			
-Secciones	Tratamiento	Tratamiento al alta	Tratamiento al alta		SECCION_TRATAMIENTO_AL_ALTA	seccion_tratamiento_al_alta	1	select			
-Secciones	Tratamiento	Tratamiento habitual	Tratamiento habitual		SECCION_TRATAMIENTO_HABITUAL	seccion_tratamiento_habitual	1	select			
-Secciones	Tratamiento	Tratamiento y recomendaciones al alta	Tratamiento y recomendaciones al alta		SECCION_TRATAMIENTO_Y_RECOMENDACIONES_AL_ALTA	seccion_tratamiento_y_recomendaciones_al_alta	1	select			
 Entrada y salida del paciente	Inicio de los síntomas	Fecha	Fecha inicio síntomas o última vez visto asintomático/a	También es válida la última vez que el paciente estuvo asintomático.	Fecha_inicio_sintomas	fecha_inicio_sintomas	1	input	date		
 Entrada y salida del paciente	Inicio de los síntomas	Hora	Hora inicio síntomas o última vez visto asintomático/a	También es válida la última vez que el paciente estuvo asintomático.	Hora_inicio_sintomas	hora_inicio_sintomas	1	input	time		
 Entrada y salida del paciente	Llegada al hospital	Fecha	Fecha de llegada al hospital receptor		Fecha_llegada_hospital	fecha_llegada_hospital	1	input	date		
