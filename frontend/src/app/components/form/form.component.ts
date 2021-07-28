@@ -140,8 +140,9 @@ export class FormComponent implements OnChanges {
         })
         snackBarRef.afterDismissed().subscribe(info => {
           if (!info.dismissedByAction) {
-            this.api.deleteReport(this.report.filename).subscribe()
-            this.emitToChildDeleteReportEvent.emit()
+            this.api.deleteReport(this.report.filename).subscribe( () => {
+              this.emitToChildDeleteReportEvent.emit()
+            })
           }
         })
       }
