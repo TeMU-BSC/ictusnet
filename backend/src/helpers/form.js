@@ -36,7 +36,7 @@ const autofillField = (variable, reportAnnotations) => {
   const firstEvidence = annotations.find(() => true)?.evidence;
 
   const isDiagnosticoPrincipal = variable.entity === "Diagnostico_principal"; // 'ictus isquémico', 'ataque isquémico transitorio', 'hemorragia cerebral'
-
+  const isLateralizacion = variable.entity === "Lateralizacion";
   const isInput = variable.field_type === "input"; // fecha_*, hora_*, tiempo_puerta_puncion, aspects, mrankin_*, nihss_*
   const isSelect = variable.field_type === "select";
   const isSingle = variable.cardinality === "1";
